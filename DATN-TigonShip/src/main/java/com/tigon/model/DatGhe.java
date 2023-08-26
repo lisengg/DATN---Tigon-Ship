@@ -1,9 +1,6 @@
 package com.tigon.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,18 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "DATGHE")
+@Table(name="DATGHE")
 @Entity
 public class DatGhe {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer IDDATGHE;
-
-	@ManyToOne
+    @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;
 
-	@ManyToOne
+    @ManyToOne
 	@JoinColumn(name = "MADATVE")
 	DatVe DATVE;
 

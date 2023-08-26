@@ -23,7 +23,7 @@ public class HangTau {
 
     String TENHANGTAU;
     String DIACHI;
-    String SDT;
+    String SODIENTHOAI;
     String EMAIL;
     
 }
