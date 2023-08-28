@@ -3,6 +3,7 @@ package com.tigon.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +31,13 @@ public class GiaVe {
 	Integer IDGIAVE;
 
 	BigDecimal GIA;
-	Date NGAYBATDAU;
-	Date NGAYKETTHUC;
+    @Temporal(TemporalType.DATE)
+	@Column(name = "NGAYBATDAU")
+	Date NGAYBATDAU = new Date();
+    
+    @Temporal(TemporalType.DATE)
+	@Column(name = "NGAYKETTHUC")
+	Date NGAYKETTHUC = new Date();
 
 	@ManyToOne
 	@JoinColumn(name = "IDTUYEN")

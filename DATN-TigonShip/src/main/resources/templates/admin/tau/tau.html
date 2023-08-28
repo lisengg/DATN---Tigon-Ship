@@ -2,45 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
-<meta name="description" content="Ela Admin - HTML5 Admin Template">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TigonShip</title>
+	<meta name="description" content="Ela Admin - HTML5 Admin Template">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<!--AngularJS  -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-<!-- <link rel="stylesheet"
+	<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
+	<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+	<!-- <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"> -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
 
-<link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
-<link rel="stylesheet" th:href="@{/admin/css/style.css}">
+	<link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
+	<link rel="stylesheet" th:href="@{/admin/css/style.css}">
 
-<link
-	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
-	rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+	<!--AngularJS  -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-app="tau-app" ng-controller="tau-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -54,15 +45,84 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
+					<div class="col-md-12">
+						<form method="post" name="frmTau">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title">Chỉnh sửa</strong>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Tên tàu</div>
+										<input ng-model="form.tentau" class="form-control" id="tentau" name="tentau">
+									</div>
+									<div class="form-group col-sm-6">
+										<div>Số ghế</div>
+										<input type="number" ng-model="form.soghe" class="form-control" id="soghe" name="soghe">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Trạng thái</div>
+										<div class="form-control">
+											<label class="radio-inline"> 
+												<input ng-model="form.tinhtrang" ng-value="'Hoạt động'" 
+											 name="tinhtrang" type="radio">Đang hoạt động
+											</label> 
+											<label class="radio-inline"> 
+												<input ng-model="form.tinhtrang" ng-value="'Không hoạt động'"
+													 name="tinhtrang" type="radio">Ngưng hoạt động
+											</label>
+											
+											  
+										</div>
+									</div>
+									<div class="form-group col-sm-6">
+										<div>Tên hãng tàu</div>
+										<select name="hangtau" class="form-control"
+										ng-model="form.hangtau.idhangtau" required>
+
+										<option ng-repeat="option in items.hangtau"
+											ng-value="option.idhangtau">
+											{{option.tenhangtau}} </option>
+									</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Ngày tạo</div>
+										<input ng-model="form.ngaynhap" type="date" class="form-control" >
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+						<div class="card-footer text-center">
+							<button ng-show="post" ng-click="save()" class="btn btn-primary">
+								<b class="glyphicon glyphicon-plus"></b> Thêm mới
+							</button>
+							<button ng-show="put" ng-click="update()" class="btn btn-success">
+								<b class="glyphicon glyphicon-pencil"></b> Cập nhật
+							</button>
+							<button ng-show="delete" ng-click="" type="submit" class="btn btn-danger">
+								<b class="glyphicon glyphicon-trash"></b> Xóa
+							</button>
+							<button ng-click="reset()" class="btn btn-info">
+								<b class="glyphicon glyphicon-refresh"></b> Làm mới
+							</button>
+
+						</div>
+					</div>
 
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<strong class="card-title">Danh sách tàu</strong>
+								<strong class="card-title">Danh sách</strong>
 							</div>
 							<div class="card-body">
-								<table id="bootstrap-data-table"
-									class="table table-striped table-bordered">
+								<table id="bootstrap-data-table" class="table table-striped table-bordered">
 									<thead>
 										<tr>
 											<th>Id tàu</th>
@@ -70,30 +130,29 @@
 											<th>Số ghế</th>
 											<th>Tình trạng</th>
 											<th>Ngày nhập</th>
-											<th>Tên hãng tàu</th>
+											<th>Hãng Tàu</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="item in items">
-											<td>{{item.id}}</td>
-											<td>{{item.name}}</td>
-											<td>{{item.price}}</td>
-											<td>{{item.createDate}}</td>
-											<td>{{item.image}}</td>
-											<td>{{item.category.name}}</td>
+										<tr ng-repeat="item in pager.items">
+											<td>{{item.idtau}}</td>
+											<td>{{item.tentau}}</td>
+											<td>{{item.soghe}}</td>
+											<td>{{item.tinhtrang}}</td>
+											<td>{{item.ngaynhap}}</td>
+											<td>{{item.hangtau.tenhangtau}}</td>
 											<td>
 												<div class="btn-group btn-group-xs">
-													<button ng-click="edit(item)"
+													<button ng-click="edit(item.idtau)"
 														class="btn btn-warning glyphicon glyphicon-edit"></button>
-													<button ng-click="delete(item)"
-														class="btn btn-danger glyphicon glyphicon-trash"></button>
+													
 												</div>
 											</td>
 										</tr>
 									</tbody>
 								</table>
-								<div class="panel-footer text-center">
+								<div class="card-footer text-center">
 									<button ng-click="pager.first()" class="btn btn-danger">
 										<b class="glyphicon glyphicon-hand-up"></b>
 									</button>
@@ -112,68 +171,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Chỉnh sửa tàu</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Tên tàu</div>
-										<input ng-model="form.name" class="form-control">
-									</div>
-									<div class="form-group col-sm-6">
-										<div>Số ghế</div>
-										<input ng-model="form.price" class="form-control">
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Trạng thái</div>
-										<div class="form-control">
-											<label class="radio-inline"> <input
-												ng-model="form.available" ng-value="true" name="available"
-												type="radio">Đang hoạt động
-											</label> <label class="radio-inline"> <input
-												ng-model="form.available" ng-value="false" name="available"
-												type="radio">Ngưng hoạt động
-											</label>
-										</div>
-									</div>
-									<div class="form-group col-sm-6">
-										<div>Tên hãng tàu</div>
-										<select ng-model="form.category.id" class="form-control">
-											<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
-										</select>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Ngày tạo</div>
-										<input ng-model="form.createDate" type="date"
-											class="form-control">
-									</div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer text-center">
-						<button ng-click="create()" class="btn btn-primary">
-							<b class="glyphicon glyphicon-plus"></b> Tạo
-						</button>
-						<button ng-click="update()" class="btn btn-success">
-							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
-						</button>
-						<button ng-click="delete(form)" class="btn btn-danger">
-							<b class="glyphicon glyphicon-trash"></b> Xóa
-						</button>
-						<button ng-click="reset()" class="btn btn-info">
-							<b class="glyphicon glyphicon-refresh"></b> Xóa form
-						</button>
-
-					</div>
 				</div>
 			</div>
 		</div>
@@ -194,15 +192,12 @@
 
 
 	<!-- Scripts -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
+	<script th:src="@{/js/tau.js}"></script>
 
 </body>
 

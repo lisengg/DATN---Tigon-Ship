@@ -18,14 +18,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="GIAVE")
+@Table(name="LOAIVE")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoaiVe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IDLOIAVE;
+    Integer IDLOAIVE;
     String LOAIVE;
 
     @JsonIgnore
