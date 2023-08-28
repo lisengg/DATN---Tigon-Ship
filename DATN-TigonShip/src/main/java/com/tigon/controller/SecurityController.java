@@ -1,5 +1,7 @@
 package com.tigon.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,27 +17,33 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tigon.dao.HanhKhachDAO;
+import com.tigon.model.HanhKhach;
 import com.tigon.service.HanhKhachService;
 
 @CrossOrigin("*")
 @Controller
 public class SecurityController {
+	
+	HanhKhachService hanhKhachService;
+	
 	@RequestMapping("/security/login/form")
 	public String loginForm(Model model) {
 		model.addAttribute("message", "Vui lòng đăng nhập!");
-		return "login/index";
+		return "user/login/index";
 	}
 
 	@RequestMapping("/security/login/success")
 	public String loginSuccess(Model model) {
+		
 		model.addAttribute("message", "Đăng nhập thành công!");
-		return "login/index";
+		return "user/login/main";
 	}
 
 	@RequestMapping("/security/login/error")
 	public String loginError(Model model) {
-		model.addAttribute("message", "Sai thông tin đăng nhập!");
-		return "login/index";
+		model.addAttribute("messageError", "Sai thông tin đăng nhập!");
+		return "user/login/index";
 	}
 
 	@RequestMapping("/security/unauthoritied")
@@ -59,20 +67,21 @@ public class SecurityController {
 	@GetMapping("/oauth2/login/success")
 	public String success(OAuth2AuthenticationToken oauth, Model model) {
 		String email = oauth.getPrincipal().getAttribute("email");
-		String pass = oauth.getPrincipal().getAttribute("pass");
+		String pass = oauth.getPrincipal().getAttribute("name");
 
-		UserDetails user = User.withUsername(email).password(pass).roles("USER").build();
+		UserDetails user = User.withUsername(email).password("").roles("USER").build();
 
 		Authentication auth = new UsernamePasswordAuthenticationToken(email, null, user.getAuthorities());
 
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		model.addAttribute("message", "Đăng nhập MXH thành công!");
-		return "security/login";
+		return "user/login/main";
 	}
 
 	@GetMapping("/oauth2/login/error")
 	public String error(Model model) {
 		model.addAttribute("message", "Đăng nhập MXH không thành công!");
-		return "security/login";
+		return "user/login/main";
 	}
+
 }

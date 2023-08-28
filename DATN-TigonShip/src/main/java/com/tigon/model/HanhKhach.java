@@ -28,7 +28,7 @@ public class HanhKhach {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDHANHKHACH;
     String MATKHAU;
-    String HOTEN;
+    String HOVATEN;
     String SDT;
     String EMAIL;
     String DIACHI;

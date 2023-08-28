@@ -1,7 +1,7 @@
 package com.tigon.config;
 
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,12 +38,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(username -> {
 			try {
-				HanhKhach user = hanhKhachService.findById(username);
-				String password = pe.encode(user.getMATKHAU());
-				String roles = user.getQUYEN();
-				return User.withUsername(username).password(password).roles(roles).build();
+
+				System.out.println("Username :" + username);
+				HanhKhach hanhkhach = hanhKhachService.findIdByEmailOrPhone(username);
+				String password = null;
+				String roles = null;
+				String hoten = null;
+				 	
+				// Nhập đúng thông tin dăng nhập
+				if (hanhkhach.getIDHANHKHACH() != null) {
+					HanhKhach user = hanhKhachService.findById(hanhkhach.getIDHANHKHACH());
+					System.out.println(user.getHOVATEN());
+					password = pe.encode(user.getMATKHAU());
+					roles = user.getQUYEN();
+					hoten = user.getHOVATEN();
+				}
+
+				return User.withUsername(hoten).password(password).roles(roles).build();
 			} catch (NoSuchElementException e) {
-				throw new UsernameNotFoundException(username + "not found!");
+				throw new UsernameNotFoundException(username + "không tìm thấy!");
 			}
 		});
 	}
@@ -54,15 +67,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// CSRF, CORS
 		http.csrf().disable();
 		// Phân quyền sử dụng
-		http.authorizeRequests().antMatchers("/order/**").authenticated().antMatchers("/admin/**")
-				.hasAnyRole("STAF", "ADMIN").antMatchers("/rest/authorities").hasRole("ADMIN").anyRequest().permitAll(); // anonymous
+		http.authorizeRequests().antMatchers("/order/**")
+		.authenticated().antMatchers("/admin/**")
+		.hasAnyRole("STAF", "ADMIN")
+		.antMatchers("/rest/authorities").hasRole("ADMIN")
+		.anyRequest().permitAll(); // anonymous
 		// Giao diện đăng nhập
-		http.formLogin().loginPage("/security/login/form").loginProcessingUrl("/security/login") // [/login]
-				.defaultSuccessUrl("/security/login/success", false).failureUrl("/security/login/error");
+		http.formLogin()
+				.usernameParameter("username")
+				.loginPage("/security/login/form")
+				.loginProcessingUrl("/security/login") // [/login]
+				.defaultSuccessUrl("/security/login/success", false)
+				.failureUrl("/security/login/error");
 
 		// Oauth2Login
-		http.oauth2Login().loginPage("/oauth2/login/form").defaultSuccessUrl("/oauth2/login/success", true)
-				.failureUrl("/oauth2/login/error").authorizationEndpoint().baseUri("/oauth2/authorization")
+		http.oauth2Login().loginPage("/oauth2/login/form")
+				.defaultSuccessUrl("/oauth2/login/success", true)
+				.failureUrl("/oauth2/login/error")
+				.authorizationEndpoint().baseUri("/oauth2/authorization")
 				.authorizationRequestRepository(getRepository()).and().tokenEndpoint()
 				.accessTokenResponseClient(getToken());
 
@@ -91,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
-	// Cho phép truy xuất RESR API từ bên ngoài(domain khác)
+	// Cho phép truy xuất REST API từ bên ngoài(domain khác)
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");

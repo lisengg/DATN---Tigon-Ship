@@ -18,14 +18,29 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 		return dao.findAll();
 	}
 
+
+
 	@Override
-	public HanhKhach findById(String username) {
-		return dao.findById(username).get();
+	public List<HanhKhach> getAdminstrators() {
+		return dao.getAdministrators();
 	}
 
 	@Override
-	public List<HanhKhach> getAdinstrators() {
-		return dao.getAdministrators();
+	public HanhKhach findIdByEmailOrPhone(String email) {
+		// TODO Auto-generated method stub
+		return dao.findIdByEmailOrPhone(email);
 	}
+
+
+
+	@Override
+	public HanhKhach findById(Integer username) {
+		// TODO Auto-generated method stub
+		return dao.findById(username).get();
+	}
+
+
+
+
 
 }

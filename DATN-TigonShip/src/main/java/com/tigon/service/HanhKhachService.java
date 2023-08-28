@@ -6,6 +6,7 @@ import com.tigon.model.HanhKhach;
 
 public interface HanhKhachService {
 	public List<HanhKhach> findAll();
-	public HanhKhach findById(String username);
-	public List<HanhKhach> getAdinstrators();
+	public HanhKhach findById(Integer username);
+	public List<HanhKhach> getAdminstrators();
+	public HanhKhach findIdByEmailOrPhone(String email);
 }

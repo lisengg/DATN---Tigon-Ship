@@ -54,7 +54,13 @@ public class DatVe {
     @JsonBackReference
     List<NguoiDiCung> NGUOIDICUNG;
     
-
+    @ManyToOne
+	@JoinColumn(name = "IDLICHTAU")
+	LichTauChay LICHTAUCHAY;
+    
+	@ManyToOne
+	@JoinColumn(name = "LOAIVE")
+	LoaiVe LOAIVE;
 
 
 }
