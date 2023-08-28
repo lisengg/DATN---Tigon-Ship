@@ -9,5 +9,4 @@ public class DatnTigonShipApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DatnTigonShipApplication.class, args);
 	}
-
 }

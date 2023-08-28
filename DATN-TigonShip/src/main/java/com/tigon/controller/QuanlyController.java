@@ -1,21 +1,14 @@
 package com.tigon.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.tigon.dao.HangTauDAO;
-
 @Controller
 public class QuanlyController {
 
-	@Autowired
-	HangTauDAO hangTauDAO;
-
 	@GetMapping("/admin")
 	public String quanly(Model model) {
-		System.out.println(hangTauDAO.findAll().get(0).getDIACHI());
 		return "admin/index";
 	}
 	
@@ -24,28 +17,30 @@ public class QuanlyController {
 		return "admin/authority/index";
 	}
 	
-	@GetMapping("/admin/tau/tau")
+	@GetMapping("/admin/tau")
 	public String tau(Model model) {
 		return "admin/tau/tau";
 	}
+	@GetMapping("/admin/nguoidung")
+	public String nguoidung(Model model) {
+		return "admin/hanhkhach";
+	}
 
-	@GetMapping("/admin/hangtau/hangtau")
+	@GetMapping("/admin/hangtau")
 	public String hangtau(Model model) {
-
 		return "admin/hangtau/hangtau";
 	}
-
-	@GetMapping("/admin/tuyentau/tuyentau")
+	@GetMapping("/admin/tuyentau")
 	public String tuyentau(Model model) {
 
-		return "admin/tuyentau/tuyentau";
+		return "admin/tuyentau";
 	}
-	@GetMapping("/admin/giave/giave")
+	@GetMapping("/admin/giave")
 	public String giave(Model model) {
 
 		return "admin/giave/giave";
 	}
-	@GetMapping("/admin/lichtau/lichtau")
+	@GetMapping("/admin/lichtau")
 	public String lichtau(Model model) {
 
 		return "admin/lichtau/lichtau";
