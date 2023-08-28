@@ -15,18 +15,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "DATGHE")
+@Table(name="DATGHE")
 @Entity
 public class DatGhe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer IDDATGHE;
-
-	@ManyToOne
+	
+    @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;
 
-	@ManyToOne
+    @ManyToOne
 	@JoinColumn(name = "MADATVE")
 	DatVe DATVE;
 
