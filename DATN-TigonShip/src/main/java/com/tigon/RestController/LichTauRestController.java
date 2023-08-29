@@ -48,13 +48,13 @@ public class LichTauRestController {
     public LichTauChay create(@RequestBody LichTauChay lichtauchay) {
         return lichTauChayDAO.save(lichtauchay);
     }
-    
-    @DeleteMapping("/rest/lichtau/{idlichtau}")
-    public void delete(@PathVariable("idlichtau") Integer idlichtau) {
-    	lichTauChayDAO.deleteById(idlichtau);
-    }
 	@PutMapping("/rest/lichtau/{id}")
 	public LichTauChay update(@PathVariable("id") Integer id, @RequestBody LichTauChay lichtauchay) {
 		return lichTauChayDAO.save(lichtauchay);
 	}
+    @DeleteMapping("/rest/lichtau/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+    	lichTauChayDAO.deleteById(id);
+    }
+
 }

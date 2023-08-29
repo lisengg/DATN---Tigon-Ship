@@ -73,7 +73,7 @@
 						<button ng-show="put" ng-click="update()" class="btn btn-success">
 							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
 						</button>
-						<button ng-show="delete" ng-click="delete(item)" class="btn btn-danger">
+						<button ng-show="delete" ng-click="deleteItem(form)" class="btn btn-danger">
 							<b class="glyphicon glyphicon-trash"></b> Xóa
 						</button>
 						<button ng-click="reset()" class="btn btn-info">
@@ -100,7 +100,7 @@
 											<td>{{item.tentuyen}}</td>
 											<td>
 												<div class="btn-group btn-group-xs">
-													<button ng-click="edit(item.idtuyen)"
+													<button ng-click="edit(item)"
 														class="btn btn-warning glyphicon glyphicon-edit"></button>
 													
 												</div>

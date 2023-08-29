@@ -16,16 +16,12 @@ app.controller('tuyen-ctrl', function ($scope, $http) {
         return $scope.items.findIndex(t => t.idtuyen == id);
     }
 	//Hiển thị lên form
- $scope.edit = function (id) {
-        var url = `/rest/tuyen/${id}`;
-        $http.get(url).then(response => {
-            $scope.form = response.data;
-            $scope.post = false;
-            $scope.put = true;
-            $scope.delete = true;
-        }).catch(err => {
-            console.log("Error", err)
-        })
+ $scope.edit = function (item) {
+		$scope.form = angular.copy(item);
+		$(".nav-tabs a:eq(0)").tab('show')
+		$scope.post = false;
+		$scope.put = true;
+		$scope.delete = true;
     }
 	
 	//Xóa form
@@ -64,17 +60,50 @@ app.controller('tuyen-ctrl', function ($scope, $http) {
     }
     
     //Xóa sản phẩm
-/*	$scope.delete = function(item){
-		
-		$http.delete(`/rest/tuyen/${item.idtuyen}`).then(response => {
-			var index = $scope.items.findIndex(t => t.idtuyen == item.idtuyen);
-			$scope.items.splice(index, 1);
-			$scope.reset();
-			alert("Xóa sản phẩm thành công!")
+$scope.deleteItem = function(item) {
+		var url = `/rest/tuyen/${item.idtuyen}`;
+		$http.delete(url).then(response => {
+			var index = $scope.items.findIndex(p => p.idtuyen == item.idtuyen);
+			if (index !== -1) {
+				$scope.items.splice(index, 1); // Xóa item khỏi danh sách
+				$scope.reset();
+				alert("Xóa tuyến thành công!");
+			} else {
+				alert("Không tìm thấy item để xóa!");
+			}
 		})
-		.catch(error => {
-			alert("Lỗi xóa sản phẩm!");
-			console.log("Error", error);
-		});
-	}*/
+			.catch(error => {
+				alert("Lỗi xóa tuyến!");
+				console.log("Error", error);
+			});
+	}
+	$scope.pager = {
+		page: 0,
+		size: 4,
+		get items() {
+			var start = this.page * this.size;
+			return $scope.items.slice(start, start + this.size);
+		},
+		get count() {
+			return Math.ceil(1.0 * $scope.items.length / this.size);
+		},
+		first() {
+			this.page = 0;
+		},
+		prev() {
+			this.page--;
+			if (this.page < 0) {
+				this.last();
+			}
+		},
+		last() {
+			this.page = this.count - 1;
+		},
+		next() {
+			this.page++;
+			if (this.page >= this.count) {
+				this.first();
+			}
+		}
+	}
 })

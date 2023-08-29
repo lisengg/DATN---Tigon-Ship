@@ -1,6 +1,5 @@
 package com.tigon.controller;
 
-import java.security.PublicKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,5 +50,15 @@ public class QuanlyController {
 	public String lichtau(Model model) {
 	
 		return "admin/lichtau/lichtau";
+	}
+	@GetMapping("/admin/danhgia")
+	public String danhgia(Model model) {
+	
+		return "admin/danhgia/danhgia";
+	}
+	@GetMapping("/admin/hoadon")
+	public String hoadon(Model model) {
+	
+		return "admin/hoadon/hoadon";
 	}
 }

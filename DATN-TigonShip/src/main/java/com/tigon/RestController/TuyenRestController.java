@@ -43,9 +43,9 @@ public class TuyenRestController {
 	        return tuyenDAO.save(tuyen);
 	    }
 	    
-//	    @DeleteMapping("/rest/tuyen/{id}")
-//	    public void delete(@PathVariable("id") Integer id) {
-//	    	tuyenDAO.deleteById(id);
-//	    }
+	    @DeleteMapping("/rest/tuyen/{id}")
+	    public void delete(@PathVariable("id") Integer id) {
+	    	tuyenDAO.deleteById(id);
+	    }
 	
 }

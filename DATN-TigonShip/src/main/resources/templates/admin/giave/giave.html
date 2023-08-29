@@ -83,7 +83,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<div>Ngày kết thúc</div>
-										<input ng-model="form.ngayketthuc"  class="form-control">
+										<input ng-model="form.ngayketthuc" type="date" class="form-control">
 									</div>
 								</div>
 								<div class="row">
@@ -102,7 +102,7 @@
 						<button ng-show="put" ng-click="update()" class="btn btn-success">
 							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
 						</button>
-						<button ng-show="delete" ng-click="delete(form)" class="btn btn-danger">
+						<button ng-show="delete" ng-click="deleteItem(form)" class="btn btn-danger">
 							<b class="glyphicon glyphicon-trash"></b> Xóa
 						</button>
 						<button ng-click="reset()" class="btn btn-info">
@@ -130,19 +130,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="item in items.giave">
+										<tr ng-repeat="item in pager.items">
 											<td>{{item.idgiave}}</td>
 											<td>{{item.loaive.loaive}}</td>
 											<td>{{item.tuyen.tentuyen}}</td>
 											<td>{{item.gia}}</td>
-											<td>{{item.ngaybatdau}}</td>
-											<td>{{item.ngayketthuc}}</td>
+											<td>{{item.ngaybatdau | date : 'dd-MM-yyyy'}}</td>
+											<td>{{item.ngayketthuc | date : 'dd-MM-yyyy'}}</td>
 											<td>
 												<div class="btn-group btn-group-xs">
-													<button ng-click="edit(item.idgiave)"
+													<button ng-click="edit(item)"
 														class="btn btn-warning glyphicon glyphicon-edit"></button>
-													<button ng-click="delete(giave)"
-														class="btn btn-danger glyphicon glyphicon-trash"></button>
+													
 												</div>
 											</td>
 										</tr>
