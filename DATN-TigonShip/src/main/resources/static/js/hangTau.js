@@ -67,6 +67,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
             console.log("Error",error)
         })
     }
+    
 
     $scope.pager = {
         page: 0,

@@ -53,18 +53,15 @@
 							</div>
 							<div class="card-body">
 								<div class="row">
-									<div class="form-group col-sm-6">
+									<!-- <div class="form-group col-sm-6">
 										<div>ID tàu</div>
 										<input ng-model="form.idtau" class="form-control" id="idtau" name="idtau">
-									</div>
+									</div> -->
 									<div class="form-group col-sm-6">
 										<div>Tên tàu</div>
 										<input ng-model="form.tentau" class="form-control" id="tentau" name="tentau">
 									</div>
-									<div class="form-group col-sm-6">
-										<div>Số ghế</div>
-										<input type="number" ng-model="form.soghe" class="form-control" id="soghe" name="soghe">
-									</div>
+								
 								</div>
 								<div class="row">
 									<div class="form-group col-sm-6">
@@ -98,7 +95,10 @@
 										<div>Ngày nhập</div>
 										<input ng-model="form.ngaynhap" type="date" class="form-control" >
 									</div>
-
+									<div class="form-group col-sm-6">
+										<div>Số ghế</div>
+										<input type="number" ng-model="form.soghe" class="form-control" id="soghe" name="soghe">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -135,7 +135,8 @@
 											<th>Tình trạng</th>
 											<th>Ngày nhập</th>
 											<th>Hãng Tàu</th>
-											<th></th>
+											<th>Cập nhật</th>
+											<th>Ghế ngồi</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -146,9 +147,16 @@
 											<td>{{item.tinhtrang}}</td>
 											<td>{{item.ngaynhap}}</td>
 											<td>{{item.hangtau.tenhangtau}}</td>
-											<td>
+											<td style="text-align: center;">
 												<div class="btn-group btn-group-xs">
 													<button ng-click="edit(item.idtau)"
+														class="btn btn-warning glyphicon glyphicon-edit"></button>
+													
+												</div>
+											</td>
+											<td style="text-align: center;">
+												<div class="btn-group btn-group-xs">
+													<button ng-click="updateGhe(item.idtau)"
 														class="btn btn-warning glyphicon glyphicon-edit"></button>
 													
 												</div>

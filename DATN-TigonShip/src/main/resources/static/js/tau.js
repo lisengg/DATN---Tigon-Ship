@@ -51,6 +51,7 @@ app.controller('tau-ctrl', function ($scope, $http) {
             "ngaynhap":  $scope.form.ngaynhap = new Date(),
             "hangtau": $scope.items.hangtau[index]
         }
+
         console.log(item)
         var url = `/rest/tau/${$scope.form.idtau}`;
         $http.put(url, item).then(response => {
@@ -69,13 +70,12 @@ app.controller('tau-ctrl', function ($scope, $http) {
             var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.idtau);
             $scope.items.tau.splice(index,1);
             alert("Xóa thành công");
+            $scope.reset()
         }).catch(error =>{
             alert("Xóa thành công");
             console.log("Error",error)
         })
     }
-
-    
     $scope.edit = function (id) {
         $scope.post = false;
         $scope.put = true;
@@ -90,6 +90,8 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     }
+
+    
     $scope.pager = {
         page: 0,
         size: 4,
