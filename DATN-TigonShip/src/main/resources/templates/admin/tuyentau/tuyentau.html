@@ -34,7 +34,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 
-<body>
+<body ng-app="tuyen-app" ng-controller="tuyen-ctrl">
     <!-- Left Panel (menu)-->
     <div th:replace="~{admin/fragments_admin :: aside}"></div>
     <!-- /Left-panel -->
@@ -48,8 +48,40 @@
         <div class="content">
             <div class="animated fadeIn">
                 <div class="row">
-
+                
                     <div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title">Chỉnh sửa tuyến tàu</strong>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Tên tuyến tàu</div>
+										<input ng-model="form.tentuyen" class="form-control">
+									</div>
+									
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<div class="card-footer text-center">
+						<button ng-show="post" ng-click="create()" class="btn btn-primary">
+							<b class="glyphicon glyphicon-plus"></b> Tạo
+						</button>
+						<button ng-show="put" ng-click="update()" class="btn btn-success">
+							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
+						</button>
+						<button ng-show="delete" ng-click="deleteItem(form)" class="btn btn-danger">
+							<b class="glyphicon glyphicon-trash"></b> Xóa
+						</button>
+						<button ng-click="reset()" class="btn btn-info">
+							<b class="glyphicon glyphicon-refresh"></b> Xóa form
+						</button>
+
+					</div>
+					<div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <strong class="card-title">Danh sách tuyến tàu</strong>
@@ -64,20 +96,19 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="item in items">
-											<td>{{item.id}}</td>
-											<td>{{item.name}}</td>
+											<td>{{item.idtuyen}}</td>
+											<td>{{item.tentuyen}}</td>
 											<td>
 												<div class="btn-group btn-group-xs">
 													<button ng-click="edit(item)"
 														class="btn btn-warning glyphicon glyphicon-edit"></button>
-													<button ng-click="delete(item)"
-														class="btn btn-danger glyphicon glyphicon-trash"></button>
+													
 												</div>
 											</td>
 										</tr>
                                     </tbody>
                                 </table>
-                                <div class="panel-footer text-center">
+                                <div class="card-footer text-center">
 									<button ng-click="pager.first()" class="btn btn-danger">
 										<b class="glyphicon glyphicon-hand-up"></b>
 									</button>
@@ -96,38 +127,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Chỉnh sửa tuyến tàu</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Tên tuyến tàu</div>
-										<input ng-model="form.name" class="form-control">
-									</div>
-									
-								</div>
-								
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer text-center">
-						<button ng-click="create()" class="btn btn-primary">
-							<b class="glyphicon glyphicon-plus"></b> Tạo
-						</button>
-						<button ng-click="update()" class="btn btn-success">
-							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
-						</button>
-						<button ng-click="delete(form)" class="btn btn-danger">
-							<b class="glyphicon glyphicon-trash"></b> Xóa
-						</button>
-						<button ng-click="reset()" class="btn btn-info">
-							<b class="glyphicon glyphicon-refresh"></b> Xóa form
-						</button>
-
-					</div>
 					 </div>
                 </div>
             </div><!-- .animated -->
@@ -151,7 +150,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
         <script th:src="@{/admin/js/main.js}"></script>
-
+		<script th:src="@{/js/tuyen.js}"></script>
 </body>
 
 </html>

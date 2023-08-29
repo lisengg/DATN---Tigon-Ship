@@ -1,8 +1,10 @@
 package com.tigon.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,19 +22,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@SuppressWarnings("serial")
 @Data
-@Table(name="HANGTAU")
+@Table(name="TAU")
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-public class Tau {
+public class Tau implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer MATAU;
+    Integer IDTAU;
     String TENTAU;
     String TINHTRANG;
-    Date NGAYNHAP;
+    
+    @Temporal(TemporalType.DATE)
+	@Column(name = "NGAYNHAP")
+	Date NGAYNHAP = new Date();
     Integer SOGHE;
 
     @ManyToOne
