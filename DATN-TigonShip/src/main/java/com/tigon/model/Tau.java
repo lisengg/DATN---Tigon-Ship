@@ -1,6 +1,5 @@
 package com.tigon.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -22,17 +21,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@SuppressWarnings("serial")
+
 @Data
 @Table(name="TAU")
 @Entity
-public class Tau implements Serializable{
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tau {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDTAU;
     String TENTAU;
     String TINHTRANG;
-    
     @Temporal(TemporalType.DATE)
 	@Column(name = "NGAYNHAP")
 	Date NGAYNHAP = new Date();
@@ -47,8 +47,8 @@ public class Tau implements Serializable{
     @JsonBackReference
     List<LichTauChay> LICHTAUCHAY;
 
-   
-
-    
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "TAU")
+    @JsonBackReference
+    List<GheNgoi> GHENGOI;
 }

@@ -7,11 +7,10 @@
                     <li class="active">
                         <a th:href="@{/admin}"><i class="menu-icon fa fa-laptop"></i>Trang chủ</a>
                     </li>
+
                     <li class="menu-title">Quản lí</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tàu</a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tàu</a>
                         <ul class="sub-menu children dropdown-menu">
 							<li><i class="fa fa-tasks"></i><a th:href="@{/admin/hangtau}">Hãng tàu</a></li>	
                             <li><i class="fa fa-anchor"></i><a th:href="@{/admin/tau}">Tàu</a></li>
@@ -24,7 +23,7 @@
                     </li>
                    
                     <li>
-                        <a th:href="@{/admin/authority}"> <i class="menu-icon ti-user"></i>Người dùng </a>
+                        <a th:href="@{/admin/nguoidung}"> <i class="menu-icon ti-user"></i>Hành Khách </a>
                     </li>
                    <!--  <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
@@ -140,8 +139,9 @@
 				</div>
 
 				<div class="user-area dropdown float-right">
-				 	<li class="nav-item" th:if="${#request.remoteUser}"><a
-					class="nav-link mx-2">Xin chào [[${#request.remoteUser}]]</a></li>
+				<!-- 	<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+					</a> -->
 
 					<div class="user-menu dropdown-menu">
 						<a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
