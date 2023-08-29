@@ -6,7 +6,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         $scope.items = response.data;
         $scope.post = true
         $scope.put = false
-        $scope.delete = false
+        $scope.dele = false
     })}
     $scope.initialize()
 
@@ -18,7 +18,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         $scope.form = null;
         $scope.post = true;
         $scope.put = false;
-        $scope.delete = false;
+        $scope.dele = false;
     }
 
     $scope.edit = function (id) {
@@ -27,7 +27,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
             $scope.form = response.data;
             $scope.post = false;
             $scope.put = true;
-            $scope.delete = true;
+            $scope.dele = true;
         }).catch(err => {
             console.log("Error", err)
         })
@@ -57,7 +57,16 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
             alert("Cập nhật hãng tàu thất bại")
         })
     }
-
+    $scope.delete = function (id){
+        $http.delete(`/rest/hangtau/${id}`).then(response => {
+            var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
+            $scope.items.splice(index,1);
+            alert("Xóa thành công");
+        }).catch(error =>{
+            alert("Xóa thành công");
+            console.log("Error",error)
+        })
+    }
 
     $scope.pager = {
         page: 0,

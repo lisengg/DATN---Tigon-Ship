@@ -8,7 +8,7 @@ app.controller('tau-ctrl', function ($scope, $http) {
         }
         $scope.post = true
         $scope.put = false
-        $scope.delete = false
+        $scope.dele = false
     }
 
     $scope.initialize = function () {
@@ -20,6 +20,7 @@ app.controller('tau-ctrl', function ($scope, $http) {
            
         })
     }
+    $scope.initialize()
 
     $scope.save = function () {
         var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)
@@ -41,11 +42,44 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log("Error",error)
         })
     }
+    $scope.update = function () {
+        var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)
+        var item = {
+            "tentau": $scope.form.tentau,
+            "soghe": $scope.form.soghe,
+            "tinhtrang": $scope.form.tinhtrang,
+            "ngaynhap":  $scope.form.ngaynhap = new Date(),
+            "hangtau": $scope.items.hangtau[index]
+        }
+        console.log(item)
+        var url = `/rest/tau/${$scope.form.idtau}`;
+        $http.put(url, item).then(response => {
+            var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.idtau);
+           // console.log($scope.db[index])
+            $scope.items.tau[index] = response.data;
+            alert("Cập nhật tàu thành công")
+            $scope.reset();
+        }).catch(err => {
+            alert("Lỗi cập nhật tàu");
+            console.log("Error", error);
+        });
+    }
+    $scope.delete = function (id){
+        $http.delete(`/rest/tau/${id}`).then(response => {
+            var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.idtau);
+            $scope.items.tau.splice(index,1);
+            alert("Xóa thành công");
+        }).catch(error =>{
+            alert("Xóa thành công");
+            console.log("Error",error)
+        })
+    }
 
-    $scope.initialize()
+    
     $scope.edit = function (id) {
         $scope.post = false;
         $scope.put = true;
+        $scope.dele = true;
         var url = `/rest/tau/${id}`;
         $http.get(url).then(response => {
             $scope.form = response.data;
@@ -56,7 +90,6 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     }
-
     $scope.pager = {
         page: 0,
         size: 4,
