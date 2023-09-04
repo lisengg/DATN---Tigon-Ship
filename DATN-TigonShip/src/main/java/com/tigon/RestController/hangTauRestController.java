@@ -17,7 +17,7 @@ import com.tigon.model.HangTau;
 
 @CrossOrigin("*")
 @RestController
-public class hangTauRest {
+public class hangTauRestController {
     @Autowired
     HangTauDAO hangTauDAO;
 

@@ -13,30 +13,34 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tigon.dao.GheNgoiDAO;
 import com.tigon.dao.HangTauDAO;
 import com.tigon.dao.TauDAO;
 import com.tigon.model.Tau;
 
 @CrossOrigin("*")
 @RestController
-public class tauRest {
+public class tauRestController {
     @Autowired
     TauDAO tauDAO;
     @Autowired
     HangTauDAO hangTauDAO;
+    @Autowired 
+    GheNgoiDAO gheNgoiDAO;
     
     @GetMapping("/rest/tau")
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("tau", tauDAO.findAll());
         map.put("hangtau", hangTauDAO.findAll());
+        map.put("ghengoi", gheNgoiDAO.findAll());
         return map;
     }
     @GetMapping("/rest/tau/{id}")
     public Tau getOne(@PathVariable("id") Integer id) {
         return tauDAO.findById(id).get();
     }
-   
+  
     @PostMapping("/rest/tau/save")
     public Tau save(@RequestBody Tau tau) {
         return tauDAO.save(tau);

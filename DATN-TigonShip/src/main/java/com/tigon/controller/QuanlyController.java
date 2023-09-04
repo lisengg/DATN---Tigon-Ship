@@ -21,9 +21,13 @@ public class QuanlyController {
 	public String tau(Model model) {
 		return "admin/tau/tau";
 	}
+	@GetMapping("/admin/ghengoi")
+	public String ghengoi(Model model) {
+		return "admin/ghengoi/ghengoi";
+	}
 	@GetMapping("/admin/nguoidung")
 	public String nguoidung(Model model) {
-		return "admin/hanhkhach";
+		return "admin/hanhkhach/hanhkhach";
 	}
 
 	@GetMapping("/admin/hangtau")
@@ -32,17 +36,18 @@ public class QuanlyController {
 	}
 	@GetMapping("/admin/tuyentau")
 	public String tuyentau(Model model) {
-
 		return "admin/tuyentau";
 	}
 	@GetMapping("/admin/giave")
 	public String giave(Model model) {
-
 		return "admin/giave/giave";
 	}
 	@GetMapping("/admin/lichtau")
 	public String lichtau(Model model) {
-
 		return "admin/lichtau/lichtau";
+	}
+	@GetMapping("/admin/danhgia")
+	public String danhgia(Model model) {
+		return "admin/danhgia/danhgia";
 	}
 }
