@@ -1,12 +1,13 @@
 const app = angular.module('hoadon-app', []);
 app.controller('hoadon-ctrl', function ($scope, $http) {
 	$scope.items = [];
-$scope.selectedItem = {};
+
     $scope.initialize = function () {
         $http.get("/rest/hoadon").then(response => {
             $scope.items = response.data;
             $scope.items.forEach(item => {// trước khi bỏ vào chuyển đổi kiểu ngày tháng trong sql thành chuỗi
 				item.ngaynhap = new Date(item.ngaynhap)
+				
 			})
             
         })
@@ -14,7 +15,6 @@ $scope.selectedItem = {};
     $scope.initialize()
 
     $scope.edit = function (item) {
-		 console.log(item);
 		$scope.hdct = true
 		 $scope.selectedItem = item;
     }

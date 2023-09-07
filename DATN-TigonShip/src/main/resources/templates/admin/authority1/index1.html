@@ -38,9 +38,49 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
+	<style>
+ /* CSS cho trường nhập thời gian */
+    .input1 {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+        /* CSS khi hover vào nút thời gian */
+    .input1:hover {
+      background-color: #f0f0f0;
+    }
+	 /* CSS cho dropdown thời gian */
+    .dropdown {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      z-index: 1;
+      display: none;
+      width: 150px;
+      max-height: 200px; /* Đặt kích thước tối đa cho danh sách */
+    overflow-y: auto;
+    }
+
+    .dropdown ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dropdown li {
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+   </style>
 </head>
 
-<body>
+<body ng-app="authority1-app" ng-controller="authority1-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -54,32 +94,81 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
-
+				
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<strong class="card-title">Quản lý người dùng</strong>
+								<strong class="card-title">Chỉnh sửa quyền người dùng</strong>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Họ và tên</div>
+										<input ng-model="form.hovaten" class="form-control" readonly>
+									</div>
+									<div class="form-group col-sm-6">
+										<div>Email</div>
+										<input ng-model="form.email" class="form-control" readonly>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<div>Quyền</div>
+										<input ng-model="form.quyen" id="phan-quyen" class="input1" readonly>
+										<div id="dropdown" class="dropdown">
+											<ul>
+												<li>USER</li>
+												<li>STAFF</li>
+												<li>ADMIN</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer text-center">
+						
+						<button ng-show="put" ng-click="update()" class="btn btn-success">
+							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
+						</button>
+						<button ng-click="reset()" class="btn btn-info">
+							<b class="glyphicon glyphicon-refresh"></b> Xóa form
+						</button>
+
+					</div>
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<h2>
+									<strong class="card-title">Quản lý phân quyền người
+										dùng</strong>
+								</h2>
 							</div>
 							<div class="card-body">
 								<table id="bootstrap-data-table"
 									class="table table-striped table-bordered">
 									<thead>
-										<tr>
+										<tr style="background: #17bac5;">
+											<th>Id</th>
+											<th>Họ và tên</th>
 											<th>Email</th>
-											<th>Fullname</th>
-											<!-- <th ng-repeat="role in roles" class="text-center">{{role.name}}</th> -->
-											<th style="text-align: center;">Khách hàng</th>
-											<th style="text-align: center;">Quản trị</th>
-											<th style="text-align: center;">Nhân viên</th>
+											<th>Quyền</th>
+											<th>Thao tác</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="acc in admins">
-											<td>{{acc.username}}</td>
-											<td>{{acc.fullname}}</td>
-											<th class="text-center"><input type="checkbox"></th>
-											<th  class="text-center"><input type="checkbox"></th>
-											<th  class="text-center"><input type="checkbox"></th>
+										<tr ng-repeat="item in items">
+											<td>{{item.idhanhkhach}}</td>
+											<td>{{item.hovaten}}</td>
+											<td>{{item.email}}</td>
+											<td>{{item.quyen}}</td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<button ng-click="edit(item)"
+														class="btn btn-warning glyphicon glyphicon-edit"></button>
+												</div>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -117,7 +206,7 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-
+	<script th:src="@{/js/authority1.js}"></script>
 </body>
 
 </html>
