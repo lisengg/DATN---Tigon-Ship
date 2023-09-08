@@ -37,7 +37,7 @@ public class SecurityController {
 	public String loginSuccess(Model model) {
 		
 		model.addAttribute("message", "Đăng nhập thành công!");
-		return "user/login/main";
+		return "user/index";
 	}
 
 	@RequestMapping("/security/login/error")
@@ -49,13 +49,13 @@ public class SecurityController {
 	@RequestMapping("/security/unauthoritied")
 	public String unauthoritied(Model model) {
 		model.addAttribute("message", "Không có quyền truy xuất!");
-		return "user/login/main";
+		return "user/login/401page";
 	}
 
 	@RequestMapping("/security/logoff/success")
 	public String logoffSuccess(Model model) {
 		model.addAttribute("message", "Bạn đã đăng xuất!");
-		return "user/login/main";
+		return "user/index";
 	}
 
 	// Oauth2
