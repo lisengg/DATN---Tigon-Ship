@@ -12,7 +12,7 @@ import com.tigon.model.HanhKhach;
 
 @CrossOrigin("*")
 @RestController
-public class hanhKhachRest {
+public class hanhKhachRestController {
     @Autowired
     HanhKhachDAO hanhKhachDAO;
 
