@@ -1,7 +1,6 @@
 const app = angular.module('tau-app', []);
 app.controller('tau-ctrl', function ($scope, $http) {
     $scope.items = [];
-    $scope.ghe = {}
     $scope.reset = function () {
         $scope.form = {
             ngaynhap:new Date(),// Gán ngày mặc định (hoặc giá trị khác) vào biến ngaynhap
@@ -15,8 +14,10 @@ app.controller('tau-ctrl', function ($scope, $http) {
     $scope.initialize = function () {
         $http.get("/rest/tau").then(response => {
             $scope.items = response.data;
+           
             $scope.reset()
             console.log($scope.items.tau);
+           
         })
     }
     $scope.initialize()
@@ -89,6 +90,7 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     }
+
     
     $scope.pager = {
         page: 0,

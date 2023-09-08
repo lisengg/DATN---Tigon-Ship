@@ -2,13 +2,12 @@ const app = angular.module('hangtau-app', []);
 app.controller('hangtau-ctrl', function ($scope, $http) {
     $scope.form = {}
     $scope.initialize = function () {
-        $http.get("/rest/hangtau").then(response => {
-            $scope.items = response.data;
-            $scope.post = true
-            $scope.put = false
-            $scope.dele = false
-        })
-    }
+    $http.get("/rest/hangtau").then(response => {
+        $scope.items = response.data;
+        $scope.post = true
+        $scope.put = false
+        $scope.dele = false
+    })}
     $scope.initialize()
 
     $scope.index_of = function (id) {
@@ -33,42 +32,17 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     }
-    $scope.validate = function () {
-        const phoneNumberPattern = /^[0-9]{10}$/;
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if ($scope.form.tenhangtau == null || $scope.form.diachi == null || $scope.form.sdt == null || $scope.form.email == null) {
-            var confirmation = alert("Vui không để trống");
-            return false;
-        } else if ($scope.items.same(t => t.idhangtau !== item.idhangtau && t.tenhangtau === item.tenhangtau)) {
-            var confirmation = alert("Tên hãng tàu đã tồn tại");
-            return false;
-        }
-        else if (!phoneNumberPattern.test($scope.form.sdt)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng số đth");
-            return false;
-        } else if (!emailPattern.test($scope.form.email)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng email");
-            return false;
-        }
-        else {
-            return true;
-        }
-
-    }
     $scope.save = function () {
-        if ($scope.validate() == true) {
-            var item = angular.copy($scope.form);
-            var url = `/rest/hangtau/save`;
-            $http.post(url, item).then(response => {
-                $scope.items.push(response.data);
-                alert("Thêm loại hãng tàu mới thành công")
-                $scope.reset();
-            }).catch(error => {
-                alert("Thêm loại hãng tàu mới thất bại");
-                console.log("Error", error)
-            })
-        }
-
+        var item = angular.copy($scope.form);
+        var url = `/rest/hangtau/save`;
+        $http.post(url,item).then(response => {
+            $scope.items.push(response.data);
+            alert("Thêm loại hãng tàu mới thành công")
+            $scope.reset();
+        }).catch(error => {
+            alert("Thêm loại hãng tàu mới thất bại");
+            console.log("Error",error)
+        })
     }
     $scope.update = function () {
         var item = angular.copy($scope.form);
@@ -76,29 +50,24 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         $http.put(url, item).then(response => {
             var index = $scope.items.findIndex(a => a.idhangtau === item.idhangtau);
             $scope.items[index] = item;
-            $scope.reset();
+            $scope.reset();                                         
             alert("Cập nhật hãng tàu thành công")
-        }).catch(error => {
-            console.log("Error", error)
+        }).catch(error=>{
+            console.log("Error",error)
             alert("Cập nhật hãng tàu thất bại")
         })
     }
-    $scope.delete = function (id) {
-        var confirmation = confirm("Bạn có chắc chắn muốn xóa tuyến này?");
-        if (confirmation) {
-            $http.delete(`/rest/hangtau/${id}`).then(response => {
-                var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
-                $scope.items.splice(index, 1);
-                alert("Xóa thành công");
-                $scope.reset()
-            }).catch(error => {
-                alert("Lỗi");
-                console.log("Error", error)
-            })
-        }
-
+    $scope.delete = function (id){
+        $http.delete(`/rest/hangtau/${id}`).then(response => {
+            var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
+            $scope.items.splice(index,1);
+            alert("Xóa thành công");
+        }).catch(error =>{
+            alert("Xóa thành công");
+            console.log("Error",error)
+        })
     }
-
+    
 
     $scope.pager = {
         page: 0,
