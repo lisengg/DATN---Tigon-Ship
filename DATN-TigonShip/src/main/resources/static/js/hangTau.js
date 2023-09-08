@@ -33,6 +33,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         })
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     $scope.save = function () {
         var item = angular.copy($scope.form);
         var url = `/rest/hangtau/save`;
@@ -82,6 +83,19 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         }
 
 >>>>>>> parent of 02ee2bf (8/9/2023)
+=======
+    $scope.save = function () {
+        var item = angular.copy($scope.form);
+        var url = `/rest/hangtau/save`;
+        $http.post(url,item).then(response => {
+            $scope.items.push(response.data);
+            alert("Thêm loại hãng tàu mới thành công")
+            $scope.reset();
+        }).catch(error => {
+            alert("Thêm loại hãng tàu mới thất bại");
+            console.log("Error",error)
+        })
+>>>>>>> parent of dae6c20 (4/9)
     }
     $scope.update = function () {
         var item = angular.copy($scope.form);
@@ -97,6 +111,9 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         })
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of dae6c20 (4/9)
     $scope.delete = function (id){
         $http.delete(`/rest/hangtau/${id}`).then(response => {
             var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
@@ -106,6 +123,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
             alert("Xóa thành công");
             console.log("Error",error)
         })
+<<<<<<< HEAD
 =======
     $scope.delete = function (id) {
         var confirmation = confirm("Bạn có chắc chắn muốn xóa tuyến này?");
@@ -122,6 +140,8 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         }
 
 >>>>>>> parent of 02ee2bf (8/9/2023)
+=======
+>>>>>>> parent of dae6c20 (4/9)
     }
     
 
