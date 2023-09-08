@@ -9,12 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 
 @Data
 @Table(name="HANGTAU")
@@ -25,11 +25,15 @@ public class HangTau {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDHANGTAU;
+
     String TENHANGTAU;
     String DIACHI;
     String SDT;
     String EMAIL;
-//    @OneToMany(mappedBy = "HANGTAU")
-//	List<Tau> tau;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "HANGTAU")
+    @JsonBackReference
+    List<Tau> TAU;
     
 }

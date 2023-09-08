@@ -11,5 +11,9 @@ public String login(Model model) {
 	return "user/login/main";
 }
 
+@RequestMapping("/register")
+public String register(Model model) {
+	return "user/login/register";
+}
 
 }
