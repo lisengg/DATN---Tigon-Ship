@@ -38,10 +38,8 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if ($scope.form.tenhangtau == null || $scope.form.diachi == null || $scope.form.sdt == null || $scope.form.email == null) {
             var confirmation = alert("Vui không để trống");
-           /* var text =  "Vui lòng nhâp tên hãng tàu"
-            $scope.form.tenhangtau = text; */
             return false;
-        } else if ($scope.items.some(t => t.idhangtau !== $scope.form.idhangtau && t.tenhangtau.toUpperCase() === $scope.form.tenhangtau.toUpperCase())) {
+        } else if ($scope.items.same(t => t.idhangtau !== item.idhangtau && t.tenhangtau === item.tenhangtau)) {
             var confirmation = alert("Tên hãng tàu đã tồn tại");
             return false;
         }
@@ -58,7 +56,6 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
 
     }
     $scope.save = function () {
-        
         if ($scope.validate() == true) {
             var item = angular.copy($scope.form);
             var url = `/rest/hangtau/save`;
@@ -95,7 +92,7 @@ app.controller('hangtau-ctrl', function ($scope, $http) {
                 alert("Xóa thành công");
                 $scope.reset()
             }).catch(error => {
-                alert("Hãng tàu đang được sử dụng.Vui lòng không xóa mà hãy chuyển sang trạng thái ẩn hoạt động");
+                alert("Lỗi");
                 console.log("Error", error)
             })
         }
