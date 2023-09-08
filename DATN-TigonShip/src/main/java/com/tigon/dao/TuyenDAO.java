@@ -12,7 +12,8 @@ import com.tigon.model.Tuyen;
 
 public interface TuyenDAO extends JpaRepository<Tuyen, Integer>{
 	@Query("SELECT t FROM Tuyen t WHERE t.TENTUYEN LIKE %?1%")
-	List<Tuyen> searchTuyen(String keyword);
+
+	List<Tuyen> findByTentuyenContaining(String keyword);
 
 
 
