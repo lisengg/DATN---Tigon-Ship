@@ -27,10 +27,13 @@ import com.tigon.service.HanhKhachService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
 	@Autowired
 	HanhKhachService hanhKhachService;
+	
 	@Autowired
 	BCryptPasswordEncoder pe;
+
 
 	// Cung cấp nguồn dữ liệu đăng nhập
 	@Override
@@ -53,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					hoten = user.getHOVATEN();
 				}
 
+
+				
 				return User.withUsername(hoten).password(password).roles(roles).build();
 			} catch (NoSuchElementException e) {
 				throw new UsernameNotFoundException(username + "không tìm thấy!");
@@ -71,19 +76,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.hasAnyRole("STAF", "ADMIN")
 		.antMatchers("/rest/authorities").hasRole("ADMIN")
 		.anyRequest().permitAll(); // anonymous
+		
+//		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);
 		// Giao diện đăng nhập
 		http.formLogin()
-				.usernameParameter("username")
 				.loginPage("/security/login/form")
 				.loginProcessingUrl("/security/login") // [/login]
 				.defaultSuccessUrl("/security/login/success", false)
 				.failureUrl("/security/login/error");
 
 		// Oauth2Login
-		http.oauth2Login().loginPage("/oauth2/login/form")
-				.defaultSuccessUrl("/oauth2/login/success", true)
-				.failureUrl("/oauth2/login/error")
-				.authorizationEndpoint().baseUri("/oauth2/authorization")
+		http.oauth2Login().loginPage("/oauth2/login/form").defaultSuccessUrl("/oauth2/login/success", true)
+				.failureUrl("/oauth2/login/error").authorizationEndpoint().baseUri("/oauth2/authorization")
 				.authorizationRequestRepository(getRepository()).and().tokenEndpoint()
 				.accessTokenResponseClient(getToken());
 

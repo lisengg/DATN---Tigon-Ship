@@ -1,4 +1,4 @@
-package com.tigon.error;
+package com.tigon.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

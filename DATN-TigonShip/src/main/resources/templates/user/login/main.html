@@ -16,8 +16,12 @@
 
 <body>
 <p th:text="${message}"></p>
+<th:block th:if="${#request.remoteUser}">
 <h2 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h2>
+</th:block>
 <a th:href="@{/security/login/form}">Login</a>
+<a th:href="@{/security/logoff}">Logout</a>
+<a th:href="@{/api/phoneNumber/generateOTP}">OTP</a>
 </body>
 
 </html>
