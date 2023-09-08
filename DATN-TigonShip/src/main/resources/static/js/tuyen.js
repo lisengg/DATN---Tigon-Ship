@@ -1,9 +1,7 @@
 const app = angular.module('tuyen-app', []);
 app.controller('tuyen-ctrl', function($scope, $http) {
-	$scope.items = [];
+
 	$scope.form = {};
-	$scope.searchKeyword = '';
-	$scope.filteredTuyens = [];
 
 	$scope.initialize = function() {
 		$http.get("/rest/tuyen").then(response => {
@@ -13,9 +11,9 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			$scope.delete = false
 		})
 	}
-
-
-
+	
+	
+	
 	$scope.initialize()
 
 	$scope.index_of = function(id) {
@@ -24,11 +22,10 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 	//Hiển thị lên form
 	$scope.edit = function(item) {
 		$scope.form = angular.copy(item);
-		console.log('open');
+		 console.log('open');
 		$scope.post = false;
 		$scope.put = true;
 		$scope.delete = true;
-		$scope.close = false;
 
 	}
 
@@ -39,28 +36,11 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 		$scope.put = false;
 		$scope.delete = false;
 	}
-
-	//Tìm kiếm
-	/*$scope.filterTuyens = function () {
-		$scope.filteredTuyens = $scope.items.filter(function (tuyen) {
-			return tuyen.tentuyen.toLowerCase().includes($scope.searchKeyword.toLowerCase());
-		});
-	};
-
-	// Call filterTuyens whenever searchKeyword changes
-	$scope.$watch('searchKeyword', $scope.filterTuyens);*/
-	// Function to filter Tuyens based on searchKeyword
-	$scope.filterTuyens = function() {
-		$scope.filteredItems = $filter('filter')($scope.items, $scope.searchKeyword);
-	};
-
-	
-	$scope.$watch('searchKeyword', $scope.filterTuyens);
 	//Thêm tuyến mới
 	$scope.create = function() {
 		var item = angular.copy($scope.form);
 		var url = `/rest/tuyen/save`;
-
+		
 		// Kiểm tra xem tên tuyến mới có trùng với tên tuyến đã có không
 		var isDuplicate = $scope.items.some(t => t.idtuyen !== item.idtuyen && t.tentuyen === item.tentuyen);
 
@@ -68,7 +48,7 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			alert("Tên tuyến đã tồn tại. Vui lòng chọn tên khác.");
 			return; // Ngăn cập nhật nếu tên tuyến trùng
 		}
-
+		
 		$http.post(url, item).then(response => {
 			$scope.items.push(response.data);
 			alert("Thêm tuyến mới thành công")
@@ -130,7 +110,7 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 	$scope.items = []; // Dữ liệu của bạn ở đây
 	$scope.pager = {
 		page: 0,
-		size: 5,
+		size: 7,
 		get items() {
 			var start = this.page * this.size;
 			return $scope.items.slice(start, start + this.size);

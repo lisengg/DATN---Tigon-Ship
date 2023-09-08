@@ -3,7 +3,7 @@ package com.tigon.RestController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.TuyenDAO;
@@ -33,13 +33,9 @@ public class TuyenRestController {
 	        
 	        return list;
 	    }
-	    @GetMapping("/admin/tuyen/search")
-	    public String searchTuyen(@RequestParam(name = "keyword") String keyword, Model model) {
-	        List<Tuyen> tuyens = tuyenDAO.findByTentuyenContaining(keyword);
-	        model.addAttribute("tuyens", tuyens);
-	        return "admin/tuyentau/tuyentau"; // Return the view template for displaying search results
-	    }
-
+//		@GetMapping("/rest/tuyen")
+//	
+//		}
 	    @GetMapping("/rest/tuyen/{id}")
 	    public Tuyen getOne(@PathVariable("id") Integer id) {
 	        return tuyenDAO.findById(id).get();

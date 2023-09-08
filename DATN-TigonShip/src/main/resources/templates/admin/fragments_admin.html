@@ -8,25 +8,31 @@
                         <a th:href="@{/admin}"><i class="menu-icon fa fa-laptop"></i>Trang chủ</a>
                     </li>
                     <li class="menu-title">Quản lí</li><!-- /.menu-title -->
-
-					<li>
-						<a th:href="@{/admin/hangtau}"> <i class="menu-icon fa fa-tasks"></i>Hãng tàu</a>
-					</li>	
-                    <li>
-                    	<a th:href="@{/admin/tau}"> <i class="menu-icon fa fa-anchor"></i>Tàu</a>
+                    <li class="menu-item-has-children dropdown">
                     </li>
-                    <li>
-                    	<a th:href="@{/admin/tuyentau}"> <i class="menu-icon fa fa-retweet"></i>Tuyến tàu</a>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tàu</a>
+                        <ul class="sub-menu children dropdown-menu">
+							<li><i class="fa fa-tasks"></i><a th:href="@{/admin/hangtau}">Hãng tàu</a></li>	
+                            <li><i class="fa fa-anchor"></i><a th:href="@{/admin/tau}">Tàu</a></li>
+                            <li><i class="fa fa-retweet"></i><a th:href="@{/admin/tuyentau}">Tuyến tàu</a></li>
+                            <li><i class="fa fa-calendar"></i><a th:href="@{/admin/lichtau}">Lịch tàu</a></li>
+                            <li><i class="fa fa-money"></i><a th:href="@{/admin/giave}">Giá vé</a></li>
+                           
+                        </ul>
+                  
                     </li>
-                    <li>
-                    	<a th:href="@{/admin/lichtau}"> <i class="menu-icon fa fa-calendar"></i>Lịch tàu</a>
-                    </li>
-  					<li>
-  						<a th:href="@{/admin/giave}"> <i class="menu-icon fa fa-money"></i>Giá vé</a>
-  					</li>
+                   
                     <li>
                         <a th:href="@{/admin}"> <i class="menu-icon ti-user"></i>Người dùng </a>
                     </li>
+                   <!--  <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
+                        </ul>
+                    </li> -->
                     <li class="menu-title">Thống kê</li>
                     
                     <li>
@@ -60,13 +66,13 @@
 		<div class="top-right">
 			<div class="header-menu">
 				<div class="header-left">
-					<!-- <button class="search-trigger"><i class="fa fa-search"></i></button>
+					<button class="search-trigger"><i class="fa fa-search"></i></button>
 					<div class="form-inline">
 						<form class="search-form">
-							<input class="form-control mr-sm-2"  type="text" placeholder="Search ..." aria-label="Search">
+							<input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
 							<button class="search-close" type="submit"><i class="fa fa-close"></i></button>
 						</form>
-					</div> -->
+					</div>
 
 					<div class="dropdown for-notification">
 						<button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
