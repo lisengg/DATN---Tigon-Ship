@@ -1,67 +1,52 @@
 <!-- ============================ASIDE================================== -->
 <div th:fragment="aside" id="aside">
 	<aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a th:href="@{/admin}"><i class="menu-icon fa fa-laptop"></i>Trang chủ</a>
-                    </li>
+		<nav class="navbar navbar-expand-sm navbar-default">
+			<div id="main-menu" class="main-menu collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a><i class="menu-icon fa fa-laptop"></i>Trang
+							chủ</a></li>
+					<li class="menu-title">Quản lí</li>
+					<!-- /.menu-title -->
 
-                    <li class="menu-title">Quản lí</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tàu</a>
-                        <ul class="sub-menu children dropdown-menu">
-							<li><i class="fa fa-tasks"></i><a th:href="@{/admin/hangtau}">Hãng tàu</a></li>	
-                            <li><i class="fa fa-anchor"></i><a th:href="@{/admin/tau}">Tàu</a></li>
-							<li><i class="fas fa-industry"></i><a th:href="@{/admin/ghengoi}">Ghế ngồi</a></li>
-                            <li><i class="fa fa-retweet"></i><a th:href="@{/admin/tuyentau}">Tuyến tàu</a></li>
-                            <li><i class="fa fa-calendar"></i><a th:href="@{/admin/lichtau}">Lịch tàu</a></li>
-                            <li><i class="fa fa-money"></i><a th:href="@{/admin/giave}">Giá vé</a></li>
-                           
-                        </ul>
-                  
-                    </li>
-                   
-                    <li>
-                        <a th:href="@{/admin/nguoidung}"> <i class="menu-icon ti-user"></i>Hành Khách </a>
-                    </li>
-                   <!--  <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                        </ul>
-                    </li> -->
-                    <li class="menu-title">Thống kê</li>
-                    
-                    <li>
-                        <a th:href="@{/admin/hoadon}"><i class="menu-icon ti-menu"></i>Hóa đơn </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/doanhthu}"> <i class="menu-icon ti-money"></i>Doanh thu </a>
-                    </li>
-					<li>
-                        <a th:href="@{/admin/danhgia}"> <i class="menu-icon ti-heart"></i>Đánh giá</a>
-                    </li>
+					<li><a th:href="@{/admin/hangtau}"> <i class="menu-icon fa fa-tasks"></i>Hãng tàu
+						</a></li>
+					<li><a th:href="@{/admin/tau}"> <i class="menu-icon fa fa-anchor"></i>Tàu
+						</a></li>
+					<li><a th:href="@{/admin/ghengoi}"> <i class="menu-icon fa fa-anchor"></i>Ghế ngồi
+						</a></li>
+					<li><a th:href="@{/admin/tuyentau}"> <i class="menu-icon fa fa-retweet"></i>Tuyến tàu
+						</a></li>
+					<li><a th:href="@{/admin/lichtau}"> <i class="menu-icon fa fa-calendar"></i>Lịch tàu
+						</a></li>
+					<li><a th:href="@{/admin/giave}"> <i class="menu-icon fa fa-money"></i>Giá vé
+						</a></li>
+					<li><a th:href="@{/admin/nguoidung}"> <i class="menu-icon ti-user"></i>Người
+							dùng
+						</a></li>
+					<li class="menu-title">Thống kê</li>
+
+					<li><a th:href="@{/admin/hoadon}"><i class="menu-icon ti-menu"></i>Hóa đơn </a></li>
+					<li><a th:href="@{/admin/doanhthu}"> <i class="menu-icon ti-money"></i>Doanh thu
+						</a></li>
+					<li><a th:href="@{/admin/danhgia}"> <i class="menu-icon ti-heart"></i>Đánh giá
+						</a></li>
 					<li class="menu-title">Nhân viên</li>
-					<li>
-                        <a th:href="@{/admin/nhanvien}"><i class="menu-icon ti-stamp"></i>Nhân viên </a>
-                    </li>	
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside>
+					<li th:if="${#request.isUserInRole('ADMIN')}"><a th:href="@{/admin/authority1}"><i
+								class="menu-icon ti-stamp"></i>Nhân
+							viên </a></li>
+				</ul>
+			</div>
+		</nav>
+	</aside>
 </div>
 <!-- ============================HEADER================================== -->
 <div th:fragment="header" id="header">
 	<header id="header" class="header">
 		<div class="top-left">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="./"><img src="" alt="Logo"></a>
-				<a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
-				<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
-			</div>
+			<!-- <div class="navbar-header">
+				<a class="navbar-brand" href="./"><img src="/images/logotau.jpg" alt="Logo">Xin chào</a>
+			</div> -->
 		</div>
 		<div class="top-right">
 			<div class="header-menu">
@@ -69,13 +54,16 @@
 					<button class="search-trigger"><i class="fa fa-search"></i></button>
 					<div class="form-inline">
 						<form class="search-form">
-							<input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-							<button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+							<input class="form-control mr-sm-2" ng-model="searchKeyword"
+								type="text" placeholder="Tìm kiếm ..." aria-label="Search">
+							<button class="search-close" type="submit" ng-click="reset1()">
+								<i class="fa fa-close"></i>
+							</button>
 						</form>
 					</div>
-
 					<div class="dropdown for-notification">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i class="fa fa-bell"></i>
 							<span class="count bg-danger">3</span>
 						</button>
@@ -97,7 +85,8 @@
 					</div>
 
 					<div class="dropdown for-message">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="message"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i class="fa fa-envelope"></i>
 							<span class="count bg-primary">4</span>
 						</button>
@@ -140,14 +129,15 @@
 				</div>
 
 				<div class="user-area dropdown float-right">
-				<!-- 	<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<!-- 	<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
 					</a> -->
 
 					<div class="user-menu dropdown-menu">
 						<a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
-						<a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
+						<a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span
+								class="count">13</span></a>
 
 						<a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
@@ -163,16 +153,16 @@
 <div th:fragment="footer">
 	<div class="clearfix"></div>
 	<footer class="site-footer">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-sm-6">
-                    Copyright &copy; 2018 Ela Admin
-                </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="https://colorlib.com">Colorlib</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+		<div class="footer-inner bg-white">
+			<div class="row">
+				<div class="col-sm-6">
+					Copyright &copy; 2018 Ela Admin
+				</div>
+				<div class="col-sm-6 text-right">
+					Designed by <a href="https://colorlib.com">Colorlib</a>
+				</div>
+			</div>
+		</div>
+	</footer>
 
 </div>

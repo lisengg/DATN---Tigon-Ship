@@ -1,221 +1,263 @@
 const app = angular.module('hangtau-app', []);
-app.controller('hangtau-ctrl', function ($scope, $http) {
-    $scope.form = {}
-    $scope.initialize = function () {
-        $http.get("/rest/hangtau").then(response => {
-            $scope.items = response.data;
-            $scope.post = true
-            $scope.put = false
-            $scope.dele = false
-        })
-    }
-    $scope.initialize()
+app.controller('hangtau-ctrl', function($scope, $http) {
+	$scope.form = {}
+	$scope.searchKeyword = '';
 
-    $scope.index_of = function (id) {
-        return $scope.items.findIndex(a => a.idhangtau == id);
-    }
+	$scope.initialize = function() {
+		$http.get("/rest/hangtau").then(response => {
+			$scope.items = response.data;
+			$scope.post = true
+			$scope.put = false
+			$scope.dele = false
+		})
+	}
+	$scope.initialize()
 
-    $scope.reset = function () {
-        $scope.form = null;
-        $scope.post = true;
-        $scope.put = false;
-        $scope.dele = false;
-    }
+	$scope.index_of = function(id) {
+		return $scope.items.findIndex(a => a.idhangtau == id);
+	}
 
-    $scope.edit = function (id) {
-        var url = `/rest/hangtau/${id}`;
-        $http.get(url).then(response => {
-            $scope.form = response.data;
-            $scope.post = false;
-            $scope.put = true;
-            $scope.dele = true;
-        }).catch(err => {
-            console.log("Error", err)
-        })
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    $scope.save = function () {
-        var item = angular.copy($scope.form);
-        var url = `/rest/hangtau/save`;
-        $http.post(url,item).then(response => {
-            $scope.items.push(response.data);
-            alert("Thêm loại hãng tàu mới thành công")
-            $scope.reset();
-        }).catch(error => {
-            alert("Thêm loại hãng tàu mới thất bại");
-            console.log("Error",error)
-        })
-=======
-    $scope.validate = function () {
-        const phoneNumberPattern = /^[0-9]{10}$/;
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if ($scope.form.tenhangtau == null || $scope.form.diachi == null || $scope.form.sdt == null || $scope.form.email == null) {
-            var confirmation = alert("Vui không để trống");
-           /* var text =  "Vui lòng nhâp tên hãng tàu"
-            $scope.form.tenhangtau = text; */
-            return false;
-        } else if ($scope.items.some(t => t.idhangtau !== $scope.form.idhangtau && t.tenhangtau.toUpperCase() === $scope.form.tenhangtau.toUpperCase())) {
-            var confirmation = alert("Tên hãng tàu đã tồn tại");
-            return false;
-        }
-        else if (!phoneNumberPattern.test($scope.form.sdt)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng số đth");
-            return false;
-        } else if (!emailPattern.test($scope.form.email)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng email");
-            return false;
-        }
-        else {
-            return true;
-        }
+	$scope.reset = function() {
+		$scope.form = null;
+		$scope.post = true;
+		$scope.put = false;
+		$scope.dele = false;
+	}
 
-    }
-    $scope.save = function () {
-        
-=======
-    $scope.validate = function () {
-        const phoneNumberPattern = /^[0-9]{10}$/;
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if ($scope.form.tenhangtau == null || $scope.form.diachi == null || $scope.form.sdt == null || $scope.form.email == null) {
-            var confirmation = alert("Vui không để trống");
-            return false;
-        } else if ($scope.items.same(t => t.idhangtau !== item.idhangtau && t.tenhangtau === item.tenhangtau)) {
-            var confirmation = alert("Tên hãng tàu đã tồn tại");
-            return false;
-        }
-        else if (!phoneNumberPattern.test($scope.form.sdt)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng số đth");
-            return false;
-        } else if (!emailPattern.test($scope.form.email)) {
-            var confirmation = alert("Vui lòng nhập đúng định dạng email");
-            return false;
-        }
-        else {
-            return true;
-        }
+	$scope.edit = function(item) {
+		$scope.form = angular.copy(item);
+		$scope.post = false;
+		$scope.put = true;
+		$scope.dele = true;
+	}
+	$scope.save = function() {
+		var item = angular.copy($scope.form);
+		var url = `/rest/hangtau/save`;
+		// Kiểm tra tên hãng tàu không được để trống
+		if (!$scope.form.tenhangtau) {
+			alert("Vui lòng nhập tên hãng tàu!");
+			return;
+		}
 
-    }
-    $scope.save = function () {
->>>>>>> parent of 3ae8934 (Revert "4/9")
-        if ($scope.validate() == true) {
-            var item = angular.copy($scope.form);
-            var url = `/rest/hangtau/save`;
-            $http.post(url, item).then(response => {
-                $scope.items.push(response.data);
-                alert("Thêm loại hãng tàu mới thành công")
-                $scope.reset();
-            }).catch(error => {
-                alert("Thêm loại hãng tàu mới thất bại");
-                console.log("Error", error)
-            })
-        }
+		// Kiểm tra địa chỉ không được để trống
+		if (!$scope.form.diachi) {
+			alert("Vui lòng nhập địa chỉ!");
+			return;
+		}
 
-<<<<<<< HEAD
->>>>>>> parent of 02ee2bf (8/9/2023)
-=======
-    $scope.save = function () {
-        var item = angular.copy($scope.form);
-        var url = `/rest/hangtau/save`;
-        $http.post(url,item).then(response => {
-            $scope.items.push(response.data);
-            alert("Thêm loại hãng tàu mới thành công")
-            $scope.reset();
-        }).catch(error => {
-            alert("Thêm loại hãng tàu mới thất bại");
-            console.log("Error",error)
-        })
->>>>>>> parent of dae6c20 (4/9)
-=======
->>>>>>> parent of 3ae8934 (Revert "4/9")
-    }
-    $scope.update = function () {
-        var item = angular.copy($scope.form);
-        var url = `/rest/hangtau/${item.idhangtau}`;
-        $http.put(url, item).then(response => {
-            var index = $scope.items.findIndex(a => a.idhangtau === item.idhangtau);
-            $scope.items[index] = item;
-            $scope.reset();
-            alert("Cập nhật hãng tàu thành công")
-        }).catch(error => {
-            console.log("Error", error)
-            alert("Cập nhật hãng tàu thất bại")
-        })
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of dae6c20 (4/9)
-    $scope.delete = function (id){
-        $http.delete(`/rest/hangtau/${id}`).then(response => {
-            var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
-            $scope.items.splice(index,1);
-            alert("Xóa thành công");
-        }).catch(error =>{
-            alert("Xóa thành công");
-            console.log("Error",error)
-        })
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 3ae8934 (Revert "4/9")
-    $scope.delete = function (id) {
-        var confirmation = confirm("Bạn có chắc chắn muốn xóa tuyến này?");
-        if (confirmation) {
-            $http.delete(`/rest/hangtau/${id}`).then(response => {
-                var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
-                $scope.items.splice(index, 1);
-                alert("Xóa thành công");
-                $scope.reset()
-            }).catch(error => {
-<<<<<<< HEAD
-                alert("Hãng tàu đang được sử dụng.Vui lòng không xóa mà hãy chuyển sang trạng thái ẩn hoạt động");
-=======
-                alert("Lỗi");
->>>>>>> parent of 3ae8934 (Revert "4/9")
-                console.log("Error", error)
-            })
-        }
+		// Kiểm tra số điện thoại không được để trống
+		if (!$scope.form.sdt) {
+			alert("Vui lòng nhập số điện thoại!");
+			return;
+		}
 
-<<<<<<< HEAD
->>>>>>> parent of 02ee2bf (8/9/2023)
-=======
->>>>>>> parent of dae6c20 (4/9)
-=======
->>>>>>> parent of 3ae8934 (Revert "4/9")
-    }
+		// Kiểm tra số điện thoại có đúng định dạng hay không
+		var phonePattern = /^(0[1-9][0-9]{8})$/; // Định dạng số điện thoại ở Việt Nam
+		if (!phonePattern.test($scope.form.sdt)) {
+			alert("Số điện thoại không hợp lệ! Vui lòng nhập số điện thoại ở Việt Nam.");
+			$scope.form.sdt = '';
+			return;
+		}
+		
+		// Kiểm tra email có đúng định dạng hay không
+		var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!emailPattern.test($scope.form.email)) {
+			alert("Vui lòng nhập đúng định dạng email!");
+			return;
+		}
+
+		var tenHangTau = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.tenhangtau.toLowerCase() === item.tenhangtau.toLowerCase());
+		var diaChi = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
+		var email = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.email.toLowerCase() === item.email.toLowerCase());
+		var sdt = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.sdt === item.sdt);
+
+		if (tenHangTau) {
+			alert("Tên hãng tàu đã tồn tại! Vui lòng nhập tên khác.");
+			return; // Ngăn cập nhật nếu tên hãng tàu trùng
+		}
+
+		if (diaChi) {
+			alert("Địa chỉ đã tồn tại! Vui lòng nhập khác.");
+			return; // Ngăn cập nhật nếu địa chỉ trùng
+		}
+
+		if (email) {
+			alert("Email đã tồn tại! Vui lòng nhập email khác.");
+			return; // Ngăn cập nhật nếu email trùng
+		}
+
+		if (sdt) {
+			alert("Số điện thoại đã tồn tại! Vui lòng nhập số điện thoại khác.");
+			return; // Ngăn cập nhật nếu số điện thoại trùng
+		}
+		$http.post(url, item).then(response => {
+			$scope.items.push(response.data);
+			alert("Thêm loại hãng tàu mới thành công")
+			$scope.reset();
+		}).catch(error => {
+			alert("Thêm loại hãng tàu mới thất bại");
+			console.log("Error", error)
+		})
+	}
+	$scope.update = function() {
+		var item = angular.copy($scope.form);
+		var url = `/rest/hangtau/${item.idhangtau}`;
+
+		// Kiểm tra tên hãng tàu không được để trống
+		if (!$scope.form.tenhangtau) {
+			alert("Vui lòng nhập tên hãng tàu!");
+			return;
+		}
+
+		// Kiểm tra địa chỉ không được để trống
+		if (!$scope.form.diachi) {
+			alert("Vui lòng nhập địa chỉ!");
+			return;
+		}
+
+		// Kiểm tra số điện thoại không được để trống
+		if (!$scope.form.sdt) {
+			alert("Vui lòng nhập số điện thoại!");
+			return;
+		}
+
+		// Kiểm tra số điện thoại có đúng định dạng hay không
+		var phonePattern = /^(0[1-9][0-9]{8})$/; // Định dạng số điện thoại ở Việt Nam
+		if (!phonePattern.test($scope.form.sdt)) {
+			alert("Số điện thoại không hợp lệ! Vui lòng nhập số điện thoại ở Việt Nam.");
+			$scope.form.sdt = '';
+			return;
+		}
+
+		// Kiểm tra email có đúng định dạng hay không
+		var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!emailPattern.test($scope.form.email)) {
+			alert("Vui lòng nhập đúng định dạng email!");
+			return;
+		}
+
+		var tenHangTau = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.tenhangtau.toLowerCase() === item.tenhangtau.toLowerCase());
+		var diaChi = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
+		var email = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.email.toLowerCase() === item.email.toLowerCase());
+		var sdt = $scope.items.some(a => a.idhangtau !== item.idhangtau && a.sdt === item.sdt);
+
+		if (tenHangTau) {
+			alert("Tên hãng tàu đã tồn tại! Vui lòng nhập tên khác.");
+			return; // Ngăn cập nhật nếu tên hãng tàu trùng
+		}
+
+		if (diaChi) {
+			alert("Địa chỉ đã tồn tại! Vui lòng nhập khác.");
+			return; // Ngăn cập nhật nếu địa chỉ trùng
+		}
+
+		if (email) {
+			alert("Email đã tồn tại! Vui lòng nhập email khác.");
+			return; // Ngăn cập nhật nếu email trùng
+		}
+
+		if (sdt) {
+			alert("Số điện thoại đã tồn tại! Vui lòng nhập số điện thoại khác.");
+			return; // Ngăn cập nhật nếu số điện thoại trùng
+		}
+
+		$http.put(url, item).then(response => {
+			var index = $scope.items.findIndex(a => a.idhangtau === item.idhangtau);
+			$scope.items[index] = item;
+			$scope.reset();
+			alert("Cập nhật hãng tàu thành công")
+		}).catch(error => {
+			console.log("Error", error)
+			alert("Cập nhật hãng tàu thất bại")
+		});
+
+	}
+
+	$scope.delete = function(id) {
+		var confirmation = confirm("Bạn có chắc chắn muốn xóa tuyến này?");
+		if (confirmation) {
+			$http.delete(`/rest/hangtau/${id}`).then(response => {
+				var index = $scope.items.findIndex(a => a.idhangtau === $scope.form.idhangtau);
+				$scope.items.splice(index, 1);
+				alert("Xóa thành công");
+				$scope.reset()
+			}).catch(error => {
+				alert("Hãng tàu đang được sử dụng.Vui lòng không xóa mà hãy chuyển sang trạng thái ẩn hoạt động");
+				console.log("Error", error)
+			})
+		}
+
+	}
 
 
-    $scope.pager = {
-        page: 0,
-        size: 5,
-        get items() {
-            var start = this.page * this.size;
-            return $scope.items.slice(start, start + this.size);
-        },
-        get count() {
-            return Math.ceil(1.0 * $scope.items.length / this.size);
-        },
-        first() {
-            this.page = 0;
-        },
-        prev() {
-            this.page--;
-            if (this.page < 0) {
-                this.last();
-            }
-        },
-        last() {
-            this.page = this.count - 1;
-        },
-        next() {
-            this.page++;
-            if (this.page >= this.count) {
-                this.first();
-            }
-        }
-    }
+	//Close search form
+	$scope.reset1 = function() {
+		$scope.searchKeyword = '';
+	}
+
+	// Hàm cập nhật dữ liệu đã phân trang khi tìm kiếm thay đổi
+	$scope.$watch('searchKeyword', function(newVal, oldVal) {
+		$scope.searchPager.first();
+
+		// Cập nhật dữ liệu đã phân trang
+		$scope.updatePagedData();
+	});
+
+	// Hàm cập nhật dữ liệu đã phân trang
+	$scope.updatePagedData = function() {
+		// Tính toán lại dữ liệu đã phân trang dựa trên trang hiện tại và số mục trên mỗi trang
+		var startIndex = ($scope.pager.page - 1) * 5;
+		var endIndex = startIndex + 5;
+		$scope.pager.items = $scope.pager.items.slice(startIndex, endIndex);
+	};
+	//Phân trang
+	$scope.searchPager = {
+		page: 0, // Bắt đầu từ trang đầu tiên
+		size: 3, // Số mục trên mỗi trang
+		get items() {
+			// Tính toán phạm vi chỉ mục dựa trên trang và kích thước hiện tại
+			var startIndex = (this.page - 1) * this.size;
+			var endIndex = startIndex + this.size;
+
+			// Lọc các mục dựa trên từ khóa tìm kiếm
+			var filteredItems = $scope.items.filter(function(item) {
+				return item.tenhangtau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.diachi.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.email.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.sdt.toLowerCase().includes($scope.searchKeyword.toLowerCase());
+			});
+			return filteredItems.slice(startIndex, endIndex);
+		},
+		get count() {
+			// Tính tổng số trang dựa trên các mục được lọc
+			var filteredItems = $scope.items.filter(function(item) {
+				return item.tenhangtau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.diachi.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.email.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+					item.sdt.toLowerCase().includes($scope.searchKeyword.toLowerCase());
+			});
+			return Math.ceil(filteredItems.length / this.size);
+		},
+		first() {
+			this.page = 1;
+		},
+		prev() {
+			this.page--;
+			if (this.page < 1) {
+				this.page = 1;
+			}
+		},
+		next() {
+			this.page++;
+
+
+			if (this.page > this.count) {
+				this.page = this.count;
+			}
+		},
+		last() {
+			this.page = this.count;
+		}
+	}
 
 })

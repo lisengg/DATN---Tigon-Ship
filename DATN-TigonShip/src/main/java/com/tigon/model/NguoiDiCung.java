@@ -22,12 +22,12 @@ public class NguoiDiCung {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDNGUOIDICUNG;
-    String HOVATEN;
+    String HOTEN;
     String SDT;
     String CCCD;
 
     @ManyToOne
-	@JoinColumn(name = "MADATVE")
+	@JoinColumn(name = "IDDATVE")
 	DatVe DATVE;
 
     @ManyToOne

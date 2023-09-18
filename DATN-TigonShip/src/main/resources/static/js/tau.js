@@ -1,11 +1,12 @@
 const app = angular.module('tau-app', []);
 app.controller('tau-ctrl', function ($scope, $http) {
     $scope.items = [];
-    $scope.ghe = {}
+    $scope.ghe = {},
+    $scope.searchKeyword = '';
     $scope.reset = function () {
         $scope.form = {
             ngaynhap:new Date(),// Gán ngày mặc định (hoặc giá trị khác) vào biến ngaynhap
-            tinhtrang: 'Hoạt động',   
+            tinhtrang: 'Hoạt động',
         }
         $scope.post = true
         $scope.put = false
@@ -75,7 +76,7 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log("Error",error)
         })
     }
-    $scope.edit = function (id) {
+ /*    $scope.edit = function (id) {
         $scope.post = false;
         $scope.put = true;
         $scope.dele = true;
@@ -88,35 +89,77 @@ app.controller('tau-ctrl', function ($scope, $http) {
         }).catch(err => {
             console.log("Error", err)
         })
+    } */
+    $scope.edit = function (item) {
+        $scope.form = angular.copy(item);
+            $scope.post = false;
+            $scope.put = true;
+            $scope.dele = true;
     }
     
-    $scope.pager = {
-        page: 0,
-        size: 4,
-        get items() {
-            var start = this.page * this.size;
-            return $scope.items.tau.slice(start, start + this.size);
-        },
-        get count() {
-            return Math.ceil(1.0 * $scope.items.tau.length / this.size);
-        },
-        first() {
-            this.page = 0;
-        },
-        prev() {
-            this.page--;
-            if (this.page < 0) {
-                this.last();
-            }
-        },
-        last() {
-            this.page = this.count - 1;
-        },
-        next() {
-            this.page++;
-            if (this.page >= this.count) {
-                this.first();
-            }
-        }
-    }
+  //Close search form
+	$scope.reset1 = function() {
+		$scope.searchKeyword = '';
+	}
+	
+	// Hàm cập nhật dữ liệu đã phân trang khi tìm kiếm thay đổi
+	$scope.$watch('searchKeyword', function(newVal, oldVal) {
+		$scope.searchPager.first();
+
+		// Cập nhật dữ liệu đã phân trang
+		$scope.updatePagedData();
+	});
+
+	// Hàm cập nhật dữ liệu đã phân trang
+	$scope.updatePagedData = function() {
+		// Tính toán lại dữ liệu đã phân trang dựa trên trang hiện tại và số mục trên mỗi trang
+		var startIndex = ($scope.pager.page - 1) * 5;
+		var endIndex = startIndex + 5;
+		$scope.pager.items.tau = $scope.pager.items.tau.slice(startIndex, endIndex);
+	};
+    //Phân trang
+	$scope.searchPager = {
+		page: 0, // Bắt đầu từ trang đầu tiên
+		size: 4, // Số mục trên mỗi trang
+		get items() {
+			// Tính toán phạm vi chỉ mục dựa trên trang và kích thước hiện tại
+			var startIndex = (this.page - 1) * this.size;
+			var endIndex = startIndex + this.size;
+
+			// Lọc các mục dựa trên từ khóa tìm kiếm
+			var filteredItems = $scope.items.tau.filter(function(item) {
+				return item.tentau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) || 
+                item.hangtau.tenhangtau.toLowerCase().includes($scope.searchKeyword.toLowerCase());
+			});
+			return filteredItems.slice(startIndex, endIndex);
+		},
+		get count() {
+			// Tính tổng số trang dựa trên các mục được lọc
+			var filteredItems = $scope.items.tau.filter(function(item) {
+				return item.tentau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
+                item.hangtau.tenhangtau.toLowerCase().includes($scope.searchKeyword.toLowerCase());
+			});
+			return Math.ceil(filteredItems.length / this.size);
+		},
+		first() {
+			this.page = 1;
+		},
+		prev() {
+			this.page--;
+			if (this.page < 1) {
+				this.page = 1;
+			}
+		},
+		next() {
+			this.page++;
+
+
+			if (this.page > this.count) {
+				this.page = this.count;
+			}
+		},
+		last() {
+			this.page = this.count;
+		}
+	}
 })

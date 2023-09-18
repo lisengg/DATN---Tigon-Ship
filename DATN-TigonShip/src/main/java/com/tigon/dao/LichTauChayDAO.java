@@ -6,5 +6,4 @@ import com.tigon.model.LichTauChay;
 
 public interface LichTauChayDAO extends JpaRepository<LichTauChay, Integer>{
 
-	
 }

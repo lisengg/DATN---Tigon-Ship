@@ -1,4 +1,5 @@
 package com.tigon.model;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,47 +21,48 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Data
-@Table(name="DATVE")
+@Table(name = "DATVE")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 
 public class DatVe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer MADATVE;
-    Integer SOGHE;
-    @Temporal(TemporalType.DATE)
-    Date NGAYDI;
-    @Temporal(TemporalType.DATE)
-    Date NGAYVE;
-    @Temporal(TemporalType.DATE)
-    Date NGAYDAT;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer MADATVE;
+	Integer SOGHE;
+	@Temporal(TemporalType.DATE)
+	Date NGAYDI;
+	@Temporal(TemporalType.DATE)
+	Date NGAYVE;
+	@Temporal(TemporalType.DATE)
+	Date NGAYDAT;
 
-    @ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "IDHANHKHACH")
 	HanhKhach HANHKHACH;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "DATVE")
-    @JsonBackReference
-    List<HoaDon> HoaDon;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "DATVE")
-    @JsonBackReference
-    List<NguoiDiCung> NGUOIDICUNG;
-    
-    @ManyToOne
+	@JsonIgnore
+	@OneToMany(mappedBy = "DATVE")
+	@JsonBackReference
+	List<HoaDon> HoaDon;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "DATVE")
+	@JsonBackReference
+	List<NguoiDiCung> NGUOIDICUNG;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "DATVE")
+	@JsonBackReference
+	List<DatGhe> DATGHE;
+
+	@ManyToOne
 	@JoinColumn(name = "IDLICHTAU")
 	LichTauChay LICHTAUCHAY;
-    
+	
 	@ManyToOne
-	@JoinColumn(name = "LOAIVE")
+	@JoinColumn(name = "IDLOAIVE")
 	LoaiVe LOAIVE;
-
-
 }

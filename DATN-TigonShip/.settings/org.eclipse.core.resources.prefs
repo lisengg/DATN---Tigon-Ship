@@ -1,11 +1,5 @@
-=\=\=\=\=\=\=
-<<<<<<<=Updated upstream
->>>>>>>=Stashed changes
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
-encoding//src/main/resources/templates/header.html=UTF-8
-encoding//src/main/resources/templates/thongke.html=UTF-8
-encoding//src/main/resources/templates/user/gopy.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

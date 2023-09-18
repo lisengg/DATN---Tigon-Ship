@@ -50,4 +50,8 @@ public class QuanlyController {
 	public String danhgia(Model model) {
 		return "admin/danhgia/danhgia";
 	}
+	@GetMapping("/admin/hoadon")
+	public String hoadon(Model model) {
+		return "admin/hoadon/hoadon";
+	}
 }
