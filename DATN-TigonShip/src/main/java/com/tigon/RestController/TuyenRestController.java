@@ -33,12 +33,6 @@ public class TuyenRestController {
 	        
 	        return list;
 	    }
-	    @GetMapping("/admin/tuyen/search")
-	    public String searchTuyen(@RequestParam(name = "keyword") String keyword, Model model) {
-	        List<Tuyen> tuyens = tuyenDAO.findByTentuyenContaining(keyword);
-	        model.addAttribute("tuyens", tuyens);
-	        return "admin/tuyentau/tuyentau"; // Return the view template for displaying search results
-	    }
 
 	    @GetMapping("/rest/tuyen/{id}")
 	    public Tuyen getOne(@PathVariable("id") Integer id) {

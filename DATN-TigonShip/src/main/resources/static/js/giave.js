@@ -1,33 +1,72 @@
 const app = angular.module('giave-app', []);
 app.controller('giave-ctrl', function($scope, $http) {
-	$scope.items = [],
-		$scope.form = {
-			ngaybatdau: new Date(),
-			ngayketthuc: new Date(),
-		},
-
+	$scope.form = {
+		ngaybatdau: new Date(),
+		ngayketthuc: new Date(),
+	},
 		$scope.initialize = function() {
 			$http.get("/rest/giave").then(response => {
 				$scope.items = response.data;
-				$scope.post = true
-				$scope.put = false
-				$scope.delete = false
-				$scope.items.giave.forEach(item => {// trước khi bỏ vào chuyển đổi kiểu ngày tháng trong sql thành chuỗi
+				$scope.items.giave.forEach(item => {
 					item.ngaybatdau = new Date(item.ngaybatdau);
 					item.ngayketthuc = new Date(item.ngayketthuc);
-				})
-			})
+				});
+				$scope.post = true;
+				$scope.put = false;
+				$scope.delete = false;
 
+				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
+				initDataTable($scope.items);
+			});
 		}
+	function initDataTable(data) {
+		var table = $('#table2').DataTable({
+			data: data.giave, // Sử dụng mảng giave từ dữ liệu
+			columns: [
+				{ data: 'idgiave' },
+				{ data: 'loaive.loaive' },
+				{ data: 'tuyen.tentuyen' },
+				{ data: 'gia' },
+				{ data: 'ngaybatdau',
+				  render: function(data, type, full, meta) {
+						if (type === 'display') {
+							// Định dạng ngày theo dd/MM/yyyy
+							return moment(data).format('DD/MM/YYYY'); // Sử dụng thư viện Moment.js hoặc thư viện khác tương tự nếu cần
+						}
+						return data; // Trả về dữ liệu gốc cho các loại khác
+					}
+				},
+				{ data: 'ngayketthuc',
+				  render: function(data, type, full, meta) {
+						if (type === 'display') {
+							// Định dạng ngày theo dd/MM/yyyy
+							return moment(data).format('DD/MM/YYYY'); // Sử dụng thư viện Moment.js hoặc thư viện khác tương tự nếu cần
+						}
+						return data; // Trả về dữ liệu gốc cho các loại khác
+					}
+				},
+				// Cột mới chứa nút bấm
+				{ data: null,
+				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'}
+			],
+			columnDefs: [{"targets": -1, "orderable": false,"searchable": false}],
+			"pageLength": 5
+		});
+		// Thêm sự kiện click vào nút "Cập nhật"
+		$('#table2 tbody').on('click', 'button', function() {
+			var rowData = table.row($(this).parents('tr')).data();
+			$scope.$apply(function() {
+				$scope.edit(rowData);
+			});
+		});
+	}
 	$scope.initialize()
 	$scope.index_of = function(id) {
 		return $scope.items.findIndex(p => p.idgiave == id);
 	}
-
 	//Hiển thị lên form
-	$scope.edit = function(item) {
-		$scope.form = angular.copy(item);
-		$(".nav-tabs a:eq(0)").tab('show')
+	$scope.edit = function(id) {
+		$scope.form = angular.copy(id);
 		$scope.post = false;
 		$scope.put = true;
 		$scope.delete = true;
@@ -42,7 +81,6 @@ app.controller('giave-ctrl', function($scope, $http) {
 		$scope.put = false;
 		$scope.delete = false;
 	}
-	
 	//Thêm giá vé mới
 	$scope.create = function() {
 		var index = $scope.items.loaive.findIndex(a => a.idloaive == $scope.form.loaive.idloaive)
@@ -54,7 +92,6 @@ app.controller('giave-ctrl', function($scope, $http) {
 			"ngaybatdau": $scope.form.ngaybatdau = new Date(),
 			"ngayketthuc": $scope.form.ngayketthuc = new Date()
 		}
-		console.log(item)
 		var url = `/rest/giave/save`;
 		// Kiểm tra tên loại vé và tên tuyến đã được chọn
 		if (!item.loaive || !item.tuyen) {
@@ -71,7 +108,6 @@ app.controller('giave-ctrl', function($scope, $http) {
 			alert("Giá vé không hợp lệ. Hãy nhập một giá trị số dương.");
 			return;
 		}
-
 		// Kiểm tra ngày bắt đầu và ngày kết thúc
 		if (item.ngaybatdau > item.ngayketthuc) {
 			alert("Ngày bắt đầu không thể sau ngày kết thúc	.");
@@ -83,12 +119,13 @@ app.controller('giave-ctrl', function($scope, $http) {
 				giave.loaive.idloaive === item.loaive.idloaive &&
 				giave.tuyen.idtuyen === item.tuyen.idtuyen;
 		});
-
 		if (isDuplicate) {
 			alert("Tên loại vé và tên tuyến đã tồn tại cho một giá vé khác. Hãy chọn giá trị khác.");
 		} else {
 			$http.post(url, item).then(response => {
 				$scope.items.giave.push(response.data);
+				var table = $('#table2').DataTable();
+				table.row.add(response.data).draw();
 				alert("Thêm giá vé thành công")
 				$scope.reset();
 			}).catch(error => {
@@ -135,9 +172,11 @@ app.controller('giave-ctrl', function($scope, $http) {
 			$http.put(url, item).then(response => {
 				var index = $scope.items.giave.findIndex(p => p.idgiave == item.idgiave);
 				$scope.items.giave[index] = item;
+				var table = $('#table2').DataTable();
+				var row = table.row(index);
+				row.data(item).draw();
 				$scope.reset();
 				alert("Cập nhật giá vé thành công");
-				window.location.reload();
 			}).catch(error => {
 				console.log("Error", error)
 				alert("Cập nhật giá vé thất bại")
@@ -145,15 +184,17 @@ app.controller('giave-ctrl', function($scope, $http) {
 		}
 	}
 	//Xóa giá vé
-	$scope.deleteItem = function(item) {
+	$scope.deleteItem = function(data) {
 		var confirmation = confirm("Bạn có chắc chắn muốn xóa giá vé này?");
-
 		if (confirmation) {
-			var url = `/rest/giave/${item.idgiave}`;
+			var url = `/rest/giave/${data.idgiave}`;
 			$http.delete(url).then(response => {
-				var index = $scope.items.giave.findIndex(p => p.idgiave == item.idgiave);
+				var index = $scope.items.giave.findIndex(p => p.idgiave == data.idgiave);
 				if (index !== -1) {
 					$scope.items.giave.splice(index, 1); // Xóa item khỏi danh sách
+					// Cập nhật DataTables
+					var table = $('#table2').DataTable();
+					table.row(index).remove().draw();
 					$scope.reset();
 					alert("Xóa giá vé thành công!");
 				} else {
@@ -166,36 +207,6 @@ app.controller('giave-ctrl', function($scope, $http) {
 				});
 		} else {
 			// Người dùng đã bấm Cancel, không thực hiện việc xóa
-		}
-	}
-
-	$scope.pager = {
-		page: 0,
-		size: 4,
-		get items() {
-			var start = this.page * this.size;
-			return $scope.items.giave.slice(start, start + this.size);
-		},
-		get count() {
-			return Math.ceil(1.0 * $scope.items.giave.length / this.size);
-		},
-		first() {
-			this.page = 0;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 0) {
-				this.last();
-			}
-		},
-		last() {
-			this.page = this.count - 1;
-		},
-		next() {
-			this.page++;
-			if (this.page >= this.count) {
-				this.first();
-			}
 		}
 	}
 

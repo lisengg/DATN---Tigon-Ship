@@ -1,153 +1,189 @@
 <!-- ============================ASIDE================================== -->
 <div th:fragment="aside" id="aside">
 	<aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a th:href="@{/admin}"><i class="menu-icon fa fa-laptop"></i>Trang chủ</a>
-                    </li>
-                    <li class="menu-title">Quản lí</li><!-- /.menu-title -->
+		<nav class="navbar navbar-expand-sm navbar-default">
+			<div id="main-menu" class="main-menu collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a></a></li>
+					<li class="menu-title">Quản lí</li>
+					<!-- /.menu-title -->
 
-					<li>
-						<a th:href="@{/admin/hangtau}"> <i class="menu-icon fa fa-tasks"></i>Hãng tàu</a>
-					</li>	
-                    <li>
-                    	<a th:href="@{/admin/tau}"> <i class="menu-icon fa fa-anchor"></i>Tàu</a>
-                    </li>
-                    <li>
-                    	<a th:href="@{/admin/tuyentau}"> <i class="menu-icon fa fa-retweet"></i>Tuyến tàu</a>
-                    </li>
-                    <li>
-                    	<a th:href="@{/admin/lichtau}"> <i class="menu-icon fa fa-calendar"></i>Lịch tàu</a>
-                    </li>
-  					<li>
-  						<a th:href="@{/admin/giave}"> <i class="menu-icon fa fa-money"></i>Giá vé</a>
-  					</li>
-                    <li>
-                        <a th:href="@{/admin}"> <i class="menu-icon ti-user"></i>Người dùng </a>
-                    </li>
-                    <li class="menu-title">Thống kê</li>
-                    
-                    <li>
-                        <a th:href="@{/admin/hoadon}"><i class="menu-icon ti-menu"></i>Hóa đơn </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/doanhthu}"> <i class="menu-icon ti-money"></i>Doanh thu </a>
-                    </li>
-					<li>
-                        <a th:href="@{/admin/danhgia}"> <i class="menu-icon ti-heart"></i>Đánh giá</a>
-                    </li>
-					<li class="menu-title">Nhân viên</li>
-                    <li>
-                        <a th:href="@{/admin/authority1}"><i class="menu-icon ti-stamp"></i>Nhân viên </a>
-                    </li>	
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside>
+					<li><a th:href="@{/admin/hangtau}"> <i
+							class="menu-icon fa fa-tasks"></i>Hãng tàu
+					</a></li>
+					<li><a th:href="@{/admin/tau}"> <i
+							class="menu-icon fa fa-anchor"></i>Tàu
+					</a></li>
+					<li><a th:href="@{/admin/ghengoi}"> <i
+							class="menu-icon ti-wheelchair"></i>Ghế ngồi
+					</a></li>
+					<li><a th:href="@{/admin/tuyentau}"> <i
+							class="menu-icon fa fa-retweet"></i>Tuyến tàu
+					</a></li>
+					<li><a th:href="@{/admin/lichtau}"> <i
+							class="menu-icon fa fa-calendar"></i>Lịch tàu
+					</a></li>
+					<li><a th:href="@{/admin/giave}"> <i
+							class="menu-icon fa fa-money"></i>Giá vé
+					</a></li>
+					<li><a th:href="@{/admin/hanhkhach}"> <i
+							class="menu-icon ti-user"></i>Người dùng
+					</a></li>
+					<li class="menu-title">Thống kê</li>
+
+					<li><a th:href="@{/admin/hoadon}"><i
+							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
+					<li><a th:href="@{/admin/doanhthu}"> <i
+							class="menu-icon ti-money"></i>Doanh thu
+					</a></li>
+					<li><a th:href="@{/admin/danhgia}"> <i
+							class="menu-icon ti-heart"></i>Đánh giá
+					</a></li>
+					<li th:if="${#request.isUserInRole('ADMIN')}" class="menu-title">Nhân
+						viên</li>
+					<li th:if="${#request.isUserInRole('ADMIN')}"><a
+						th:href="@{/admin/authority1}"><i class="menu-icon ti-stamp"></i>Nhân
+							viên </a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</nav>
+	</aside>
 </div>
 <!-- ============================HEADER================================== -->
 <div th:fragment="header" id="header">
 	<header id="header" class="header">
 		<div class="top-left">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="./"><img src="" alt="Logo"></a>
-				<a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
-				<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+				<a th:href="@{/admin}" class="navbar-brand" href="./"><img
+					src="/images/logotau.jpg"></a>
 			</div>
 		</div>
 		<div class="top-right">
 			<div class="header-menu">
 				<div class="header-left">
-					<!-- <button class="search-trigger"><i class="fa fa-search"></i></button>
+					<button class="search-trigger">
+						<i class="fa fa-search"></i>
+					</button>
 					<div class="form-inline">
 						<form class="search-form">
-							<input class="form-control mr-sm-2"  type="text" placeholder="Search ..." aria-label="Search">
-							<button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+							<input class="form-control mr-sm-2" ng-model="searchKeyword"
+								type="text" placeholder="Tìm kiếm ..." aria-label="Search">
+							<button class="search-close" type="submit" ng-click="reset1()">
+								<i class="fa fa-close"></i>
+							</button>
 						</form>
-					</div> -->
+					</div>
 
 					<div class="dropdown for-notification">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-bell"></i>
-							<span class="count bg-danger">3</span>
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="notification" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false">
+							<i class="fa fa-bell"></i> <span class="count bg-danger">3</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="notification">
 							<p class="red">You have 3 Notification</p>
-							<a class="dropdown-item media" href="#">
-								<i class="fa fa-check"></i>
+							<a class="dropdown-item media" href="#"> <i
+								class="fa fa-check"></i>
 								<p>Server #1 overloaded.</p>
-							</a>
-							<a class="dropdown-item media" href="#">
-								<i class="fa fa-info"></i>
+							</a> <a class="dropdown-item media" href="#"> <i
+								class="fa fa-info"></i>
 								<p>Server #2 overloaded.</p>
-							</a>
-							<a class="dropdown-item media" href="#">
-								<i class="fa fa-warning"></i>
+							</a> <a class="dropdown-item media" href="#"> <i
+								class="fa fa-warning"></i>
 								<p>Server #3 overloaded.</p>
 							</a>
 						</div>
 					</div>
 
 					<div class="dropdown for-message">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-envelope"></i>
-							<span class="count bg-primary">4</span>
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="message" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false">
+							<i class="fa fa-envelope"></i> <span class="count bg-primary">4</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="message">
 							<p class="red">You have 4 Mails</p>
-							<a class="dropdown-item media" href="#">
-								<span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+							<a class="dropdown-item media" href="#"> <span
+								class="photo media-left"><img alt="avatar"
+									src="images/avatar/1.jpg"></span>
 								<div class="message media-body">
-									<span class="name float-left">Jonathan Smith</span>
-									<span class="time float-right">Just now</span>
+									<span class="name float-left">Jonathan Smith</span> <span
+										class="time float-right">Just now</span>
 									<p>Hello, this is an example msg</p>
 								</div>
-							</a>
-							<a class="dropdown-item media" href="#">
-								<span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
+							</a> <a class="dropdown-item media" href="#"> <span
+								class="photo media-left"><img alt="avatar"
+									src="images/avatar/2.jpg"></span>
 								<div class="message media-body">
-									<span class="name float-left">Jack Sanders</span>
-									<span class="time float-right">5 minutes ago</span>
+									<span class="name float-left">Jack Sanders</span> <span
+										class="time float-right">5 minutes ago</span>
 									<p>Lorem ipsum dolor sit amet, consectetur</p>
 								</div>
-							</a>
-							<a class="dropdown-item media" href="#">
-								<span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
+							</a> <a class="dropdown-item media" href="#"> <span
+								class="photo media-left"><img alt="avatar"
+									src="images/avatar/3.jpg"></span>
 								<div class="message media-body">
-									<span class="name float-left">Cheryl Wheeler</span>
-									<span class="time float-right">10 minutes ago</span>
+									<span class="name float-left">Cheryl Wheeler</span> <span
+										class="time float-right">10 minutes ago</span>
 									<p>Hello, this is an example msg</p>
 								</div>
-							</a>
-							<a class="dropdown-item media" href="#">
-								<span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
+							</a> <a class="dropdown-item media" href="#"> <span
+								class="photo media-left"><img alt="avatar"
+									src="images/avatar/4.jpg"></span>
 								<div class="message media-body">
-									<span class="name float-left">Rachel Santos</span>
-									<span class="time float-right">15 minutes ago</span>
+									<span class="name float-left">Rachel Santos</span> <span
+										class="time float-right">15 minutes ago</span>
 									<p>Lorem ipsum dolor sit amet, consectetur</p>
 								</div>
 							</a>
 						</div>
 					</div>
-				</div>
-
-				<div class="user-area dropdown float-right">
-				 	<li class="nav-item" th:if="${#request.remoteUser}"><a
-					class="nav-link mx-2">Xin chào [[${#request.remoteUser}]]</a></li>
-
-					<div class="user-menu dropdown-menu">
-						<a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
-
-						<a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
-
-						<a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-
-						<a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+					<div class="dropdown">
+						<button th:if="${#request.remoteUser}"
+							class="btn btn-secondary dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Xin chào
+							[[${#request.remoteUser}]]</button>
+						<ul class="dropdown-menu" style="background: #D3D3D3;">
+							<li><a class="dropdown-item"
+								th:href="@{/security/login/success}" style="color: black;"><i
+									class="menu-icon fa fa-laptop"></i> Trang chủ</a></li>
+							<li><a class="dropdown-item" href="#" style="color: black;"
+								data-bs-toggle="modal" data-bs-target="#profileModal"><i
+									class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
+							<li><a class="dropdown-item" th:href="@{/security/logoff}"
+								style="color: black;"><i class="menu-icon ti-new-window"></i>
+									Đăng xuất</a></li>
+						</ul>
 					</div>
-				</div>
+				 	<!-- Modal -->
+					<div class="modal fade" id="profileModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Hồ sơ của
+										[[${#request.remoteUser}]]</h5>
+									<button type="button" class="close" data-bs-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<p>Tên: [[${#request.remoteUser}]]</p>
+									<p>Email: admin@gmail.com</p>
 
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Đóng</button>
+								</div>
+							</div>
+						</div>
+					</div> 
+
+				</div>
 			</div>
 		</div>
 	</header>
@@ -155,17 +191,62 @@
 <!-- ============================FOOTER================================== -->
 <div th:fragment="footer">
 	<div class="clearfix"></div>
-	<footer class="site-footer">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-sm-6">
-                    Copyright &copy; 2018 Ela Admin
-                </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="https://colorlib.com">Colorlib</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+	<div class="card text-bg-dark">
+		<img src="/images/footer.png" class="card-img">
+		<div class="card-img-overlay">
+			<h4 class="card-title">
+				Copyright © 2023 <a href="/index.html">TIGON SHIP</a> Company. All
+				rights reserved. <br>Design: <a>TIGON TEAM</a>
+			</h4>
+			<div class="row">
+
+				<div class="col-lg-4">
+					<h5 style="color: WH;">CÁC TUYẾN NỔI BẬT</h5>
+
+					<li><a href="/user/index" style="color: White">Kiên
+							Giang-Hòn Sơn</a></li>
+					<li><a href="/user/index" style="color: White">Kiên
+							Giang-Nam Du</a></li>
+					<li><a href="/user/index" style="color: White">Kiên
+							Giang-Phú Quốc</a></li>
+					<li><a href="/user/index" style="color: White">Hòn Sơn-Nam
+							Du</a></li>
+					<li><a href="/user/index" style="color: White">Hòn Sơn-Phú
+							Quốc</a></li>
+					<li><a href="/user/index" style="color: White">Nam Du-Phú
+							Quốc</a></li>
+
+				</div>
+				<div class="col-lg-4">
+					<h5 style="color: White">CÁC ĐIỂM DU LỊCH</h5>
+					<li><a href="/user/index" style="color: White">Bãi Bàng.</a></li>
+					<li><a href="/user/index" style="color: White">Bãi Đá
+							Chài.</a></li>
+					<li><a href="/user/index" style="color: White">Ma Thiên
+							Lãnh.</a></li>
+					<li><a href="/user/index" style="color: White">Bãi cây
+							Mến.</a></li>
+					<li><a href="/user/index" style="color: White">Vinpearl
+							Safari Phú Quốc</a></li>
+					<li><a href="/user/index" style="color: White">VinWonders
+							Phú Quốc.</a></li>
+					<li><a href="/user/index" style="color: White">Grand World
+							Phú Quốc.</a></li>
+					<li><a href="/user/index" style="color: White">Con đường
+							quanh đảo, cây cô độc và đồi cỏ lau.</a></li>
+
+				</div>
+				<div class="col-lg-4">
+					<h5 style="color: White">VỀ TIGONSHIP</h5>
+					<li><a href="/user/index" style="color: White">Các tuyến
+							vận hành ở TIGONSHIP</a></li>
+					<li><a href="/dangki" style="color: White">Đăng kí nhanh</a></li>
+					<li><a href="/user/index" style="color: White">Facebook</a></li>
+					<li><a href="/user/index" style="color: White">Hotline:
+							18001000</a></li>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>

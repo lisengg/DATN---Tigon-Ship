@@ -40,9 +40,9 @@ public class QuanlyController {
 	public String tau(Model model) {
 		return "admin/tau/tau";
 	}
-	@GetMapping("/admin/tau1")
-	public String tau1(Model model) {
-		return "admin/tau";
+	@GetMapping("/admin/ghengoi")
+	public String ghengoi(Model model) {
+		return "admin/ghengoi/ghengoi";
 	}
 	@GetMapping("/admin/tuyentau")
 	public String tuyentau(Model model) {
@@ -51,10 +51,14 @@ public class QuanlyController {
 
 	@GetMapping("/admin/hangtau")
 	public String hangtau(Model model) {
-		
 		return "admin/hangtau/hangtau";
 	}
 
+	@GetMapping("/admin/hanhkhach")
+	public String hanhkhach(Model model) {
+		
+		return "admin/hanhkhach/hanhkhach";
+	}
 	 
 	@GetMapping("/admin/giave")
 	public String giave(Model model) {

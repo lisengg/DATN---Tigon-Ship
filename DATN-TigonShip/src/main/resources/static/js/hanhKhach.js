@@ -1,39 +1,46 @@
 const app = angular.module('hanhkhach-app', []);
 app.controller('hanhkhach-ctrl', function ($scope, $http) {
-    $scope.form = {}
-    $scope.initialize = function () {
-    $http.get("/rest/hanhkhach").then(response => {
-        $scope.items = response.data;
-        console.log($scope.items)
-    })}
+	$scope.form = {};
+	$scope.initialize = function() {
+			$http.get("/rest/hanhkhach").then(response => {
+				$scope.items = response.data;
+				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
+				initDataTable($scope.items);
+			});
+	}
+	function initDataTable(data) {
+		var table = $('#table2').DataTable({
+			data: data.hanhkhach, // Sử dụng mảng giave từ dữ liệu
+			columns: [
+				{ data: 'idhanhkhach' },
+				{ data: 'hovaten' },
+				{ data: 'diachi' },
+				{ data: 'email' },
+				{ data: 'sdt'},
+				// Cột mới chứa nút bấm
+				{ data: null,
+				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Chi tiết</button>'}
+			],
+			columnDefs: [{"targets": -1, "orderable": false, "searchable": false}],
+			"pageLength": 5
+		});
+		// Thêm sự kiện click vào nút "Cập nhật"
+		$('#table2 tbody').on('click', 'button', function() {
+			var data = table.row($(this).parents('tr')).data();
+			$scope.$apply(function() {
+				$scope.showDatVe(data.idhanhkhach);
+			});
+		});
+	}
     $scope.initialize()
-    $scope.pager = {
-        page: 0,
-        size: 10,
-        get items() {
-            var start = this.page * this.size;
-            return $scope.items.slice(start, start + this.size);
-        },
-        get count() {
-            return Math.ceil(1.0 * $scope.items.length / this.size);
-        },
-        first() {
-            this.page = 0;
-        },
-        prev() {
-            this.page--;
-            if (this.page < 0) {
-                this.last();
-            }
-        },
-        last() {
-            this.page = this.count - 1;
-        },
-        next() {
-            this.page++;
-            if (this.page >= this.count) {
-                this.first();
-            }
-        }
-    }
+ 	//hiển thị lên modal
+     $scope.showDatVe = function(id) {
+        console.log(id); //
+        var url = `/rest/hanhkhach/${id}`;
+        $http.get(url).then(response => {
+            $scope.items.datve = response.data;
+        }).catch(err => {
+            console.log("Error", err)
+        })
+    } 
 })

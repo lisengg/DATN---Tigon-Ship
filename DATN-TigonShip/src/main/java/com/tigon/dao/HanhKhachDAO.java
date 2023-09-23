@@ -13,4 +13,8 @@ public interface HanhKhachDAO extends JpaRepository<HanhKhach, Integer>{
 	
 	@Query(value = "SELECT * FROM HANHKHACH o WHERE o.EMAIL=?1",nativeQuery = true)
 	HanhKhach findIdByEmailOrPhone(String username);
+
+
+	
+
 }
