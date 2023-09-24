@@ -25,7 +25,6 @@ public class gheNgoiRestController {
     GheNgoiDAO gheNgoiDAO;
     @Autowired
     TauDAO tauDAO;
-    
     @GetMapping("/rest/ghengoi")
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();

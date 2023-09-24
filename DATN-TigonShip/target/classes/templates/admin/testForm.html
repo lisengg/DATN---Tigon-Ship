@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
+    <title>Hiển thị Form Như Hộp Thoại</title>
+    <style>
+        /* CSS cho hộp thoại */
+        *{
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.3;
+        }
+
+        #wrapper {
+            min-height: 100vh;
+        }
+
+        button#btn-open {
+            background: rgb(8, 133, 229);
+            color: #fff;
+            border: none;
+            padding: 5px 15px;
+            cursor: pointer;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        #modal-container {
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease-in-out;
+        }
+        #modal-container.show{
+            opacity: 1;
+            pointer-events: all;
+        }
+        #modal-container.show #modal{
+            top: 100px;
+        }
+        #modal{
+            background: #fff;
+            max-width: 500px;
+            position: relative;
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.25s ease-in-out;
+        }
+        #modal .modal-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            border-bottom: 1px solid #dedede;
+        }
+        #modal .modal-header h3 {
+            margin: 0;
+        }
+    
+        button#btn-close{
+            outline: none;
+            border: none;
+            background: none;
+            font-size: 19px;
+            cursor: pointer;
+        }
+        #modal .modal-body{
+            padding: 10px 20px 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <button id="btn-open">Hiển thị Form</button>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="modal-container">
+        <div id="modal">
+            <div class="modal-header">
+                <h4>Chỉnh sửa tuyến tàu</h4>
+                <button id="btn-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- Thêm các trường form ở đây -->
+                    <div class="form-group">
+                        <div>Tên tuyến tàu</div>
+                        <input type="text"  class="form-control">
+                    </div>
+                    <!-- <div class="form-group col-sm-12">
+                        <div>Tên tuyến tàu</div>
+                        <input class="form-control" >
+                    </div> -->
+                    <div class="card-footer text-center">
+                        <button ng-show="post" ng-click="create()" class="btn btn-primary">
+							<b class="glyphicon glyphicon-plus"></b> Tạo
+						</button>
+						<button ng-show="put" ng-click="update()" class="btn btn-success">
+							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
+						</button>
+						<button ng-show="delete" ng-click="deleteItem(form)"
+							class="btn btn-danger">
+							<b class="glyphicon glyphicon-trash"></b> Xóa
+						</button>
+						<button ng-click="reset()" class="btn btn-info">
+							<b class="glyphicon glyphicon-refresh"></b> Xóa form
+						</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+     <!-- End-modal -->
+    <script>
+        const btn_open = document.getElementById('btn-open');
+        const btn_close = document.getElementById('btn-close');
+        const modal_container = document.getElementById('modal-container');
+        const modal = document.getElementById('modal');
+        btn_open.addEventListener('click', ()=>{
+            //add class show
+            modal_container.classList.add('show');
+        });
+        btn_close.addEventListener('click', ()=>{
+    
+            modal_container.classList.remove('show');
+        });
+        modal_container.addEventListener('click', (e)=>{
+            if(!modal.contains(e.target)){
+                btn_close.click();
+            }
+        });
+    </script>
+</body>
+
+</html>

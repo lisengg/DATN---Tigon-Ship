@@ -1,0 +1,22 @@
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  border-radius: 50%;
+  color: #3a9af4 !important;
+  background: rgba(16, 193, 237, 0.1);
+  border: 0 !important; }
+
+.dataTables_wrapper input[type="search"], .dataTables_wrapper input[type="text"], .dataTables_wrapper select {
+  border: 1px solid #e2e2e2;
+  padding: .3rem 0.5rem;
+  color: #715d5d;
+  border-radius: 5px; }
+  [data-theme-version="dark"] .dataTables_wrapper input[type="search"], [data-theme-version="dark"] .dataTables_wrapper input[type="text"], [data-theme-version="dark"] .dataTables_wrapper select {
+    background: #2A2C32;
+    border-color: #424D63;
+    color: #fff; }
+#modal .modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 50px;
+	border-bottom: 1px solid #dedede;
+}

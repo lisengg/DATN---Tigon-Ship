@@ -25,7 +25,6 @@ public class HangTau {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDHANGTAU;
-
     String TENHANGTAU;
     String DIACHI;
     String SDT;

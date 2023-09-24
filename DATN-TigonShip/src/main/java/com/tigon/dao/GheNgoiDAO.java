@@ -9,6 +9,6 @@ import com.tigon.model.GheNgoi;
 
 public interface GheNgoiDAO extends JpaRepository<GheNgoi, Integer>{
     @Query(value = "SELECT * FROM ghengoi WHERE idtau = ?", nativeQuery = true)
-    List<GheNgoi> gheNgoiByIdtau(Integer idtau); // lấy tất cả ghế ngồi qua id 1 tàu
+    List<GheNgoi> gheNgoiByIdtau(Integer idtau); // lấy tất cả ghế ngồi qua id 1 táu
     
 }
