@@ -1,4 +1,4 @@
-const app = angular.module('danhgia-app', []);
+/*const app = angular.module('danhgia-app', []);
 app.controller('danhgia-ctrl', function ($scope, $http) {
 $scope.items = [],
 	$scope.form = {},
@@ -23,14 +23,14 @@ $scope.items = [],
 		$scope.put = true;
 		$scope.delete = true;
     }
-	
+*/	
 	//Xóa form
-	$scope.reset = function(){
+/*	$scope.reset = function(){
 		 $scope.form = null;
         $scope.post = true;
         $scope.put = false;
         $scope.delete = false;
-	}
+	}*/
 	
 /*	//Thêm lịch tàu mới
 	 $scope.create = function () {
@@ -86,7 +86,7 @@ $scope.items = [],
 			console.log("Error", error);
 		});
 	}*/
-	  $scope.pager = {
+/*	  $scope.pager = {
         page: 0,
         size: 5,
         get items() {
@@ -116,4 +116,40 @@ $scope.items = [],
         }
     }
 
-})
+})*/
+
+app.service('BookingService', function($http) {
+    this.getBookingsByCustomerId = function(customerId) {
+        return $http.get('/rest/datve' + customerId); // Thay đổi đường dẫn API thật của bạn
+    };
+});
+app.controller('BookingController', function($scope, BookingService) {
+    $scope.customerId = 1; // Thay đổi customerId thành ID của khách hàng bạn muốn tìm
+    $scope.bookings = [];
+    
+    BookingService.getBookingsByCustomerId($scope.customerId)
+        .then(function(response) {
+            $scope.bookings = response.data;
+        })
+        .catch(function(error) {
+            console.log('Lỗi khi tải dữ liệu:', error);
+        });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,40 +1,65 @@
 package com.tigon.controller;
 
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+import com.tigon.dao.HangTauDAO;
+import com.tigon.dao.TuyenDAO;
+import com.tigon.model.Tuyen;
+
 
 @Controller
 public class QuanlyController {
 
+	@Autowired
+	HangTauDAO hangTauDAO;
+	  
+	
 	@GetMapping("/admin")
 	public String quanly(Model model) {
+		System.out.println(hangTauDAO.findAll().get(0).getDIACHI());
 		return "admin/index";
 	}
 	
-	@GetMapping("/admin/authority/index")
-	public String index(Model model) {
-		return "admin/authority/index";
+	@GetMapping("/admin/authority1")
+	public String authority(Model model) {
+		return "admin/authority1/index1";
 	}
 	
 	@GetMapping("/admin/tau")
 	public String tau(Model model) {
 		return "admin/tau/tau";
 	}
-	@GetMapping("/admin/nguoidung")
-	public String nguoidung(Model model) {
-		return "admin/hanhkhach";
+	@GetMapping("/admin/ghengoi")
+	public String ghengoi(Model model) {
+		return "admin/ghengoi/ghengoi";
+	}
+	@GetMapping("/admin/tuyentau")
+	public String tuyentau(Model model) {
+		return "admin/tuyentau/tuyentau";
 	}
 
 	@GetMapping("/admin/hangtau")
 	public String hangtau(Model model) {
 		return "admin/hangtau/hangtau";
 	}
-	@GetMapping("/admin/tuyentau")
-	public String tuyentau(Model model) {
 
-		return "admin/tuyentau";
+	@GetMapping("/admin/hanhkhach")
+	public String hanhkhach(Model model) {
+		
+		return "admin/hanhkhach/hanhkhach";
 	}
+	 
 	@GetMapping("/admin/giave")
 	public String giave(Model model) {
 
@@ -42,7 +67,18 @@ public class QuanlyController {
 	}
 	@GetMapping("/admin/lichtau")
 	public String lichtau(Model model) {
-
+	
 		return "admin/lichtau/lichtau";
 	}
+	@GetMapping("/admin/danhgia")
+	public String danhgia(Model model) {
+	
+		return "admin/danhgia/danhgia";
+	}
+	@GetMapping("/admin/hoadon")
+	public String hoadon(Model model) {
+	
+		return "admin/hoadon/hoadon";
+	}
+	
 }

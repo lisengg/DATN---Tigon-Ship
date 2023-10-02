@@ -64,7 +64,24 @@
 
 					<div class="col-md-12">
 						<div class="card">
-							<div class="card-header">
+							<div ng-controller="BookingController">
+								<h2>Thông tin đặt vé cho khách hàng có ID {{customerId}}</h2>
+								<ul>
+									<li ng-repeat="booking in bookings"><strong>Mã
+											đặt vé:</strong> {{booking.MADATVE}}<br> <strong>Ngày
+											đi:</strong> {{booking.NGAYDI}}<br> <strong>Ngày về:</strong>
+										{{booking.NGAYVE}}<br> <strong>Loại vé:</strong>
+										{{booking.LOAIVE}}<br> <!-- Hiển thị thông tin người đi cùng nếu có -->
+										<div ng-if="booking.NGUOIDICUNG">
+											<strong>Người đi cùng:</strong>
+											{{booking.NGUOIDICUNG.HOVATEN}}<br> <strong>Loại
+												hành khách:</strong> {{booking.NGUOIDICUNG.LOAIHK}}<br>
+										</div>
+										<hr></li>
+								</ul>
+							</div>
+
+							<!-- <div class="card-header">
 								<strong class="card-title">Danh sách đánh giá</strong>
 							</div>
 							<div class="card-body">
@@ -106,7 +123,7 @@
 										<b class="glyphicon glyphicon-hand-down"></b>
 									</button>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

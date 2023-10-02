@@ -25,14 +25,13 @@
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">		
-<script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
 
-<body ng-app="giave-app" ng-controller="giave-ctrl">
+<body ng-app="authority1-app" ng-controller="authority1-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
+
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
@@ -45,21 +44,16 @@
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<h3>
-									<strong class="card-title">DANH SÁCH GIÁ VÉ TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm giá vé</button>
-								</h3>
+								<h3><strong class="card-title">QUẢN LÝ PHÂN QUYỀN</strong></h3>
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
 											<th>ID</th>
-											<th>TÊN LOẠI VÉ</th>
-											<th>TÊN TUYẾN</th>
-											<th>GIÁ</th>
-											<th>NGÀY BẮT ĐẦU</th>
-											<th>NGÀY KẾT THÚC</th>
+											<th>HỌ VÀ TÊN</th>
+											<th>EMAIL</th>
+											<th>QUYỀN</th>
 											<th>THAO TÁC</th>
 										</tr>
 									</thead>
@@ -71,43 +65,32 @@
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h3 class="modal-title" id="modalTitleId">Chỉnh sửa giá vé</h3>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<h4 class="modal-title" id="modalTitleId">Cấp quyền</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
-										<label class="form-label">Tên loại vé</label> 
-										<select ng-model="form.loaive.idloaive" class="form-control">
-											<option ng-repeat="loaive in items.loaive" ng-value="loaive.idloaive">{{loaive.loaive}}</option>
+										<label class="form-label">Họ và tên</label> 
+										<input ng-model="form.hovaten" class="form-control" readonly>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Email</label> 
+										<input ng-model="form.email" class="form-control" readonly>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Quyền</label>
+										<select  ng-model="form.quyen" class="form-control">
+											<option>USER</option>
+											<option>STAFF</option>
+											<option ng-if="form.quyen === 'ADMIN'">ADMIN</option> 
 										</select>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Tên tuyến</label> 
-										<select ng-model="form.tuyen.idtuyen" class="form-control">
-											<option ng-repeat="tuyen in items.tuyen" ng-value="tuyen.idtuyen">{{tuyen.tentuyen}}</option>
-										</select>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Giá vé</label> 
-										<input type="number" ng-model="form.gia" class="form-control">
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Ngày bắt đầu</label> 
-										<input ng-model="form.ngaybatdau" type="date" class="form-control">
-									</div>
-										<div class="mb-3">
-										<label class="form-label">Ngày kết thúc</label> 
-										<input ng-model="form.ngayketthuc" type="date" class="form-control">
 									</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button>
 									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
-									<button type="button" ng-show="delete" ng-click="deleteItem(form)" class="btn btn-danger">Xóa</button>
-									<button type="button" ng-click="reset()" class="btn btn-info">Xóa form</button>
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 								</div>
 							</div>
@@ -130,6 +113,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-	<script th:src="@{/js/giave.js}"></script>
+	<script th:src="@{/js/authority.js}"></script>
 </body>
 </html>

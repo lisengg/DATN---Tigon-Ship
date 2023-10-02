@@ -6,5 +6,4 @@ import com.tigon.model.Tuyen;
 
 public interface TuyenDAO extends JpaRepository<Tuyen, Integer>{
 
-
 }
