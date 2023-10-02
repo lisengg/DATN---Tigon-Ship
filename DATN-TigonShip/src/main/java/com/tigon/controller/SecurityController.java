@@ -2,6 +2,8 @@ package com.tigon.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,9 @@ import com.tigon.service.HanhKhachService;
 public class SecurityController {
 	
 	HanhKhachService hanhKhachService;
+	
+	@Autowired
+	HttpSession session;
 	
 	@RequestMapping("/security/login/form")
 	public String loginForm(Model model) {
@@ -55,6 +60,8 @@ public class SecurityController {
 	@RequestMapping("/security/logoff/success")
 	public String logoffSuccess(Model model) {
 		model.addAttribute("message", "Bạn đã đăng xuất!");
+		session.removeAttribute("user");
+		session.removeAttribute("role");
 		return "user/index";
 	}
 

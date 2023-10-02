@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.tigon.dao.HanhKhachDAO;
 import com.tigon.model.HanhKhach;
 import com.tigon.service.HanhKhachService;
+
 @Service
 public class HanhKhachServiceImpl implements HanhKhachService {
 	@Autowired
@@ -17,8 +18,6 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 	public List<HanhKhach> findAll() {
 		return dao.findAll();
 	}
-
-
 
 	@Override
 	public List<HanhKhach> getAdminstrators() {
@@ -31,16 +30,22 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 		return dao.findIdByEmailOrPhone(email);
 	}
 
-
-
 	@Override
 	public HanhKhach findById(Integer username) {
 		// TODO Auto-generated method stub
 		return dao.findById(username).get();
 	}
 
+	@Override
+	public HanhKhach getAllEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.getAllEmail(email);
+	}
 
-
-
+	@Override
+	public HanhKhach updateHanhKhach(String hovaten, String sdt, String cccd, String diachi, Integer id) {
+		// TODO Auto-generated method stub
+		return dao.updateHanhKhach(hovaten, sdt, cccd, diachi, id);
+	}
 
 }
