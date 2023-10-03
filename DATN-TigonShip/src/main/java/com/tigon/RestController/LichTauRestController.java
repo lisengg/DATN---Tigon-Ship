@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TauDAO;
 import com.tigon.dao.TuyenDAO;
-import com.tigon.model.HanhKhach;
 import com.tigon.model.LichTauChay;
 
 @CrossOrigin("*")

@@ -29,7 +29,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
 
-<body>
+<body ng-app="giave-app" ng-controller="giave-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -42,61 +42,6 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
-<<<<<<< HEAD
-
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Danh sách giá vé tàu</strong>
-							</div>
-							<div class="card-body">
-								<table id="bootstrap-data-table"
-									class="table table-striped table-bordered">
-									<thead>
-										<tr>
-											<th>Id giá vé</th>
-											<th>Tên loại vé</th>
-											<th>Tên tuyến</th>
-											<th>giá</th>
-											<th>Ngày bắt đầu</th>
-											<th>Ngày kết thúc</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="item in items">
-											<td>{{item.id}}</td>
-											<td>{{item.name}}</td>
-											<td>{{item.price}}</td>
-											<td>{{item.crea}}</td>
-											<td>{{item.image}}</td>
-											<td>
-												<div class="btn-group btn-group-xs">
-													<button ng-click="edit(item)"
-														class="btn btn-warning glyphicon glyphicon-edit"></button>
-													<button ng-click="delete(item)"
-														class="btn btn-danger glyphicon glyphicon-trash"></button>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<div class="panel-footer text-center">
-									<button ng-click="pager.first()" class="btn btn-danger">
-										<b class="glyphicon glyphicon-hand-up"></b>
-									</button>
-									<button ng-click="pager.prev()" class="btn btn-primary">
-										<b class="glyphicon glyphicon-hand-left"></b>
-									</button>
-									<button class="btn btn-success">{{pager.page + 1}} of
-										{{pager.count}}</button>
-									<button ng-click="pager.next()" class="btn btn-primary">
-										<b class="glyphicon glyphicon-hand-right"></b>
-									</button>
-									<button ng-click="pager.last()" class="btn btn-danger">
-										<b class="glyphicon glyphicon-hand-down"></b>
-									</button>
-=======
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
@@ -164,64 +109,9 @@
 									<button type="button" ng-show="delete" ng-click="deleteItem(form)" class="btn btn-danger">Xóa</button>
 									<button type="button" ng-click="reset()" class="btn btn-info">Xóa form</button>
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
->>>>>>> Minh
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Chỉnh sửa giá vé tàu</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Tên loại vé</div>
-										<select ng-model="form.category.id" class="form-control">
-											<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
-										</select>
-									</div>
-									<div class="form-group col-sm-6">
-										<div>Tên tuyến</div>
-										<select ng-model="form.category.id" class="form-control">
-											<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
-										</select>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Giá vé</div>
-										<input ng-model="form.name" class="form-control">
-									</div>
-									<div class="form-group col-sm-6">
-										<div>Ngày kết thúc</div>
-										<input ng-model="form.price" type="date" class="form-control">
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Ngày bắt đầu</div>
-										<input ng-model="form.price" type="date" class="form-control">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer text-center">
-						<button ng-click="create()" class="btn btn-primary">
-							<b class="glyphicon glyphicon-plus"></b> Tạo
-						</button>
-						<button ng-click="update()" class="btn btn-success">
-							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
-						</button>
-						<button ng-click="delete(form)" class="btn btn-danger">
-							<b class="glyphicon glyphicon-trash"></b> Xóa
-						</button>
-						<button ng-click="reset()" class="btn btn-info">
-							<b class="glyphicon glyphicon-refresh"></b> Xóa form
-						</button>
-
 					</div>
 				</div>
 			</div>
@@ -240,10 +130,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-<<<<<<< HEAD
-
-=======
 	<script th:src="@{/js/giave.js}"></script>
->>>>>>> Minh
 </body>
 </html>

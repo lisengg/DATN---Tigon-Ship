@@ -20,8 +20,8 @@ app.controller('tau-ctrl', function ($scope, $http) {
             console.log($scope.items.tau);
         })
     }
+    
     $scope.initialize()
-
     $scope.save = function () {
         var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)
         var item = {

@@ -4,7 +4,7 @@ app.controller('giave-ctrl', function($scope, $http) {
 		ngaybatdau: new Date(),
 		ngayketthuc: new Date(),
 	},
-		$scope.initialize = function() {
+	$scope.initialize = function() {
 			$http.get("/rest/giave").then(response => {
 				$scope.items = response.data;
 				$scope.items.giave.forEach(item => {

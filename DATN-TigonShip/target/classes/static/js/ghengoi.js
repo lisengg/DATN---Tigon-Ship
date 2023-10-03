@@ -1,11 +1,6 @@
 const app = angular.module('ghengoi-app', []);
 app.controller('ghengoi-ctrl', function ($scope, $http) {
-<<<<<<< HEAD
-    $scope.items = [];
-    $scope.ghe = {}
-=======
     
->>>>>>> Minh
     $scope.reset = function () { 
         $scope.form.tenghe = ''    
         $scope.form.khoang = ''  
@@ -14,17 +9,6 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
         $scope.dele = false
     }
 
-<<<<<<< HEAD
-    $scope.initialize = function () {
-        $http.get("/rest/ghengoi").then(response => {
-            $scope.items = response.data;
-            $scope.reset()
-        })
-    }
-    $scope.initialize()
-
-    $scope.save = function () {
-=======
    $scope.initialize = function() {
 		$http.get("/rest/ghengoi").then(response => {
 			$scope.items = response.data;
@@ -74,7 +58,6 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
         })
     }
    /* $scope.save = function () {
->>>>>>> Minh
         var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.tau.idtau)
         var item = {
             "tenghe": $scope.form.tenghe,
@@ -91,11 +74,7 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
             alert("Thêm ghế ngồi mới thất bại");
             console.log("Error",error)
         })
-<<<<<<< HEAD
-    }
-=======
     }*/
->>>>>>> Minh
 
     $scope.update = function () {
         var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.tau.idtau)
@@ -116,12 +95,7 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
             console.log("Error", error);
         });
     }
-<<<<<<< HEAD
-
-    $scope.delete = function (id){
-=======
 /*    $scope.delete = function (id){
->>>>>>> Minh
         $http.delete(`/rest/ghengoi/${id}`).then(response => {
             var index = $scope.items.ghengoi.findIndex(a => a.idghe === $scope.form.idghe);
             $scope.items.ghengoi.splice(index,1);
@@ -131,60 +105,5 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
             alert("Xóa thành công");
             console.log("Error",error)
         })
-<<<<<<< HEAD
-    }
-    $scope.edit = function (id) {
-        $scope.post = false;
-        $scope.put = true;
-        $scope.dele = true;
-        var url = `/rest/ghe/${id}`;
-        $http.get(url).then(response => {
-            $scope.form = response.data;            
-        }).catch(err => {
-            console.log("Error", err)
-        })
-    }
-    $scope.showGhengoi=function() {
-        var idtau = $scope.form.tau.idtau;
-        console.log(idtau); // lấy id tàu để show ra ghế ngồi
-        var url = `/rest/ghengoi/${idtau}`;
-        $http.get(url).then(response => {
-            $scope.items.ghengoi = response.data;
-            console.log($scope.ghe)
-        }).catch(err => {
-            console.log("Error", err)
-        })
-    }
-    $scope.pager = {
-        page: 0,
-        size: 8,
-        get items() {
-            var start = this.page * this.size;
-            return $scope.items.ghengoi.slice(start, start + this.size);
-        },
-        get count() {
-            return Math.ceil(1.0 * $scope.items.ghengoi.length / this.size);
-        },
-        first() {
-            this.page = 0;
-        },
-        prev() {
-            this.page--;
-            if (this.page < 0) {
-                this.last();
-            }
-        },
-        last() {
-            this.page = this.count - 1;
-        },
-        next() {
-            this.page++;
-            if (this.page >= this.count) {
-                this.first();
-            }
-        }
-    }
-=======
     }*/
->>>>>>> Minh
 })
