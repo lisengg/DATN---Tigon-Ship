@@ -1,5 +1,6 @@
 package com.tigon.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,16 +11,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tigon.dao.HanhKhachDAO;
 import com.tigon.service.HanhKhachService;
 
 @CrossOrigin("*")
 @Controller
 public class SecurityController {
-	
+
 	HanhKhachService hanhKhachService;
-	
+	@Autowired
+	HanhKhachDAO hanhKhachDAO;
+
 	@RequestMapping("/security/login/form")
 	public String loginForm(Model model) {
 		model.addAttribute("message", "Vui lòng đăng nhập!");
@@ -28,7 +33,7 @@ public class SecurityController {
 
 	@RequestMapping("/security/login/success")
 	public String loginSuccess(Model model) {
-		
+
 		model.addAttribute("message", "Đăng nhập thành công!");
 		return "user/index";
 	}
@@ -76,5 +81,4 @@ public class SecurityController {
 		model.addAttribute("message", "Đăng nhập MXH không thành công!");
 		return "user/login/main";
 	}
-
 }

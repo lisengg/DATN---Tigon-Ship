@@ -15,40 +15,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.HangTauDAO;
 import com.tigon.dao.TauDAO;
-import com.tigon.model.HangTau;
+import com.tigon.model.Tau;
 
 @CrossOrigin("*")
 @RestController
-public class hangTauRestController {
+public class tauRest {
+    @Autowired
+    TauDAO tauDAO;
     @Autowired
     HangTauDAO hangTauDAO;
     
-    @Autowired
-    TauDAO tauDAO;
-    
-    @GetMapping("/rest/hangtau")
+    @GetMapping("/rest/tau")
     public Map<String, Object> getAll() {
-		Map<String, Object> map = new HashMap<>();
-		map.put("hangtau", hangTauDAO.findAll());
-		map.put("tau", tauDAO.findAll());
-		return map;
+        Map<String, Object> map = new HashMap<>();
+        map.put("tau", tauDAO.findAll());
+        map.put("hangtau", hangTauDAO.findAll());
+        return map;
     }
-    @GetMapping("/rest/hangtau/{id}")
-    public HangTau getOne(@PathVariable("id") Integer id) {
-        return hangTauDAO.findById(id).get();
+    @GetMapping("/rest/tau/{id}")
+    public Tau getOne(@PathVariable("id") Integer id) {
+        return tauDAO.findById(id).get();
     }
-    @PostMapping("/rest/hangtau/save")
-    public HangTau save(@RequestBody HangTau hangTau) {
-        return hangTauDAO.save(hangTau);
+   
+    @PostMapping("/rest/tau/save")
+    public Tau save(@RequestBody Tau tau) {
+        return tauDAO.save(tau);
     }
-    @PutMapping("/rest/hangtau/{id}")
-    public HangTau update(@PathVariable("id") Integer id, @RequestBody HangTau hangTau) {
-        return hangTauDAO.save(hangTau);
+    @PutMapping("/rest/tau/{id}")
+    public Tau update(@PathVariable("id") Integer id, @RequestBody Tau tau) {
+        return tauDAO.save(tau);
     }
-    
-    @DeleteMapping("/rest/hangtau/{id}")
+    @DeleteMapping("/rest/tau/{id}")
     public void delete(@PathVariable("id") Integer id) {
-      hangTauDAO.deleteById(id);
+      tauDAO.deleteById(id);
     }
 
 }

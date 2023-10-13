@@ -1,155 +1,127 @@
-/*const app = angular.module('danhgia-app', []);
-app.controller('danhgia-ctrl', function ($scope, $http) {
-$scope.items = [],
-	$scope.form = {},
-    
-    $scope.initialize = function () {
-    $http.get("/rest/danhgia").then(resp => {
-        $scope.items = resp.data;
-         $scope.post = true
-        $scope.put = false
-        $scope.delete = false
-    })}
-    
-    $scope.initialize()
-	$scope.index_of = function (id) {
-        return $scope.items.findIndex(lt => lt.iddanhgiahk == id);
-    }
-	//Hiển thị lên form
-	$scope.edit = function (item) {
-		$scope.form = angular.copy(item);
-		$(".nav-tabs a:eq(0)").tab('show')
-		$scope.post = false;
-		$scope.put = true;
-		$scope.delete = true;
-    }
-*/	
-	//Xóa form
-/*	$scope.reset = function(){
-		 $scope.form = null;
-        $scope.post = true;
-        $scope.put = false;
-        $scope.delete = false;
-	}*/
-	
-/*	//Thêm lịch tàu mới
-	 $scope.create = function () {
-        var index = $scope.items.hanhkhach.findIndex(a => a.idhanhkhach == $scope.form.tau.idtau)
-		var index1 = $scope.items.tuyen.findIndex(a => a.idtuyen == $scope.form.tuyen.idtuyen)
-		var item = {
-			"tau": $scope.items.tau[index],
-			"tuyen": $scope.items.tuyen[index1],
-			"gioxuatphat": $scope.form.gioxuatphat,
-			"giodennoi": $scope.form.giodennoi
-		}
-		console.log(item)
-		var url = `/rest/danhgia/save`;
-		$http.post(url, item).then(response => {
-			$scope.items.lichtau.push(response.data);
-			alert("Thêm lịch tàu thành công")
-			$scope.reset();
-		}).catch(error => {
-			alert("Thêm lịch tàu thất bại");
-			console.log("Error", error)
+const app = angular.module('danhgia-app', []);
+app.controller('danhgia-ctrl', function($scope, $http) {
+	$scope.items = [];
+    $scope.top5=[];
+    $scope.avg = [];
+    $scope.danhgia=[];
+	// Hàm khởi tạo
+    $scope.getAll = function() {
+        var url = `/rest/danhgia`;
+		$http.get(url).then(response => {
+			$scope.items = response.data;
+		}).catch(err => {
+			console.log("Error", err)
 		})
     }
-	//Cập nhật lịch tàu
-	    $scope.update = function () {
-        var item = angular.copy($scope.form);
-        var url = `/rest/danhgia/${item.idlichtau}`;
-        $http.put(url, item).then(response => {
-            var index = $scope.items.lichtau.findIndex(lt => lt.idlichtau == item.idlichtau);
-            $scope.items.lichtau[index] = item;
-            $scope.reset();                                         
-            alert("Cập nhật lịch tàu thành công")
-        }).catch(error=>{
-            console.log("Error",error)
-            alert("Cập nhật lịch tàu thất bại")
-        })
-    }
-  
-        //Xóa lịch tàu
-	$scope.deleteItem = function(item){
-		var url = `/rest/danhgia/${item.idlichtau}`;
-		$http.delete(url).then(response => {
-		var index = $scope.items.lichtau.findIndex(p => p.idlichtau == item.idlichtau);
-        if (index !== -1) {
-            $scope.items.lichtau.splice(index, 1); // Xóa item khỏi danh sách
-            $scope.reset();
-            alert("Xóa lịch tàu thành công!");
-        } else {
-            alert("Không tìm thấy item để xóa!");
-        }
-		})
-		.catch(error => {
-			alert("Lỗi xóa lịch tàu!");
-			console.log("Error", error);
+    $scope.getAll()
+
+	$scope.chart = function() {
+		var url = `/rest/danhgia/tuyen/avg`;
+		$http.get(url).then(response => {
+			$scope.avg = response.data;
+			console.log($scope.avg);
+		
+			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
+			var labels = $scope.avg.map(function(item) {
+				return item[0]; // Tên mục
+			});
+			var data = $scope.avg.map(function(item) {
+				return item[1]; // Số lượng
+			});
+
+			// Lấy thẻ canvas để vẽ biểu đồ
+			var ctx = document.getElementById('myChart').getContext('2d');
+
+			// Tạo biểu đồ cột
+			var myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Điểm TB',
+						data: data,
+						backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
+						borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+						borderWidth: 1,
+					}]
+				},
+				options: {
+					scales: {
+                        xAxes: [{
+                            barPercentage: 1, // Đặt bước nhảy cho mỗi cột là 1
+                          }],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					},
+					legend: {
+						display: false // Ẩn chú thích
+					},
+					title: {
+						display: true,
+						text: 'Biểu đồ đánh giá điểm trung bình các tuyến',
+						fontFamily: 'Arial',
+						fontSize: 20,
+						fontStyle: 'bold',
+						fontColor: '#333'
+					}
+				}
+			});
+		}).catch(err => {
+			console.log("Error", err);
 		});
-	}*/
-/*	  $scope.pager = {
-        page: 0,
-        size: 5,
-        get items() {
-            var start = this.page * this.size;
-            return $scope.items.danhgia.slice(start, start + this.size);
-        },
-        get count() {
-            return Math.ceil(1.0 * $scope.items.danhgia.length / this.size);
-        },
-        first() {
-            this.page = 0;
-        },
-        prev() {
-            this.page--;
-            if (this.page < 0) {
-                this.last();
-            }
-        },
-        last() {
-            this.page = this.count - 1;
-        },
-        next() {
-            this.page++;
-            if (this.page >= this.count) {
-                this.first();
-            }
-        }
-    }
+	}
+	$scope.chart()
 
-})*/
+   /*  $scope.showDanhGia() = function() {
+        var url = `/rest/danhgia/tuyen/${id}`;
+		$http.get(url).then(response => {
+			$scope.showDanhGia = response.data;
+		}).catch(err => {
+			console.log("Error", err)
+		})
+    } */
 
-app.service('BookingService', function($http) {
-    this.getBookingsByCustomerId = function(customerId) {
-        return $http.get('/rest/datve' + customerId); // Thay đổi đường dẫn API thật của bạn
-    };
-});
-app.controller('BookingController', function($scope, BookingService) {
-    $scope.customerId = 1; // Thay đổi customerId thành ID của khách hàng bạn muốn tìm
-    $scope.bookings = [];
-    
-    BookingService.getBookingsByCustomerId($scope.customerId)
-        .then(function(response) {
-            $scope.bookings = response.data;
+    $scope.showDanhGia=function() {
+        var id = $scope.form.tuyen.idtuyen;
+        console.log(id); // lấy id tàu để show ra ghế ngồi
+        var url = `/rest/danhgia/tuyen/${id}`;
+        $http.get(url).then(response => {
+            $scope.danhgia = response.data;
+            console.log($scope.danhgia)
+        }).catch(err => {
+            console.log("Error", err)
         })
-        .catch(function(error) {
-            console.log('Lỗi khi tải dữ liệu:', error);
-        });
-});
+    }
+    
+   
+
+
+	// ĐIỂM TB của tất cả tuyến
+	$scope.AVGAll = function() {
+		var url = `/rest/danhgia/tuyen`;
+		$http.get(url).then(response => {
+			$scope.AVGAll = response.data;
+
+		}).catch(err => {
+			console.log("Error", err)
+		})
+	}
+
+    //top5ng đi và đánh giá nhiều nhất
+	$scope.top5 = function() {
+		var url = `/rest/danhgia/top5`;
+		$http.get(url).then(response => {
+			$scope.top5 = response.data;
+		}).catch(err => {
+			console.log("Error", err)
+		})
+	}
+    $scope.top5()
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+})

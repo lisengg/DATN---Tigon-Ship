@@ -3,6 +3,7 @@ package com.tigon.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.tigon.dao.HanhKhachDAO;
@@ -18,8 +19,6 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 		return dao.findAll();
 	}
 
-
-
 	@Override
 	public List<HanhKhach> getAdminstrators() {
 		return dao.getAdministrators();
@@ -31,13 +30,18 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 		return dao.findIdByEmailOrPhone(email);
 	}
 
-
-
 	@Override
 	public HanhKhach findById(Integer username) {
 		// TODO Auto-generated method stub
 		return dao.findById(username).get();
 	}
+
+	@Override
+	public User findByUsername(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

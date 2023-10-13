@@ -2,20 +2,15 @@ package com.tigon.controller;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 import com.tigon.dao.HangTauDAO;
-import com.tigon.dao.TuyenDAO;
-import com.tigon.model.Tuyen;
+import com.tigon.dao.HanhKhachDAO;
 
 
 @Controller
@@ -24,7 +19,8 @@ public class QuanlyController {
 	@Autowired
 	HangTauDAO hangTauDAO;
 	  
-	
+	@Autowired
+	HanhKhachDAO hanhKhachDAO;
 	@GetMapping("/admin")
 	public String quanly(Model model) {
 		System.out.println(hangTauDAO.findAll().get(0).getDIACHI());
@@ -79,6 +75,16 @@ public class QuanlyController {
 	public String hoadon(Model model) {
 	
 		return "admin/hoadon/hoadon";
+	}
+	@GetMapping("/admin/doanhthu")
+	public String doanhthu(Model model) {
+	
+		return "admin/doanhthu/doanhthu";
+	}
+	@GetMapping("/admin/profile")
+	public String Profile(Model model) {
+	
+		return "admin/profile/profile";
 	}
 	
 }

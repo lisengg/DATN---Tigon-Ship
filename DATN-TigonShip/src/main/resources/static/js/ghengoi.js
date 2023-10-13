@@ -39,7 +39,8 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
 		});
 	}
     $scope.initialize()
-	    $scope.edit = function (id) {
+    
+	$scope.edit = function (id) {
 		$scope.form = angular.copy(id);
         $scope.post = false;
         $scope.put = true;
@@ -49,7 +50,7 @@ app.controller('ghengoi-ctrl', function ($scope, $http) {
     $scope.showGhengoi=function() {
         var idtau = $scope.form.tau.idtau;
         console.log(idtau); // lấy id tàu để show ra ghế ngồi
-        var url = `/rest/hangtau/${idtau}`;
+        var url = `/rest/ghengoi/${idtau}`;
         $http.get(url).then(response => {
             $scope.items.ghengoi = response.data;
             console.log($scope.ghe)
