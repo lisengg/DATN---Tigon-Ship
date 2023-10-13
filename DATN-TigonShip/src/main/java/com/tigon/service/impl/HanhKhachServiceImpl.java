@@ -3,12 +3,13 @@ package com.tigon.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.tigon.dao.HanhKhachDAO;
+import com.tigon.model.DatVe;
 import com.tigon.model.HanhKhach;
 import com.tigon.service.HanhKhachService;
+
 @Service
 public class HanhKhachServiceImpl implements HanhKhachService {
 	@Autowired
@@ -37,14 +38,15 @@ public class HanhKhachServiceImpl implements HanhKhachService {
 	}
 
 	@Override
-	public User findByUsername(String name) {
+	public HanhKhach getAllEmail(String email) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.getAllEmail(email);
 	}
 
-
-
-
-
+	@Override
+	public HanhKhach updateHanhKhach(String hovaten, String sdt, String cccd, String diachi, Integer id) {
+		// TODO Auto-generated method stub
+		return dao.updateHanhKhach(hovaten, sdt, cccd, diachi, id);
+	}
 
 }

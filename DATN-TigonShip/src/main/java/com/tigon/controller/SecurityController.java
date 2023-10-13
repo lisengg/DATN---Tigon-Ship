@@ -1,30 +1,37 @@
 package com.tigon.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tigon.dao.HanhKhachDAO;
+import com.tigon.model.HanhKhach;
 import com.tigon.service.HanhKhachService;
 
 @CrossOrigin("*")
 @Controller
 public class SecurityController {
-
+	
 	HanhKhachService hanhKhachService;
+	
 	@Autowired
-	HanhKhachDAO hanhKhachDAO;
-
+	HttpSession session;
+	
 	@RequestMapping("/security/login/form")
 	public String loginForm(Model model) {
 		model.addAttribute("message", "Vui lòng đăng nhập!");
@@ -33,7 +40,7 @@ public class SecurityController {
 
 	@RequestMapping("/security/login/success")
 	public String loginSuccess(Model model) {
-
+		
 		model.addAttribute("message", "Đăng nhập thành công!");
 		return "user/index";
 	}
@@ -53,6 +60,8 @@ public class SecurityController {
 	@RequestMapping("/security/logoff/success")
 	public String logoffSuccess(Model model) {
 		model.addAttribute("message", "Bạn đã đăng xuất!");
+		session.removeAttribute("user");
+		session.removeAttribute("role");
 		return "user/index";
 	}
 
@@ -81,4 +90,5 @@ public class SecurityController {
 		model.addAttribute("message", "Đăng nhập MXH không thành công!");
 		return "user/login/main";
 	}
+
 }

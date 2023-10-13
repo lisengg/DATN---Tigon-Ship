@@ -34,6 +34,7 @@ public class HanhKhach {
     String DIACHI;
     String CCCD;
     String QUYEN;
+    Integer SOHDDADAT;
 
     @ManyToOne
     @JoinColumn(name = "IDLOAIHK")

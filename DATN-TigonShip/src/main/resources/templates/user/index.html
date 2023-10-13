@@ -21,6 +21,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<style>
+.opacity:hover{opacity:0.6} /* 0.6 là điều chỉnh thông số thông suốt  */
+.black:hover{filter: grayscale(100%);} /*  100% là độ chuyển màu sang đen của ảnh  */
+.blur:hover{filter: blur(5px);} /* 5px là độ blur của hình ảnh */
+</style>
 </head>
 
 <body>
@@ -62,7 +67,7 @@
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
 							<th:block th:if="${#httpServletRequest.remoteUser}">
-							<li><a href="/">Tài khoản</a></li>
+							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
 							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 							</th:block>
 						</ul>

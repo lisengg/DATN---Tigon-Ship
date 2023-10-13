@@ -1,6 +1,9 @@
 package com.tigon.config;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	BCryptPasswordEncoder pe;
+	
+	@Autowired
+	HttpSession session;
 
 
 	// Cung cấp nguồn dữ liệu đăng nhập
@@ -54,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					password = pe.encode(user.getMATKHAU());
 					roles = user.getQUYEN();
 					hoten = user.getHOVATEN();
+					session.setAttribute("user", user.getIDHANHKHACH());
+					session.setAttribute("role", roles);
 				}
 
 
@@ -71,10 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// CSRF, CORS
 		http.csrf().disable();
 		// Phân quyền sử dụng
-		http.authorizeRequests().antMatchers("/order/**")
-		.authenticated().antMatchers("/admin/**")
-		.hasAnyRole("STAFF", "ADMIN")
-		.antMatchers("/rest/authorities").hasRole("ADMIN")
+		http.authorizeRequests()
+		.antMatchers("/thongtintaikhoan").hasRole("USER")
+		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAF")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);
@@ -90,7 +97,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/oauth2/login/error").authorizationEndpoint().baseUri("/oauth2/authorization")
 				.authorizationRequestRepository(getRepository()).and().tokenEndpoint()
 				.accessTokenResponseClient(getToken());
-
+		
+		//set session hết hạn 
 		http.rememberMe().tokenValiditySeconds(86400);
 
 		// Điều khiển lỗi truy cập không đúng vai trò
