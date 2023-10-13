@@ -11,10 +11,12 @@ app.controller('authority1-ctrl', function($scope, $http) {
 				{ data: 'email' },
 				{ data: 'quyen' },
 				// Cột mới chứa nút bấm
-				{ data: null,
-				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'}
+				{
+					data: null,
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
+				}
 			],
-			columnDefs: [{"targets": -1, "orderable": false, "searchable": false}],
+			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
 			"pageLength": 5 // Đặt giá trị mặc định là 5 mục hiển thị trên mỗi trang
 		});
 		// Thêm sự kiện click vào nút "Cập nhật"
@@ -46,6 +48,7 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	}
 	//Hiển thị lên form
 	$scope.edit = function(id) {
+		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
 		$scope.form = angular.copy(id);
 		$scope.put = true;
 	}
@@ -56,27 +59,26 @@ app.controller('authority1-ctrl', function($scope, $http) {
 		$scope.put = false;
 	}
 	//Phân quyền
+	$scope.updateSuccess = false
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
 		var url = `/rest/authority1/${item.idhanhkhach}`;
-		// Kiểm tra xem người dùng có đang cố gắng thay đổi vai trò tương tự không
-		if (item.quyen === 'USER' && item.quyen === $scope.items[$scope.index_of(item.idhanhkhach)].quyen) {
-			alert(`Vai trò của ${item.hovaten} đã là USER. không cần thay đổi thành USER.`);
+		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
+		if (angular.equals(item, $scope.originalData)) {
+			// Hiển thị thông báo lỗi vì không có sự thay đổi
+			document.getElementById('check10').checked = true;
 			return;
 		}
-		if (item.quyen === 'STAFF' && item.quyen === $scope.items[$scope.index_of(item.idhanhkhach)].quyen) {
-			alert(`Vai trò của ${item.hovaten} đã là STAFF. không cần thay đổi thành STAFF.`);
-			return;
-		}
-		if (item.quyen === 'ADMIN' && item.quyen === $scope.items[$scope.index_of(item.idhanhkhach)].quyen) {
-			alert(`Vai trò của bạn đã là ADMIN. không cần thay đổi thành ADMIN.`);
+		if ($scope.updateSuccess) {
+			// Hiển thị thông báo lỗi vì không có sự thay đổi
+			document.getElementById('check10').checked = true;
 			return;
 		}
 		//Kiểm tra xem người dùng có đang cố thay đổi từ QUẢN TRỊ thành NGƯỜI DÙNG hoặc NHÂN VIÊN không
 		if ($scope.items[$scope.index_of(item.idhanhkhach)].quyen === 'ADMIN' &&
 			(item.quyen === 'USER' || item.quyen === 'STAFF')) {
-			alert(`${item.hovaten} đang là ADMIN và không thể thay đổi vai trò.`);
-			return; // Don't proceed with the update
+			document.getElementById('check4').checked = true;
+			return;
 		}
 		$http.put(url, item).then(response => {
 			var index = $scope.items.findIndex(q => q.idhanhkhach === item.idhanhkhach);
@@ -84,10 +86,11 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			var table = $('#table2').DataTable();
 			var row = table.row(index);
 			row.data(item).draw();
-			alert("Phân quyền thành công")
+			document.getElementById('check3').checked = true;
+			$scope.updateSuccess = true
 		}).catch(error => {
 			console.log("Error", error)
-			alert("Phân quyền thất bại")
+			document.getElementById('check2').checked = true;
 		})
 	}
 
