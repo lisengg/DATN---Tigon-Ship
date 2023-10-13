@@ -4,32 +4,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thông tin tài khoản</title>
+<title>Tài khoản của bạn</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-<link class="jsbin"
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
-	rel="stylesheet" type="text/css" />
-<script class="jsbin"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
-	type="text/javascript"></script>
-<script class="jsbin"
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
-	type="text/javascript"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-	referrerpolicy="no-referrer" type="text/javascript"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-	type="text/javascript"></script>
-<style type="text/css">
+<script src="https://kit.fontawesome.com/983a8f0a4d.js"
+	crossorigin="anonymous"></script>
+<style>
 body {
 	margin-top: 20px;
 	background-color: #f2f6fc;
 	color: #69707a;
+	overflow: hidden;
+}
+
+.alert {
+	background: #ffffff;
+	padding: 20px 40px;
+	min-width: 420px;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	border-radius: 4px;
+	border-left: 8px solid #1a2cd1;
+	overflow: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.alert.showAlert {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.alert.show {
+	animation: show_slide 1s ease forwards;
+}
+
+
+        @keyframes show_slide {
+            0% {
+                transform: translateX(100%);
+            }
+
+            40% {
+                transform: translateX(-10%);
+            }
+
+            80% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-10px);
+            }
+        }
+
+        .alert.hide {
+            animation: hide_slide 1s ease forwards;
+        }
+
+        @keyframes hide_slide {
+            0% {
+                transform: translateX(-10px);
+            }
+
+            40% {
+                transform: translateX(0%);
+            }
+
+            80% {
+                transform: translateX(-10%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+		.alert .fa-exclamation-circle {
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #0078ce;
+			font-size: 30px;
+		}
+
+.alert .msg {
+	padding: 0 20px;
+	font-size: 18px;
+	color: #0078ce;
+}
+
+.alert .close-btn {
+	position: absolute;
+	right: 0px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #ffffff;
+	padding: 20px 18px;
+	cursor: pointer;
+}
+
+.alert .close-btn:hover {
+	background: #ffffff;
+}
+
+.alert .close-btn .fas {
+	color: #0078ce;
+	font-size: 22px;
+	line-height: 40px;
 }
 
 .img-account-profile {
@@ -94,200 +180,167 @@ body {
 	margin-left: 1rem;
 	margin-right: 1rem;
 }
+
+.fa-2x {
+	font-size: 2em;
+}
+
+.table-billing-history th, .table-billing-history td {
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	padding-left: 1.375rem;
+	padding-right: 1.375rem;
+}
+
+.table>:not(caption)>*>*, .dataTable-table>:not(caption)>*>* {
+	padding: 0.75rem 0.75rem;
+	background-color: var(- -bs-table-bg);
+	border-bottom-width: 1px;
+	box-shadow: inset 0 0 0 9999px var(- -bs-table-accent-bg);
+}
+
+.border-start-primary {
+	border-left-color: #0061f2 !important;
+}
+
+.border-start-secondary {
+	border-left-color: #6900c7 !important;
+}
+
+.border-start-success {
+	border-left-color: #00ac69 !important;
+}
+
+.border-start-lg {
+	border-left-width: 0.25rem !important;
+}
+
+.h-100 {
+	height: 100% !important;
+}
 </style>
 </head>
 
 <body>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+		integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+		crossorigin="anonymous" />
 
-	<div class="container-xl px-4 mt-4 main">
-		<!-- Account page navigation-->
-		<div style="text-align: right;">
-			<a th:href="@{/}" style="text-decoration: none;">Trang chủ</a>
+	<div th:if="${thongbao}" class="alert hide">
+		<span class="fas fa-exclamation-circle"></span> <span class="msg"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times"></span>
 		</div>
+	</div>
+	<div class="container-xl px-4 mt-4">
+		<!-- Account page navigation-->
 		<nav class="nav nav-borders">
-			<a class="nav-link active ms-0"
-				href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details"
-				target="__blank">Tài khoản</a> <a class="nav-link"
-				href="https://www.bootdey.com/snippets/view/bs5-profile-billing-page"
-				target="__blank">Hóa đơn</a> <a class="nav-link"
+			<a class="nav-link active ms-0" th:href="@{/thongtintaikhoan}"
+				target="__blank">Hồ sơ</a> <a class="nav-link "
+				th:href="@{/user/chinhsuataikhoan/form}">Thông tin chi tiết</a> <a
+				class="nav-link"
 				href="https://www.bootdey.com/snippets/view/bs5-profile-security-page"
 				target="__blank">Bảo mật</a> <a class="nav-link"
 				href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
 				target="__blank">Thông báo</a>
-
 		</nav>
 		<hr class="mt-0 mb-4">
 		<div class="row">
-			<div class="col-xl-4">
-				<!-- Profile picture card-->
-				<div class="card mb-4 mb-xl-0">
-					<div class="card-header">Ảnh đại diện</div>
-					<div class="card-body text-center">
-						<!-- Profile picture image-->
-						<img class="img-account-profile rounded-circle mb-2" src="#"
-							id="blah" alt="">
-						<!-- Profile picture help block-->
-						<div class="small font-italic text-muted mb-4"></div>
-						<!-- Profile picture upload button-->
-						<input type="file" id="imgupload" onchange="readURL(this);"
-							style="display: none" />
-						<button class="btn btn-primary"
-							onclick="document.getElementById('imgupload').click();">Chọn
-							hình ảnh</button>
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 1-->
+				<div class="card h-100 border-start-lg border-warning">
+					<div class="card-body">
+						<div class="medium text-muted">
+							<i class="fa-solid fa-crown"
+								style="color: #ffae00; padding-right: 5px;"></i>Tổng điểm thưởng
+						</div>
+						<div class="h1">21</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xl-8">
-				<!-- Account details card-->
-				<div class="card mb-4">
-					<div class="card-header">Thông tin tài khoản cá nhân</div>
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 2-->
+				<div class="card h-100 border-start-lg border-start-primary">
 					<div class="card-body">
-						<form action="">
-							<!-- Form Group (username)-->
-							<div class="mb-3">
-								<label class="small mb-1" for="inputUsername">Họ và tên</label>
-								<input class="form-control" id="inputUsername" type="text"
-									placeholder="Điền họ và tên của bạn" th:value="${user.HOVATEN}">
-							</div>
-							<!-- Form Row-->
-							<div class="row gx-3 mb-3">
-								<label class="medium" style="font-weight: 700;"
-									for="inputFirstName">Thông tin địa chỉ : </label>
-								<!-- Form Group (dia chi)-->
-								<div class="col-md-6">
-									<label class="small mb-1" for="inputFirstName">Tỉnh/Thành
-										phố :</label> <select class="form-select form-select-md mb-3"
-										id="city">
-										<option value="" selected></option>
-									</select>
-								</div>
-								<!-- Form Group (last name)-->
-								<div class="col-md-6">
-									<label class="small mb-1" for="inputFirstName">Quận/Huyện
-										: </label> <select class="form-select form-select-md mb-3"
-										id="district">
-										<option value="" selected></option>
-									</select>
-								</div>
-							</div>
-							<!-- Form Row        -->
-							<div class="row gx-3 mb-3">
-								<!-- Form Group (organization name)-->
-								<div class="col-md-6">
-									<label class="small mb-1" for="inputFirstName">Phường/Xã
-										:</label> <select class="form-select form-select-md mb-3" id="ward">
-										<option value="" selected></option>
-									</select>
-								</div>
-								<!-- Form Group (location)-->
-								<div class="col-md-12">
-									<label class="small mb-1" for="inputLocation">Địa chỉ
-										cụ thể :(Số nhà, hẻm, ấp,...)</label> <input
-										class="form-control form-control-sm" id="inputLocation"
-										type="text" placeholder="Nhập địa chỉ cụ thể"
-										th:value="${user.DIACHI}">
-								</div>
-							</div>
-							<!-- Form Row-->
-							<div class="row gx-3 mb-3">
-								<label class="medium" style="font-weight: 700;"
-									for="inputFirstName">Thông tin liên hệ khác : </label>
-								<div class="col-md-6">
-									<label class="small mb-1" for="inputPhone">Số điện
-										thoại : </label> <input class="form-control" id="inputPhone"
-										type="tel" placeholder="Nhập số điện thoại"
-										th:value="${user.SDT}">
-								</div>
-								<!-- Form Group (birthday)-->
-								<div class="col-md-6">
-									<label class="small mb-1" for="inputBirthday">Số căn
-										cước công dân :</label> <input class="form-control" id="inputBirthday"
-										type="text" name="birthday"
-										placeholder="Nhập số căn cước công dân"
-										th:value="${user.CCCD}">
-								</div>
-							</div>
-							<!-- Save changes button-->
-							<div style="text-align: right;">
-							<button class="btn btn-primary">Cập nhật tài khoản</button>
-							</div>
-							
-
-						</form>
+						<div class="medium text-muted">
+							<i class="fa-solid fa-ship"
+								style="color: #030ff8; padding-right: 5px;"></i>Số hoá đơn đã
+							đặt
+						</div>
+						<div class="h1">
+							<p th:text=" ${user.SOHDDADAT}">
+						</div>
 					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 3-->
+				<div class="card h-100 border-start-lg border-start-success">
+					<div class="card-body">
+
+						<div class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span th:if="${ngaydat.before(#dates.createNow())}">Chuyến đi gần đây nhất</span>
+								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>
+								
+								
+						</div>
+						<div style="margin-top: 5px;" class="h2">
+							<p th:text="${chuyengannhat}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Billing history card-->
+		<div class="card mb-4">
+			<div class="card-header">Lịch sử mua vé</div>
+			<div class="card-body p-0">
+				<!-- Billing history table-->
+				<div class="table-responsive table-billing-history">
+					<table class="table mb-0">
+						<thead>
+							<tr class="text-center">
+								<th class="border-gray-200" scope="col">Mã đặt vé</th>
+								<th class="border-gray-200" scope="col">Ngày đặt</th>
+								<th class="border-gray-200" scope="col">Tuyến</th>
+								<th class="border-gray-200" scope="col">Trạng thái</th>
+							</tr>
+						</thead>
+						<tbody>
+							 <tr class="text-center" th:each="ls : ${lichsu}">
+								<td th:text="${ls.MADATVE}"></td>
+								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
+								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
+								<td>
+								<span th:if="${ls.NGAYDAT.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+								<span th:if="${ls.NGAYDAT.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-    	//Lấy hình ảnh
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+    window.addEventListener("load", (event) => {
+        $('.alert').addClass("show");
+        $('.alert').removeClass("hide");
+        $('.alert').addClass("showAlert");
+        setTimeout(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+        }, 5000);
+    });
 
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(170);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-
-        const host = "https://provinces.open-api.vn/api/";
-        var callAPI = (api) => {
-            return axios.get(api)
-                .then((response) => {
-                    renderData(response.data, "city");
-                });
-        }
-        callAPI('https://provinces.open-api.vn/api/?depth=1');
-        var callApiDistrict = (api) => {
-            return axios.get(api)
-                .then((response) => {
-                    renderData(response.data.districts, "district");
-                });
-        }
-        var callApiWard = (api) => {
-            return axios.get(api)
-                .then((response) => {
-                    renderData(response.data.wards, "ward");
-                });
-        }
-
-        var renderData = (array, select) => {
-            let row = ' <option disable value="">Chọn</option>';
-            array.forEach(element => {
-                row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
-            });
-            document.querySelector("#" + select).innerHTML = row
-        }
-
-        $("#city").change(() => {
-            callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
-            printResult();
-        });
-        $("#district").change(() => {
-            callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
-            printResult();
-        });
-        $("#ward").change(() => {
-            printResult();
-        })
-
-        var printResult = () => {
-            if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
-                $("#ward").find(':selected').data('id') != "") {
-                let result = $("#city option:selected").text() +
-                    " | " + $("#district option:selected").text() + " | " +
-                    $("#ward option:selected").text();
-                $("#result").text(result)
-            }
-
-        }
-
+    $('.close-btn').click(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    });
     </script>
 </body>
 

@@ -2,6 +2,7 @@ package com.tigon.service;
 
 import java.util.List;
 
+import com.tigon.model.DatVe;
 import com.tigon.model.HanhKhach;
 
 public interface HanhKhachService {

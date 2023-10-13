@@ -97,7 +97,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/oauth2/login/error").authorizationEndpoint().baseUri("/oauth2/authorization")
 				.authorizationRequestRepository(getRepository()).and().tokenEndpoint()
 				.accessTokenResponseClient(getToken());
-
+		
+		//set session hết hạn 
 		http.rememberMe().tokenValiditySeconds(86400);
 
 		// Điều khiển lỗi truy cập không đúng vai trò

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tigon.dao.HanhKhachDAO;
+import com.tigon.model.DatVe;
 import com.tigon.model.HanhKhach;
 import com.tigon.service.HanhKhachService;
 
