@@ -80,8 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// Phân quyền sử dụng
 		http.authorizeRequests()
-		.antMatchers("/thongtintaikhoan").hasRole("USER")
-		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAF")
+		.antMatchers("/admin").hasAnyRole("ADMIN","STAF")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);

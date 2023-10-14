@@ -67,7 +67,8 @@
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
 							<th:block th:if="${#httpServletRequest.remoteUser}">
-							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+							<li th:if="${#request.isUserInRole('ADMIN') or  #request.isUserInRole('STAF')}"><a th:href="@{/user/chinhsuataikhoan/form}">Quản lý</a></li>
+							<li th:if="${#request.isUserInRole('USER')}"><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
 							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 							</th:block>
 						</ul>
