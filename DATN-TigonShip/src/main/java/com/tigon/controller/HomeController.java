@@ -35,7 +35,7 @@ public class HomeController {
 	}
 	@RequestMapping("/user/luc")
 	public String tuyentau() {
-		return "/user/ThongTinDatVe";
+		return "/user/VeTau";
 	}
 	
 	@RequestMapping("/xacminh")

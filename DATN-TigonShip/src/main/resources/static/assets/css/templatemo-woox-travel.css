@@ -629,9 +629,9 @@ Header Style
   .header-area .menu-trigger {
     display: block !important;
   }
-  .header-area .main-nav {
+  /* .header-area .main-nav {
     overflow: hidden;
-  }
+  } */
   .header-area .main-nav .nav {
     float: none;
     width: 100%;
