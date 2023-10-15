@@ -1,10 +1,6 @@
 package com.tigon.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -114,6 +110,55 @@ public class HanhKhachController {
 
 		}
 		return "/user/thongtintaikhoan";
+
+	}
+	
+	@RequestMapping("/admin/profile/form")
+	public String chinhSuaTKQL(Model model) {
+		Integer user = Integer.parseInt(session.getAttribute("user").toString());
+		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		model.addAttribute("user", hanhkhach);
+
+		return "/admin/profile/profile";
+	}
+
+	@PostMapping("/admin/profile")
+	public String updateTKQL(Model model, @RequestParam String hovaten, @RequestParam String sdt,
+			@RequestParam String cccd, @RequestParam String diachi) {
+
+		// Lấy idhanhkhach bằng session
+		Integer user = Integer.parseInt(session.getAttribute("user").toString());
+
+		HanhKhach hanhkhach = hanhKhachService.findById(user);
+
+		String thanhPho = request.getParameter("city");
+		String quanHuyen = request.getParameter("district");
+		String phuongXa = request.getParameter("ward");
+		String diaChi = null;
+		String diachi_old = hanhkhach.getDIACHI();
+
+		if (!diachi.isEmpty()) {
+			diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
+		} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
+			diaChi = diachi_old;
+		} else {
+			diaChi = phuongXa + ", " + quanHuyen + ", " + thanhPho;
+		}
+
+		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diaChi.isEmpty()) {
+			model.addAttribute("thongbao", "...");
+			model.addAttribute("ndungtbao", "Thông báo: Vui lòng điền đầy đủ thông tin!");
+			model.addAttribute("user", hanhkhach);
+
+			return "/admin/profile/profile";
+		} else {
+
+			dao.updateHanhKhach(hovaten, sdt, cccd, diaChi, user);
+			model.addAttribute("thongbao", "Cập nhật thông tin thành công!");
+			model.addAttribute("ndungtbao", "Thông báo: Thông tin của bạn đã được cập nhật!");
+
+		}
+		return "/admin/profile/profile";
 
 	}
 

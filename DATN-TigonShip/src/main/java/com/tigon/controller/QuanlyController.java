@@ -78,10 +78,10 @@ public class QuanlyController {
 	
 		return "admin/doanhthu/doanhthu";
 	}
-	@GetMapping("/admin/profile")
-	public String Profile(Model model) {
-	
-		return "admin/profile/profile";
-	}
+//	@GetMapping("/admin/profile")
+//	public String Profile(Model model) {
+//	
+//		return "admin/profile/profile";
+//	}
 	
 }

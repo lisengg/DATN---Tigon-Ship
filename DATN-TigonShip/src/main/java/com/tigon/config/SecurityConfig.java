@@ -1,6 +1,5 @@
 package com.tigon.config;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpSession;
@@ -39,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	HttpSession session;
-
 
 	// Cung cấp nguồn dữ liệu đăng nhập
 	@Override
@@ -81,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Phân quyền sử dụng
 		http.authorizeRequests()
 		.antMatchers("/thongtintaikhoan").hasRole("USER")
-		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAF")
+		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAFF")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);
