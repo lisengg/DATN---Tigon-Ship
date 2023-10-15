@@ -1,6 +1,7 @@
 package com.tigon.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.HoaDonDAO;
 import com.tigon.model.HoaDon;
 
+
+
 @CrossOrigin("*")
 @RestController
 public class HoaDonRestController {
@@ -20,7 +23,7 @@ public class HoaDonRestController {
     HoaDonDAO hoaDonDAO;
     @Autowired
     DatVeDAO datVeDAO;
-    
+
     @GetMapping("/rest/hoadon")
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();
@@ -28,8 +31,20 @@ public class HoaDonRestController {
         map.put("datve", datVeDAO.findAll());
         return map;
     }
+
     @GetMapping("/rest/hoadon/{id}")
     public HoaDon getOne(@PathVariable("id") Integer id) {
         return hoaDonDAO.findById(id).get();
     }
+    @GetMapping("rest/doanhthu/doanhthu")
+    public Integer getDoanhThu() {
+        return hoaDonDAO.doanhThu();
+    }
+
+    @GetMapping("rest/doanhthu/chitiet")
+    public List<Object> getDoanhThuChiTietList(){
+        return hoaDonDAO.doanhThuChiTiet();
+
+    }
+
 }

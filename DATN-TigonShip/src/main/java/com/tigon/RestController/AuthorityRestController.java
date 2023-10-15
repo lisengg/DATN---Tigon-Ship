@@ -28,7 +28,6 @@ public class AuthorityRestController {
 	@GetMapping("/rest/authority1")
 	public List<HanhKhach> getAllHanhKhach1() {
 		List<HanhKhach> list = hanhKhachDAO.findAll();
-
 		return list;
 	}
 	@GetMapping("/rest/authority1/{id}")
