@@ -14,7 +14,11 @@ public interface HanhKhachDAO extends JpaRepository<HanhKhach, Integer>{
 	@Query(value = "SELECT * FROM HANHKHACH o WHERE o.EMAIL=?1",nativeQuery = true)
 	HanhKhach findIdByEmailOrPhone(String username);
 
+	@Query(value = "SELECT * FROM HANHKHACH WHERE EMAIL=?1", nativeQuery = true)
+	HanhKhach getAllEmail(String email);
 
+	@Query(value = "UPDATE HANHKHACH SET HOVATEN=?1, SDT=?2, CCCD=?3, DIACHI=?4 WHERE IDHANHKHACH=?5", nativeQuery = true)
+	HanhKhach updateHanhKhach(String hovaten, String sdt, String cccd, String diachi, Integer id);
 	
 
 }

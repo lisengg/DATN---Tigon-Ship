@@ -60,6 +60,7 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>12.4.0.jre11</version>
 		</dependency>
+		<!-- Mới thêm security dô đây chưa bị lỗi -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
