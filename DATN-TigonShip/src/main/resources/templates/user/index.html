@@ -7,8 +7,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
-
 <title></title>
 
 <!-- Bootstrap core CSS -->
@@ -19,15 +17,15 @@
 <link href="/assets/css/fontawesome.css" rel="stylesheet">
 <link href="/assets/css/owl.css" rel="stylesheet">
 <link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 
-<!--
-
-TemplateMo 580 Woox Travel
-
-https://templatemo.com/tm-580-woox-travel
-
--->
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<style>
+.opacity:hover{opacity:0.6} /* 0.6 là điều chỉnh thông số thông suốt  */
+.black:hover{filter: grayscale(100%);} /*  100% là độ chuyển màu sang đen của ảnh  */
+.blur:hover{filter: blur(5px);} /* 5px là độ blur của hình ảnh */
+</style>
 </head>
 
 <body>
@@ -52,20 +50,26 @@ https://templatemo.com/tm-580-woox-travel
 						<!-- ***** Logo Start ***** -->
 						<div>
 							<a href="/user/index" class="logo"> <img
-								src="/assets/images/logo1.png" alt=""
-								style="width: 100px; height: 40px">
+								src="/images/logotau.jpg" alt=""
+								style="width: 150px; height: 70px; margin-top: 0px" >
 							</a>
 						</div>
 
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
-							<li style="margin: 5px"><a href="/user/index" class="active">Trang chủ</a></li>
+							<li><a href="/user/index">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
 							<li><a href="/gopy">Góp Ý</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
-							<li><a href="/dangki">Đăng Ký</a></li>
-							<li><a href="/dangnhap">Đăng nhập</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
@@ -323,33 +327,49 @@ https://templatemo.com/tm-580-woox-travel
 					</div>
 					<div class="col-lg-4">
 						<h5 style="color: White">Các Tuyến nổi bật</h5>
-					
-						<li><a href="/user/index" style="color: White">Kiên Giang-Hòn Sơn</a></li>
-						<li><a href="/user/index" style="color: White">Kiên Giang-Nam Du</a></li>
-						<li><a href="/user/index" style="color: White">Kiên Giang-Phú Quốc</a></li>
-						<li><a href="/user/index" style="color: White">Hòn Sơn-Nam Du</a></li>
-						<li><a href="/user/index" style="color: White">Hòn Sơn-Phú Quốc</a></li>
-						<li><a href="/user/index" style="color: White">Nam Du-Phú Quốc</a></li>
-					
+
+						<li><a href="/user/index" style="color: White">Kiên
+								Giang-Hòn Sơn</a></li>
+						<li><a href="/user/index" style="color: White">Kiên
+								Giang-Nam Du</a></li>
+						<li><a href="/user/index" style="color: White">Kiên
+								Giang-Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">Hòn
+								Sơn-Nam Du</a></li>
+						<li><a href="/user/index" style="color: White">Hòn
+								Sơn-Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">Nam Du-Phú
+								Quốc</a></li>
+
 					</div>
 					<div class="col-lg-4">
 						<h5 style="color: White">Các điểm, du lịch</h5>
-						<li><a href="/user/index" style="color: White">Bãi Bàng.</a> </li>
-						<li><a href="/user/index" style="color: White">Bãi Đá Chài.</a></li>
-						<li><a href="/user/index" style="color: White">Ma Thiên Lãnh.</a></li>
-						<li><a href="/user/index" style="color: White">Bãi cây Mến.</a></li>
-						<li><a href="/user/index" style="color: White">Vinpearl Safari Phú Quốc</a></li>
-						<li><a href="/user/index" style="color: White">VinWonders Phú Quốc.</a></li>
-						<li><a href="/user/index" style="color: White">Grand World Phú Quốc.</a></li>
-						<li><a href="/user/index" style="color: White">Con đường quanh đảo, cây cô độc và đồi cỏ lau.</a></li>
-					
+						<li><a href="/user/index" style="color: White">Bãi Bàng.</a>
+						</li>
+						<li><a href="/user/index" style="color: White">Bãi Đá
+								Chài.</a></li>
+						<li><a href="/user/index" style="color: White">Ma Thiên
+								Lãnh.</a></li>
+						<li><a href="/user/index" style="color: White">Bãi cây
+								Mến.</a></li>
+						<li><a href="/user/index" style="color: White">Vinpearl
+								Safari Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">VinWonders
+								Phú Quốc.</a></li>
+						<li><a href="/user/index" style="color: White">Grand
+								World Phú Quốc.</a></li>
+						<li><a href="/user/index" style="color: White">Con đường
+								quanh đảo, cây cô độc và đồi cỏ lau.</a></li>
+
 					</div>
 					<div class="col-lg-4">
 						<h5 style="color: White">Về TIGONSHIP</h5>
-						<li><a href="/user/index" style="color: White">Các tuyến vận hành ở TIGONSHIP</a> </li>
+						<li><a href="/user/index" style="color: White">Các tuyến
+								vận hành ở TIGONSHIP</a></li>
 						<li><a href="/dangki" style="color: White">Đăng kí nhanh</a></li>
 						<li><a href="/user/index" style="color: White">Facebook</a></li>
-						<li><a href="/user/index" style="color: White">Hotline: 18001000</a></li>
+						<li><a href="/user/index" style="color: White">Hotline:
+								18001000</a></li>
 					</div>
 				</div>
 			</div>

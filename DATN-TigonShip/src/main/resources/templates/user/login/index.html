@@ -14,19 +14,19 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/security/login/css/style.css">
 
 </head>
 
 <body
-	style="background-image: url(images/walllogin.jpg); background-size: cover;">
+	style="background-image: url(/security/login/images/walllogin.jpg); background-size: cover;">
 	<section class="ftco-section">
 
 		<div class="container">
 			<button type="submit"
 				class="form-control btn btn-primary submit px-3"
 				style="width: 10%; position: absolute; top: 12px; right: 16px; font-size: 18px;">
-				<a th:href="@{/register}" style="color: black">Đăng ký</a></button>
+				<a th:href="@{/dangki}" style="color: black">Đăng ký</a></button>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
@@ -34,14 +34,15 @@
 						<form th:action="@{/security/login}" method="post">
 							<p th:text="${messageError}"></p>
 							<div class="form-group">
-								<input type="text" class="form-control"
+								<input type="text" class="form-control" 
 									placeholder="Tên đăng nhập" name="username" required>
 							</div>
 							<div class="form-group">
 								<input id="password-field" type="password" class="form-control"
 									placeholder="Mật khẩu" name="password" required> <span
-									toggle="#password-field"
+									toggle="#password-field" 
 									class="fa fa-fw fa-eye field-icon toggle-password"></span>
+									
 							</div>
 							<div class="form-group">
 								<button type="submit"
@@ -75,10 +76,10 @@
 
 	</section>
 
-	<script src="login/js/jquery.min.js"></script>
-	<script src="login/js/popper.js"></script>
-	<script src="login/js/bootstrap.min.js"></script>
-	<script src="login/js/main.js"></script>
+	<script src="/security/login/js/jquery.min.js"></script>
+	<script src="/security/login/js/popper.js"></script>
+	<script src="/security/login/js/bootstrap.min.js"></script>
+	<script src="/security/login/js/main.js"></script>
 
 </body>
 

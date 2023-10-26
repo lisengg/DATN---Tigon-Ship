@@ -1,12 +1,15 @@
 package com.tigon.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
 
-	@RequestMapping("/user/index")
+	@RequestMapping("/")
 	public String index() {
 		return "user/index";
 	}
@@ -24,14 +27,23 @@ public class HomeController {
 	}
 	@RequestMapping("/dangnhap")
 	public String dangnhap() {
-		return "user/DangNhap";
+		return "user/login/index";
 	}
-	@RequestMapping("/dangki")
-	public String dangki() {
-		return "user/DangKy";
+	@GetMapping("/dangki")
+	public String dangki(Model model) {
+		return "user/login/register";
 	}
 	@RequestMapping("/user/luc")
 	public String tuyentau() {
 		return "/user/VeTau";
 	}
+	
+	@RequestMapping("/xacminh")
+	public String xacminh(Model model, String sdt) {
+		model.addAttribute("message",sdt);
+		
+		return "/user/login/verifyPage";
+	}
+	
+	
 }
