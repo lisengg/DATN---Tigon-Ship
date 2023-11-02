@@ -13,17 +13,32 @@ public interface DanhGiaDAO extends JpaRepository<DanhGia, Integer> {
   @Query(value = "SELECT AVG(DANHGIA) FROM DANHGIAHANHKHACH ", nativeQuery = true)
   Integer AVGall();
 
-  // Top 5 người bình luận nhiều nhất
-  @Query(value = "Select TOP 5 u.HOVATEN, COUNT(c.IDHANHKHACH) AS TOTAL from HANHKHACH u INNER JOIN DANHGIAHANHKHACH c ON u.IDHANHKHACH = C.IDHANHKHACH Group by u.HOVATEN ORDER BY TOTAL DESC", nativeQuery = true)
+  // các tuyến được đi nhiều nhất
+  @Query(value = "SELECT COUNT(d.IDLICHTAU), TENTUYEN FROM lichtauchay l " +
+      "INNER JOIN DATVE d ON d.IDLICHTAU = l.IDLICHTAU " +
+      "INNER JOIN TUYEN t ON t.IDTUYEN = l.IDTUYEN " +
+      "GROUP BY d.IDLICHTAU, t.TENTUYEN " +
+      "ORDER BY COUNT(d.IDLICHTAU) DESC", nativeQuery = true)
   List<Object> Top5();
 
-  //Tuyến - điểm TB tuyến
-  @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN Group by t.TENTUYEN", nativeQuery = true)
-  List<Object> AVGTuyen();
-  
-  //Tuyến - điểm,bình luận, người đánh giá
+  // Tuyến - điểm TB tuyến bắt đầu từ HÒN SƠN
+  @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Hòn%' Group by t.TENTUYEN", nativeQuery = true)
+  List<Object> AVGHonSon();
+
+  // Tuyến - điểm TB tuyến bắt đầu từ KIÊN GIANG
+  @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Kiên%' Group by t.TENTUYEN", nativeQuery = true)
+  List<Object> AVGKienGiang();
+
+  // Tuyến - điểm TB tuyến bắt đầu từ NAM DU
+  @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Nam%' Group by t.TENTUYEN", nativeQuery = true)
+  List<Object> AVGNamDu();
+
+  // Tuyến - điểm TB tuyến bắt đầu từ PHÚ QUỐC
+  @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Phú%' Group by t.TENTUYEN", nativeQuery = true)
+  List<Object> AVGPhuQuoc();
+
+  // Tuyến - điểm,bình luận, người đánh giá
   @Query(value = "select h.HOVATEN, d.DANHGIA, d.BINHLUAN from DANHGIAHANHKHACH d inner join HANHKHACH h ON  d.IDHANHKHACH = h.IDHANHKHACH Where D.IDTUYEN=? ", nativeQuery = true)
   List<Object> danhGiaTuyen(Integer id);
-
 
 }

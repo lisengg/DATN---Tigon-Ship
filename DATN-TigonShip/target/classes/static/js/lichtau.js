@@ -1,16 +1,17 @@
 const app = angular.module('lichtau-app', []);
 app.controller('lichtau-ctrl', function($scope, $http) {
 	$scope.form = {},
+	
 	$scope.initialize = function() {
-			$http.get("/rest/lichtau").then(response => {
-				$scope.items = response.data;
-				$scope.post = true;
-				$scope.put = false;
-				$scope.delete = false;
-				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
-				initDataTable($scope.items);
-			});
-		}
+		$http.get("/rest/lichtau").then(response => {
+			$scope.items = response.data;
+			$scope.post = true;
+			$scope.put = false;
+			$scope.delete = false;
+			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
+			initDataTable($scope.items);
+		});
+	}
 	function initDataTable(data) {
 		var table = $('#table2').DataTable({
 			data: data.lichtau, // Sử dụng mảng giave từ dữ liệu
@@ -19,19 +20,21 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'tau.tentau' },
 				{ data: 'gioxuatphat' },
-				{ data: 'giodennoi'},
+				{ data: 'giodennoi' },
 				// Cột mới chứa nút bấm
-				{ data: null,
-				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'}
+				{
+					data: null,
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
+				}
 			],
-			columnDefs: [{"targets": -1, "orderable": false, "searchable": false}],
+			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
 			"pageLength": 5
 		});
 		// Thêm sự kiện click vào nút "Cập nhật"
 		$('#table2 tbody').on('click', 'button', function() {
-			var data = table.row($(this).parents('tr')).data();
+			var rowData = table.row($(this).parents('tr')).data();
 			$scope.$apply(function() {
-				$scope.edit(data);
+				$scope.edit(rowData);
 			});
 		});
 	}
@@ -41,6 +44,7 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 	}
 	//Hiển thị lên form
 	$scope.edit = function(id) {
+		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
 		$scope.form = angular.copy(id);
 		$scope.post = false;
 		$scope.put = true;
@@ -65,89 +69,42 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 	}
 	//Thêm lịch tàu mới
 	$scope.create = function() {
-		var index = $scope.items.tau.findIndex(a => a.idtau == $scope.form.tau.idtau)
-		var index1 = $scope.items.tuyen.findIndex(a => a.idtuyen == $scope.form.tuyen.idtuyen)
+		// Kiểm tra xem tuyen đã được chọn
+		if (!$scope.form.tuyen || !$scope.form.tuyen.idtuyen) {
+			document.getElementById('check6').checked = true;
+			return;
+		}
+		// Kiểm tra xem tàu đã được chọn
+		if (!$scope.form.tau || !$scope.form.tau.idtau) {
+			document.getElementById('check5').checked = true;
+			return;
+		}
+		var index = $scope.items.tuyen.findIndex(a => a.idtuyen == $scope.form.tuyen.idtuyen)
+		var index1 = $scope.items.tau.findIndex(a => a.idtau == $scope.form.tau.idtau)
 		var item = {
-			"tau": $scope.items.tau[index],
-			"tuyen": $scope.items.tuyen[index1],
+			"tuyen": $scope.items.tuyen[index],
+			"tau": $scope.items.tau[index1],
 			"gioxuatphat": $scope.form.gioxuatphat,
 			"giodennoi": $scope.form.giodennoi
 		}
 		var url = `/rest/lichtau/save`;
-		// Kiểm tra tên tuyến và tên tàu đã được chọn
-		if (!item.tuyen.idtuyen || !item.tau.idtau) {
-			alert("Vui lòng chọn tên tuyến và tên tàu!");
-			return;
-		}
-		// Kiểm tra giờ xuất phát không được để trống
-		if (!$scope.form.gioxuatphat) {
-			alert("Vui lòng nhập giờ xuất phát!");
-			return;
-		}
-
-		// Kiểm tra giờ đến nơi không được để trống
-		if (!$scope.form.giodennoi) {
-			alert("Vui lòng nhập giờ đến nơi!");
-			return;
-		}
-
-		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
-		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
-			alert("Giờ đến nơi phải sau giờ xuất phát!");
-			return; // Không thực hiện thêm lịch tàu khi có lỗi
-		}
-		// Kiểm tra trùng lịch tàu
-		var isDuplicate = $scope.items.lichtau.some(function(existingItem) {
-			// So sánh lịch tàu hiện có với lịch tàu mới dựa trên các yếu tố như tuyến, tàu, giờ xuất phát và giờ đến nơi
-			return (
-				existingItem.tuyen.idtuyen === item.tuyen.idtuyen &&
-				existingItem.tau.idtau === item.tau.idtau &&
-				existingItem.gioxuatphat === item.gioxuatphat &&
-				existingItem.giodennoi === item.giodennoi
-			);
-		});
-		if (isDuplicate) {
-			alert("Lịch tàu trùng lặp. Vui lòng kiểm tra lại.");
-		} else {
-			$http.post(url, item).then(response => {
-				$scope.items.lichtau.push(response.data);
-				var table = $('#table2').DataTable();
-				table.row.add(response.data).draw();
-				alert("Thêm lịch tàu thành công")
-				$scope.reset();
-			}).catch(error => {
-				alert("Thêm lịch tàu thất bại");
-				console.log("Error", error)
-			})
-		}
-	}
-	//Cập nhật lịch tàu
-	$scope.update = function() {
-		var item = angular.copy($scope.form);
-		var url = `/rest/lichtau/${item.idlichtau}`;
-		// Kiểm tra tên tuyến và tên tàu đã được chọn
-		if (!item.tuyen.idtuyen || !item.tau.idtau) {
-			alert("Vui lòng chọn tên tuyến và tên tàu.");
-			return;
-		}
 		// Kiểm tra giờ xuất phát không được để trống
 		if (!item.gioxuatphat) {
-			alert("Vui lòng nhập giờ xuất phát.");
+			document.getElementById('check4').checked = true;
 			return;
 		}
 
 		// Kiểm tra giờ đến nơi không được để trống
 		if (!item.giodennoi) {
-			alert("Vui lòng nhập giờ đến nơi.");
+			document.getElementById('check7').checked = true;
 			return;
 		}
 
 		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
 		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
-			alert("Lỗi: Giờ đến nơi phải sau giờ xuất phát");
+			document.getElementById('check9').checked = true;
 			return; // Không thực hiện thêm lịch tàu khi có lỗi
 		}
-
 		// Kiểm tra trùng lịch tàu
 		var isDuplicate = $scope.items.lichtau.some(function(existingItem) {
 			// So sánh lịch tàu hiện có với lịch tàu mới dựa trên các yếu tố như tuyến, tàu, giờ xuất phát và giờ đến nơi
@@ -159,7 +116,67 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 			);
 		});
 		if (isDuplicate) {
-			alert("Lịch tàu trùng lặp. Vui lòng kiểm tra lại.");
+			document.getElementById('check8').checked = true;
+		} else {
+			$http.post(url, item).then(response => {
+				$scope.items.lichtau.push(response.data);
+				var table = $('#table2').DataTable();
+				table.row.add(response.data).draw();
+				document.getElementById('check3').checked = true;
+				var itemlichsu = {
+					"lichtau": response.data,
+					"thaotac" : "Vừa thêm mới tàu có ID : " + response.data.idlichtau ,
+				}
+				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
+					.then(function(response) {   
+						$scope.items.lichsu.push(response.data)
+					})
+					.catch(function(error) {
+						console.log("Error creating LichuHangTau", error);
+					});
+				$scope.reset();
+			}).catch(error => {
+				document.getElementById('check2').checked = true;
+				console.log("Error", error)
+			})
+		}
+	}
+	//Cập nhật lịch tàu
+	$scope.updateSuccess = false;
+	$scope.update = function() {
+		var item = angular.copy($scope.form);
+		var url = `/rest/lichtau/${item.idlichtau}`;
+		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
+		if ($scope.updateSuccess) {
+			// Hiển thị thông báo lỗi vì không có sự thay đổi
+			document.getElementById('check10').checked = true;
+			return;
+		}
+		if (angular.equals(item, $scope.originalData)) {
+			document.getElementById('check10').checked = true;
+			return;
+		}
+		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
+		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
+			document.getElementById('check9').checked = true;
+			return; // Không thực hiện thêm lịch tàu khi có lỗi
+		}
+		// Kiểm tra trùng lịch tàu
+		var isDuplicate = $scope.items.lichtau.some(function(existingItem) {
+			// So sánh lịch tàu hiện có với lịch tàu mới dựa trên các yếu tố như tuyến, tàu, giờ xuất phát và giờ đến nơi
+			return (
+				existingItem.tuyen.idtuyen === item.tuyen.idtuyen &&
+				existingItem.tau.idtau === item.tau.idtau &&
+				existingItem.gioxuatphat === item.gioxuatphat &&
+				existingItem.giodennoi === item.giodennoi
+			);
+		});
+		var itemlichsu = {
+			"lichtauchay": item,
+			"thaotac" : "Vừa update tàu có ID : " + item.idlichtau ,
+		}
+		if (isDuplicate) {
+			document.getElementById('check8').checked = true;
 		} else {
 			$http.put(url, item).then(response => {
 				var index = $scope.items.lichtau.findIndex(lt => lt.idlichtau == item.idlichtau);
@@ -167,102 +184,41 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 				var table = $('#table2').DataTable();
 				var row = table.row(index);
 				row.data(item).draw();
-				$scope.reset();
-				alert("Cập nhật lịch tàu thành công")
+				document.getElementById('check3').checked = true;
+				$scope.updateSuccess = true;
+				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
+                .then(function(response) {   
+					$scope.items.lichsu.push(response.data)
+                })
+				.catch(function(error) {
+					console.log("Error creating LichuHangTau", error);
+				});
 			}).catch(error => {
 				console.log("Error", error)
-				alert("Cập nhật lịch tàu thất bại")
+				document.getElementById('check2').checked = true;
 			})
 		}
 	}
 	//Xóa lịch tàu
 	$scope.deleteItem = function(data) {
-		var confirmation = confirm("Bạn có chắc chắn muốn xóa lịch tàu này?");
-		if (confirmation) {
-			var url = `/rest/lichtau/${data.idlichtau}`;
-			$http.delete(url).then(response => {
-				var index = $scope.items.lichtau.findIndex(p => p.idlichtau == data.idlichtau);
-				if (index !== -1) {
-					$scope.items.lichtau.splice(index, 1); // Xóa item khỏi danh sách
-					// Cập nhật DataTables
-					var table = $('#table2').DataTable();
-					table.row(index).remove().draw();
-					$scope.reset();
-					alert("Xóa lịch tàu thành công!");
-				} else {
-					alert("Không tìm thấy item để xóa!");
-				}
-			})
-				.catch(error => {
-					alert("Lỗi xóa lịch tàu!");
-					console.log("Error", error);
-				});
-		} else {
-			// Người dùng đã bấm Cancel, không thực hiện việc xóa
-		}
-	}
-
-	// Hàm cập nhật dữ liệu đã phân trang khi tìm kiếm thay đổi
-	$scope.$watch('searchKeyword', function(newVal, oldVal) {
-		// Reset the searchPager to the first page when the searchKeyword changes
-		$scope.searchPager.first();
-
-		// Cập nhật dữ liệu đã phân trang
-		$scope.updatePagedData();
-	});
-
-	// Hàm cập nhật dữ liệu đã phân trang
-	$scope.updatePagedData = function() {
-		// Tính toán lại dữ liệu đã phân trang dựa trên trang hiện tại và số mục trên mỗi trang
-		var startIndex = ($scope.pager.page - 1) * 5;
-		var endIndex = startIndex + 5;
-		$scope.pager.items.lichtau = $scope.pager.items.lichtau.slice(startIndex, endIndex);
-	};
-	//Phân trang
-	$scope.searchPager = {
-		page: 0, // Start with the first page
-		size: 5, // Number of items per page
-		get items() {
-			// Calculate the index range based on the current page and size
-			var startIndex = (this.page - 1) * this.size;
-			var endIndex = startIndex + this.size;
-
-			// Filter the items based on the searchKeyword
-			var filteredItems = $scope.items.lichtau.filter(function(item) {
-				return item.tuyen.tentuyen.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
-					item.tau.tentau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
-					item.gioxuatphat.toLowerCase().includes($scope.searchKeyword.toLowerCase());
-			});
-			return filteredItems.slice(startIndex, endIndex);
-		},
-		get count() {
-			// Calculate the total number of pages based on filtered items
-			var filteredItems = $scope.items.lichtau.filter(function(item) {
-				return item.tuyen.tentuyen.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
-					item.tau.tentau.toLowerCase().includes($scope.searchKeyword.toLowerCase()) ||
-					item.gioxuatphat.toLowerCase().includes($scope.searchKeyword.toLowerCase());
-			});
-			return Math.ceil(filteredItems.length / this.size);
-		},
-		first() {
-			this.page = 1;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 1) {
-				this.page = 1;
+		var url = `/rest/lichtau/${data.idlichtau}`;
+		$http.delete(url).then(response => {
+			var index = $scope.items.lichtau.findIndex(p => p.idlichtau == data.idlichtau);
+			if (index !== -1) {
+				$scope.items.lichtau.splice(index, 1); // Xóa item khỏi danh sách
+				// Cập nhật DataTables
+				var table = $('#table2').DataTable();
+				table.row(index).remove().draw();
+				document.getElementById('check1').checked = true; // Hiển thị form thành công
+				document.getElementById('check').checked = false;
+			} else {
+				alert("Không tìm thấy item để xóa!");
 			}
-		},
-		next() {
-			this.page++;
-
-
-			if (this.page > this.count) {
-				this.page = this.count;
-			}
-		},
-		last() {
-			this.page = this.count;
-		}
+		})
+			.catch(error => {
+				document.getElementById('check2').checked = true;
+				document.getElementById('check').checked = false;
+				console.log("Error", error);
+			});
 	}
 })

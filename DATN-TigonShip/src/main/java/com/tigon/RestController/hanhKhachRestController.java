@@ -12,7 +12,6 @@ import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.HanhKhachDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.dao.LoaiVeDAO;
-import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.model.DatVe;
 @CrossOrigin("*")
 @RestController

@@ -46,6 +46,11 @@ public class LichTauChay {
     @JsonBackReference
     List<DatVe> DATVE;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "LICHTAUCHAY")
+    @JsonBackReference
+    List<LichSuLichTauChay> LICHSULICHTAUCHAY;
+
 
     
 }

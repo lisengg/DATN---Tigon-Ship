@@ -49,10 +49,26 @@ public class danhGiaRestController {
         return danhGiaDAO.Top5();
     }
 
-    @GetMapping("/rest/danhgia/tuyen/avg")// tên tuyến - điểm TB mỗi tuyến
-    public List<Object> AVGTuyen(){
-        return danhGiaDAO.AVGTuyen();
+    @GetMapping("/rest/danhgia/tuyen/avg/honson")// HÒN SƠN
+    public List<Object> AVGHonSon(){
+        return danhGiaDAO.AVGHonSon();
     }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/kiengiang")// KIÊN GIANG
+    public List<Object> AVGKienGiang(){
+        return danhGiaDAO.AVGKienGiang();
+    }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/namdu")// NAM DU
+    public List<Object> AVGNamDu(){
+        return danhGiaDAO.AVGNamDu();
+    }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/phuquoc")// PHÚ QUỐC
+    public List<Object> AVGPhuQuoc(){
+        return danhGiaDAO.AVGPhuQuoc();
+    }
+
 
     
 

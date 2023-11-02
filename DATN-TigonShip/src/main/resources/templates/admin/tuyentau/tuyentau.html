@@ -25,13 +25,12 @@
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">		
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
 </head>
-
 <body ng-app="tuyen-app" ng-controller="tuyen-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
-
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
@@ -49,20 +48,22 @@
 									<button data-bs-toggle="modal" type="button" ng-click="reset()"
 										data-bs-target="#modal" class="btn btn-primary">Thêm
 										tuyến</button>
+										<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+											Lịch sử cập nhật
+										</button>
 								</h3>
+								<div th:replace="~{admin/fragments_admin :: history}"></div>
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>ID</th>
-											<th>TÊN TUYẾN</th>
-											<th>THAO TÁC</th>
+											<th class="text-center">ID</th>
+											<th class="text-center">TÊN TUYẾN</th>
+											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody>
-									
-									</tbody>
+									<tbody class="text-center"></tbody>
 								</table>
 							</div>
 						</div>
@@ -78,9 +79,8 @@
 					class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
 					role="document">
 					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="modalTitleId">Chỉnh sửa tuyến
-								tàu</h4>
+						<div class="modal-header" style="background: #17bac5;">
+							<h4 class="modal-title" id="modalTitleId">TUYẾN TÀU</h4>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -90,17 +90,131 @@
 									ng-model="form.tentuyen" class="form-control">
 							</div>
 						</div>
-						<div class="modal-footer text-center">
+					
+						<div class="modal-footer">
 							<button type="button" ng-show="post" ng-click="create()"
 								class="btn btn-primary">Tạo</button>
 							<button type="button" ng-show="put" ng-click="update()"
 								class="btn btn-success">Chỉnh sửa</button>
-							<button type="button" ng-show="delete"
-								ng-click="deleteItem(form)" class="btn btn-danger">Xóa</button>
-							<button type="button" ng-click="reset()" class="btn btn-info">Xóa
-								form</button>
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Close</button>
+							<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa
+								form</button>					
+									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
+									<div class="container">
+								      <input type="checkbox" id="check">
+								      <label class="show_button" for="check" ng-show="delete">Xóa</label>
+								      <div class="background"></div>
+								      <div class="alert_box">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Xác nhận</header>
+										  <p>Bạn có chắc chắn muốn xóa không?</p>
+										  <div class="btns">
+										      <label ng-click="deleteItem(form)">Vâng, Xóa!</label>
+										      <label for="check">Hủy bỏ</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check1" >
+								      <div class="background"></div>
+								      <div class="alert_box1">
+									      <div class="icon">
+									          <i class="fas fa-check-circle"></i>
+										  </div>
+										  <header>Đã xóa thành công</header>
+										  <div class="btns1">
+										      <label for="check1" data-bs-dismiss="modal">Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check3" >
+								      <div class="background"></div>
+								      <div class="alert_box3">
+									      <div class="icon">
+									          <i class="fas fa-check-circle"></i>
+										  </div>
+										  <header>Thành công</header>
+										  <div class="btns3">
+										      <label for="check3">Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check2" >
+								      <div class="background"></div>
+								      <div class="alert_box2">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Không thành công!</header>
+										  <div class="btns2">
+										      <label for="check2" >Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check4" >
+								      <div class="background"></div>
+								      <div class="alert_box4">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Không thể xóa tuyến đang được sử dụng!</header>
+										  <div class="btns4">
+										      <label for="check4" >Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check6" >
+								      <div class="background"></div>
+								      <div class="alert_box6">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn tên tuyến!</header>
+										  <div class="btns6">
+										      <label for="check6" >OK</label>
+									      </div>
+								      </div>
+									
+									 <input type="checkbox" id="check7" >
+								      <div class="background"></div>
+								      <div class="alert_box7">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Không thể xóa!</header>
+										   <p>Tuyến đang được sử dụng trong lịch tàu.</p>
+										  <div class="btns7">
+										      <label for="check7" data-bs-dismiss="modal">Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check8" >
+								      <div class="background"></div>
+								      <div class="alert_box8">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Tên tuyến đã tồn tại!</header>
+										   <p>Hãy chọn giá trị khác.</p>
+										  <div class="btns8">
+										      <label for="check8" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check10" >
+								      <div class="background"></div>
+								      <div class="alert_box10">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Dữ liệu không được chỉnh sửa!</header>
+										  <div class="btns10">
+										      <label for="check10" >OK</label>
+									      </div>
+								      </div>	
+								      						    
+									</div>
+									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 						</div>
 					</div>
 				</div>
@@ -112,7 +226,7 @@
 		<!-- Footer -->
 	</div>
 	<!-- Scripts -->
-	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
+	<!-- <script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script> -->
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>

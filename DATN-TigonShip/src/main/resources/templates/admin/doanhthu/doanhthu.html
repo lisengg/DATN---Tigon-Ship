@@ -50,16 +50,14 @@
                                 <table class="table " >
                                     <thead class="text-center">
                                         <tr>
-                                            <th class="serial">Tổng hóa đơn</th>
                                             <th>Tên tuyến</th>
                                             <th>Doanh thu</th>
                                         </tr>
                                     </thead>
                                     <tbody ng-repeat="item in items">
                                         <tr>
-                                            <td class="serial">{{item[0]}}</td>
-                                            <td>  <span class="name">{{item[2]}}</span> </td>
-                                            <td><span>{{item[1]}} VND</span></td>
+                                            <td>  <span class="name">{{item[1]}}</span> </td>
+                                            <td><span>{{item[0]}} VND</span></td>
                                            <!--  <td>
                                                 <span class="badge badge-complete">Complete</span>
                                             </td> -->
@@ -72,7 +70,7 @@
                     <div class="col-lg-5">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Tổng doanh thu  <input type="date">
+                                <strong class="card-title">Tổng doanh thu <input type="date" ng-model="date" ng-change="dttheongay()">
                                      : {{doanhthu}} VND</strong>
                                     
                             </div>
@@ -80,14 +78,14 @@
                                 <table class="table " >
                                     <thead class="text-center">
                                         <tr>
-                                            <th class="serial">Tổng hóa đơn</th>
+                                           <!--  <th class="serial">Tổng hóa đơn</th> -->
                                             <th>Tên tuyến</th>
                                             <th>Doanh thu</th>
                                         </tr>
                                     </thead>
-                                    <tbody ng-repeat="item in items">
+                                    <tbody ng-repeat="item in doanhthutheongay">
                                         <tr>
-                                            <td class="serial">{{item[0]}}</td>
+                                            <!-- <td class="serial">{{item[0]}}</td> -->
                                             <td>  <span class="name">{{item[2]}}</span> </td>
                                             <td><span>{{item[1]}} VND</span></td>
                                            <!--  <td>

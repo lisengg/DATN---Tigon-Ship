@@ -16,7 +16,7 @@ app.controller('danhgia-ctrl', function($scope, $http) {
     $scope.getAll()
 
 	$scope.chart = function() {
-		var url = `/rest/danhgia/tuyen/avg`;
+		var url = `/rest/danhgia/tuyen/avg/honson`;
 		$http.get(url).then(response => {
 			$scope.avg = response.data;
 			console.log($scope.avg);
@@ -30,10 +30,10 @@ app.controller('danhgia-ctrl', function($scope, $http) {
 			});
 
 			// Lấy thẻ canvas để vẽ biểu đồ
-			var ctx = document.getElementById('myChart').getContext('2d');
+			var ctx = document.getElementById('chartHonSon').getContext('2d');
 
 			// Tạo biểu đồ cột
-			var myChart = new Chart(ctx, {
+			var chartHonSon = new Chart(ctx, {
 				type: 'bar',
 				data: {
 					labels: labels,
@@ -48,11 +48,13 @@ app.controller('danhgia-ctrl', function($scope, $http) {
 				options: {
 					scales: {
                         xAxes: [{
-                            barPercentage: 1, // Đặt bước nhảy cho mỗi cột là 1
+                            barPercentage: 0.5, // Đặt độ rộng của cột là 50%
+       					    categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
                           }],
 						yAxes: [{
 							ticks: {
-								beginAtZero: true
+								beginAtZero: true,
+								max: 5, 
 							}
 						}]
 					},
@@ -61,7 +63,181 @@ app.controller('danhgia-ctrl', function($scope, $http) {
 					},
 					title: {
 						display: true,
-						text: 'Biểu đồ đánh giá điểm trung bình các tuyến',
+						text: 'Bắt đầu từ Hòn Sơn',
+						fontFamily: 'Arial',
+						fontSize: 20,
+						fontStyle: 'bold',
+						fontColor: '#333'
+					}
+				}
+			});
+		}).catch(err => {
+			console.log("Error", err);
+		});
+		var url = `/rest/danhgia/tuyen/avg/kiengiang`;
+		$http.get(url).then(response => {
+			$scope.avg = response.data;
+			console.log($scope.avg);
+		
+			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
+			var labels = $scope.avg.map(function(item) {
+				return item[0]; // Tên mục
+			});
+			var data = $scope.avg.map(function(item) {
+				return item[1]; // Số lượng
+			});
+
+			// Lấy thẻ canvas để vẽ biểu đồ
+			var ctx = document.getElementById('chartKienGiang').getContext('2d');
+
+			// Tạo biểu đồ cột
+			var chartKienGiang = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Điểm TB',
+						data: data,
+						backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
+						borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+						borderWidth: 1,
+					}]
+				},
+				options: {
+					scales: {
+                        xAxes: [{
+                            barPercentage: 0.5, // Đặt độ rộng của cột là 50%
+       					    categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
+                          }],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								max: 5, 
+							}
+						}]
+					},
+					legend: {
+						display: false // Ẩn chú thích
+					},
+					title: {
+						display: true,
+						text: 'Bắt đầu từ Kiên Giang',
+						fontFamily: 'Arial',
+						fontSize: 20,
+						fontStyle: 'bold',
+						fontColor: '#333'
+					}
+				}
+			});
+		}).catch(err => {
+			console.log("Error", err);
+		});
+		var url = `/rest/danhgia/tuyen/avg/namdu`;
+		$http.get(url).then(response => {
+			$scope.avg = response.data;
+			console.log($scope.avg);
+		
+			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
+			var labels = $scope.avg.map(function(item) {
+				return item[0]; // Tên mục
+			});
+			var data = $scope.avg.map(function(item) {
+				return item[1]; // Số lượng
+			});
+
+			// Lấy thẻ canvas để vẽ biểu đồ
+			var ctx = document.getElementById('chartNamDu').getContext('2d');
+
+			// Tạo biểu đồ cột
+			var chartNamDu = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Điểm TB',
+						data: data,
+						backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
+						borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+						borderWidth: 1,
+					}]
+				},
+				options: {
+					scales: {
+                        xAxes: [{
+                            barPercentage: 0.5, // Đặt độ rộng của cột là 50%
+       					    categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
+                          }],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								max: 5, 
+							}
+						}]
+					},
+					legend: {
+						display: false // Ẩn chú thích
+					},
+					title: {
+						display: true,
+						text: 'Bắt đầu từ Nam Du',
+						fontFamily: 'Arial',
+						fontSize: 20,
+						fontStyle: 'bold',
+						fontColor: '#333'
+					}
+				}
+			});
+		}).catch(err => {
+			console.log("Error", err);
+		});
+		var url = `/rest/danhgia/tuyen/avg/phuquoc`;
+		$http.get(url).then(response => {
+			$scope.avg = response.data;
+			console.log($scope.avg);
+		
+			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
+			var labels = $scope.avg.map(function(item) {
+				return item[0]; // Tên mục
+			});
+			var data = $scope.avg.map(function(item) {
+				return item[1]; // Số lượng
+			});
+
+			// Lấy thẻ canvas để vẽ biểu đồ
+			var ctx = document.getElementById('chartPhuQuoc').getContext('2d');
+
+			// Tạo biểu đồ cột
+			var chartPhuQuoc = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Điểm TB',
+						data: data,
+						backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
+						borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+						borderWidth: 1,
+					}]
+				},
+				options: {
+					scales: {
+                        xAxes: [{
+                            barPercentage: 0.5, // Đặt độ rộng của cột là 50%
+       					    categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
+                          }],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								max: 5, 
+							}
+						}]
+					},
+					legend: {
+						display: false // Ẩn chú thích
+					},
+					title: {
+						display: true,
+						text: 'Bắt đầu từ Phú Quốc',
 						fontFamily: 'Arial',
 						fontSize: 20,
 						fontStyle: 'bold',

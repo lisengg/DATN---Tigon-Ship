@@ -40,24 +40,42 @@
 	<div id="right-panel" class="right-panel">
 		<div class="content">
 			<div class="animated fadeIn">
+				<div class="row"> 
+					<div class="text-center">
+						<p>Điểm đánh giá trung bình các tuyến</p>
+					</div>
+					<div class="col-lg-6">
+						<canvas id="chartHonSon"></canvas>
+					</div>
+					<div class="col-lg-6">
+						<canvas id="chartKienGiang"></canvas>
+					</div>
+					<div class="col-lg-6">
+						<canvas id="chartNamDu"></canvas>
+					</div>
+					<div class="col-lg-6">
+						<canvas id="chartPhuQuoc"></canvas>
+					</div>
+				</div>
+			
 				<div class="row">
-					<canvas id="myChart"></canvas>
-					<div class="col-lg-4">
+					
+					
+					<div class="col-lg-6">
 						<div class="card">
 							<div class="card-header">
-								<strong class="card-title">TOP5 hành khách có lượt đánh giá nhiều nhất</strong>
+								<strong class="card-title">TOP5 tuyến được đi nhiều nhất</strong>
 							</div>
 							<div class="card-body">
 								<table class="table">
 									<thead class="thead-light">
 										<tr>
-										  <th scope="col">Họ & Tên</th>
 										  <th scope="col">Lượt</th>
+										  <th scope="col">Tuyến</th>
 									  </tr>
 								  </thead>
 								  <tbody ng-repeat="top in top5">
 									<tr>
-									
 										<td>{{top[0]}}</td>
 										<td>{{top[1]}}</td>
 									</tr>
@@ -66,7 +84,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-8">
+				<div class="col-lg-6">
 					<div class="card">
 						<div class="card-header">
 							Chọn tuyến tàu:

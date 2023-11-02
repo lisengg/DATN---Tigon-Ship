@@ -34,5 +34,10 @@ public class HangTau {
     @OneToMany(mappedBy = "HANGTAU")
     @JsonBackReference
     List<Tau> TAU;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "HANGTAU")
+    @JsonBackReference
+    List<LichSuHangTau> HangTauHistory;
     
 }
