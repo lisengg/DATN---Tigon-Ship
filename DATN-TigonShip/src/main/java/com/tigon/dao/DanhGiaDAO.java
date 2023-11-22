@@ -15,11 +15,11 @@ public interface DanhGiaDAO extends JpaRepository<DanhGia, Integer> {
 
   // các tuyến được đi nhiều nhất
   @Query(value = "SELECT COUNT(d.IDLICHTAU), TENTUYEN FROM lichtauchay l " +
-      "INNER JOIN DATVE d ON d.IDLICHTAU = l.IDLICHTAU " +
-      "INNER JOIN TUYEN t ON t.IDTUYEN = l.IDTUYEN " +
-      "GROUP BY d.IDLICHTAU, t.TENTUYEN " +
-      "ORDER BY COUNT(d.IDLICHTAU) DESC", nativeQuery = true)
-  List<Object> Top5();
+  "INNER JOIN DATVE d ON d.IDLICHTAU = l.IDLICHTAU " +
+  "INNER JOIN TUYEN t ON t.IDTUYEN = l.IDTUYEN " +
+  "GROUP BY d.IDLICHTAU, t.TENTUYEN " +
+  "ORDER BY COUNT(d.IDLICHTAU) DESC", nativeQuery = true)
+List<Object> Top5();
 
   // Tuyến - điểm TB tuyến bắt đầu từ HÒN SƠN
   @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIAHANHKHACH d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Hòn%' Group by t.TENTUYEN", nativeQuery = true)

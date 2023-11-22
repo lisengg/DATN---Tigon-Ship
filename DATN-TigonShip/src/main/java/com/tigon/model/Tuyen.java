@@ -30,6 +30,7 @@ public class Tuyen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDTUYEN;   
     String TENTUYEN;
+    String TRANGTHAI;
 
     @JsonIgnore
     @OneToMany(mappedBy = "TUYEN")

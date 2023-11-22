@@ -60,6 +60,7 @@ public class hangTauRestController {
 		map.put("hangtau", hangTauDAO.findAll());
 		map.put("tau", tauDAO.findAll());
     map.put("lichsu", lichsuDAO.findAll());
+    map.put("capnhat", lichsuDAO.lichsucapnhat());
 		return map;
     }
     @GetMapping("/rest/hangtau/{id}")

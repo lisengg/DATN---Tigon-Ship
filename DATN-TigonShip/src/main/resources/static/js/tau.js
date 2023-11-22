@@ -1,5 +1,5 @@
-const app = angular.module('tau-app', []);
-app.controller('tau-ctrl', function($scope, $http) {
+const app = angular.module('tau-app', ['ngSanitize']);
+app.controller('tau-ctrl', function($scope, $http, $sce) {
 	$scope.form = { ngaynhap: new Date(), },
 		$scope.initialize = function() {
 			$http.get("/rest/tau").then(response => {
@@ -22,9 +22,7 @@ app.controller('tau-ctrl', function($scope, $http) {
 				{ data: 'tentau' },
 				{ data: 'hangtau.tenhangtau' },
 				{ data: 'soghe' },
-				{ data: 'tinhtrang' },
-				{
-					data: 'ngaynhap',
+				{ data: 'ngaynhap',
 					render: function(data, type, full, meta) {
 						if (type === 'display') {
 							// Định dạng ngày theo dd/MM/yyyy
@@ -33,6 +31,7 @@ app.controller('tau-ctrl', function($scope, $http) {
 						return data; // Trả về dữ liệu gốc cho các loại khác
 					}
 				},
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -57,7 +56,7 @@ app.controller('tau-ctrl', function($scope, $http) {
 	$scope.reset = function() {
 		$scope.form = {
 			ngaynhap: new Date(),// Gán ngày mặc định (hoặc giá trị khác) vào biến ngaynhap
-			tinhtrang: 'Hoạt động',
+			trangthai: 'Đang hoạt động',
 			soghe: '160',
 		}
 		$scope.post = true
@@ -81,17 +80,18 @@ app.controller('tau-ctrl', function($scope, $http) {
 			return;
 		}
 		// Kiểm tra tên hãng tàu không được để trống
-		/* if (!$scope.form.tau || !$scope.form.tau.idtau) {
+		 if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
 			document.getElementById('check5').checked = true;
 			return;
-		} */
+		}
 		var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)
 		var item = {
 			"tentau": $scope.form.tentau,
 			"soghe": $scope.form.soghe,
 			"tinhtrang": $scope.form.tinhtrang,
 			"ngaynhap": $scope.form.ngaynhap = new Date(),
-			"hangtau": $scope.items.hangtau[index]
+			"hangtau": $scope.items.hangtau[index],
+			"trangthai": $scope.form.trangthai
 		}
 		var url = `/rest/tau/save`;
 		// Kiểm tra xem tên tàu đã được chọn có trùng với tàu khác không
@@ -108,14 +108,14 @@ app.controller('tau-ctrl', function($scope, $http) {
 			document.getElementById('check3').checked = true;
 			var itemlichsu = {
 				"tau": response.data,
-				"thaotac" : "Vừa thêm mới tàu có ID : " + response.data.idtau ,
+				"thaotac" : "Đã thêm mới tàu có ID : " + response.data.idtau ,
 			}
 			$http.post('/rest/tau/lichsu/save', itemlichsu)
                 .then(function(response) {   
 					$scope.items.lichsu.push(response.data)
                 })
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichsuTau", error);
 				});
 			$scope.reset();
 		}).catch(error => {
@@ -124,8 +124,19 @@ app.controller('tau-ctrl', function($scope, $http) {
 		})
 
 	}
+	 $scope.formatThaoTac = function(thaoTac) {
+        if (thaoTac.includes('#')) {
+            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+            var separatedLines = thaoTac.split('#').map(line => line.trim());
+            return $sce.trustAsHtml(separatedLines.join('<br>'));
+        } else {
+            // Ngược lại, trả về nguyên bản
+            return thaoTac;
+        }
+    };
 	//CẬP NHẬT TÀU
 	$scope.update = function() {
+		var itemold = $scope.originalData
 		var item = angular.copy($scope.form);
 		var url = `/rest/tau/${item.idtau}`;
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
@@ -144,10 +155,32 @@ app.controller('tau-ctrl', function($scope, $http) {
 			document.getElementById('check8').checked = true;
 			return;
 		}
+		// Cập nhật thông tin của hangtau trong item
+		var indexHangTau = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau);
+		item.hangtau = $scope.items.hangtau[indexHangTau];
+
+		var ttupdate = "Cập nhật tàu có ID: " + itemold.idtau;
+		if (itemold.tentau.toLowerCase() !== item.tentau.toLowerCase()) {
+			ttupdate += "# Tên tàu: " + itemold.tentau + " thành " + item.tentau;
+		}
+		
+		if (itemold.hangtau.tenhangtau.toLowerCase() !== item.hangtau.tenhangtau.toLowerCase()) {
+			ttupdate += "# Tên hãng tàu: " + itemold.hangtau.tenhangtau + " thành " + item.hangtau.tenhangtau;
+		}
+
+		if (itemold.soghe !== item.soghe) {
+			ttupdate += "# số ghế: " + itemold.soghe + " thành " + item.soghe;
+		}
+
+		if (itemold.trangthai.toLowerCase() !== item.trangthai.toLowerCase()) {
+			ttupdate += "# trạng thái thành " + item.trangthai;
+		}
+		console.log(ttupdate);
 		var itemlichsu = {
 			"tau": item,
-			"thaotac" : "Vừa update tàu có ID : " + item.idtau ,
+			"thaotac": ttupdate,
 		}
+		// Hiển thị ttupdate trong một phần tử HTML
 		$http.put(url, item).then(response => {
 			var index = $scope.items.tau.findIndex(a => a.idtau === item.idtau);
 			$scope.items.tau[index] = item;
@@ -160,29 +193,11 @@ app.controller('tau-ctrl', function($scope, $http) {
 					$scope.items.lichsu.push(response.data)
                 })
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichSuTau", error);
 				});
 		}).catch(err => {
 			document.getElementById('check2').checked = true;
 			console.log("Error", error);
 		});
 	}
-
-	$scope.deleteItem = function(data) {
-		$http.delete(`/rest/tau/${data.idtau}`).then(response => {
-			var index = $scope.items.tau.findIndex(a => a.idtau === data.idtau);
-			$scope.items.tau.splice(index, 1);
-			// Cập nhật DataTables
-			var table = $('#table2').DataTable();
-			table.row(index).remove().draw();
-			document.getElementById('check1').checked = true; // Hiển thị form thành công
-			document.getElementById('check').checked = false;
-		}).catch(error => {
-			document.getElementById('check2').checked = true;
-			document.getElementById('check').checked = false;
-			console.log("Error", error)
-		});
-	}
-
-
 })

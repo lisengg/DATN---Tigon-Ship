@@ -8,7 +8,6 @@
 					<li class="active"><a></a></li>
 					<li class="menu-title">Quản lí</li>
 					<!-- /.menu-title -->
-
 					<li><a th:href="@{/admin/hangtau}"> <i
 							class="menu-icon fa fa-tasks"></i>Hãng tàu
 					</a></li>
@@ -53,27 +52,25 @@
 </div>
 <!-- ============================Lịch Sử Cập Nhật================================== -->
 <div th:fragment="history" id="history">
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="container mt-5 mb-5">
-					<div class="row">
-						<div class="col-md-8 offset-md-2">
-							<ul class="timeline" ng-repeat="ls in items.lichsu">
-								<li>
-									<a>{{ls.thoigian}}</a>
-									<br>
-									<a>{{ls.ten}}</a>
-									<br>
-									<a>{{ls.thaotac}}</a>
-								</li>	
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row text-center mb-12">
+                        <div class="col-lg-10 mx-auto"> 
+							<ul class="timeline" ng-repeat="ls in items.lichsu | orderBy:'-thoigian'">
+                                <li class="timeline-item rounded ml-8 p-4 shadow">
+                                    <div class="timeline-arrow"></div>
+                                    <h2 class="h6 mb-0 text-black">Tên đăng nhập: {{ls.ten}}</h2>Thời gian: {{ls.thoigian | date:'dd-MM-yyyy   HH:mm:ss'}}
+                                    <p class="text-small mt-2 font-weight-light" ng-bind-html="formatThaoTac(ls.thaotac)"></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- ============================HEADER================================== -->
 <div th:fragment="header" id="header">

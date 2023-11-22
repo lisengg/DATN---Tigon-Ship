@@ -1,5 +1,5 @@
 const app = angular.module('lichtau-app', []);
-app.controller('lichtau-ctrl', function($scope, $http) {
+app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 	$scope.form = {},
 	
 	$scope.initialize = function() {
@@ -21,6 +21,7 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 				{ data: 'tau.tentau' },
 				{ data: 'gioxuatphat' },
 				{ data: 'giodennoi' },
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -52,7 +53,9 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 	}
 	//Xóa form
 	$scope.reset = function() {
-		$scope.form = null;
+		$scope.form = {
+			trangthai: 'Đang hoạt động',
+		};
 		$scope.post = true;
 		$scope.put = false;
 		$scope.delete = false;
@@ -74,6 +77,7 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
+		
 		// Kiểm tra xem tàu đã được chọn
 		if (!$scope.form.tau || !$scope.form.tau.idtau) {
 			document.getElementById('check5').checked = true;
@@ -141,17 +145,21 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 			})
 		}
 	}
+	$scope.formatThaoTac = function(thaoTac) {
+        if (thaoTac.includes('#')) {
+            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+            var separatedLines = thaoTac.split('#').map(line => line.trim());
+            return $sce.trustAsHtml(separatedLines.join('<br>'));
+        } else {
+            // Ngược lại, trả về nguyên bản
+            return thaoTac;
+        }
+    };
 	//Cập nhật lịch tàu
-	$scope.updateSuccess = false;
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
+		var itemold = $scope.originalData;
 		var url = `/rest/lichtau/${item.idlichtau}`;
-		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
-		if ($scope.updateSuccess) {
-			// Hiển thị thông báo lỗi vì không có sự thay đổi
-			document.getElementById('check10').checked = true;
-			return;
-		}
 		if (angular.equals(item, $scope.originalData)) {
 			document.getElementById('check10').checked = true;
 			return;
@@ -171,9 +179,36 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 				existingItem.giodennoi === item.giodennoi
 			);
 		});
+		// Cập nhật thông tin của Tàu + Tuyến trong item tránh việc load lại trang
+		var indexTau = $scope.items.tau.findIndex(a => a.idtau === $scope.form.tau.idtau);
+		item.tau = $scope.items.tau[indexTau];
+		var indexTuyen = $scope.items.tuyen.findIndex(a => a.idtuyen === $scope.form.tuyen.idtuyen);
+		item.tuyen = $scope.items.tuyen[indexTuyen];
+		
+
+		
+		var ttupdate = "Cập nhật lịch tàu  có ID: " + itemold.idlichtau;
+
+		if (itemold.tuyen.tentuyen !== item.tuyen.tentuyen) {
+			ttupdate += "# Tên tuyến: " + itemold.tuyen.tentuyen + " thành " + item.tuyen.tentuyen;
+		}
+		if (itemold.tau.tentau !== item.tau.tentau) {
+			ttupdate += "# Tên tàu: " + itemold.tau.tentau + " thành " + item.tau.tentau;
+		}
+		if (!angular.equals(itemold.gioxuatphat, item.gioxuatphat)) {
+			ttupdate += "# Giờ xuất phát: " + itemold.gioxuatphat + " thành " + item.gioxuatphat;
+		}
+		if (!angular.equals(itemold.giodennoi, item.giodennoi)) {
+			ttupdate += "# Giờ xuất phát: " + itemold.giodennoi + " thành " + item.giodennoi;
+		}
+		if (itemold.trangthai !== item.trangthai) {
+			ttupdate += "# trạng thái thành " + item.trangthai;
+		}
+
+		console.log(ttupdate);
 		var itemlichsu = {
-			"lichtauchay": item,
-			"thaotac" : "Vừa update tàu có ID : " + item.idlichtau ,
+			"tuyen": item,
+			"thaotac": ttupdate,
 		}
 		if (isDuplicate) {
 			document.getElementById('check8').checked = true;
@@ -185,40 +220,17 @@ app.controller('lichtau-ctrl', function($scope, $http) {
 				var row = table.row(index);
 				row.data(item).draw();
 				document.getElementById('check3').checked = true;
-				$scope.updateSuccess = true;
 				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
                 .then(function(response) {   
 					$scope.items.lichsu.push(response.data)
                 })
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichSuLichTau", error);
 				});
 			}).catch(error => {
 				console.log("Error", error)
 				document.getElementById('check2').checked = true;
 			})
 		}
-	}
-	//Xóa lịch tàu
-	$scope.deleteItem = function(data) {
-		var url = `/rest/lichtau/${data.idlichtau}`;
-		$http.delete(url).then(response => {
-			var index = $scope.items.lichtau.findIndex(p => p.idlichtau == data.idlichtau);
-			if (index !== -1) {
-				$scope.items.lichtau.splice(index, 1); // Xóa item khỏi danh sách
-				// Cập nhật DataTables
-				var table = $('#table2').DataTable();
-				table.row(index).remove().draw();
-				document.getElementById('check1').checked = true; // Hiển thị form thành công
-				document.getElementById('check').checked = false;
-			} else {
-				alert("Không tìm thấy item để xóa!");
-			}
-		})
-			.catch(error => {
-				document.getElementById('check2').checked = true;
-				document.getElementById('check').checked = false;
-				console.log("Error", error);
-			});
 	}
 })

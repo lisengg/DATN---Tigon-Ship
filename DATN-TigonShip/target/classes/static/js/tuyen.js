@@ -1,5 +1,5 @@
-const app = angular.module('tuyen-app', []);
-app.controller('tuyen-ctrl', function($scope, $http) {
+const app = angular.module('tuyen-app', ['ngSanitize']);
+app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 	$scope.form = {};
 
 	$scope.initialize = function() {
@@ -18,6 +18,7 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			columns: [
 				{ data: 'idtuyen' },
 				{ data: 'tentuyen' },
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -51,7 +52,9 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 	}
 	//Xóa form
 	$scope.reset = function() {
-		$scope.form = null;
+		$scope.form = {
+			trangthai: 'Đang hoạt động',
+		};
 		$scope.post = true;
 		$scope.put = false;
 		$scope.delete = false;
@@ -63,7 +66,10 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
-		var item = angular.copy($scope.form);
+		var item = {
+			"tentuyen": $scope.form.tentuyen,
+			"trangthai": $scope.form.trangthai
+		}
 		var url = `/rest/tuyen/save`;
 		// Kiểm tra xem tên tuyến mới có trùng với tên tuyến đã có không
 		var isDuplicate = $scope.items.tuyen.some(t => t.idtuyen !== item.idtuyen && t.tentuyen === item.tentuyen);
@@ -80,14 +86,14 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			document.getElementById('check3').checked = true;
 			var itemlichsu = {
 				"tuyen": response.data,
-				"thaotac" : "Vừa thêm mới tuyến có ID : " + response.data.idtuyen ,
+				"thaotac": "Đã thêm mới tuyến có ID : " + response.data.idtuyen,
 			}
 			$http.post('/rest/tuyen/lichsu/save', itemlichsu)
-                .then(function(response) {   
+				.then(function(response) {
 					$scope.items.lichsu.push(response.data)
-                })
+				})
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichSuTuyen", error);
 				});
 			$scope.reset();
 		}).catch(error => {
@@ -95,19 +101,23 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			console.log("Error", error)
 		})
 	}
+	$scope.formatThaoTac = function(thaoTac) {
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
 	//Cập nhật tuyến
-
-	$scope.updateSuccess = false;
 	$scope.update = function() {
+		var itemold = $scope.originalData
 		var item = angular.copy($scope.form);
 		var url = `/rest/tuyen/${item.idtuyen}`;
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
 		if (angular.equals(item, $scope.originalData)) {
-			// Hiển thị thông báo lỗi vì không có sự thay đổi
-			document.getElementById('check10').checked = true;
-			return;
-		}
-		if ($scope.updateSuccess) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
 			document.getElementById('check10').checked = true;
 			return;
@@ -120,9 +130,19 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			return; // Ngăn cập nhật nếu tên tuyến trùng
 		}
 
+		var ttupdate = "Cập nhật tuyến có ID: " + itemold.idtuyen;
+
+		if (itemold.tentuyen !== item.tentuyen) {
+			ttupdate += "# Tên tuyến: " + itemold.tentuyen + " thành " + item.tentuyen;
+		}
+
+		if (itemold.trangthai.toLowerCase() !== item.trangthai.toLowerCase()) {
+			ttupdate += "# trạng thái thành " + item.trangthai;
+		}
+		console.log(ttupdate);
 		var itemlichsu = {
 			"tuyen": item,
-			"thaotac" : "Vừa update tàu có ID : " + item.idtuyen ,
+			"thaotac": ttupdate,
 		}
 		$http.put(url, item).then(response => {
 			var index = $scope.items.tuyen.findIndex(t => t.idtuyen == item.idtuyen);
@@ -131,50 +151,18 @@ app.controller('tuyen-ctrl', function($scope, $http) {
 			var row = table.row(index);
 			row.data(item).draw();
 			document.getElementById('check3').checked = true;
-			$scope.updateSuccess = true;
+
 			$http.post('/rest/tuyen/lichsu/save', itemlichsu)
-                .then(function(response) {   
+				.then(function(response) {
 					$scope.items.lichsu.push(response.data)
-                })
+				})
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichSuTuyen", error);
 				});
 		}).catch(error => {
 			console.log("Error", error);
 			document.getElementById('check2').checked = true;
 		});
-	}
-
-	//Xóa sản phẩm
-	$scope.deleteItem = function(data) {
-		var url = `/rest/tuyen/${data.idtuyen}`;
-		// Kiểm tra xem tuyến đó có đang được sử dụng trong lịch tàu hay không
-		var isTuyenUsedInLichtau = $scope.items.lichtau.some(function(lichtau) {
-			return lichtau.tuyen.idtuyen === data.idtuyen;
-		});
-
-		if (isTuyenUsedInLichtau) {
-			document.getElementById('check7').checked = true;
-			return;
-		}
-		$http.delete(url).then(response => {
-			var index = $scope.items.findIndex(p => p.idtuyen == data.idtuyen);
-			if (index !== -1) {
-				$scope.items.tuyen.splice(index, 1); // Xóa item khỏi danh sách
-				// Cập nhật DataTables
-				var table = $('#table2').DataTable();
-				table.row(index).remove().draw();
-				document.getElementById('check1').checked = true; // Hiển thị form thành công
-				document.getElementById('check').checked = false;
-			} else {
-				alert("Không tìm thấy item để xóa!");
-			}
-		})
-			.catch(error => {
-				document.getElementById('check4').checked = true;
-				document.getElementById('check').checked = false;
-				console.log("Error", error);
-			});
 	}
 
 })

@@ -32,6 +32,7 @@ public class LichTauChay {
     Integer IDLICHTAU;
     String GIOXUATPHAT;
     String GIODENNOI;
+    String TRANGTHAI;
 
     @ManyToOne
     @JoinColumn(name="IDTAU")

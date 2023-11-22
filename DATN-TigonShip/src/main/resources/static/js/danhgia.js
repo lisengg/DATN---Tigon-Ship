@@ -272,9 +272,6 @@ app.controller('danhgia-ctrl', function($scope, $http) {
         })
     }
     
-   
-
-
 	// ĐIỂM TB của tất cả tuyến
 	$scope.AVGAll = function() {
 		var url = `/rest/danhgia/tuyen`;
@@ -296,8 +293,4 @@ app.controller('danhgia-ctrl', function($scope, $http) {
 		})
 	}
     $scope.top5()
-
-
-
-
 })

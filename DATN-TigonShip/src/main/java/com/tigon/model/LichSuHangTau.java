@@ -27,8 +27,10 @@ public class LichSuHangTau {
     String TEN;
     String THAOTAC;
     
+    
 	@Column(name = "THOIGIAN")
 	LocalDateTime THOIGIAN = LocalDateTime.now();
+
     @ManyToOne
 	@JoinColumn(name = "IDHANGTAU")
 	HangTau HANGTAU;
