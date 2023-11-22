@@ -78,7 +78,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #66FCF1;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -104,7 +104,7 @@ ul {
 p {
   font-size: 15px;
   line-height: 30px;
-  color: #afafaf;
+  color: white;
 }
 
 img {
@@ -119,18 +119,18 @@ Global Styles
 */
 html,
 body {
-  background: #fff;
+  background: #66FCF1;
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #22b3c1;
-  color: #fff;
+  background: #66FCF1;
+  color: #66FCF1;
 }
 
 ::-moz-selection {
   background: #22b3c1;
-  color: #fff;
+  color: #66FCF1;
 }
 
 .text-button a {
@@ -166,15 +166,15 @@ body {
 }
 
 .border-button a:hover {
-  background-color: #22b3c1;
-  color: #fff;
+  background-color: #66FCF1;
+  color: #66FCF1;
 }
 
 .main-button a {
   font-size: 14px;
-  color: #fff;
-  background-color: #22b3c1;
-  border: 1px solid #22b3c1;
+  color: #66FCF1;
+  background-color: #66FCF1;
+  border: 1px solid #66FCF1;
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -187,9 +187,9 @@ body {
 }
 
 .main-button a:hover {
-  background-color: #fff;
-  color: #22b3c1;
-  border: 1px solid #fff;
+  background-color: #66FCF1;
+  color: #66FCF1;
+  border: 1px solid #66FCF1;
 }
 
 section {
@@ -287,7 +287,7 @@ Pre-loader Style
   height: 16px;
   top: 12px;
   left: 15px;
-  background: #22b3c1;
+  background: #66FCF1;
   border-radius: 50%;
   -webkit-transform: translateX(0);
   transform: translateX(0);
@@ -310,7 +310,7 @@ Pre-loader Style
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  background: #22b3c1;
+  background: #66FCF1;
   border-radius: 50%;
 }
 
@@ -323,7 +323,7 @@ Header Style
 */
 
 .background-header {
-  background-color: #22b3c1 !important;
+  background-color: 66FCF1 !important;
   height: 70px!important;
   position: fixed!important;
   top: 0!important;
@@ -337,7 +337,7 @@ Header Style
 }
 
 .header-area {
-  background-color: #22b3c1;
+  background-color: #66FCF1;
   position: absolute;
   height: 70px;
   top: 0;
@@ -358,7 +358,7 @@ Header Style
 
 .background-header .main-nav {
   padding: 0px;
-  background-color: transparent;
+  background-color: 66FCF1;
 }
 
 .header-area .main-nav .logo {
