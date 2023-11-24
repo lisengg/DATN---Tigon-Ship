@@ -1,22 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<style>
+        /* Style for the checkbox container */
+        .checkbox-container {
+            display: inline-block;
+            position: relative;
+            padding-left: 30px; /* Adjust as needed */
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
+        /* Hide the default checkbox input */
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Style the custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Style the checked state */
+        .checkbox-container input:checked + .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark using a pseudo-element (::before) */
+        .checkmark::before {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when the checkbox is checked */
+        .checkbox-container input:checked + .checkmark::before {
+            display: block;
+        }
+
+        /* Style the checkmark icon */
+        .checkbox-container .checkmark::before {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+    </style>
     <title>Booking Form HTML Template</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous" />
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/user/bootstrap.min.css" />
 
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="/assets/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/user/style.css" />
 
 </head>
 
@@ -36,47 +92,40 @@
                     <div class="col-md-5 col-md-pull-7">
                         <div class="booking-form">
 
-                            <form>
+                            <form th:action="@{/user/tuyentau}" method="post">
                                 <div class="form-group">
                                     <span class="form-label"><i class="bi bi-geo-alt-fill"></i>Tuyến Tàu</span>
-                                    <select id="form3Example1c" class="form-control" required>
-                                        <option></option>
-                                        <option>Nam Du - Rạch Gi&#225;</option>
-                                        <option>Rạch Gi&#225; - Nam Du</option>
-                                        <option>Lại Sơn - Nam Du</option>
-                                        <option>H&#242;n Tre - Nam Du</option>
-                                        <option>Nam Du - Rạch Gi&#225;</option>
-                                        <option>Rạch Gi&#225; - Nam Du</option>
-                                        <option>Lại Sơn - Nam Du</option>
-                                        <option>H&#242;n Tre - Nam Du</option>
-                                        <option>Nam Du - Rạch Gi&#225;</option>
-                                        <option>Rạch Gi&#225; - Nam Du</option>
-                                        <option>Lại Sơn - Nam Du</option>
-                                        <option>H&#242;n Tre - Nam Du</option>
-                                    </select>
+                                    <select class="form-control" name="TENTUYEN"> 
+										<option name="TENTUYEN" th:each="p:${items}" th:value="${p.TENTUYEN}" th:text=${p.TENTUYEN}></option>
+									</select>
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label"><i class="bi bi-people-fill"></i> Số hành khách</span>
                                     <input min="1" max="10" type="number" id="NoOfPassenger" name="NoOfPassenger" class="form-control" value="1" required />
                                 </div>
+                                <label class="checkbox-container">Khứ hồi
+        							<input type="checkbox" id="khuhoiCheckbox" onchange="toggleNgayVeInput(this)">
+        							<span class="checkmark"></span>
+    							</label>
+                                
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label"><i class="bi bi-calendar-date-fill"></i> Ngày khởi hành</span>
-                                            <input class="form-control" type="date" required>
+                                            <input class="form-control" type="date" name="NgayDi" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label"><i class="bi bi-calendar-date-fill"></i> Ngày Về</span>
-                                            <input class="form-control" type="date" required>
+                                            <input class="form-control" type="date" name="NgayVe" required disabled>
                                         </div>
                                     </div>
                                 </div>
 
 
                                 <div class="form-btn">
-                                    <button class="submit-btn"><i class="bi bi-search"></i> Tìm Tàu</button>
+                                    <button class="submit-btn" formaction="/user/tuyentau"><i class="bi bi-search"></i> Tìm Tàu</button>
                                 </div>
                             </form>
                         </div>
@@ -85,6 +134,13 @@
             </div>
         </div>
     </div>
+    <script>
+        function toggleNgayVeInput(checkbox) {
+            var ngayVeInput = document.getElementsByName("NgayVe")[0];
+            ngayVeInput.disabled = !checkbox.checked;
+        }
+    </script>
+
 </body>
 
 </html>
