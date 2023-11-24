@@ -29,7 +29,7 @@ public class GiaVe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer IDGIAVE;
-
+	String TRANGTHAI;
 	BigDecimal GIA;
     @Temporal(TemporalType.DATE)
 	@Column(name = "NGAYBATDAU")

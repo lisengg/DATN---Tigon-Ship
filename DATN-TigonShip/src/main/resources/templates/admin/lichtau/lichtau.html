@@ -47,21 +47,26 @@
 								<h3>
 									<strong class="card-title">DANH SÁCH LỊCH TÀU</strong>
 									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm lịch tàu</button>
-								</h3>
+									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+										Lịch sử cập nhật
+									</button>
+							</h3>
+							<div th:replace="~{admin/fragments_admin :: history}"></div>
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>ID</th>
-											<th>TÊN TUYẾN</th>
-											<th>TÊN TÀU</th>
-											<th>GIỜ XUẤT PHÁT</th>
-											<th>GIỜ ĐẾN NƠI</th>
-											<th>THAO TÁC</th>
+											<th class="text-center">ID</th>
+											<th class="text-center">TÊN TUYẾN</th>
+											<th class="text-center">TÊN TÀU</th>
+											<th class="text-center">GIỜ XUẤT PHÁT</th>
+											<th class="text-center">GIỜ ĐẾN NƠI</th>
+											<th class="text-center">TRẠNG THÁI</th>
+											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody></tbody>
+									<tbody class="text-center"></tbody>
 								</table>
 							</div>
 						</div>
@@ -71,93 +76,76 @@
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header" style="background: #17bac5;">
 									<h3 class="modal-title" id="modalTitleId">LỊCH TÀU</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<div class="mb-3">
-										<label class="form-label">Tên tuyến</label> 
-										<select ng-model="form.tuyen.idtuyen" class="form-control">
-											<option ng-repeat="tuyen in items.tuyen" ng-value="tuyen.idtuyen">{{tuyen.tentuyen}}</option>
-										</select>
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Tên tuyến</label> 
+											<select ng-model="form.tuyen.idtuyen" class="form-control" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen | filter: { trangthai: 'Đang hoạt động' }">
+											<option value="">Chọn tuyến</option>
+											</select>
+										</div>
+										<div class="col-md-4">
+											 <label class="form-label">Tên tàu</label> 
+									   	 	<select ng-model="form.tau.idtau" class="form-control" ng-options="tau.idtau as tau.tentau for tau in items.tau | filter: { trangthai: 'Đang hoạt động' }">
+									       	 <option value="">Chọn tàu</option>
+									    	</select>
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">Trạng Thái</label> 
+											<select ng-model="form.trangthai" class="form-control">
+												<option>Đang hoạt động</option>
+												<option>Ngưng hoạt dộng</option>
+											</select>
+										</div>
+
 									</div>
-									<div class="mb-3">
-										<label class="form-label">Tên tàu</label> 
-										<select ng-model="form.tau.idtau" class="form-control" >
-											<option ng-repeat="tau in items.tau" ng-value="tau.idtau">{{tau.tentau}}</option>
-										</select>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Giờ xuất phát</label> 
-										<select ng-model="form.gioxuatphat" class="form-control">
-											<option>06:00 AM</option><option>06:15 AM</option><option>06:30 AM</option><option>06:45 AM</option>
-											<option>07:00 AM</option><option>07:15 AM</option><option>07:30 AM</option><option>07:45 AM</option>
-											<option>08:00 AM</option><option>08:15 AM</option><option>08:30 AM</option><option>08:45 AM</option>
-											<option>09:00 AM</option><option>09:15 AM</option><option>09:30 AM</option><option>09:45 AM</option>
-											<option>10:00 AM</option><option>10:15 AM</option><option>10:30 AM</option><option>10:45 AM</option>
-											<option>11:00 AM</option><option>11:15 AM</option><option>11:30 AM</option><option>11:45 AM</option>
-											<option>12:00 PM</option><option>12:15 PM</option><option>12:30 PM</option><option>12:45 PM</option>
-											<option>01:00 PM</option><option>01:15 PM</option><option>01:30 PM</option><option>01:45 PM</option>
-											<option>02:00 PM</option><option>02:15 PM</option><option>02:30 PM</option><option>02:45 PM</option>
-											<option>03:00 PM</option><option>03:15 PM</option><option>03:30 PM</option><option>03:45 PM</option>
-											<option>04:00 PM</option><option>04:15 PM</option><option>04:30 PM</option><option>04:45 PM</option>
-											<option>05:00 PM</option>
-										</select>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Giờ đến nơi</label> 
-										<select ng-model="form.giodennoi" class="form-control">
-											<option>06:00 AM</option><option>06:15 AM</option><option>06:30 AM</option><option>06:45 AM</option>
-											<option>07:00 AM</option><option>07:15 AM</option><option>07:30 AM</option><option>07:45 AM</option>
-											<option>08:00 AM</option><option>08:15 AM</option><option>08:30 AM</option><option>08:45 AM</option>
-											<option>09:00 AM</option><option>09:15 AM</option><option>09:30 AM</option><option>09:45 AM</option>
-											<option>10:00 AM</option><option>10:15 AM</option><option>10:30 AM</option><option>10:45 AM</option>
-											<option>11:00 AM</option><option>11:15 AM</option><option>11:30 AM</option><option>11:45 AM</option>
-											<option>12:00 PM</option><option>12:15 PM</option><option>12:30 PM</option><option>12:45 PM</option>
-											<option>01:00 PM</option><option>01:15 PM</option><option>01:30 PM</option><option>01:45 PM</option>
-											<option>02:00 PM</option><option>02:15 PM</option><option>02:30 PM</option><option>02:45 PM</option>
-											<option>03:00 PM</option><option>03:15 PM</option><option>03:30 PM</option><option>03:45 PM</option>
-											<option>04:00 PM</option><option>04:15 PM</option><option>04:30 PM</option><option>04:45 PM</option>
-											<option>05:00 PM</option>
-										</select>
+									<div class="row mb-3">
+									   <div class="col-md-4">
+											<label class="form-label">Giờ xuất phát</label> 
+											<select ng-model="form.gioxuatphat" class="form-control">
+												<option>06:00 AM</option><option>06:15 AM</option><option>06:30 AM</option><option>06:45 AM</option>
+												<option>07:00 AM</option><option>07:15 AM</option><option>07:30 AM</option><option>07:45 AM</option>
+												<option>08:00 AM</option><option>08:15 AM</option><option>08:30 AM</option><option>08:45 AM</option>
+												<option>09:00 AM</option><option>09:15 AM</option><option>09:30 AM</option><option>09:45 AM</option>
+												<option>10:00 AM</option><option>10:15 AM</option><option>10:30 AM</option><option>10:45 AM</option>
+												<option>11:00 AM</option><option>11:15 AM</option><option>11:30 AM</option><option>11:45 AM</option>
+												<option>12:00 PM</option><option>12:15 PM</option><option>12:30 PM</option><option>12:45 PM</option>
+												<option>01:00 PM</option><option>01:15 PM</option><option>01:30 PM</option><option>01:45 PM</option>
+												<option>02:00 PM</option><option>02:15 PM</option><option>02:30 PM</option><option>02:45 PM</option>
+												<option>03:00 PM</option><option>03:15 PM</option><option>03:30 PM</option><option>03:45 PM</option>
+												<option>04:00 PM</option><option>04:15 PM</option><option>04:30 PM</option><option>04:45 PM</option>
+												<option>05:00 PM</option>
+											</select>
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">Giờ đến nơi</label> 
+											<select ng-model="form.giodennoi" class="form-control">
+												<option>06:00 AM</option><option>06:15 AM</option><option>06:30 AM</option><option>06:45 AM</option>
+												<option>07:00 AM</option><option>07:15 AM</option><option>07:30 AM</option><option>07:45 AM</option>
+												<option>08:00 AM</option><option>08:15 AM</option><option>08:30 AM</option><option>08:45 AM</option>
+												<option>09:00 AM</option><option>09:15 AM</option><option>09:30 AM</option><option>09:45 AM</option>
+												<option>10:00 AM</option><option>10:15 AM</option><option>10:30 AM</option><option>10:45 AM</option>
+												<option>11:00 AM</option><option>11:15 AM</option><option>11:30 AM</option><option>11:45 AM</option>
+												<option>12:00 PM</option><option>12:15 PM</option><option>12:30 PM</option><option>12:45 PM</option>
+												<option>01:00 PM</option><option>01:15 PM</option><option>01:30 PM</option><option>01:45 PM</option>
+												<option>02:00 PM</option><option>02:15 PM</option><option>02:30 PM</option><option>02:45 PM</option>
+												<option>03:00 PM</option><option>03:15 PM</option><option>03:30 PM</option><option>03:45 PM</option>
+												<option>04:00 PM</option><option>04:15 PM</option><option>04:30 PM</option><option>04:45 PM</option>
+												<option>05:00 PM</option>
+											</select>
+										</div>
 									</div>
 								</div>
 								<div class="modal-footer text-center">
 									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
 									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success">Chỉnh sửa</button>
-									<button type="button" ng-click="reset()" class="btn btn-info">Xóa form</button>
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
-								      <input type="checkbox" id="check">
-								      <label class="show_button" for="check" ng-show="delete">Xóa</label>
-								      <div class="background"></div>
-								      <div class="alert_box">
-									      <div class="icon">
-									          <i class="fas fa-exclamation-triangle"></i>
-										  </div>
-										  <header>Xác nhận</header>
-										  <p>Bạn có chắc chắn muốn xóa không?</p>
-										  <div class="btns">
-										      <label ng-click="deleteItem(form)">Vâng, Xóa!</label>
-										      <label for="check">Hủy bỏ</label>
-									      </div>
-								      </div>
-								      
-								      <input type="checkbox" id="check1" >
-								      <div class="background"></div>
-								      <div class="alert_box1">
-									      <div class="icon">
-									          <i class="fas fa-check-circle"></i>
-										  </div>
-										  <header>Đã xóa thành công</header>
-										  <div class="btns1">
-										      <label for="check1" data-bs-dismiss="modal">Đóng</label>
-									      </div>
-								      </div>
-								      
 								      <input type="checkbox" id="check3" >
 								      <div class="background"></div>
 								      <div class="alert_box3">
@@ -166,7 +154,7 @@
 										  </div>
 										  <header>Thành công</header>
 										  <div class="btns3">
-										      <label for="check3">Đóng</label>
+										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
 									      </div>
 								      </div>
 								      

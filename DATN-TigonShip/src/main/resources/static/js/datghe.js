@@ -12,6 +12,7 @@ app.controller('ghengoi-ctrl', function($scope, $http) {
 	$scope.initialize = function() {
 		$http.get("/rest/ghengoi").then(response => {
 			$scope.items = response.data;
+			$scope.filteredSeats = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("A"));
 		});
 	}
 
@@ -30,6 +31,27 @@ app.controller('ghengoi-ctrl', function($scope, $http) {
 		var url = `/rest/ghengoi/${idtau}`;
 		$http.get(url).then(response => {
 			$scope.items.ghengoi = response.data;
+			$scope.filteredSeatsA = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("A"));
+			$scope.filteredSeatsB = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("B"));
+			$scope.filteredSeatsC = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("C"));
+			$scope.filteredSeatsD = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("D"));
+			$scope.filteredSeatsE = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("E"));
+			$scope.filteredSeatsF = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("F"));
+			$scope.filteredSeatsG = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("G"));
+			$scope.filteredSeatsH = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("H"));
+			$scope.filteredSeatsI = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("I"));
+			$scope.filteredSeatsJ = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("J"));
+			$scope.filteredSeatsK = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("K"));
+			$scope.filteredSeatsL = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("L"));
+			
+			$scope.filteredSeatsM = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("M"));
+			$scope.filteredSeatsN = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("N"));
+			$scope.filteredSeatsO = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("O"));
+			$scope.filteredSeatsP = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("P"));
+			$scope.filteredSeatsQ = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("Q"));
+			$scope.filteredSeatsR = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("R"));
+			$scope.filteredSeatsS = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("S"));
+			$scope.filteredSeatsT = $scope.items.ghengoi.filter(seat => seat.tenghe.includes("T"));
 			console.log($scope.ghe)
 		}).catch(err => {
 			console.log("Error", err)

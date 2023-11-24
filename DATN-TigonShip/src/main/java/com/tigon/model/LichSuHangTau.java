@@ -16,24 +16,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="DANHGIAHANHKHACH")
+@Table(name="LICHSUHANGTAU")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class DanhGia {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IDDANHGIAHK;
-    Integer DANHGIA;
-    String BINHLUAN;
-    @Column(name = "NGAYDANHGIA")
-	LocalDateTime NGAYDANHGIA = LocalDateTime.now();
-    @ManyToOne
-    @JoinColumn(name="IDTUYEN")
-    Tuyen TUYEN;
-
-    @ManyToOne
-    @JoinColumn(name="IDHANHKHACH")
-    HanhKhach HANHKHACH;
+public class LichSuHangTau {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer ID;
+    String TEN;
+    String THAOTAC;
     
+	@Column(name = "THOIGIAN")
+	LocalDateTime THOIGIAN = LocalDateTime.now();
+    @ManyToOne
+	@JoinColumn(name = "IDHANGTAU")
+	HangTau HANGTAU;
 }

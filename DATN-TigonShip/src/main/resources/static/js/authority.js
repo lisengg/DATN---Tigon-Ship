@@ -59,17 +59,11 @@ app.controller('authority1-ctrl', function($scope, $http) {
 		$scope.put = false;
 	}
 	//Phân quyền
-	$scope.updateSuccess = false
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
 		var url = `/rest/authority1/${item.idhanhkhach}`;
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
 		if (angular.equals(item, $scope.originalData)) {
-			// Hiển thị thông báo lỗi vì không có sự thay đổi
-			document.getElementById('check10').checked = true;
-			return;
-		}
-		if ($scope.updateSuccess) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
 			document.getElementById('check10').checked = true;
 			return;
@@ -87,7 +81,6 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			var row = table.row(index);
 			row.data(item).draw();
 			document.getElementById('check3').checked = true;
-			$scope.updateSuccess = true
 		}).catch(error => {
 			console.log("Error", error)
 			document.getElementById('check2').checked = true;
