@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					System.out.println(user.getHOVATEN());
 					password = pe.encode(user.getMATKHAU());
 					roles = user.getQUYEN();
-					hoten = user.getHOVATEN();
+					hoten = user.getEMAIL();
 					session.setAttribute("user", user.getIDHANHKHACH());
 					session.setAttribute("role", roles);
 				}

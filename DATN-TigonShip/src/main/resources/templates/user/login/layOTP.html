@@ -29,14 +29,21 @@ background:#eee;
                 <div class="text-center">
                    <img width="100" height="100" src="https://img.icons8.com/stickers/100/re-enter-pincode.png" alt="re-enter-pincode"/>
                     <div>
+                     <h3 class="text-center" style="font-weight: 700;" th:text="${hoten}"></h3>
+                     <p style="display: inline;">Nếu không phải là bạn?</p>
+                     <a th:href="@{/dangki}">Thử nhập email khác</a>
                         <h3 class="text-center" style="font-weight: 700;">Nhập mã xác nhận</h3>
                     </div>
                     <div class="panel-body">
+                     <div class="alert alert-danger"  th:if="${message}" id="myAlert">
+                            <a class="close" href="#" onclick="closeAlert()">×</a> 
+                            <p th:text="${message}"></p>
+                        </div>
                         <form>
                             <div class="form-group">
                             <input class="form-control input-lg" placeholder="Nhập mã OTP" name="otp" type="text" required="required">
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Xác thực mã</button>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit" th:formaction="@{/xacthucma}">Xác thực mã</button>
                         </form>
                     </div>
                 </div>
@@ -45,7 +52,12 @@ background:#eee;
     </div>
 </div>
 
-
+<script>
+    function closeAlert() {
+        var alert = document.getElementById('myAlert');
+        alert.style.display = 'none';
+    }
+</script>
 </body>
 
 </html>

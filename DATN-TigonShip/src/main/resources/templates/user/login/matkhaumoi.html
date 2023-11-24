@@ -29,19 +29,19 @@ background:#eee;
                 <div class="text-center">
                    <img width="100" height="100" src="https://img.icons8.com/stickers/100/re-enter-pincode.png" alt="re-enter-pincode"/>
                     <div>
-                        <h3 class="text-center" style="font-weight: 700;">Yêu Cầu Thay Đổi Mật Khẩu</h3>
+                        <h3 class="text-center" style="font-weight: 700;">Nhập mật khẩu mới</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="alert alert-danger"  th:if="${message}" id="myAlert">
+                       <div class="alert alert-danger"  th:if="${message}" id="myAlert">
                             <a class="close" href="#" onclick="closeAlert()">×</a> 
                             <p th:text="${message}"></p>
-                            <a th:href="@{/dangki}">Đăng ký tài khoản mới</a>
+                  
                         </div>
                         <form>
                             <div class="form-group">
-                            <input class="form-control input-lg" placeholder="Nhập email đăng ký" name="email" type="text" required="required">
+                            <input class="form-control input-lg" placeholder="Nhập mật khẩu mới của bạn" name="matkhau" type="text" required="required">
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block" th:formaction="@{/layotp}" type="submit">Gửi mã xác nhận</button>
+                            <button class="btn btn-lg btn-primary btn-block" th:formaction="@{/doimatkhau}" type="submit">Đổi mật khẩu</button>
                         </form>
                     </div>
                 </div>
@@ -49,13 +49,13 @@ background:#eee;
         </div>
     </div>
 </div>
-
 <script>
     function closeAlert() {
         var alert = document.getElementById('myAlert');
         alert.style.display = 'none';
     }
 </script>
+
 </body>
 
 </html>
