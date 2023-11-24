@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+.showcase {
+    margin: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.showcase li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+
+.seat {
+    background-color: skyblue;
+    height: 30px;
+    width: 35px;
+    margin: 6px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding-top: 6px;
+}
+
+.seat.selected {
+    background-color: blue;
+}
+
+.seat.occupied {
+    background-color: seagreen;
+}
+
+.showcase .seat:not(.occupied):hover {
+    cursor: pointer;
+}
+
+.container {
+    perspective: 1000px;
+    margin-bottom: 300px;
+}
+
+.seat-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.seat-row .seat {
+    margin: 6px;
+    flex: 0 0 calc(9% - 12px);
+    /* 10% to have 10 seats in a row, subtracting margin */
+}
+
+.seat-row .seat:nth-child(10n+1) {
+    margin-left: 0;
+}
+
+
+/* Thêm margin 20px cho ghế thứ 3 từ bên trái đếm qua */
+
+.seat-row .seat:nth-child(10n+3) {
+    margin-right: 30px;
+}
+
+
+/* Thêm margin 20px cho ghế thứ 3 từ bên phải đếm qua */
+
+.seat-row .seat:nth-last-child(10n+3) {
+    margin-left: 30px;
+}
+
+
+/* Thêm margin 20px cho ghế thứ 3 từ bên phải đếm qua */
+
+.wc {
+    border: 2px solid #000;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.seat:hover {
+    background-color: gray;
+}
+
+.tab button:hover {
+    background-color: gray;
+}
+
+.tab button.active {
+    background-color: #1ea0ad;
+}
+
+.tabcontent {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+}

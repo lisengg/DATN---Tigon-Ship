@@ -19,7 +19,6 @@
 	background-position: center;
 }
 
-
 #booking::before {
 	content: '';
 	position: absolute;

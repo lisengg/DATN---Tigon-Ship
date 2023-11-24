@@ -209,15 +209,15 @@
 	</div>
     <div class="container-xl px-4 mt-4 main">
         <!-- Account page navigation-->
-        <div style="text-align: right;">
-            <a th:href="@{/}" style="text-decoration: none;">Trang chủ</a>
+        <div style="text-align: left;">
+            <a th:href="@{/}" style="text-decoration: none;font-weight: 700">Quay về trang chủ</a>
         </div>
         <nav class="nav nav-borders">
-            <a class="nav-link"
+            <a class="nav-link" th:if="${#request.isUserInRole('USER')}"
                  th:href="@{/thongtintaikhoan}">Hồ sơ</a> <a class="nav-link active"
-                th:href="@{/chinhsuataikhoan}">Thông tin chi tiết</a> <a class="nav-link"
+                th:href="@{/chinhsuataikhoan}">Thông tin chi tiết</a> <a class="nav-link" 
                 href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Bảo mật</a> <a
-                class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
+                class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page" th:if="${#request.isUserInRole('USER')}"
                 target="__blank">Thông báo</a>
 
         </nav>
@@ -306,6 +306,7 @@
                                         th:value="${user.CCCD}">
                                 </div>
                             </div>
+                            <p th:text="${ndungtbao}"></p>
                             <!-- Save changes button-->
                                 <button style="text-align: right;" class="btn btn-primary">Cập nhật tài
                                     khoản</button>

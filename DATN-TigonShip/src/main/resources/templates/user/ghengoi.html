@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<style>
+        /* CSS để định dạng nút nhấn */
+        .button-style {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50; /* Màu nền */
+            color: white; /* Màu chữ */
+            border: none; /* Loại bỏ đường viền */
+            border-radius: 20px; /* Góc bo tròn */
+            cursor: pointer;
+            font-weight: bold;
+        } 
+        .no-border {
+        	background-color: white;
+        	border: none;
+    	}	
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Tigon Ship</title>
+    <link rel="stylesheet" href="/user/styledatve.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+	 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+	
+    <div class="reservation-form">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="movie-container" style="text-align: center;">
+                    <H1>Chọn Ghế Ngồi</H1>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="tab">
+                        <button class="tablinks active" onclick="openCity(event, 'KhoanDuoi')">Khoan Dưới</button>
+                        <button class="tablinks" onclick="openCity(event, 'TrenLau')">Trên lầu</button>
+
+                    </div>
+                    <div id="KhoanDuoi" class="tabcontent">
+                        <div class="seat-row" style="text-align: center;">
+                            <!-- Hàng ghế -->
+                           <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
+                        	<div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+    							<label th:text=${p.TENGHE}></label>
+							</div>
+                        </div>
+                        <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
+                            <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
+                            <div class="wc" style="width: 130px; height: 100px; margin-left: 170px; display: flex; align-items: center; justify-content: center; "><b>WC2</b></div>
+                        </div>
+                    </div>
+                    <div id="TrenLau" class="tabcontent">
+                        <div class="seat-row" style="text-align: center;">
+                           
+                           <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
+                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+    							<label th:text=${p.TENGHE}></label>
+							</div>
+                        </div>
+                        <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
+                            <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
+                            <div class="wc" style="width: 130px; height: 100px; margin-left: 170px; display: flex; align-items: center; justify-content: center; "><b>WC2</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+            
+                <div class="movie-container" style="text-align: center;">
+                    <H1>Hành khách</H1>
+                </div>
+				
+                <ul class="showcase">
+                    <li>
+                        <div class="seat"></div>
+                        <small>Ghế trống</small>
+                    </li>
+
+                    <li>
+                        <div class="seat" style="background-color: gray;"></div>
+                        <small>Ghế đang chọn</small>
+                    </li>
+
+                    <li>
+                        <div class="seat" style="background-color: blue;"></div>
+                        <small>Ghế đã được chọn</small>
+                    </li>
+                </ul>
+                <br>
+               <input style="margin-left: 345px" name="ngaydat" th:value="${#dates.createNow()}" type="hiden" class="no-border">
+
+                <table id="tblSeatInfoReturn" data-toggle="table" class="table table-responsive table-hover table-striped table-bordered" data-striped="true" data-click-to-select="true" data-single-select="true" data-checkbox-header="false">
+                    <thead>
+                        <tr style="background-color: #4CAF50;">
+                            <th data-field="No" data-halign="center" data-align="center" data-width="50px">STT</th>
+                            <th data-field="FullNm" data-halign="center" data-width="400px">Họ t&#234;n</th>
+                            <th data-field="SeatNmReturn" data-halign="center">Ghế đi</th>
+                            <th data-field="ReturnPassTypeNm" data-halign="center">Loại vé</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Nguyen Van A</td>
+                            <td id="selectedSeatNumber" data-halign="center"></td>
+                            <td>Nguoi lớn</td>
+                        </tr>
+                    </thead>
+                   	
+                </table>
+                	
+					<a id="confirmButton" th:href="@{/user/luc}" class="button-style">Xác nhận</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        // Lấy giá trị từ ô ghế đi trong bảng
+        var selectedSeatNumber = document.getElementById('selectedSeatNumber').innerText;
+
+        // Lấy giá trị ngày đặt
+        var ngaydat = document.querySelector('input[name="ngaydat"]').value = new Date().toISOString();
+
+        // Sử dụng AJAX để gửi giá trị lên server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/user/xem", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // Chuyển đổi giá trị thành JSON và gửi đi
+        xhr.send(JSON.stringify({ selectedSeatNumber: selectedSeatNumber, ngaydat: ngaydat }));
+
+        // Thực hiện các bước xác nhận khác tùy thuộc vào yêu cầu của bạn
+        // ...
+    });
+        // Hàm mở tab
+        function openCity(evt, GheNgoi) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(GheNgoi).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Tự động hiển thị tab "London" khi trang được tải
+        document.getElementById('KhoanDuoi').style.display = "block";
+        document.querySelector('.tablinks.active').click();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var seats = document.querySelectorAll('.seat');
+
+            seats.forEach(function(seat) {
+                seat.addEventListener('click', function() {
+                    // Lấy tất cả các ô ghế
+                    var allSeats = document.querySelectorAll('.seat');
+
+                    // Xóa class 'selected' từ tất cả các ô ghế
+                    allSeats.forEach(function(s) {
+                        s.classList.remove('selected');
+                    });
+
+                    // Thêm class 'selected' vào ô ghế được chọn
+                    seat.classList.add('selected');
+
+                    // Lấy thông tin ghế từ thuộc tính data và thêm vào cột ghế đi trong bảng
+                    var seatId = seat.getAttribute('data-seat-id');
+                    var seatName = seat.getAttribute('data-seat-name');
+
+                    // Lấy đối tượng cột ghế đi trong bảng
+                    var selectedSeatNumber = document.getElementById('selectedSeatNumber');
+
+                    // Gắn giá trị vào cột ghế đi
+                    selectedSeatNumber.innerText = seatName;
+
+                    
+                });
+            });
+        });
+
+    </script>
+    
+
+</body>
+
+</html>
