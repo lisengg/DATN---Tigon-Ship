@@ -270,7 +270,8 @@ body {
 							đặt
 						</div>
 						<div class="h1">
-							<p th:text=" ${user.SOHDDADAT}">
+							<p th:if="chuacove" >0
+							<p th:unless="chuacove" th:text=" ${user.SOHDDADAT}">
 						</div>
 					</div>
 				</div>
@@ -279,15 +280,16 @@ body {
 				<!-- Billing card 3-->
 				<div class="card h-100 border-start-lg border-start-success">
 					<div class="card-body">
-
 						<div class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
-								style="color: #009e1a; padding-right: 5px;"></i> <span th:if="${ngaydat.before(#dates.createNow())}">Chuyến đi gần đây nhất</span>
-								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>
-								
-								
+								style="color: #009e1a; padding-right: 5px;"></i> <span>Chưa có chuyến đi</span>
 						</div>
-						<div style="margin-top: 5px;" class="h2">
+						<div th:if="${chuadatve}" class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span th:if="${ngaydat.before(#dates.createNow())}">Chuyến đi gần đây nhất</span>
+								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>	
+						</div>
+						<div th:unless="${chuacove}" style="margin-top: 5px;" class="h2">
 							<p th:text="${chuyengannhat}">
 						</div>
 					</div>
@@ -296,7 +298,7 @@ body {
 		</div>
 		
 		<!-- Billing history card-->
-		<div class="card mb-4">
+<div class="card mb-4">
 			<div class="card-header">Lịch sử mua vé</div>
 			<div class="card-body p-0">
 				<!-- Billing history table-->
@@ -310,7 +312,17 @@ body {
 								<th class="border-gray-200" scope="col">Trạng thái</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody th:if="${chuacove}">
+							 <tr class="text-center">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>
+								<span class="bg-light text-success"></span>
+								</td>
+							</tr>
+						</tbody>
+						<tbody th:unless="${chuacove}">
 							 <tr class="text-center" th:each="ls : ${lichsu}">
 								<td th:text="${ls.MADATVE}"></td>
 								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>

@@ -22,9 +22,15 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <style>
-.opacity:hover{opacity:0.6} /* 0.6 là điều chỉnh thông số thông suốt  */
-.black:hover{filter: grayscale(100%);} /*  100% là độ chuyển màu sang đen của ảnh  */
-.blur:hover{filter: blur(5px);} /* 5px là độ blur của hình ảnh */
+.opacity:hover {
+	opacity: 0.6
+} /* 0.6 là điều chỉnh thông số thông suốt  */
+.black:hover {
+	filter: grayscale(100%);
+} /*  100% là độ chuyển màu sang đen của ảnh  */
+.blur:hover {
+	filter: blur(5px);
+} /* 5px là độ blur của hình ảnh */
 </style>
 </head>
 
@@ -47,18 +53,18 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<nav class="main-nav">
-						<!-- ***** Logo Start ***** -->
+
+
 						<div>
-							<a href="/user/index" class="logo"> <img
-								src="/images/logotau.jpg" alt=""
-								style="width: 150px; height: 70px; margin-top: 0px" >
+							<a href="/" class="logo"> <img
+								src="/assets/images/logoweb.png" alt=""
+								style="width: 135px; height: 70px; margin-top: 0px">
 							</a>
 						</div>
 
-						<!-- ***** Logo End ***** -->
-						<!-- ***** Menu Start ***** -->
-						<ul class="nav">
-							<li><a href="/user/index">Trang chủ</a></li>
+
+						<ul class="nav" style="left: 90px;">
+							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
 							<li><a href="/gopy">Góp Ý</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
@@ -67,9 +73,8 @@
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
 							<th:block th:if="${#httpServletRequest.remoteUser}">
-							<li th:if="${#request.isUserInRole('ADMIN') or  #request.isUserInRole('STAF')}"><a th:href="@{/user/chinhsuataikhoan/form}">Quản lý</a></li>
-							<li th:if="${#request.isUserInRole('USER')}"><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
-							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
@@ -329,8 +334,8 @@
 					<div class="col-lg-4">
 						<h5 style="color: White">Các Tuyến nổi bật</h5>
 
-						<li><a href="/user/index" style="color: White">Kiên
-								Giang-Hòn Sơn</a></li>
+						<li><a href="/user/index" style="color: White">KiênGiang-Hòn
+								Sơn</a></li>
 						<li><a href="/user/index" style="color: White">Kiên
 								Giang-Nam Du</a></li>
 						<li><a href="/user/index" style="color: White">Kiên

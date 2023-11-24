@@ -3,28 +3,24 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 
-<title>Tigon Ship</title>
+	<title>Tigon Ship</title>
 
-<!-- Bootstrap core CSS -->
-<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Additional CSS Files -->
-<link rel="stylesheet" href="/assets/css/fontawesome.css">
-<link rel="stylesheet" href="/assets/css/templatemo-woox-travel.css">
-<link rel="stylesheet" href="/assets/css/owl.css">
-<link rel="stylesheet" href="/assets/css/animate.css">
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-<!--
+	<!-- Additional CSS Files -->
+	<link rel="stylesheet" href="/assets/css/fontawesome.css">
+	<link rel="stylesheet" href="/assets/css/templatemo-woox-travel.css">
+	<link rel="stylesheet" href="/assets/css/owl.css">
+	<link rel="stylesheet" href="/assets/css/animate.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+	<!--
 
 TemplateMo 580 Woox Travel
 
@@ -50,21 +46,29 @@ https://templatemo.com/tm-580-woox-travel
 	<header class="header-area header-sticky">
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-lg-12">
 					<nav class="main-nav">
-						<!-- ***** Logo Start ***** -->
-						<a href="/user/index" class="logo"> <img
-							src="/assets/images/logo1.png" alt=""
-							style="width: 100px; height: 40px">
-						</a>
-						<!-- ***** Logo End ***** -->
-						<!-- ***** Menu Start ***** -->
-						<ul class="nav">
-							<li><a href="/user/index" class="active">Trang chủ</a></li>
+
+						<div>
+							<a href="/" class="logo"> <img src="/assets/images/logoweb.png" alt=""
+									style="width: 135px; height: 70px; margin-top: 0px">
+							</a>
+						</div>
+
+
+						<ul class="nav" style="left: 90px;">
+							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
+							<li><a href="/gopy">Góp Ý</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
-							<li><a href="/dangki">Đăng Ký</a></li>
-							<li><a href="/dangnhap">Đăng nhập</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
@@ -117,7 +121,7 @@ https://templatemo.com/tm-580-woox-travel
 		</div>
 	</div>
 
-	<div class="reservation-form">
+	<!--<div class="reservation-form">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12"></div>
@@ -184,21 +188,25 @@ https://templatemo.com/tm-580-woox-travel
 								</fieldset>
 							</div>
 						</div>
-					</form>
-					<br>
-					<div id="map">
-						<iframe
-							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d502973.2463182415!2d105.0955351922941!3d9.977275944200624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0b3782eb8ad69%3A0x7c4b9c0801f9077f!2zQ-G6o25nIFbhu6UgSMOgbmcgSOG6o2kgS2nDqm4gR2lhbmc!5e0!3m2!1sen!2s!4v1693141317536!5m2!1sen!2s"
-							width="100%" height="450px" frameborder="0"
-							style="border: 0; border-top-left-radius: 23px; border-top-right-radius: 23px;"
-							allowfullscreen=""></iframe>
-						
-					</div>
-				</div>
-			</div>
+					</form>-->
+	<br>
+	<br>
+	<div style= "width: 1200px; margin-left: 50px;">
+		<div id="map">
+			<iframe
+				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d502973.2463182415!2d105.0955351922941!3d9.977275944200624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0b3782eb8ad69%3A0x7c4b9c0801f9077f!2zQ-G6o25nIFbhu6UgSMOgbmcgSOG6o2kgS2nDqm4gR2lhbmc!5e0!3m2!1sen!2s!4v1693141317536!5m2!1sen!2s"
+				width="100%" height="450px" frameborder="0"
+				style="border: 0; border-top-left-radius: 23px; border-top-right-radius: 23px;"
+				allowfullscreen=""></iframe>
+
 		</div>
 	</div>
 
+	</div>
+	</div>
+	</div>
+	</div>
+<hr>
 	<footer>
 		<div class="container">
 			<div class="row">
@@ -270,7 +278,7 @@ https://templatemo.com/tm-580-woox-travel
 	<script src="/assets/js/custom.js"></script>
 
 	<script>
-		$(".option").click(function() {
+		$(".option").click(function () {
 			$(".option").removeClass("active");
 			$(this).addClass("active");
 		});
