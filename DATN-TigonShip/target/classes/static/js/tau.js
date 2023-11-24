@@ -74,6 +74,9 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 	}
 	//THÊM TÀU
 	$scope.create = function() {
+		
+		
+		
 		// Kiểm tra tên tàu đã được chọn
 		if (!$scope.form.tentau) {
 			document.getElementById('check4').checked = true;
@@ -101,7 +104,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 			return;
 		}
 		$http.post(url, item).then(response => {
-			
 			$scope.items.tau.push(response.data);
 			var table = $('#table2').DataTable();
 			table.row.add(response.data).draw();
@@ -110,6 +112,7 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 				"tau": response.data,
 				"thaotac" : "Đã thêm mới tàu có ID : " + response.data.idtau ,
 			}
+			// thêm lịch sử tàu
 			$http.post('/rest/tau/lichsu/save', itemlichsu)
                 .then(function(response) {   
 					$scope.items.lichsu.push(response.data)
@@ -117,7 +120,45 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 				.catch(function(error) {
 					console.log("Error creating LichsuTau", error);
 				});
-			$scope.reset();
+		
+			//Ghế ngồi
+			let tenghe = [];
+    let khoan = [];
+    let idtau = [];
+    let trangthai = [];
+    for (let i = 1; i <= 160; i++) {
+        let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
+        let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
+        let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
+
+        tenghe.push(`${letter}${columnIndex}`);
+        idtau.push(response.data);
+
+        // Kiểm tra xem i có nằm trong 100 giá trị đầu hay không
+        if (i <= 100) {
+            khoan.push(1);
+        } else {
+            khoan.push(2);
+        }
+    }
+
+    var itemghengoi = {
+        "khoan": khoan,
+        "tenghe": tenghe,
+        "tau": idtau,
+    };
+
+    // Thực hiện yêu cầu POST để lưu trữ 160 đối tượng Ghế Ngồi
+    $http.post('/rest/tau/ghengoi/saveAll', itemghengoi)
+        .then(function(response) {
+            $scope.items.ghengoi.push(response.data);
+            console.log("Thành công");
+        })
+        .catch(function(error) {
+            console.log("Lỗi khi thêm ghế ngồi", error);
+        });
+
+    $scope.reset();
 		}).catch(error => {
 			document.getElementById('check2').checked = true;
 			console.log("Error", error)

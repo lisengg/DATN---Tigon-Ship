@@ -75,9 +75,15 @@ public class QuanlyController {
 	}
 	@GetMapping("/admin/doanhthu")
 	public String doanhthu(Model model) {
-	
 		return "admin/doanhthu/doanhthu";
 	}
+	@GetMapping("/admin/doanhthu/theongay")
+	public String doanhthuTheoNgay(Model model) {
+		return "admin/doanhthu/theongay";
+	}
+
+
+
 //	@GetMapping("/admin/profile")
 //	public String Profile(Model model) {
 //	

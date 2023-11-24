@@ -1,4 +1,5 @@
 package com.tigon.model;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,8 +17,9 @@ import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
-@Table(name="HOADON")
+@Table(name = "HOADON")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,11 +30,15 @@ public class HoaDon {
     BigDecimal TONGTIEN;
 
     @Temporal(TemporalType.DATE)
-   	@Column(name = "NGAYLAP")
-   	Date NGAYLAP = new Date();
-    
+    @Column(name = "NGAYLAP")
+    Date NGAYLAP = new Date();
+    // Tự động thêm thời gian khi lập hóa đơn
+    /*
+     * @Column(name = "NGAYLAP")
+     * LocalDateTime NGAYLAP = LocalDateTime.now();
+     */
     @ManyToOne
-	@JoinColumn(name = "MADATVE")
-	DatVe DATVE;
+    @JoinColumn(name = "MADATVE")
+    DatVe DATVE;
 
 }
