@@ -37,7 +37,7 @@ public class SecurityController {
 		model.addAttribute("message", "Đăng nhập thành công!");
 		return "user/index";
 	}
-
+	
 	@RequestMapping("/security/login/error")
 	public String loginError(Model model) {
 		model.addAttribute("messageError", "Sai thông tin đăng nhập!");

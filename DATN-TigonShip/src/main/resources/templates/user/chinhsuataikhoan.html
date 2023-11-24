@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>Thông tin tài khoản</title>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
@@ -199,6 +200,13 @@
 </head>
 
 <body>
+	<div th:if="${thongbao}" class="alert hide">
+		<span class="fas fa-exclamation-circle"></span> <span class="msg"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times"></span>
+		</div>
+	</div>
     <div class="container-xl px-4 mt-4 main">
         <!-- Account page navigation-->
         <div style="text-align: right;">
@@ -309,7 +317,22 @@
             </div>
         </div>
     </div>
+	<script type="text/javascript">
+    window.addEventListener("load", (event) => {
+        $('.alert').addClass("show");
+        $('.alert').removeClass("hide");
+        $('.alert').addClass("showAlert");
+        setTimeout(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+        }, 5000);
+    });
 
+    $('.close-btn').click(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    });
+    </script>
     <script>
         //Lấy hình ảnh
         function readURL(input) {

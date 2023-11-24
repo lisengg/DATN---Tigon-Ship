@@ -79,7 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Phân quyền sử dụng
 		http.authorizeRequests()
 		.antMatchers("/thongtintaikhoan").hasRole("USER")
-		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAFF")
+		.antMatchers("/admin/**").hasAnyRole("ADMIN","STAFF")
+		.antMatchers("/rest/authority1").hasRole("ADMIN")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);

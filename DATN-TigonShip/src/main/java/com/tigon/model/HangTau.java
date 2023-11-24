@@ -29,7 +29,7 @@ public class HangTau {
     String DIACHI;
     String SDT;
     String EMAIL;
-    
+    String TRANGTHAI;
     @JsonIgnore
     @OneToMany(mappedBy = "HANGTAU")
     @JsonBackReference

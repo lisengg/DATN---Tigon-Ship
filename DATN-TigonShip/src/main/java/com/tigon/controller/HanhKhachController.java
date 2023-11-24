@@ -1,5 +1,7 @@
 package com.tigon.controller;
 
+
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,12 +93,16 @@ public class HanhKhachController {
 
 			return "/user/chinhsuataikhoan";
 		} else {
-
-			dao.updateHanhKhach(hovaten, sdt, cccd, diaChi, user);
+			hanhkhach.setHOVATEN(hovaten);
+			//hanhkhach.setEMAIL(kh.getEmail());
+			hanhkhach.setCCCD(cccd);
+			hanhkhach.setSDT(sdt);
+			hanhkhach.setDIACHI(diaChi);
+			dao.save(hanhkhach);
+			//dao.updateHanhKhach(hovaten, sdt, cccd, diaChi, user);
 
 			HanhKhach hanhkhach_new = hanhKhachService.findById(user);
-			model.addAttribute("thongbao", "Cập nhật thông tin thành công!");
-			model.addAttribute("ndungtbao", "Thông báo: Thông tin của bạn đã được cập nhật!");
+			model.addAttribute("ndungtbao", "Cập nhật thành công!");
 
 			List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
 			DatVe datve = datveService.getNgayDatMoiNhat(user);
@@ -109,7 +115,7 @@ public class HanhKhachController {
 			model.addAttribute("user", hanhkhach);
 
 		}
-		return "/user/thongtintaikhoan";
+		return "/user/chinhsuataikhoan";
 
 	}
 	
@@ -122,10 +128,10 @@ public class HanhKhachController {
 		return "/admin/profile/profile";
 	}
 
-	@PostMapping("/admin/profile")
+	@PostMapping("/admin/profile/form")
 	public String updateTKQL(Model model, @RequestParam String hovaten, @RequestParam String sdt,
 			@RequestParam String cccd, @RequestParam String diachi) {
-
+		
 		// Lấy idhanhkhach bằng session
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 
@@ -146,20 +152,37 @@ public class HanhKhachController {
 		}
 
 		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diaChi.isEmpty()) {
-			model.addAttribute("thongbao", "...");
-			model.addAttribute("ndungtbao", "Thông báo: Vui lòng điền đầy đủ thông tin!");
+			model.addAttribute("ndungtbao1", "Vui lòng điền đầy đủ thông tin!");
 			model.addAttribute("user", hanhkhach);
-
 			return "/admin/profile/profile";
-		} else {
+		}  
+		try {
+			hanhkhach.setHOVATEN(hovaten);
+			//hanhkhach.setEMAIL(kh.getEmail());
+			hanhkhach.setCCCD(cccd);
+			hanhkhach.setSDT(sdt);
+			hanhkhach.setDIACHI(diaChi);
+			dao.save(hanhkhach);
+		    
+		    // Lấy lại thông tin sau khi cập nhật
+		    HanhKhach updatedHanhKhach = hanhKhachService.findById(user);
+		    
+		    // Trả về trang profile kèm thông báo
+		    model.addAttribute("ndungtbao", "Cập nhật thành công!");
+		    model.addAttribute("user", updatedHanhKhach);
 
-			dao.updateHanhKhach(hovaten, sdt, cccd, diaChi, user);
-			model.addAttribute("thongbao", "Cập nhật thông tin thành công!");
-			model.addAttribute("ndungtbao", "Thông báo: Thông tin của bạn đã được cập nhật!");
-
-		}
-		return "/admin/profile/profile";
-
+		    return "/admin/profile/profile";
+		    
+		  } catch (Exception e) {
+		    // Xử lý ngoại lệ
+		    model.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại!");
+		    return "/admin/profile/profile";
+		  }
+		
 	}
+//	private boolean isValidPhoneNumber(String phoneNumber) {
+//	    // Kiểm tra xem số điện thoại có đúng định dạng (ví dụ: 10 chữ số) hay không.
+//	    return phoneNumber.matches("/^(0[1-9][0-9]{8})$/");
+//	}
 
 }

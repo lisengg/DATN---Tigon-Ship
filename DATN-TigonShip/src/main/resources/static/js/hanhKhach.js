@@ -1,5 +1,6 @@
 const app = angular.module('hanhkhach-app', []);
 app.controller('hanhkhach-ctrl', function ($scope, $http) {
+	$scope.allHK = [];
 	$scope.form = {};
 	$scope.initialize = function() {
 			$http.get("/rest/hanhkhach").then(response => {
@@ -43,4 +44,15 @@ app.controller('hanhkhach-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     } 
+    
+       //lấy ra tất cả user
+	$scope.allHK = function() {
+		var url = `/rest/hanhkhach/all`;
+		$http.get(url).then(response => {
+			$scope.allHK = response.data;
+		}).catch(err => {
+			console.log("Error", err)
+		})
+	}
+	console.log($scope.allHK);
 })

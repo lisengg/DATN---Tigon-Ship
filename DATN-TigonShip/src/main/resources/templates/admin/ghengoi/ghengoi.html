@@ -74,7 +74,14 @@
 											<th>THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody></tbody>
+									<tbody>
+										<tr  ng-repeat="item in items.ghengoi">
+											<td>{{item.idghe}}</td>
+											<td>{{item.tenghe}}</td>
+											<td>{{item.khoang}}</td>
+											<td><button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning" ng-click="edit(item)">Cập nhật</button></td>
+										</tr>
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -85,7 +92,7 @@
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title" id="modalTitleId">Chỉnh sửa ghế ngồi</h4>
+									<h4 class="modal-title" id="modalTitleId">GHẾ NGỒI</h4>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">

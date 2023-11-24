@@ -15,6 +15,7 @@
 <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -48,22 +49,27 @@
 								<h3>
 									<strong class="card-title">DANH SÁCH TÀU</strong>
 									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm tàu</button>
+									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+										Lịch sử cập nhật
+									</button>
 								</h3>
+								<div th:replace="~{admin/fragments_admin :: history}"></div>
+								
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>ID</th>
-											<th>TÊN TÀU</th>
-											<th>TÊN HÃNG TÀU</th>					
-											<th>SỐ GHẾ</th>
-											<th>TÌNH TRẠNG</th>
-											<th>NGÀY NHẬP</th>
-											<th>THAO TÁC</th>
+											<th class="text-center">ID</th>
+											<th class="text-center">TÊN TÀU</th>
+											<th class="text-center">TÊN HÃNG TÀU</th>					
+											<th class="text-center">SỐ GHẾ</th>		
+											<th class="text-center">NGÀY NHẬP</th>
+											<th class="text-center">TRẠNG THÁI</th>
+											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody></tbody>
+									<tbody class="text-center"></tbody>
 								</table>
 							</div>
 						</div>
@@ -73,72 +79,48 @@
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
-									<h3 class="modal-title" id="modalTitleId">Chỉnh sửa tàu</h3>
+								<div class="modal-header" style="background: #17bac5;">
+									<h3 class="modal-title" id="modalTitleId">Tàu</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<div class="mb-3">
-										<label class="form-label">Tên tàu</label> 
-										<input ng-model="form.tentau" class="form-control">
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Tên tàu</label> 
+											<input ng-model="form.tentau" class="form-control">
+										</div>
+										<div class="col-md-4">
+									        <label class="form-label">Tên hãng tàu</label> 
+									        <select ng-model="form.hangtau.idhangtau" class="form-control" ng-options="hangtau.idhangtau as hangtau.tenhangtau for hangtau in items.hangtau | filter: { trangthai: 'Đang hoạt động' }">
+									            <option value="">Chọn hãng tàu</option>
+									        </select>
+									    </div>
+										<div class="col-md-4">
+											<label class="form-label">Ngày nhập</label> 
+											<input ng-model="form.ngaynhap" type="date" class="form-control">
+										</div>
 									</div>
-									<div class="mb-3">
-										<label class="form-label">Tên hãng tàu</label> 
-										<select ng-model="form.hangtau.idhangtau" class="form-control">
-											<option ng-repeat="hangtau in items.hangtau" ng-value="hangtau.idhangtau">{{hangtau.tenhangtau}}</option>
-										</select>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Số ghế</label> 
-										<input ng-model="form.soghe" class="form-control" readonly>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Tình trạng</label> 
-										<select ng-model="form.tinhtrang" class="form-control">
-											<option>Hoạt động</option>
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Số ghế</label> 
+											<input ng-model="form.soghe" class="form-control" readonly>
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">Trạng Thái</label> 
+											<select ng-model="form.trangthai" class="form-control">
+											<option>Đang hoạt động</option>
 											<option>Ngưng hoạt dộng</option>
-										</select>
+											</select>
+										</div>										
 									</div>
-									<div class="mb-3">
-										<label class="form-label">Ngày nhập</label> 
-										<input ng-model="form.ngaynhap" type="date" class="form-control">
-									</div>
+
 								</div>
 								<div class="modal-footer text-center">
 									 <button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
 									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success">Chỉnh sửa</button>
-									<button type="button" ng-click="reset()" class="btn btn-info">Xóa form</button>
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>						
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
-								      <input type="checkbox" id="check">
-								      <label class="show_button" for="check" ng-show="delete">Xóa</label>
-								      <div class="background"></div>
-								      <div class="alert_box">
-									      <div class="icon">
-									          <i class="fas fa-exclamation-triangle"></i>
-										  </div>
-										  <header>Xác nhận</header>
-										  <p>Bạn có chắc chắn muốn xóa không?</p>
-										  <div class="btns">
-										      <label ng-click="deleteItem(form)">Vâng, Xóa!</label>
-										      <label for="check">Hủy bỏ</label>
-									      </div>
-								      </div>
-								      
-								      <input type="checkbox" id="check1" >
-								      <div class="background"></div>
-								      <div class="alert_box1">
-									      <div class="icon">
-									          <i class="fas fa-check-circle"></i>
-										  </div>
-										  <header>Đã xóa thành công</header>
-										  <div class="btns1">
-										      <label for="check1" data-bs-dismiss="modal">Đóng</label>
-									      </div>
-								      </div>
-								      
 								      <input type="checkbox" id="check3" >
 								      <div class="background"></div>
 								      <div class="alert_box3">
@@ -147,7 +129,7 @@
 										  </div>
 										  <header>Thành công</header>
 										  <div class="btns3">
-										      <label for="check3">Đóng</label>
+										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
 									      </div>
 								      </div>
 								      
@@ -157,7 +139,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Không thành công!</header>
+										  <header>Tàu đang được sử dụng!</header>
 										  <div class="btns2">
 										      <label for="check2" >Đóng</label>
 									      </div>
@@ -181,7 +163,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-circle"></i>
 										  </div>
-										  <header>Vui lòng chọn tên tàu!</header>
+										  <header>Vui lòng chọn tên hãng tàu!</header>
 										  <div class="btns5">
 										      <label for="check5" >OK</label>
 									      </div>
