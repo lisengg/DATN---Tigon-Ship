@@ -136,8 +136,14 @@ public class HanhKhachController {
 
 			model.addAttribute("lichsu", lichsuve);
 			model.addAttribute("user", hanhkhach_updated);
-			model.addAttribute("ngaydat", datve.getNGAYDAT());
-			model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
+			if(datve!=null) {
+				model.addAttribute("ngaydat", datve.getNGAYDAT());
+				model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
+			}else {
+				model.addAttribute("ngaydat", "");
+				model.addAttribute("chuyengannhat", "");
+			}
+					
 			model.addAttribute("datve", datve);
 			model.addAttribute("user", hanhkhach);
 
