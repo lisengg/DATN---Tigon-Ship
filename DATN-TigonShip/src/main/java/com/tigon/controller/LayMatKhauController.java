@@ -27,7 +27,6 @@ import com.tigon.model.OTP;
 import com.tigon.service.EmailService;
 import com.tigon.service.HanhKhachService;
 import com.tigon.service.OTPService;
-import com.twilio.rest.proxy.v1.service.Session;
 
 @Controller
 @EnableScheduling
@@ -120,7 +119,11 @@ public class LayMatKhauController  implements CommandLineRunner {
 	}
 	
 	@RequestMapping("/doimatkhau")
-	public String doimatkhau(@RequestParam("matkhaumoi") String matkhaumoi, Model model) {
+	public String doimatkhau(@RequestParam("matkhaumoi") String matkhaumoi,@RequestParam("matkhaumoi2") String matkhaumoi2, Model model) {
+		if(!matkhaumoi.equals(matkhaumoi2)) {
+			model.addAttribute("message","Mật khẩu xác nhận không khớp!");
+			return "/user/login/matkhaumoi";
+		}
 		HanhKhach hanhKhach = hanhKhachService.findById(Integer.parseInt(session.getAttribute("iddoimk").toString()));
 		hanhKhach.setMATKHAU(matkhaumoi);
 		hanhKhachDAO.save(hanhKhach);
@@ -132,17 +135,17 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/datve/guihoadonkemqr";
 	}
 	
-    @Scheduled(initialDelay = 300000,fixedRate = 300000) // Chạy sau mỗi 5 phút
-    public void deleteAllOTP() {
-        otpDAO.deleteAll();
-     // Lấy giờ hiện tại
-        LocalDateTime currentTime = LocalDateTime.now();
-
-        // Định dạng giờ
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
-        String formattedTime = currentTime.format(formatter);
-        System.out.println("Xóa tất cả OTP lúc : "+formattedTime);
-    }
+//    @Scheduled(initialDelay = 300000,fixedRate = 300000) // Chạy sau mỗi 5 phút
+//    public void deleteAllOTP() {
+//        otpDAO.deleteAll();
+//     // Lấy giờ hiện tại
+//        LocalDateTime currentTime = LocalDateTime.now();
+//
+//        // Định dạng giờ
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+//        String formattedTime = currentTime.format(formatter);
+//        System.out.println("Xóa tất cả OTP lúc : "+formattedTime);
+//    }
 
 	@Override
 	public void run(String... args) throws Exception {
