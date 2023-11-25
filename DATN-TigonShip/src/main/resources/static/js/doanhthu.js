@@ -87,9 +87,9 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 
 	$scope.searchByDate = function () {
 		if (!$scope.selectedDate) {
-			$scope.errorMsg = "Vui lòng chọn ngày.";
+			document.getElementById('check4').checked = true;
 			// Hiển thị modal
-			$('#errorMessageModal').modal('show');
+			//$('#errorMessageModal').modal('show');
 			return; // Ngừng thực hiện hàm nếu có lỗi
 		}
 		var selectedDate = new Date($scope.selectedDate);
@@ -97,10 +97,10 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 	
 		// Kiểm tra xem ngày được chọn có vượt quá ngày hiện tại không
 		if (selectedDate > currentDate) {
-			$scope.errorMsg = "Ngày được chọn không được vượt quá ngày hiện tại.";
+			document.getElementById('check9').checked = true;
 			
 			// Hiển thị modal
-			$('#errorMessageModal').modal('show');
+			//$('#errorMessageModal').modal('show');
 			
 			return; // Ngừng thực hiện hàm nếu có lỗi
 		}

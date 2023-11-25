@@ -10,6 +10,12 @@
 <title></title>
 
 <!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script  src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> 
+        <!-- <link rel="stylesheet" href="admin/css/style.css"> -->
+        
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="/assets/css/animate.css" rel="stylesheet">
@@ -71,15 +77,32 @@
 								<li><a href="/dangnhap">Đăng nhập</a></li>
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
-							<th:block th:if="${#httpServletRequest.remoteUser}">
-								<!-- <li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li> -->
+						<!-- 	<th:block th:if="${#httpServletRequest.remoteUser}">
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
 								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
 								
-							</th:block>
-							
+							</th:block> -->
+							<div class="dropdown">
+						<li th:if="${#request.remoteUser}"
+							class="nav-item dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Xin chào
+							[[${#request.remoteUser}]]</li>
+						<ul class="dropdown-menu" style="background: #fff;" th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}">
+							<li><a class="dropdown-item"
+								th:href="@{/admin}" style="color: black;"><i
+									class="menu-icon fa fa-laptop"></i> Quản lý</a></li>
+							<li><a class="dropdown-item" 
+								th:href="@{/thongtintaikhoan}"  style="color: black;"><i
+									class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
+							<li><a class="dropdown-item" th:href="@{/security/logoff}"
+								style="color: black;"><i class="menu-icon ti-new-window"></i>
+									Đăng xuất</a></li>
 						</ul>
-						<li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li>
+					</div>
+						</ul>
+						<!-- <li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li> -->
+						
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
 						<!-- ***** Menu End ***** -->
@@ -396,7 +419,14 @@
 		<script src="/assets/js/tabs.js"></script>
 		<script src="/assets/js/popup.js"></script>
 		<script src="/assets/js/custom.js"></script>
-
+		 <script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+		integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+		crossorigin="anonymous"></script>
 		<script>
 			function bannerSwitcher() {
 				next = $('.sec-1-input').filter(':checked')

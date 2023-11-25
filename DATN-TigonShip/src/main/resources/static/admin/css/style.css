@@ -825,7 +825,8 @@ aside.left-panel {
   margin-top: 55px; }
   .right-panel .top-left {
     width: 350px;
-    float: left; }
+    float: left; 
+     margin-left: -30px;}
   .right-panel .top-rigth {
     float: left; }
   .right-panel .breadcrumbs {

@@ -348,6 +348,7 @@ transition: all .5s ease 0s;
   -moz-transition: all .5s ease 0s;
   -o-transition: all .5s ease 0s;
   transition: all .5s ease 0s;
+  text-align: center;
 }
 
 .header-area .main-nav {
@@ -392,6 +393,7 @@ transition: all .5s ease 0s;
   z-index: 999;
 }
 
+
 .header-area .main-nav .nav li {
   padding-left: 10px;
   padding-right: 10px;
@@ -414,16 +416,19 @@ transition: all .5s ease 0s;
   letter-spacing: 0.5px;
 }
 .header-area .main-nav .nav-item {
+	
   padding-left: 10px;
   padding-right: 10px;
-  margin-top: 22px;
+  margin-top: 7.5px;
 }
 
 .header-area .main-nav .nav-item a {
+	display: block;
   font-weight: 500;
   font-size: 15px;
+  text-transform: capitalize;
   color: #fff;
-   margin-top: 30px;
+
 
 }
 .header-area .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover,

@@ -1,10 +1,6 @@
 package com.tigon.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +16,6 @@ import com.tigon.dao.HanhKhachDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.model.DatVe;
 import com.tigon.model.HanhKhach;
-import com.tigon.model.LoaiHanhKhach;
 import com.tigon.service.DatVeService;
 import com.tigon.service.HanhKhachService;
 
