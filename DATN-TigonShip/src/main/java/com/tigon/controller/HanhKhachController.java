@@ -143,9 +143,70 @@ public class HanhKhachController {
 
 			return "/user/thongtintaikhoan";
 		}
+	}
+	
+	@RequestMapping("/admin/profile/form")
+	public String chinhSuaTKQL(Model model) {
+		Integer user = Integer.parseInt(session.getAttribute("user").toString());
+		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		model.addAttribute("user", hanhkhach);
 
+		return "/admin/profile/profile";
 	}
 
+	@PostMapping("/admin/profile/form")
+	public String updateTKQL(Model model, @RequestParam String hovaten, @RequestParam String sdt,
+			@RequestParam String cccd, @RequestParam String diachi) {
+		
+		// Lấy idhanhkhach bằng session
+		Integer user = Integer.parseInt(session.getAttribute("user").toString());
+
+		HanhKhach hanhkhach = hanhKhachService.findById(user);
+
+		String thanhPho = request.getParameter("city");
+		String quanHuyen = request.getParameter("district");
+		String phuongXa = request.getParameter("ward");
+		String diaChi = null;
+		String diachi_old = hanhkhach.getDIACHI();
+
+		if (!diachi.isEmpty()) {
+			diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
+		} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
+			diaChi = diachi_old;
+		} else {
+			diaChi = phuongXa + ", " + quanHuyen + ", " + thanhPho;
+		}
+
+		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diaChi.isEmpty()) {
+			model.addAttribute("ndungtbao1", "Vui lòng điền đầy đủ thông tin!");
+			model.addAttribute("user", hanhkhach);
+			return "/admin/profile/profile";
+		}  
+		try {
+			hanhkhach.setHOVATEN(hovaten);
+			//hanhkhach.setEMAIL(kh.getEmail());
+			hanhkhach.setCCCD(cccd);
+			hanhkhach.setSDT(sdt);
+			hanhkhach.setDIACHI(diaChi);
+			dao.save(hanhkhach);
+		    
+		    // Lấy lại thông tin sau khi cập nhật
+		    HanhKhach updatedHanhKhach = hanhKhachService.findById(user);
+		    
+		    // Trả về trang profile kèm thông báo
+		    model.addAttribute("ndungtbao", "Cập nhật thành công!");
+		    model.addAttribute("user", updatedHanhKhach);
+
+		    return "/admin/profile/profile";
+		    
+		  } catch (Exception e) {
+		    // Xử lý ngoại lệ
+		    model.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại!");
+		    return "/admin/profile/profile";
+		  }
+		
+	}
+	
 	public void getData(Model model, @RequestParam String hovaten, @RequestParam String sdt, @RequestParam String cccd,
 			@RequestParam String diachi) {
 		// Lấy idhanhkhach bằng session

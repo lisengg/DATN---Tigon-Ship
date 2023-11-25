@@ -54,7 +54,6 @@
 				<div class="col-lg-12">
 					<nav class="main-nav">
 
-
 						<div>
 							<a href="/" class="logo"> <img
 								src="/assets/images/logoweb.png" alt=""
@@ -63,7 +62,7 @@
 						</div>
 
 
-						<ul class="nav" style="left: 90px;">
+						<ul class="nav" style="left: 0px;">
 							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
 							<li><a href="/gopy">Góp Ý</a></li>
@@ -73,10 +72,14 @@
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
 							<th:block th:if="${#httpServletRequest.remoteUser}">
-								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<!-- <li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li> -->
 								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
+								
 							</th:block>
+							
 						</ul>
+						<li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li>
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
 						<!-- ***** Menu End ***** -->
