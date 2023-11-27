@@ -4,6 +4,7 @@ app.controller('danhgia-ctrl', function($scope, $http) {
     $scope.top5=[];
     $scope.avg = [];
     $scope.danhgia=[];
+	$scope.diemGiamDan=[];
 	// Hàm khởi tạo
     $scope.getAll = function() {
         var url = `/rest/danhgia`;
@@ -288,6 +289,11 @@ app.controller('danhgia-ctrl', function($scope, $http) {
 		var url = `/rest/danhgia/top5`;
 		$http.get(url).then(response => {
 			$scope.top5 = response.data;
+		}).catch(err => {
+			console.log("Error", err)
+		})
+		$http.get(`/rest/danhgia/diemGiamDan`).then(response => {
+			$scope.diemGiamDan = response.data;
 		}).catch(err => {
 			console.log("Error", err)
 		})

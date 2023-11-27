@@ -25,6 +25,15 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<style>
+      .card-title {
+            font-size: 24px; /* Adjust the font size as needed */
+            font-weight: bold; /* Make the font bold */
+            color: #333; /* Change the text color */
+            margin-bottom: 10px; /* Add some bottom margin for spacing */
+            color:#597aa7
+        }
+</style>
 </head>
 <body ng-app="doanhthu-app" ng-controller="doanhthu-ctrl">
 	<!-- Left Panel (menu)-->
@@ -42,7 +51,7 @@
 					<div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title" style="color: #1a2b3e; font-size: 1.2em;">
+                                <strong class="card-title">
                                     Tổng doanh thu hôm nay: {{ doanhthu.toLocaleString('en-US') }} VND
                                 </strong>
                             </div>

@@ -85,11 +85,28 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 	}
 	$scope.chart()
 
-
 	$scope.searchByDate = function () {
+		if (!$scope.selectedDate) {
+			$scope.errorMsg = "Vui lòng chọn ngày.";
+			// Hiển thị modal
+			$('#errorMessageModal').modal('show');
+			return; // Ngừng thực hiện hàm nếu có lỗi
+		}
+		var selectedDate = new Date($scope.selectedDate);
+		var currentDate = new Date();
+	
+		// Kiểm tra xem ngày được chọn có vượt quá ngày hiện tại không
+		if (selectedDate > currentDate) {
+			$scope.errorMsg = "Ngày được chọn không được vượt quá ngày hiện tại.";
+			
+			// Hiển thị modal
+			$('#errorMessageModal').modal('show');
+			
+			return; // Ngừng thực hiện hàm nếu có lỗi
+		}
+	
 		var formattedDate = $scope.selectedDate;
 		console.log("Formatted Date:", formattedDate);
-	
 		var url = `/rest/doanhthu/theongay/${formattedDate}`;
 		console.log("URL:", url);
 	
@@ -100,6 +117,9 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 			console.log("Error", err);
 		});
 	};
+	
+	
+	
 	
 	
    

@@ -33,11 +33,11 @@
 
 					<li><a th:href="@{/admin/hoadon}"><i
 							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
-					<li>
+					<!-- <li>
 						<a th:href="@{/admin/doanhthu}"> <i
 							class="menu-icon ti-money"></i>Doanh thu
 					</a>
-				</li>
+				</li> -->
 				<li class="menu-item-has-children dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-money"></i>Doanh thu</a>
 					<ul class="sub-menu children dropdown-menu">
@@ -45,9 +45,16 @@
 						<li><i class="fa fa-table"></i><a th:href="@{/admin/doanhthu/theongay}">Theo ngày</a></li>
 					</ul>
 				</li>
-					<li><a th:href="@{/admin/danhgia}"> <i
+				<li class="menu-item-has-children dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-heart"></i>Đánh giá</a>
+					<ul class="sub-menu children dropdown-menu">
+						<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia}">Tổng quan</a></li>
+						<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia/chitiet}">Chi tiết</a></li>
+					</ul>
+				</li>
+					<!-- <li><a th:href="@{/admin/danhgia}"> <i
 							class="menu-icon ti-heart"></i>Đánh giá
-					</a></li>
+					</a></li> -->
 					<li th:if="${#request.isUserInRole('ADMIN')}" class="menu-title">Nhân
 						viên</li>
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a

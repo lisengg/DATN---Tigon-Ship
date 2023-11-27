@@ -44,9 +44,13 @@ public class danhGiaRestController {
         return danhGiaDAO.AVGall();
     }
 
-    @GetMapping("/rest/danhgia/top5")// top5ng hoạt động nhiều nhất
+    @GetMapping("/rest/danhgia/top5")//Các tuyến được đi nhiều theo thứ tự giảm dần
     public List<Object> getTop5(){
         return danhGiaDAO.Top5();
+    }
+    @GetMapping("/rest/danhgia/diemGiamDan")//Các tuyến được đánh giá theo điểm giảm dần
+    public List<Object> getdiemGiamDan(){
+        return danhGiaDAO.diemGiamDan();
     }
 
     @GetMapping("/rest/danhgia/tuyen/avg/honson")// HÒN SƠN

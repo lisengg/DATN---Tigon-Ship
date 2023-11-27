@@ -33,12 +33,15 @@ public class hanhKhachRestController {
         map.put("datve", datVeDAO.findAll());
         map.put("hanhkhach", hanhKhachDAO.findAll());
         map.put("loaive",loaiVeDAO.findAll());
-      //  map.put("nguoidicung",nguoiDiCungDAO.findAll());
         return map;
     }
     @GetMapping("/rest/hanhkhach/{id}") // lấy danh sách ghế ngồi theo id tàu
     public List<DatVe> getAll(@PathVariable("id") Integer id) {
         return datVeDAO.ListDatVeByidKhach(id);
+    }
+    @GetMapping("/rest/hanhkhach/all")// lấy ra tổng có bao nhiêu USER
+    public List<Object> getAllHK(){
+        return hanhKhachDAO.AllHK();
     }
 
 }

@@ -73,10 +73,7 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.delete = true;
 	}
 	//THÊM TÀU
-	$scope.create = function() {
-		
-		
-		
+	$scope.create = function() {	
 		// Kiểm tra tên tàu đã được chọn
 		if (!$scope.form.tentau) {
 			document.getElementById('check4').checked = true;
@@ -121,37 +118,25 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 					console.log("Error creating LichsuTau", error);
 				});
 		
-			//Ghế ngồi
-			let tenghe = [];
-    let khoan = [];
-    let idtau = [];
-    let trangthai = [];
-    for (let i = 1; i <= 160; i++) {
-        let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
-        let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
-        let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
+			//Ghế ngồi làm được rồi yeahhhh
+		var itemsghe = [];
+for (let i = 1; i <= 160; i++) {
+    let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
+    let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
+    let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
 
-        tenghe.push(`${letter}${columnIndex}`);
-        idtau.push(response.data);
-
-        // Kiểm tra xem i có nằm trong 100 giá trị đầu hay không
-        if (i <= 100) {
-            khoan.push(1);
-        } else {
-            khoan.push(2);
-        }
-    }
-
-    var itemghengoi = {
-        "khoan": khoan,
-        "tenghe": tenghe,
-        "tau": idtau,
+    let item = {
+        khoang: i <= 100 ? 1 : 2,
+        tenghe: `${letter}${columnIndex}`,
+        tau: response.data 
     };
-
+    itemsghe.push(item);
+}
     // Thực hiện yêu cầu POST để lưu trữ 160 đối tượng Ghế Ngồi
-    $http.post('/rest/tau/ghengoi/saveAll', itemghengoi)
+    $http.post('/rest/tau/ghengoi/saveAll', itemsghe)
         .then(function(response) {
-            $scope.items.ghengoi.push(response.data);
+			console.log(response.data); // Xem response của yêu cầu POST
+			$scope.items.ghengoi.push(response.data);
             console.log("Thành công");
         })
         .catch(function(error) {
