@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestAPIController {
 
 	@GetMapping("/createpayment")
-	public String createpayment() throws UnsupportedEncodingException {
+	public ResponseEntity<?> createpayment() throws UnsupportedEncodingException {
 
 		String orderType = "other";
 //		long amount = Integer.parseInt(req.getParameter("amount")) * 100;
-		long amount = 10000;
+		long amount = 20000;
 		String bankCode = "NCB";
 
 		String vnp_TxnRef = Config.getRandomNumber(8);
@@ -98,7 +98,7 @@ public class TestAPIController {
 		dto.setStatus("OK");
 		dto.setMessages("Successfully");
 		dto.setURL(paymentUrl);
-		ResponseEntity.status(HttpStatus.OK).body(dto);
-		return paymentUrl;
+//		ResponseEntity.status(HttpStatus.OK).body(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 }
