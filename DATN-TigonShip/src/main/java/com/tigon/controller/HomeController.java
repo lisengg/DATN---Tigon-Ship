@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tigon.dao.BangtinDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.TuyenDAO;
-
+import com.tigon.model.Bangtin;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
 import com.tigon.model.HanhKhach;
@@ -63,9 +64,12 @@ public class HomeController {
 
 	@Autowired
 	HttpSession session;
-
+	@Autowired
+	BangtinDAO btdao;
 	@RequestMapping("/")
-	public String index() {
+	public String index(Model model) {
+		List<Bangtin> list = btdao.findAll();
+		model.addAttribute("items", list);
 		return "user/index";
 	}
 	@RequestMapping("/lienhe")
@@ -90,8 +94,9 @@ public class HomeController {
 	}
 	@RequestMapping("/user/luc")
 	public String tuyentau(Model model) {
-		List<Tuyen> list = ttservice.findAll();
-		model.addAttribute("items", list);
+		/*
+		 * List<Tuyen> list = ttservice.findAll(); model.addAttribute("items", list);
+		 */
 		return "/user/TuyenTau";
 	}
 	

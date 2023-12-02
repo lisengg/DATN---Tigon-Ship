@@ -78,7 +78,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #66FCF1;
+  background-color: rgb(0, 128, 128);
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -119,13 +119,13 @@ Global Styles
 */
 html,
 body {
-  background: #66FCF1;
+  background: rgb(35, 35, 35);
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #66FCF1;
-  color: #66FCF1;
+  background: rgb(0, 128, 128);
+  color: rgb(0, 128, 128);
 }
 
 ::-moz-selection {
@@ -135,7 +135,7 @@ body {
 
 .text-button a {
   font-size: 14px;
-  color: #22b3c1;
+  color: rgb(0, 128, 128);
   font-weight: 500;
   transition: all .3s;
 }
@@ -151,9 +151,9 @@ body {
 
 .border-button a {
   font-size: 14px;
-  color: #22b3c1;
+  color: rgb(0, 128, 128);
   background-color: transparent;
-  border: 1px solid #22b3c1;
+  border: 1px solid rgb(0, 64, 128);
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -166,15 +166,15 @@ body {
 }
 
 .border-button a:hover {
-  background-color: #66FCF1;
-  color: #66FCF1;
+  background-color: rgb(0, 128, 128);
+  color: rgb(0, 128, 128);
 }
 
 .main-button a {
 font-size: 14px;
-  color: #66FCF1;
-  background-color: #66FCF1;
-  border: 1px solid #66FCF1;
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 128, 128);
+  border: 1px solid rgb(255, 255, 255);
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -211,7 +211,7 @@ section {
   font-size: 30px;
   font-weight: 700;
   text-transform: capitalize;
-  color: #2a2a2a;
+  color: rgb(255, 255, 255);
 }
 
 /* 
@@ -337,11 +337,11 @@ transition: all .5s ease 0s;
 }
 
 .header-area {
-  background-color: #66FCF1;
+  background-color: rgb(0, 128, 128);
   position: absolute;
   height: 70px;
   top: 0;
-  left: 0;
+  left: 0;	
   right: 0;
   z-index: 100;
   -webkit-transition: all .5s ease 0s;
@@ -761,7 +761,7 @@ Banner Style
   background-position: 50% 50%;
   transition: all 0.5s ease;
 }
-#section-1 .more-info {
+#section-1 .more- {
   margin-top: 60px;
   background-color: #fff;
   padding: 30px 60px;
@@ -772,7 +772,7 @@ Banner Style
   bottom: 130px;
   display: inline-block;
 }
-#section-1 .more-info i {
+#section-1 .more- i {
   color: #22b3c1;
   font-size: 24px;
   width: 60px;
@@ -958,7 +958,7 @@ Visit Country Style
 }
 
 .visit-country .side-bar-map {
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .visit-country .item {
@@ -1006,7 +1006,7 @@ right: 0;
 
 .visit-country .item .right-content ul {
   border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  
   padding: 15px 0px;
 }
 
@@ -1022,7 +1022,8 @@ right: 0;
 }
 
 .visit-country .item .right-content ul li:last-child {
-  text-align: right;
+  text-align: left;
+  margin-left: 5px;
 }
 
 .visit-country .item .right-content ul li i {
@@ -1126,8 +1127,8 @@ Footer Style
 */
 
 footer {
-  background-color: #22b3c1;
-  text-align: center;
+  background-color: rgb(0, 128, 128);
+  text-align: left;
   padding: 25px 0px;
 }
 
@@ -1369,7 +1370,7 @@ border-radius: 23px;
 }
 
 .weekly-offers .item .thumb .text ul li:first-child {
-  color: #2a2a2a;
+  color: rgb(0, 0, 0);
   font-weight: 600;
 }
 
@@ -2042,7 +2043,7 @@ Reservation Page Style
 */
 
 .second-page-heading {
-  background-image: url(../images/heading-bg-02.jpg);
+  background-image: url(../images/banner-01.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -2265,13 +2266,13 @@ body {
 }
 
 @media (max-width: 992px) {
-  #section-1 .more-info {
+  #section-1 .more- {
     margin-top: 60px;
   }
-  #section-1 .more-info h4 span {
+  #section-1 .more- h4 span {
     font-size: 15px;
   }
-  #section-1 .more-info h4 {
+  #section-1 .more- h4 {
     font-size: 20px;
     margin-bottom: 15px;
   }
@@ -2326,7 +2327,7 @@ body {
   .amazing-deals .item .content {
     padding: 30px !important;
   }
-  .more-info .info-item {
+  .more- .-item {
     margin-bottom: 30px;
   }
   .reservation-form #reservation-form {
@@ -2335,10 +2336,10 @@ body {
 }
 
 @media (max-width: 1200px) {
-#section-1 .more-info h4 span {
+#section-1 .more- h4 span {
     font-size: 12px;
   }
-  #section-1 .more-info h4 {
+  #section-1 .more- h4 {
     font-size: 15px;
   }
   .weekly-offers .container-fluid {
