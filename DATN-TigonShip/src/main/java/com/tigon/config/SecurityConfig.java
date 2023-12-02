@@ -1,5 +1,6 @@
 package com.tigon.config;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpSession;
@@ -60,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					roles = user.getQUYEN();
 					hoten = user.getEMAIL();
 					hoten = user.getHOVATEN();
-					//hoten =  user.getHOVATEN();
 					session.setAttribute("user", user.getIDHANHKHACH());
 					session.setAttribute("role", roles);
 				}

@@ -207,6 +207,13 @@
 			<span class="fas fa-times"></span>
 		</div>
 	</div>
+	<div th:if="${thongbaoerror}" class="alert hide" style="border-left: 8px solid red">
+		<span class="fas fa-exclamation-circle" style="color: red"></span> <span class="msg" style="color: red"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times" style="color: red"></span>
+		</div>
+	</div>
     <div class="container-xl px-4 mt-4 main">
         <!-- Account page navigation-->
         <div style="text-align: left;">
@@ -216,7 +223,7 @@
             <a class="nav-link" th:if="${#request.isUserInRole('USER')}"
                  th:href="@{/thongtintaikhoan}">Hồ sơ</a> <a class="nav-link active"
                 th:href="@{/chinhsuataikhoan}">Thông tin chi tiết</a> <a class="nav-link" 
-                href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Bảo mật</a> <a
+                th:href="@{/baomat}">Bảo mật</a> <a
                 class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page" th:if="${#request.isUserInRole('USER')}"
                 target="__blank">Thông báo</a>
 
@@ -227,24 +234,26 @@
                 <!-- Profile picture card-->
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header text-center">Thông tin tài khoản</div>
-                    <div class="card-body">
-                    <div class="row">
-                     <label class="small mb-1 col-xl-4 mb-4">Họ và tên :</label>
-                     <p class="small mb-1 col-xl-8 mb-8" th:text="${user.HOVATEN}"></p> 
-                    </div>                
-                    <div class="row">
-                     <label class="small mb-1 col-xl-6 mb-6">Số điện thoại :</label>
-                     <p class="small mb-1 col-xl-6 mb-6" th:text="${user.SDT}"></p> 
-                    </div>   
-                    <div class="row">
-                     <label class="small mb-1 col-xl-6 mb-6">Số CCCD/CMND :</label>
-                     <p class="small mb-1 col-xl-6 mb-6" th:text="${user.CCCD}"></p> 
-                    </div>   
-                    <div class="row">
-                     <label class="small mb-1 col-xl-4 mb-4">Địa chỉ :</label>
-                     <p class="small mb-1 col-xl-8 mb-8" th:text="${user.DIACHI}"></p> 
-                    </div>   
-                    </div>
+                    <table class="table table-bordered">
+  <tbody>
+    <tr>
+      <td >Họ và tên</td>
+      <td colspan="2" th:text="${user.HOVATEN}"></td>
+    </tr>
+    <tr>
+      <td>Số điện thoại</td>
+       <td colspan="2" th:text="${user.SDT}"></td>
+    </tr>
+    <tr>
+      <td>Số CCCD</td>
+     <td colspan="2" th:text="${user.CCCD}"></td>
+    </tr><tr>
+      <td>Địa chỉ</td>
+     <td colspan="2" th:text="${user.DIACHI}"></td>
+    </tr>  
+  </tbody>
+</table>
+                   
                 </div>
             </div>
             <div class="col-xl-8">
@@ -297,7 +306,7 @@
                                     <label class="small mb-1" for="inputLocation">Địa chỉ
                                         cụ thể :(Số nhà, hẻm, ấp,...)</label> <input
                                         class="form-control form-control-sm" id="inputLocation" type="text" name="diachi"
-                                        placeholder="Nhập địa chỉ cụ thể" >
+                                        th:value="${diachi}">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputBirthday">Số căn
@@ -306,7 +315,7 @@
                                         th:value="${user.CCCD}">
                                 </div>
                             </div>
-                            <p th:text="${ndungtbao}"></p>
+                        
                             <!-- Save changes button-->
                                 <button style="text-align: right;" class="btn btn-primary">Cập nhật tài
                                     khoản</button>
