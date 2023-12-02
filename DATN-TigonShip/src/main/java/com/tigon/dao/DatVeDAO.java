@@ -19,15 +19,15 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 
 
     //Thông tin đặt vé ngày(8 bảng:)))))
-    @Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE, gn.TENGHE, ltc.GIOXUATPHAT, t.TENTAU, tuyen.TENTUYEN " +
+    @Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE, ltc.GIOXUATPHAT, t.TENTAU, tuyen.TENTUYEN " +
         "FROM HOADON hd " +
         "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE " +
         "INNER JOIN HANHKHACH hk ON hk.IDHANHKHACH = dv.IDHANHKHACH " +
         "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU " +
         "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU " +
         "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN " +
-        "INNER JOIN DATGHE dg ON dg.IDDATVE = dv.MADATVE " +
-        "INNER JOIN GHENGOI gn ON gn.IDGHE = dg.IDGHE " +
+//        "INNER JOIN DATGHE dg ON dg.IDDATVE = dv.MADATVE " +
+//        "INNER JOIN GHENGOI gn ON gn.IDGHE = dg.IDGHE " +
         "WHERE tuyen.IDTUYEN = :id AND CAST(dv.NGAYDAT AS DATE) = :ngay AND hd.TRANGTHAI LIKE N'%Đã thanh toán%'", nativeQuery = true)
         List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
 }
