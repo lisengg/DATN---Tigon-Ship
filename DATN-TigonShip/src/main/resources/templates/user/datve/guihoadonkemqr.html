@@ -1,211 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-.feedback {
-  position: absolute;
-  opacity: 0;
-}
-.table {
-  display: table;
-  width: 100%;
-  position: absolute;
-  height: 100%;
-}
-.table-cell {
-  display: table-cell;
-  vertical-align: middle;
-}
-#ticket {
-  width: 350px;
-  background: #fff;
-  height: 470px;
-  margin: 0 auto;
-  &:after {
-    content: '';
-    display: block;
-    position: relative;
-    clear: both;
-  }
-}
-#ticket>.row:first-child {
-  &:before, &:after {
-    background-color: $bg-blue;
-    position: absolute;
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 100%;
-    bottom: 0;
-    margin-bottom: -10px;
-  }
-  &:before {
-    left: 0;
-    margin-left: -10px;
-  }
-  &:after {
-    right: 0;
-    margin-right: -10px;
-  }
-}
-.logo{
-  width: 160px;
-}
-.row {
-  position: relative;
-  padding: 20px;
-  &.perforated {
-    border-bottom: 1px dashed #ddd;
-  }
-  &.destinations:after, &.normRow:after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-}
-.label {
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-    line-height: 1.2!important;
-}
-.airport {
-  font-size: 32px;
-}
-.city {
-  font-size: 12px;
-  text-transform: uppercase;
-}
-.right {
-  float: right;
-  text-align: right;
-}
-.left {
-  float: left;
-  text-align: left;
-}
-svg#plane {
-  width: 30px;
-  position: absolute;
-  left: 50%;
-  margin-left: -15px;
-  margin-top: 15px;
-  opacity: 0.5;
-  display: inline-block;
-}
-.smalltext{
-  padding: 20px;
-  font-size: 10px;
-  opacity: 0.6;
-}
-.col6 {
-  float: left;
-  width: 50%;
-  font-size: 21px;
-  line-height: 1.5;
-}
-.col {
-  font-size: 21px;
-}
-.normRow {
-  padding-bottom: 0;
-}
-#qr {
-  float: right;
-  width: 80px;
-  position: relative;
-  right: -5px;
-  bottom: 5px;
-  margin-left: 10px;
-}
-.sparkler {
-  width: 70px;
-  height: 70px;
-  float: left;
-  margin-right: 20px;
-  .square {
-    width: 12.5%;
-    height: 12.5%;
-    background-color: grey;
-    float: left;
-    transition: background-color 0.1s;
-  }
-}
-// ----- Mobile styles -----
-@media only screen 
-  and (max-device-width: 736px) { 
-}
-</style>
+  <style type="text/css">
+    @import url("https://fonts.googleapis.com/css2?family=Barlow&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap");
+  </style>
 </head>
-<body>
-<div class="feedback" id="oldX"></div><div class="feedback" id="oldY"></div>
-<div class="table">
-  <div class="table-cell">
-    <div id="ticket">
-      <div class="row perforated first">
-        <img class="logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/United_Airlines_Logo.svg/1024px-United_Airlines_Logo.svg.png" />
-        <div class="right">
-          <div class="label">Flight Number</div>
-          <div class="num">UA 1136</div>
-        </div>
-      </div>
-      <div class="row perforated destinations">
-        <div class="left">
-          <div class="label">Departing</div>
-          <div class="airport">ORD</div>
-          <div class="city">Chicago, IL</div>
-        </div>
+<body style="margin: 0; padding: 0; font-family: 'Barlow', sans-serif; color: black; font-size: 14px; letter-spacing: 0.1em;">
 
-        <svg id="plane" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enable-background="new 0 0 100 100" xml:space="preserve">
-          <g>
-            <path d="M12.5,50L6.25,31.25h6.25L25,43.75h25L31.25,6.25h6.25l31.25,37.5h12.5c0,0,12.5,0,12.5,6.25s-12.5,6.25-12.5,6.25h-12.5   L37.5,93.75h-6.25L50,56.25H25l-12.5,12.5H6.25L12.5,50z" />
-          </g>
-        </svg>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; background-color: white; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;">
+          <tr>
+            <td>
+              <table cellpadding="20" cellspacing="0" border="0" style="width: 100%;">
+                <tr>
+                  <td>
+                    <!-- Your content here -->
+                    <div class="ticket" style="display: flex; box-sizing: border-box; width: 100%; background: white;">
+                      <!-- Left side -->
+                      <div class="left" style="display: table-cell; width: 100px; vertical-align: top;">
+                        <div class="image" style="height: auto; width: 100%; background-size: cover; background-repeat: no-repeat; background-position: center; opacity: 0.95; position: relative;">
+                          <p class="admit-one" style="position: absolute; color: darkgray; height: 250px; padding: 0 10px; letter-spacing: 0.15em; font-size: 12px; display: flex; text-align: center; justify-content: space-around; writing-mode: vertical-rl; transform: rotate(-180deg);">
+                            <span style="color: white; font-weight: 700;">TIGON SHIP</span>
+                            <span style="color: white; font-weight: 700;">TIGON SHIP</span>
+                            <span style="color: white; font-weight: 700;">TIGON SHIP</span>
+                          </p>
+                          <div class="ticket-number" style="height: 250px; width: 300px; display: flex; justify-content: flex-end; align-items: flex-end; padding: 10px; color: white;">
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Center -->
+                      <div class="ticket-info" style="display: table-cell; vertical-align: top;  width: 100%; box-sizing: border-box;text-align: center;">
+                      <p class="date" style="border-top: 1px solid gray; border-bottom: 1px solid gray; font-weight: 700; text-align: center;">
+    <span style="font-size: 18px; text-align: left;">Thứ 2</span>
+    <span class="nov-10" style="color: #d62839; font-size: 18px; text-align: center;">28 Tháng 12</span>
+    <span style="font-size: 18px; text-align: right;">2023</span>
+</p>
 
-        <div class="right">
-          <div class="label">Arriving</div>
-          <div class="airport">PDX</div>
-          <div class="city">Portland, OR</div>
+
+
+                        <div class="show-name" style="font-size: 18px; color: #d62839; font-weight: 700;">
+                          <h1 style="font-size: 30px; letter-spacing: 0.05em; margin-bottom: 4px; color: #93229f; font-family: 'Saira Stencil One', sans-serif;">Phú Quốc - Sóc Trăng</h1>
+                          <h2 style="margin-bottom: 2px;">Tigon Ship V</h2>
+                          <h4>KHOANG: 1</h4>
+                          <h4>GHẾ: G1,G2,G3,G5</h4>
+                        </div>
+                        <div class="tagline" style="font-weight: 700; font-size: 14px;">
+                          <p>HÀNH KHÁCH CHÍNH: TRẦN MỘNG CƠ</p>
+                        </div>
+                        <div class="time" style="color: #505050; text-align: center; font-weight: 700;">
+                          <p style="font-weight: 400;text-align: center;">Thời gian khởi hành: 7:00 - 28/12/2023</p>
+                        </div>
+                        <p class="location" style="padding: 8px 0; border-top: 1px solid gray; font-weight: 700; text-align: center;">
+    <span style="text-align: left;">&nbsp;</span>
+    <span class="separator" style="font-size: 20px;">&nbsp;</span>
+    <span style="text-align: right;">NGÀY ĐẶT: 27/12/2023</span>
+</p>
+
+
+                      </div>
+                      <!-- Right side -->
+                      <div class="right" style="width: 225px; border-left: 1px dashed #404040;">
+    <div class="right-info-container" style="padding: 10px 10px 10px 30px; text-align: center;">
+        <div class="show-name" style="font-size: 18px; font-family: 'Barlow', sans-serif;">
+            <!-- <h1>#SaveWarriorNun</h1> -->
         </div>
-      </div>
-      <div class="row normRow">
-        <div>
-          <div class="label">Passenger</div>
-          <div class="col">Andrew P Vosburg</div>
+        <div class="time" style="color: #505050; font-weight: 700; margin-top: 10px;">
+            <p>Quét mã để xem chi tiết hóa đơn</p>
         </div>
-        
-      </div>
-      <div class="row normRow">
-        <div class="col6">
-          <div class="label">Departs in</div>
-          <div class="countdown">---</div>
+        <div id="barcode">
+           <img th:src="@{'/generateQRCode?text=' + ${qrCodeText}}" alt="QR Code" style="height: 200px;width: 200px;">
         </div>
-        <div class="col6">
-          <div class="label">Gate</div>
-          <div>D26</div>
-        </div>
-      </div>
-      <div class="row normRow">
-      
-        <div class="col6">
-          <div class="label">Departs at</div>
-          <div>8:00am</div>
-        </div>
-        <div class="col6">
-          <div class="label">Arrives at</div>
-          <div>10:35am</div>
-        </div>
-        
-      </div>
-      <div class="row">
-        <div class="sparkler"></div>
-      <img id="qr" src='https://chart.googleapis.com/chart?cht=qr&chl=UA%201136%2098745-34538459&chs=180x180&choe=UTF-8&chld=L|2' alt=''><div class="smalltext">Hologram must change when moving device for ticket to be valid</div>
-      </div>
+        <p class="ticket-number" style="color: #505050; font-weight: 700; margin-top: 10px;">Thank you</p>
     </div>
-  </div>
 </div>
+
+                    </div>
+                    <!-- End of your content -->
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
