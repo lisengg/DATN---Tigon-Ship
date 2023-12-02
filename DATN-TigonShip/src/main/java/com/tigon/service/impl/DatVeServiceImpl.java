@@ -37,4 +37,10 @@ public class DatVeServiceImpl implements DatVeService {
 		return dao.ListDatVeByidKhach(idhanhkhach);
 	}
 
+	@Override
+	public DatVe FINDIDMAX() {
+		// TODO Auto-generated method stub
+		return dao.FINDIDMAX();
+	}
+
 }
