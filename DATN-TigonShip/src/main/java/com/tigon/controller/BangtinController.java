@@ -62,6 +62,7 @@ public class BangtinController {
 		model.addAttribute("noidung", bt.getNoi_dung());
 		model.addAttribute("hinhanh", bt.getHinh_anh());
 		System.out.println(bt.getTieu_de());
+		System.out.println(bt.getTieu_de());
 		System.out.println(bt.getId());
 		List<Bangtin> list = dao.findAll();
 		model.addAttribute("items", list);
