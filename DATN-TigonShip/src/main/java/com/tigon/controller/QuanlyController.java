@@ -80,8 +80,11 @@ public class QuanlyController {
 	}
 	@GetMapping("/admin/hoadon")
 	public String hoadon(Model model) {
-
 		return "admin/hoadon/hoadon";
+	}
+	@GetMapping("/admin/datve")
+	public String datve(Model model) {
+		return "admin/datve/datve";
 	}
 
 	@GetMapping("/admin/doanhthu")

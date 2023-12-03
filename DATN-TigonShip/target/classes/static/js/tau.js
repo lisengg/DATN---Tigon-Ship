@@ -120,18 +120,17 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		
 			//Ghế ngồi làm được rồi yeahhhh
 		var itemsghe = [];
-for (let i = 1; i <= 160; i++) {
-    let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
-    let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
-    let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
-
-    let item = {
-        khoang: i <= 100 ? 1 : 2,
-        tenghe: `${letter}${columnIndex}`,
-        tau: response.data 
-    };
-    itemsghe.push(item);
-}
+		for (let i = 1; i <= 160; i++) {
+			let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
+			let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
+			let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
+			let item = {
+				khoang: i <= 100 ? 1 : 2,
+				tenghe: `${letter}${columnIndex}`,
+				tau: response.data 
+			};
+			itemsghe.push(item);
+		}
     // Thực hiện yêu cầu POST để lưu trữ 160 đối tượng Ghế Ngồi
     $http.post('/rest/tau/ghengoi/saveAll', itemsghe)
         .then(function(response) {
@@ -142,7 +141,6 @@ for (let i = 1; i <= 160; i++) {
         .catch(function(error) {
             console.log("Lỗi khi thêm ghế ngồi", error);
         });
-
     $scope.reset();
 		}).catch(error => {
 			document.getElementById('check2').checked = true;
