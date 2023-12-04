@@ -1,9 +1,9 @@
-const app = angular.module('hanhkhach-app', []);
-app.controller('hanhkhach-ctrl', function ($scope, $http) {
+const app = angular.module('taikhoan-app', []);
+app.controller('taikhoan-ctrl', function ($scope, $http) {
 	$scope.allHK = [];
 	$scope.form = {};
 	$scope.initialize = function() {
-			$http.get("/rest/hanhkhach").then(response => {
+			$http.get("/rest/taikhoan").then(response => {
 				$scope.items = response.data;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
 				initDataTable($scope.items);
@@ -13,7 +13,7 @@ app.controller('hanhkhach-ctrl', function ($scope, $http) {
 		var table = $('#table2').DataTable({
 			data: data.hanhkhach, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idhanhkhach' },
+				{ data: 'idtaikhoan' },
 				{ data: 'hovaten' },
 				{ data: 'diachi' },
 				{ data: 'email' },
@@ -29,7 +29,7 @@ app.controller('hanhkhach-ctrl', function ($scope, $http) {
 		$('#table2 tbody').on('click', 'button', function() {
 			var data = table.row($(this).parents('tr')).data();
 			$scope.$apply(function() {
-				$scope.showDatVe(data.idhanhkhach);
+				$scope.showDatVe(data.idtaikhoan);
 			});
 		});
 	}
@@ -37,7 +37,7 @@ app.controller('hanhkhach-ctrl', function ($scope, $http) {
  	//hiển thị lên modal
      $scope.showDatVe = function(id) {
         console.log(id); //
-        var url = `/rest/hanhkhach/${id}`;
+        var url = `/rest/taikhoan/${id}`;
         $http.get(url).then(response => {
             $scope.items.datve = response.data;
         }).catch(err => {
@@ -47,7 +47,7 @@ app.controller('hanhkhach-ctrl', function ($scope, $http) {
     
        //lấy ra tất cả user
 	$scope.allHK = function() {
-		var url = `/rest/hanhkhach/all`;
+		var url = `/rest/taikhoan/all`;
 		$http.get(url).then(response => {
 			$scope.allHK = response.data;
 		}).catch(err => {

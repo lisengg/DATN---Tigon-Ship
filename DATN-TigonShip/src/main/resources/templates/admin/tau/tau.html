@@ -48,7 +48,7 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">DANH SÁCH TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm tàu</button>
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm tàu</button>
 									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
 									</button>
@@ -117,8 +117,8 @@
 								</div>
 								<div class="modal-footer text-center">
 									 <button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
-									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>						
+									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>						
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >

@@ -16,14 +16,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="DANHGIAHANHKHACH")
+@Table(name="DANHGIA")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class DanhGia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IDDANHGIAHK;
+    Integer IDDANHGIA;
     Integer DANHGIA;
     String BINHLUAN;
     @Column(name = "NGAYDANHGIA")
@@ -33,7 +33,7 @@ public class DanhGia {
     Tuyen TUYEN;
 
     @ManyToOne
-    @JoinColumn(name="IDHANHKHACH")
-    HanhKhach HANHKHACH;
+    @JoinColumn(name="IDTAIKHOAN")
+    TaiKhoan TAIKHOAN;
     
 }

@@ -22,7 +22,8 @@ public class DatGhe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer IDDATGHE;
-	
+	String IDTUYEN;
+	String THOIGIAN;
     @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;

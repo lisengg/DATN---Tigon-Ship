@@ -1,9 +1,7 @@
 package com.tigon.model;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,8 +41,8 @@ public class DatVe {
     Date NGAYDAT;
 
     @ManyToOne
-	@JoinColumn(name = "IDHANHKHACH")
-	HanhKhach HANHKHACH;
+	@JoinColumn(name = "IDTAIKHOAN")
+	TaiKhoan HANHKHACH;
 
     @JsonIgnore
     @OneToMany(mappedBy = "DATVE")

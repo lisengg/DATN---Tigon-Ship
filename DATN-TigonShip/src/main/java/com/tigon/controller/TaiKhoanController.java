@@ -1,14 +1,7 @@
 package com.tigon.controller;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,28 +9,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.model.DatVe;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LoaiHanhKhach;
 import com.tigon.service.DatVeService;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @Controller
-public class HanhKhachController {
+public class TaiKhoanController {
 
 	@Autowired
 	HttpSession session;
 
 	@Autowired
-	HanhKhachService hanhKhachService;
+	TaiKhoanService taiKhoanService;
 
 	@Autowired
 	HttpServletRequest request;
 
 	@Autowired
-	HanhKhachDAO dao;
+	TaiKhoanDAO dao;
 
 	@Autowired
 	DatVeService datveService;
@@ -48,13 +41,13 @@ public class HanhKhachController {
 	@RequestMapping("/thongtintaikhoan")
 	public String thongtintaikhoan(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
 		List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
 
 		if (datve != null) {
 			model.addAttribute("lichsu", lichsuve);
-			model.addAttribute("user", hanhkhach);
+			model.addAttribute("user", taikhoan);
 			model.addAttribute("ngaydat", datve.getNGAYDAT());
 			model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
 		} else {
@@ -71,11 +64,11 @@ public class HanhKhachController {
 	@RequestMapping("/user/chinhsuataikhoan/form")
 	public String chinhsuatk(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
 
 		String xa = "Xã";
 		String phuong = "Phường";
-		String chuoi = hanhkhach.getDIACHI();
+		String chuoi = taikhoan.getDIACHI();
 		
 		if (chuoi.contains(phuong)) {
 			// Tìm vị trí của chuỗi ", phường"
@@ -90,7 +83,7 @@ public class HanhKhachController {
 		}
 		
 		
-		model.addAttribute("user", hanhkhach);
+		model.addAttribute("user", taikhoan);
 
 		return "/user/chinhsuataikhoan";
 	}
@@ -102,13 +95,13 @@ public class HanhKhachController {
 		// Lấy idhanhkhach bằng session
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
 
 		String thanhPho = request.getParameter("city");
 		String quanHuyen = request.getParameter("district");
 		String phuongXa = request.getParameter("ward");
 		String diaChi = null;
-		String diachi_old = hanhkhach.getDIACHI();
+		String diachi_old = taikhoan.getDIACHI();
 
 		if (!diachi.isEmpty()) {
 			if (!thanhPho.isEmpty() || !quanHuyen.isEmpty() || !phuongXa.isEmpty()) {
@@ -123,32 +116,23 @@ public class HanhKhachController {
 		}
 
 		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diachi.isEmpty()) {
-//			List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
-//			DatVe datve = datveService.getNgayDatMoiNhat(user);
-//
-//			model.addAttribute("user", hanhkhach);
-//			model.addAttribute("lichsu", lichsuve);
-//			model.addAttribute("ngaydat", datve.getNGAYDAT());
-//			model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
-//			model.addAttribute("datve", datve);
-//			model.addAttribute("user", hanhkhach);
 
 			model.addAttribute("thongbaoerror", "...");
 			model.addAttribute("ndungtbao", "Thông báo: Vui lòng điền đầy đủ thông tin!");
-			model.addAttribute("user", hanhkhach);
+			model.addAttribute("user", taikhoan);
 			return "/user/chinhsuataikhoan";
 		} else {
-			hanhkhach.setHOVATEN(hovaten);
-			hanhkhach.setDIACHI(diaChi);
-			hanhkhach.setSDT(sdt);
-			hanhkhach.setCCCD(cccd);
-			dao.save(hanhkhach);
+			taikhoan.setHOVATEN(hovaten);
+			taikhoan.setDIACHI(diaChi);
+			taikhoan.setSDT(sdt);
+			taikhoan.setCCCD(cccd);
+			dao.save(taikhoan);
 
-			HanhKhach hanhkhach_updated = hanhKhachService.findById(user);
+			TaiKhoan taikhoan_updated = taiKhoanService.findById(user);
 			model.addAttribute("thongbao", "Cập nhật thông tin thành công!");
 			model.addAttribute("ndungtbao", "Thông báo: Thông tin của bạn đã được cập nhật!");
 
-			model.addAttribute("user", hanhkhach_updated);
+			model.addAttribute("user", taikhoan_updated);
 
 			return "/user/chinhsuataikhoan";
 		}
@@ -158,8 +142,8 @@ public class HanhKhachController {
 	@RequestMapping("/admin/profile/form")
 	public String chinhSuaTKQL(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
-		model.addAttribute("user", hanhkhach);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
+		model.addAttribute("user", taikhoan);
 
 		return "/admin/profile/profile";
 	}
@@ -171,13 +155,13 @@ public class HanhKhachController {
 		// Lấy idhanhkhach bằng session
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
 
 		String thanhPho = request.getParameter("city");
 		String quanHuyen = request.getParameter("district");
 		String phuongXa = request.getParameter("ward");
 		String diaChi = null;
-		String diachi_old = hanhkhach.getDIACHI();
+		String diachi_old = taikhoan.getDIACHI();
 
 		if (!diachi.isEmpty()) {
 			diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
@@ -189,23 +173,23 @@ public class HanhKhachController {
 
 		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diaChi.isEmpty()) {
 			model.addAttribute("ndungtbao1", "Vui lòng điền đầy đủ thông tin!");
-			model.addAttribute("user", hanhkhach);
+			model.addAttribute("user", taikhoan);
 			return "/admin/profile/profile";
 		}
 		try {
-			hanhkhach.setHOVATEN(hovaten);
+			taikhoan.setHOVATEN(hovaten);
 			// hanhkhach.setEMAIL(kh.getEmail());
-			hanhkhach.setCCCD(cccd);
-			hanhkhach.setSDT(sdt);
-			hanhkhach.setDIACHI(diaChi);
-			dao.save(hanhkhach);
+			taikhoan.setCCCD(cccd);
+			taikhoan.setSDT(sdt);
+			taikhoan.setDIACHI(diaChi);
+			dao.save(taikhoan);
 
 			// Lấy lại thông tin sau khi cập nhật
-			HanhKhach updatedHanhKhach = hanhKhachService.findById(user);
+			TaiKhoan updatedTaiKhoan = taiKhoanService.findById(user);
 
 			// Trả về trang profile kèm thông báo
 			model.addAttribute("ndungtbao", "Cập nhật thành công!");
-			model.addAttribute("user", updatedHanhKhach);
+			model.addAttribute("user", updatedTaiKhoan);
 
 			return "/admin/profile/profile";
 
@@ -227,24 +211,24 @@ public class HanhKhachController {
 		// Lấy idhanhkhach bằng session
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 
-		HanhKhach hanhkhach = hanhKhachService.findById(user);
+		TaiKhoan taikhoan = taiKhoanService.findById(user);
 
 		String thanhPho = request.getParameter("city");
 		String quanHuyen = request.getParameter("district");
 		String phuongXa = request.getParameter("ward");
 		String diaChi = null;
-		String diachi_old = hanhkhach.getDIACHI();
+		String diachi_old = taikhoan.getDIACHI();
 
 		List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
-		HanhKhach hanhkhach_updated = hanhKhachService.findById(user);
+		TaiKhoan taikhoan_updated = taiKhoanService.findById(user);
 
 		model.addAttribute("lichsu", lichsuve);
-		model.addAttribute("user", hanhkhach_updated);
+		model.addAttribute("user", taikhoan_updated);
 		model.addAttribute("ngaydat", datve.getNGAYDAT());
 		model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
 		model.addAttribute("datve", datve);
-		model.addAttribute("user", hanhkhach);
+		model.addAttribute("user", taikhoan);
 	}
 
 }

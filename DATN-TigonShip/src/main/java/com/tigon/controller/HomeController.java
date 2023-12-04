@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,16 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
-import com.tigon.dao.HanhKhachTamDAO;
+import com.tigon.dao.NguoiDiCungTamDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.NguoiDiCungDAO;
@@ -32,8 +28,7 @@ import com.tigon.dao.TuyenDAO;
 import com.tigon.model.DatGhe;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
-import com.tigon.model.HanhKhach;
-import com.tigon.model.HanhKhachTam;
+import com.tigon.model.NguoiDiCungTam;
 import com.tigon.model.LichTauChay;
 import com.tigon.model.LoaiHanhKhach;
 import com.tigon.model.LoaiVe;
@@ -41,11 +36,10 @@ import com.tigon.model.NguoiDiCung;
 import com.tigon.model.Tuyen;
 import com.tigon.service.DatVeService;
 import com.tigon.service.GheNgoiService;
-import com.tigon.service.HanhKhachTamService;
+import com.tigon.service.NguoiDiCungTamService;
 import com.tigon.service.LichTauService;
 import com.tigon.service.LoaiHanhKhachService;
 import com.tigon.service.TuyenTauService;
-import com.twilio.twiml.messaging.Redirect;
 
 @Controller
 public class HomeController {
@@ -77,10 +71,10 @@ public class HomeController {
 	DatVeService dvservice;
 
 	@Autowired
-	HanhKhachTamService hktsevice;
+	NguoiDiCungTamService hktsevice;
 
 	@Autowired
-	HanhKhachTamDAO hktdao;
+	NguoiDiCungTamDAO hktdao;
 
 	@Autowired
 	LoaiVeDAO lvdao;
@@ -95,7 +89,7 @@ public class HomeController {
 	LichTauService ltservice;
 	
 	@Autowired
-	HanhKhachTamService hktservice;
+	NguoiDiCungTamService hktservice;
 
 	@Autowired
 	HttpServletRequest servletRequest;
@@ -190,7 +184,7 @@ public class HomeController {
 				System.out.println("Số người hành khách: " + songuoi);
 
 				for (int i = 2; i <= songuoi; i++) {
-					HanhKhachTam hkt = new HanhKhachTam();
+					NguoiDiCungTam hkt = new NguoiDiCungTam();
 					System.out.println("Hanh khach " + i);
 					System.out.println(username.get(i - 2));
 					System.out.println(cccd.get(i - 2));
@@ -341,7 +335,7 @@ public class HomeController {
 				
 			}
 			
-			List<HanhKhachTam> hktam = hktservice.findAll();
+			List<NguoiDiCungTam> hktam = hktservice.findAll();
 			
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
@@ -365,11 +359,7 @@ public class HomeController {
 				gdcdao.save(ngdicung);
 				hktdao.deleteById(hktam.get(i).getIDTAM());
 				System.out.println("Thanh Cong");
-			}
-		
-			
-			
-			
+			}	
 
 		} else {
 			Date dateve = formatter.parse(ngayve);
@@ -426,7 +416,7 @@ public class HomeController {
 				
 			}
 			
-			List<HanhKhachTam> hktam = hktservice.findAll();
+			List<NguoiDiCungTam> hktam = hktservice.findAll();
 			
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
