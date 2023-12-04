@@ -81,13 +81,7 @@
 								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
 								
 							</th:block> -->
-							<div class="dropdown">
-						<li th:if="${#request.remoteUser}"
-							class="nav-item dropdown-toggle" type="button"
-							data-bs-toggle="dropdown" aria-expanded="false">Xin chào
-							[[${#request.remoteUser}]]</li>
-						<ul class="dropdown-menu" style="background: #fff;" th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}">
-							<li><a class="dropdown-item"
+						<!-- 	<li><a class="dropdown-item"
 								th:href="@{/admin}" style="color: black;"><i
 									class="menu-icon fa fa-laptop"></i> Quản lý</a></li>
 							<li><a class="dropdown-item" 
@@ -95,9 +89,24 @@
 									class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
 							<li><a class="dropdown-item" th:href="@{/security/logoff}"
 								style="color: black;"><i class="menu-icon ti-new-window"></i>
-									Đăng xuất</a></li>
-						</ul>
-					</div>
+									Đăng xuất</a></li> -->
+							<div class="dropdown">
+								<li th:if="${#request.remoteUser}"
+									class="nav-item dropdown-toggle" type="button"
+									data-bs-toggle="dropdown" aria-expanded="false">Xin chào
+									[[${#request.remoteUser}]]</li>
+								<ul class="dropdown-menu" style="background: #fff;">
+									<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a class="dropdown-item" th:href="@{/admin}"
+										style="color: black;"><i class="menu-icon fa fa-laptop"></i>
+											Quản lý</a></li>
+									<li><a class="dropdown-item"
+										th:href="@{/thongtintaikhoan}" style="color: black;"><i
+											class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
+									<li><a class="dropdown-item" th:href="@{/security/logoff}"
+										style="color: black;"><i class="menu-icon ti-new-window"></i>
+											Đăng xuất</a></li>
+								</ul>
+							</div>
 						</ul>
 						<!-- <li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li> -->
 						

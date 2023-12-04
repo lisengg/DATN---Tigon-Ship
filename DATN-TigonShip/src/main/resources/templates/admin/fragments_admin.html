@@ -34,19 +34,14 @@
 							class="menu-icon ti-menu"></i>Đặt vé </a></li>
 					<li><a th:href="@{/admin/hoadon}"><i
 							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
-					<!-- <li>
-						<a th:href="@{/admin/doanhthu}"> <i
-							class="menu-icon ti-money"></i>Doanh thu
-					</a>
-				</li> -->
-				<li class="menu-item-has-children dropdown">
+				<li class="menu-item-has-children dropdown" th:if="${#request.isUserInRole('ADMIN')}">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-money"></i>Doanh thu</a>
 					<ul class="sub-menu children dropdown-menu">
 						<li><i class="fa fa-table"></i><a th:href="@{/admin/doanhthu}">Hôm nay</a></li>
 						<li><i class="fa fa-table"></i><a th:href="@{/admin/doanhthu/theongay}">Theo ngày</a></li>
 					</ul>
 				</li>
-				<li class="menu-item-has-children dropdown">
+				<li class="menu-item-has-children dropdown" th:if="${#request.isUserInRole('ADMIN')}">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-heart"></i>Đánh giá</a>
 					<ul class="sub-menu children dropdown-menu">
 						<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia}">Tổng quan</a></li>
