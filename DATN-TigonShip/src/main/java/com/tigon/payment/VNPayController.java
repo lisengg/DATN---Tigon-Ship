@@ -13,18 +13,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/payment/vnpay")
-public class TestAPIController {
+public class VNPayController {
 
 	@GetMapping("/createpayment")
-	public ResponseEntity<?> createpayment() throws UnsupportedEncodingException {
+	public ResponseEntity<?> createpayment(HttpServletRequest req) throws UnsupportedEncodingException {
 
 		String orderType = "other";
 //		long amount = Integer.parseInt(req.getParameter("amount")) * 100;
@@ -32,9 +35,10 @@ public class TestAPIController {
 		String bankCode = "NCB";
 
 		String vnp_TxnRef = Config.getRandomNumber(8);
-		String vnp_IpAddr = "127.0.0.1";
 
 		String vnp_TmnCode = Config.vnp_TmnCode;
+//		 String vnp_IpAddr = Config.getIpAddress(req);
+		String vnp_IpAddr = "127.0.0.1";
 
 		Map<String, String> vnp_Params = new HashMap<>();
 		vnp_Params.put("vnp_Version", Config.vnp_Version);
@@ -99,6 +103,7 @@ public class TestAPIController {
 		dto.setMessages("Successfully");
 		dto.setURL(paymentUrl);
 //		ResponseEntity.status(HttpStatus.OK).body(dto);
+	
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 }

@@ -23,12 +23,12 @@ public class GuiHoaDonController {
 	public String email1(Model model) {
 		String link = "facebook.com";
 		model.addAttribute("qrCodeText", link);
-		Context context = new Context();
-		context.setVariable("qrCodeText", link);
-		context.setVariable("servletContext", servletContext);
-
-		emailService.sendEmailWithHtmlTemplate("nlsangnlpc04364@gmail.com", "Thông Tin Đặt Vé Tàu Tigon Ship",
-				"/user/datve/guihoadonkemqr", context);
+//		Context context = new Context();
+//		context.setVariable("qrCodeText", link);
+//		context.setVariable("servletContext", servletContext);
+//
+//		emailService.sendEmailWithHtmlTemplate("nlsangnlpc04364@gmail.com", "Thông Tin Đặt Vé Tàu Tigon Ship",
+//				"/user/datve/guihoadonkemqr", context);
 		return "/user/datve/guihoadonkemqr";
 	}
 }

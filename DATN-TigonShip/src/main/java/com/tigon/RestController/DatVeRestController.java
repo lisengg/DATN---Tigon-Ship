@@ -35,9 +35,9 @@ public class DatVeRestController {
 	}
 
 
-    @GetMapping("/rest/datve/theongay/{id}/{date}")
-    public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date date) {
-        return datVeDAO.thongTinDatVe(id,date);
-    }
+//    @GetMapping("/rest/datve/theongay/{id}/{date}")
+//    public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date date) {
+//        return datVeDAO.thongTinDatVe(id,date);
+//    }
 
 }
