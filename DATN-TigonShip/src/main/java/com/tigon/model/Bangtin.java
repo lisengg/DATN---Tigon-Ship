@@ -24,13 +24,13 @@ import lombok.NoArgsConstructor;
 public class Bangtin {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-	@Column(name = "ngay_dang")
-	LocalDateTime ngay_dang = LocalDateTime.now();
+    Integer IDBANGTIN;
+	@Column(name = "NGAYDANG")
+	LocalDateTime NGAYDANG = LocalDateTime.now();
    
-    String noi_dung;
-    String tieu_de;
-    String hinh_anh;
+    String NOIDUNG;
+    String TIEUDE;
+    String HINHANH;
 }
 
 
