@@ -39,8 +39,8 @@ public class DatVe {
     Date NGAYDI;
     @Temporal(TemporalType.DATE)
     Date NGAYVE;
-    @Column(name = "NGAYDAT")
-	LocalDateTime NGAYDAT = LocalDateTime.now();
+    @Temporal(TemporalType.DATE)
+    Date NGAYDAT;
 
     @ManyToOne
 	@JoinColumn(name = "IDHANHKHACH")
