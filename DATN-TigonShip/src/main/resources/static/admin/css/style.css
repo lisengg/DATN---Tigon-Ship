@@ -821,12 +821,12 @@ aside.left-panel {
 /* Right panel */
 .right-panel {
   background: #f1f2f7;
-  margin-left: 280px;
+  margin-left: 251px;
   margin-top: 55px; }
   .right-panel .top-left {
-    width: 350px;
+ margin-top: -5px;
     float: left; 
-     margin-left: -30px;}
+     margin-left: 20px;}
   .right-panel .top-rigth {
     float: left; }
   .right-panel .breadcrumbs {

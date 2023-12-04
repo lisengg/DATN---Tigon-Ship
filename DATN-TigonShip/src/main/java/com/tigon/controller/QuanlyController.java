@@ -88,6 +88,11 @@ public class QuanlyController {
 	public String doanhthu(Model model) {
 		return "admin/doanhthu/doanhthu";
 	}
+	@GetMapping("/admin/datve")
+	public String datve(Model model) {
+		return "admin/datve/datve";
+	}
+
 
 	@GetMapping("/admin/doanhthu/theongay")
 	public String doanhthuTheoNgay(Model model) {
