@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.DanhGiaDAO;
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.TuyenDAO;
 
 @CrossOrigin("*")
@@ -22,7 +22,7 @@ public class danhGiaRestController {
     @Autowired 
     TuyenDAO tuyenDAO;
     @Autowired
-    HanhKhachDAO hanhKhachDAO;
+    TaiKhoanDAO hanhKhachDAO;
 
 
     @GetMapping("/rest/danhgia")// lấy thông tin all

@@ -81,15 +81,7 @@
 								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
 								
 							</th:block> -->
-						<!-- 	<li><a class="dropdown-item"
-								th:href="@{/admin}" style="color: black;"><i
-									class="menu-icon fa fa-laptop"></i> Quản lý</a></li>
-							<li><a class="dropdown-item" 
-								th:href="@{/thongtintaikhoan}"  style="color: black;"><i
-									class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
-							<li><a class="dropdown-item" th:href="@{/security/logoff}"
-								style="color: black;"><i class="menu-icon ti-new-window"></i>
-									Đăng xuất</a></li> -->
+						
 							<div class="dropdown">
 								<li th:if="${#request.remoteUser}"
 									class="nav-item dropdown-toggle" type="button"

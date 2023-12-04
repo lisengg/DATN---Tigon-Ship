@@ -13,19 +13,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
 
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.OTPDAO;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.OTP;
 import com.tigon.service.EmailService;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 import com.tigon.service.OTPService;
 
 @Controller
@@ -41,13 +40,13 @@ public class LayMatKhauController  implements CommandLineRunner {
 	OTPService OTPService;
 	
 	@Autowired
-	HanhKhachService hanhKhachService;
+	TaiKhoanService taiKhoanService;
 
 	@Autowired
 	HttpSession session;
 	
 	@Autowired
-	HanhKhachDAO hanhKhachDAO;
+	TaiKhoanDAO taiKhoanDAO;
     @Autowired
     public LayMatKhauController(OTPDAO otpDAO) {
         this.otpDAO = otpDAO;
@@ -61,7 +60,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 
 	@RequestMapping("/layotp")
 	public String layotp(@RequestParam("email") String email, Model model) {
-		HanhKhach getAllEmail = hanhKhachService.getAllEmail(email);
+		TaiKhoan getAllEmail = taiKhoanService.getAllEmail(email);
 		if(getAllEmail==null) {
 			model.addAttribute("message","Email này chưa đăng ký tài khoản!");
 			return "/user/login/quenmatkhau";
@@ -102,7 +101,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 
         // Đóng executorService sau khi đã sử dụng
         executorService.shutdown();
-        session.setAttribute("iddoimk", getAllEmail.getIDHANHKHACH());
+        session.setAttribute("iddoimk", getAllEmail.getIDTAIKHOAN());
     
         model.addAttribute("hoten",getAllEmail.getHOVATEN());
 		return "/user/login/layOTP";
@@ -124,9 +123,9 @@ public class LayMatKhauController  implements CommandLineRunner {
 			model.addAttribute("message","Mật khẩu xác nhận không khớp!");
 			return "/user/login/matkhaumoi";
 		}
-		HanhKhach hanhKhach = hanhKhachService.findById(Integer.parseInt(session.getAttribute("iddoimk").toString()));
-		hanhKhach.setMATKHAU(matkhaumoi);
-		hanhKhachDAO.save(hanhKhach);
+		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("iddoimk").toString()));
+		taiKhoan.setMATKHAU(matkhaumoi);
+		taiKhoanDAO.save(taiKhoan);
 		return "/user/index";
 	}
 	

@@ -22,10 +22,10 @@ import com.tigon.dao.LichSuTauDAO;
 //import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TauDAO;
 import com.tigon.model.GheNgoi;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LichSuTau;
 import com.tigon.model.Tau;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @RestController
@@ -41,7 +41,7 @@ public class TauRestController {
    // @Autowired 
   //  LichTauChayDAO lichTauChayDAO;
     @Autowired
-    HanhKhachService hanhKhachService;
+    TaiKhoanService taiKhoanService;
     
     @GetMapping("/rest/tau")
     public Map<String, Object> getAll() {
@@ -70,7 +70,7 @@ public class TauRestController {
     @PostMapping("/rest/tau/lichsu/save")
     public LichSuTau saveLichSu(@RequestBody LichSuTau lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      HanhKhach hanhkhach = hanhKhachService.findById(user);
+      TaiKhoan hanhkhach = taiKhoanService.findById(user);
       lichSu.setTEN(hanhkhach.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }

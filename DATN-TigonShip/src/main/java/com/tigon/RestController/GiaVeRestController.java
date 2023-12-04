@@ -20,9 +20,9 @@ import com.tigon.dao.LichSuGiaVeDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.TuyenDAO;
 import com.tigon.model.GiaVe;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LichSuGiaVe;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 
 @CrossOrigin("*")
@@ -44,7 +44,7 @@ public class GiaVeRestController {
     HttpSession session;
   
     @Autowired
-    HanhKhachService hanhKhachService;
+    TaiKhoanService taiKhoanService;
 
     @GetMapping("/rest/giave")
     public Map<String, Object> getAll() {
@@ -67,7 +67,7 @@ public class GiaVeRestController {
     @PostMapping("/rest/giave/lichsu/save")
     public LichSuGiaVe saveLichSu(@RequestBody LichSuGiaVe lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      HanhKhach hanhkhach = hanhKhachService.findById(user);
+      TaiKhoan hanhkhach = taiKhoanService.findById(user);
       lichSu.setTEN(hanhkhach.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }

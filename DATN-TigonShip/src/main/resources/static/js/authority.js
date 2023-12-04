@@ -6,10 +6,10 @@ app.controller('authority1-ctrl', function($scope, $http) {
 		var table = $('#table2').DataTable({
 			data: $scope.items, // Sử dụng dữ liệu từ biến items
 			columns: [
-				{ data: 'idhanhkhach' },
+				{ data: 'idtaikhoan' },
 				{ data: 'hovaten' },
 				{ data: 'email' },
-				{ data: 'quyen' },
+				{ data: 'vaitro' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -44,7 +44,7 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	//Khởi đầu
 	$scope.initialize();
 	$scope.index_of = function(id) {
-		return $scope.items.findIndex(q => q.idhanhkhach == id);
+		return $scope.items.findIndex(q => q.idtaikhoan == id);
 	}
 	//Hiển thị lên form
 	$scope.edit = function(id) {
@@ -61,7 +61,7 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	//Phân quyền
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
-		var url = `/rest/authority1/${item.idhanhkhach}`;
+		var url = `/rest/authority1/${item.idtaikhoan}`;
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
 		if (angular.equals(item, $scope.originalData)) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
@@ -69,13 +69,13 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			return;
 		}
 		//Kiểm tra xem người dùng có đang cố thay đổi từ QUẢN TRỊ thành NGƯỜI DÙNG hoặc NHÂN VIÊN không
-		if ($scope.items[$scope.index_of(item.idhanhkhach)].quyen === 'ADMIN' &&
-			(item.quyen === 'USER' || item.quyen === 'STAFF')) {
+		if ($scope.items[$scope.index_of(item.idtaikhoan)].quyen === 'ADMIN' &&
+			(item.quyen === 'KHACHHANG' || item.quyen === 'STAFF')) {
 			document.getElementById('check4').checked = true;
 			return;
 		}
 		$http.put(url, item).then(response => {
-			var index = $scope.items.findIndex(q => q.idhanhkhach === item.idhanhkhach);
+			var index = $scope.items.findIndex(q => q.idtaikhoan === item.idtaikhoan);
 			$scope.items[index] = item;
 			var table = $('#table2').DataTable();
 			var row = table.row(index);
