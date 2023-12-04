@@ -165,6 +165,8 @@ public class HomeController {
 		LichTauChay search = ltservice.findByLichTau(idtuyen);
 		int idlichtau = search.getIDLICHTAU();
 		int idtau = search.getTAU().getIDTAU();
+		
+		session.setAttribute("idtau", idtau);
 
 		session.setAttribute("idlichtau", search.getIDLICHTAU());
 
@@ -219,23 +221,21 @@ public class HomeController {
 		} else {
 			System.err.println("Giá trị 'songuoi' từ session là null");
 		}
+		int idtau = (int) session.getAttribute("idtau");
 		model.addAttribute("songuoi", songuoi);
-		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi();
+		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi(idtau);
 		model.addAttribute("items1", listduoi);
-		List<GheNgoi> listtren = ghndao.findByghekhoangtren();
+		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
 		model.addAttribute("items2", listtren);
+		
+		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
+	    List<Integer> bookedSeats = dgdao.findBookedSeats();  // Đổi tên phương thức và lớp DAO của bạn
+
+	    // Gửi danh sách IDGHE đã được đặt đến view
+	    model.addAttribute("bookedSeats", bookedSeats);
 		return "/user/Teste";
 	}
 
-	@RequestMapping("datve/datgheTest")
-	public String ghengoichinh(Model model) {
-
-		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi();
-		model.addAttribute("items1", listduoi);
-		List<GheNgoi> listtren = ghndao.findByghekhoangtren();
-		model.addAttribute("items2", listtren);
-		return "/user/ghengoi";
-	}
 
 	@RequestMapping("/datve/HanhKhachDiCung")
 	public String Hanhkhach() {
@@ -270,10 +270,20 @@ public class HomeController {
 		int songuoi = Integer.parseInt(songuoistring);
 		model.addAttribute("songuoi", songuoi);
 
-		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi();
+		int idtau = (int) session.getAttribute("idtau");
+		
+		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi(idtau);
 		model.addAttribute("items1", listduoi);
-		List<GheNgoi> listtren = ghndao.findByghekhoangtren();
+		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
 		model.addAttribute("items2", listtren);
+		
+		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
+	    List<Integer> bookedSeats = dgdao.findBookedSeats();  // Đổi tên phương thức và lớp DAO của bạn
+
+	    // Gửi danh sách IDGHE đã được đặt đến view
+	    model.addAttribute("bookedSeats", bookedSeats);
+		
+		
 		return "/user/Teste";
 	}
 
@@ -332,7 +342,7 @@ public class HomeController {
 			    int intValue = Integer.parseInt(GHENGOI);
 			    
 				GheNgoi ghe = ghservice.findByid(intValue);
-				
+				session.setAttribute("ghe" + i, ghe);
 				dg.setDATVE(dv);
 				dg.setGHENGOI(ghe);
 				
