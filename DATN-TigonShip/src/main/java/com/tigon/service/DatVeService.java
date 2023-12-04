@@ -11,4 +11,5 @@ public interface DatVeService {
 	public List<DatVe> findAll();
 	public DatVe findById(Integer id);
 	List<DatVe> ListDatVeByidKhach(Integer idhanhkhach);
+	DatVe FINDIDMAX();
 }

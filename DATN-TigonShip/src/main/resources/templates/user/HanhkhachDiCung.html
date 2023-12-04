@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/user/styleHanhKhachDiCung.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"	>
+    <style>
+       
+        
+        #container {
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .w3layoutscontaineragileits {
+            width: calc(50% - 20px);
+            margin: 40px;
+            box-sizing: border-box;
+            float: left;
+        }
+
+        
+        /* CSS để định dạng nút nhấn */
+        .button-style {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50; /* Màu nền */
+            color: white; /* Màu chữ */
+            border: none; /* Loại bỏ đường viền */
+            border-radius: 20px; /* Góc bo tròn */
+            cursor: pointer;
+            font-weight: bold;
+            
+        } 
+        .no-border {
+        	background-color: white;
+        	border: none;
+    	}
+    </style>
+</head>
+<body>
+    
+    <form action="#" method="post">
+    	<div id="container">
+        	<div id="passengerContainer"></div>
+    	</div>
+    	<button id="confirmButton" th:formaction="@{/datve/datghe}" class="button-style">Tiếp Tục</button>
+    </form>
+	
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var noOfPassenger = localStorage.getItem('NoOfPassenger');
+            var container = document.getElementById('passengerContainer');
+
+            for (var i = 1; i <= noOfPassenger - 1; i++) {
+                var divElement = document.createElement('div');
+                divElement.className = 'w3layoutscontaineragileits passenger-info';
+                divElement.style.width = 'calc(50% - 20px)';
+                divElement.style.margin = '10px';
+                divElement.style.boxSizing = 'border-box';
+
+                // Thêm nội dung HTML vào thẻ div
+                divElement.innerHTML = `
+                    <h2>THÔNG TIN HÀNH KHÁCH ${i+1}</h2>
+                    
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="Họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="cccd" placeholder="CCCD" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <!-- Thêm sự kiện onchange để lắng nghe sự thay đổi trong ngày sinh -->
+                            <input type="date" name="date" placeholder="Ngày Tháng Năm Sinh" required onchange="calculateAge(this)">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="SDT" placeholder="Số điện thoại" required>
+                        </div>
+                        <div class="form-group" >
+                            <input type="hidden" name="tickit" placeholder="Loại Vé" required>
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-left: 30px;">
+                            <label for="nationality" style="color: white;"> <b>Quốc Tịch:</b> </label>
+                            <select name="nationality" style="width: 200px; height: 35px; margin-left: 8px; background: rgba(0, 0, 0, 0.2); color: white;">
+                                <option value="Vietnam"><b>Việt Nam</b></option>
+                                <option value="Thailand"><b>Thái Lan</b></option>
+                                <option value="UK"><b>Anh</b></option>
+                                <option value="USA"><b>Mỹ</b></option>
+                                <option value="Other"><b>Khác</b></option>
+                            </select>
+                        </div>
+                    
+                `;
+
+                container.appendChild(divElement);
+            }
+        });
+
+        // Hàm tính toán tuổi và loại vé
+        function calculateAge(input) {
+            var selectedDate = new Date(input.value);
+            var currentDate = new Date();
+            var age = currentDate.getFullYear() - selectedDate.getFullYear();
+
+            // Kiểm tra nếu chưa đến sinh nhật trong năm
+            if (currentDate.getMonth() < selectedDate.getMonth() || (currentDate.getMonth() === selectedDate.getMonth() && currentDate.getDate() < selectedDate.getDate())) {
+                age--;
+            }
+
+            // Hiển thị loại vé trong ô loại vé
+            var ticketTypeInput = input.parentNode.parentNode.querySelector('[name="tickit"]');
+            ticketTypeInput.value = age >= 12 ? 'Người Lớn' : 'Trẻ Em';
+        }
+    </script>
+
+</body>
+</html>

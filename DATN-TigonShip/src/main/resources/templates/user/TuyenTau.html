@@ -112,20 +112,20 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label"><i class="bi bi-calendar-date-fill"></i> Ngày khởi hành</span>
-                                            <input class="form-control" type="date" name="NgayDi" required>
+                                            <input class="form-control" type="date" name="NgayDi" required id="NgayDi">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label"><i class="bi bi-calendar-date-fill"></i> Ngày Về</span>
-                                            <input class="form-control" type="date" name="NgayVe" required disabled>
+                                            <input class="form-control" type="date" name="NgayVe" required disabled id="NgayVe">
                                         </div>
                                     </div>
                                 </div>
 
 
                                 <div class="form-btn">
-                                    <button class="submit-btn" formaction="/user/tuyentau"><i class="bi bi-search"></i> Tìm Tàu</button>
+                                    <button class="submit-btn" formaction="/datve/tuyentau"><i class="bi bi-search"></i> Tìm Tàu</button>
                                 </div>
                             </form>
                         </div>
@@ -135,10 +135,27 @@
         </div>
     </div>
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy element input số hành khách
+        var passengerInput = document.getElementById('NoOfPassenger');
+
+        // Lưu số hành khách vào localStorage khi giá trị thay đổi
+        passengerInput.addEventListener('change', function() {
+            localStorage.setItem('NoOfPassenger', passengerInput.value);
+        });
+
+        // Lấy ngày hiện tại
+        var currentDate = new Date().toISOString().split('T')[0];
+        // Đặt giá trị tối thiểu cho ngày khởi hành là ngày hiện tại
+        document.getElementById('NgayDi').min = currentDate;
+        document.getElementById('NgayVe').min = currentDate;
+    });
         function toggleNgayVeInput(checkbox) {
             var ngayVeInput = document.getElementsByName("NgayVe")[0];
             ngayVeInput.disabled = !checkbox.checked;
         }
+        
+
     </script>
 
 </body>

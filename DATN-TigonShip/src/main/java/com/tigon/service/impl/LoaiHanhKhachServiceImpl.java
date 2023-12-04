@@ -19,4 +19,12 @@ public class LoaiHanhKhachServiceImpl implements LoaiHanhKhachService{
 		return dao.getIdNguoiLon();
 	}
 
+	@Override
+	public LoaiHanhKhach findByid(Integer IDLOAIHK) {
+		// TODO Auto-generated method stub
+		return dao.findById(IDLOAIHK).get();
+	}
+
+	
+
 }

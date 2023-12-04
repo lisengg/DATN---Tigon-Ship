@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@Table(name="bangtin")
+@Table(name="BANGTIN")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

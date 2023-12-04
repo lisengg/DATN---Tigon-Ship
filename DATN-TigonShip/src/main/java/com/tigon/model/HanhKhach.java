@@ -19,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="HANHKHACH")
+@Table(name="TAIKHOAN")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
