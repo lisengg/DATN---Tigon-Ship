@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
@@ -58,7 +59,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/login/quenmatkhau";
 	}
 
-	@RequestMapping("/layotp")
+	@PostMapping("/layotp")
 	public String layotp(@RequestParam("email") String email, Model model) {
 		TaiKhoan getAllEmail = taiKhoanService.getAllEmail(email);
 		if(getAllEmail==null) {
@@ -81,8 +82,10 @@ public class LayMatKhauController  implements CommandLineRunner {
 				context);
 		
 		//Lưu otp
+		TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(email);
 		OTP otp = new OTP();
 		otp.setMAOTP(String.valueOf(randomNumber));
+		otp.setTAIKHOAN(taikhoan);
 		otpDAO.save(otp);
 		System.out.println("Created OTP");
 		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
@@ -107,7 +110,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/login/layOTP";
 	}
 	
-	@RequestMapping("/xacthucma")
+	@PostMapping("/xacthucma")
 	public String xacthucma(@RequestParam("otp") String otp, Model model) {
 		List<OTP> findMaOTPTrung = OTPService.findByMaOTP(otp);
 		if(findMaOTPTrung.isEmpty()) {
@@ -117,7 +120,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/login/matkhaumoi";
 	}
 	
-	@RequestMapping("/doimatkhau")
+	@PostMapping("/doimatkhau")
 	public String doimatkhau(@RequestParam("matkhaumoi") String matkhaumoi,@RequestParam("matkhaumoi2") String matkhaumoi2, Model model) {
 		if(!matkhaumoi.equals(matkhaumoi2)) {
 			model.addAttribute("message","Mật khẩu xác nhận không khớp!");

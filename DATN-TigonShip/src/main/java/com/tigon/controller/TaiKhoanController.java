@@ -1,4 +1,5 @@
 package com.tigon.controller;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,7 +70,7 @@ public class TaiKhoanController {
 		String xa = "Xã";
 		String phuong = "Phường";
 		String chuoi = taikhoan.getDIACHI();
-		
+
 		if (chuoi.contains(phuong)) {
 			// Tìm vị trí của chuỗi ", phường"
 			int viTriChuoi = chuoi.indexOf(", Phường");
@@ -81,8 +82,7 @@ public class TaiKhoanController {
 			String ketQua = chuoi.substring(0, viTriChuoi).trim();
 			model.addAttribute("diachi", ketQua);
 		}
-		
-		
+
 		model.addAttribute("user", taikhoan);
 
 		return "/user/chinhsuataikhoan";
@@ -167,7 +167,12 @@ public class TaiKhoanController {
 			diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
 		} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
 			diaChi = diachi_old;
+		} else if (diachi.isEmpty() && thanhPho.isEmpty() && !phuongXa.isEmpty()) {
+			diaChi = null;
+		} else if (diachi.isEmpty() && thanhPho.isEmpty() && !quanHuyen.isEmpty()) {
+			diaChi = null;
 		} else {
+
 			diaChi = phuongXa + ", " + quanHuyen + ", " + thanhPho;
 		}
 
