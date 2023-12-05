@@ -11,5 +11,5 @@ public interface TaiKhoanService {
 	public List<TaiKhoan> getAdminstrators();
 	public TaiKhoan findIdByEmailOrPhone(String email);
 	public TaiKhoan getAllEmail(String email);
-	public TaiKhoan updateHanhKhach(String hovaten, String sdt, String cccd, String diachi, Integer id);
+	public TaiKhoan updateTaiKhoan(String hovaten, String sdt, String cccd, String diachi, Integer id);
 }

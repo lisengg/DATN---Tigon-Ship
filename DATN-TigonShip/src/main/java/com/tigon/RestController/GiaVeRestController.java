@@ -67,8 +67,8 @@ public class GiaVeRestController {
     @PostMapping("/rest/giave/lichsu/save")
     public LichSuGiaVe saveLichSu(@RequestBody LichSuGiaVe lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      TaiKhoan hanhkhach = taiKhoanService.findById(user);
-      lichSu.setTEN(hanhkhach.getHOVATEN());
+      TaiKhoan taikhoan = taiKhoanService.findById(user);
+      lichSu.setTEN(taikhoan.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }
     @PutMapping("/rest/giave/{id}")

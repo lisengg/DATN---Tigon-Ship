@@ -69,8 +69,8 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			return;
 		}
 		//Kiểm tra xem người dùng có đang cố thay đổi từ QUẢN TRỊ thành NGƯỜI DÙNG hoặc NHÂN VIÊN không
-		if ($scope.items[$scope.index_of(item.idtaikhoan)].quyen === 'ADMIN' &&
-			(item.quyen === 'KHACHHANG' || item.quyen === 'STAFF')) {
+		if ($scope.items[$scope.index_of(item.idtaikhoan)].vaitro === 'ADMIN' &&
+			(item.vaitro === 'KHACHHANG' || item.vaitro === 'STAFF')) {
 			document.getElementById('check4').checked = true;
 			return;
 		}

@@ -1,10 +1,13 @@
 package com.tigon.RestController;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.TuyenDAO;
 import com.tigon.model.Tuyen;
@@ -32,9 +35,9 @@ public class DatVeRestController {
 	}
 
 
-//    @GetMapping("/rest/datve/theongay/{id}/{date}")
-//    public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date date) {
-//        return datVeDAO.thongTinDatVe(id,date);
-//    }
+    @GetMapping("/rest/datve/theongay/{id}/{ngay}")
+    public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date ngay) {
+        return datVeDAO.thongTinDatVe(id,ngay);
+    }
 
 }

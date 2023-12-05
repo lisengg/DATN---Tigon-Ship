@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
+import com.tigon.dao.HanhKhachTamDAO;
 import com.tigon.dao.NguoiDiCungTamDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
@@ -28,6 +29,7 @@ import com.tigon.dao.TuyenDAO;
 import com.tigon.model.DatGhe;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
+import com.tigon.model.HanhKhachTam;
 import com.tigon.model.NguoiDiCungTam;
 import com.tigon.model.LichTauChay;
 import com.tigon.model.LoaiHanhKhach;
@@ -45,6 +47,9 @@ import com.tigon.service.TuyenTauService;
 public class HomeController {
 	@Autowired
 	TuyenDAO dao;
+	
+	@Autowired
+	HanhKhachTamDAO hktamdao;
 
 	@Autowired
 	TuyenTauService ttservice;
@@ -130,6 +135,9 @@ public class HomeController {
 
 	@RequestMapping("/datve/timtuyen")
 	public String tuyentau(Model model) {
+		if(session.getAttribute("user")==null) {
+			session.setAttribute("user", "hanhkhachmoi");
+		}
 		List<Tuyen> list = ttservice.findAll();
 		model.addAttribute("items", list);
 		return "/user/TuyenTau";
@@ -160,6 +168,9 @@ public class HomeController {
 		int idlichtau = search.getIDLICHTAU();
 		int idtau = search.getTAU().getIDTAU();
 		
+		String gioxuatphat = search.getGIOXUATPHAT();
+		String giodennoi = search.getGIODENNOI();
+		
 		session.setAttribute("idtau", idtau);
 
 		session.setAttribute("idlichtau", search.getIDLICHTAU());
@@ -175,8 +186,10 @@ public class HomeController {
 	public String ghengoi(Model model, @RequestParam("email") List<String> email,
 			@RequestParam("cccd") List<String> cccd, @RequestParam("username") List<String> username,
 			@RequestParam("date") List<String> date, @RequestParam("SDT") List<String> SDT,
-			@RequestParam("nationality") List<String> nationality, @RequestParam("tickit") List<String> tickit) {
+			@RequestParam("nationality") List<String> nationality, @RequestParam("tickit") List<String> tickit) throws ParseException {
 
+		
+		
 		String songuoistring = (String) session.getAttribute("songuoi");
 		int songuoi = Integer.parseInt(songuoistring);
 		int mahk;
@@ -187,6 +200,10 @@ public class HomeController {
 
 				for (int i = 2; i <= songuoi; i++) {
 					NguoiDiCungTam hkt = new NguoiDiCungTam();
+					
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngaysinh = dateFormat.parse(date.get(i - 2));
+					
 					System.out.println("Hanh khach " + i);
 					System.out.println(username.get(i - 2));
 					System.out.println(cccd.get(i - 2));
@@ -204,7 +221,9 @@ public class HomeController {
 					hkt.setHOVATEN(username.get(i - 2));
 					hkt.setCCCD(cccd.get(i - 2));
 					hkt.setSDT(SDT.get(i - 2));
-					hkt.setMAHK(mahk);
+					hkt.setIDLOAIKH(mahk);
+					hkt.setQUOCTICH(nationality.get(i - 2));
+					hkt.setNGAYSINH(ngaysinh);					
 					
 					hktdao.save(hkt);
 
@@ -232,7 +251,21 @@ public class HomeController {
 
 
 	@RequestMapping("/datve/HanhKhachDiCung")
-	public String Hanhkhach() {
+	public String Hanhkhach(Model model, @RequestParam String username, @RequestParam String cccd, @RequestParam String email, @RequestParam String SDT, @RequestParam String nationality,@RequestParam String date, HanhKhachTam hktam) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date ngaysinh = dateFormat.parse(date);
+		
+		System.out.println(ngaysinh);
+		
+		hktam.setHOVATEN(username);
+		hktam.setCCCD(cccd);
+		hktam.setSDT(SDT);
+		hktam.setEMAIL(email);
+		hktam.setQUOCTICH(nationality);
+		hktam.setNGAYSINH(ngaysinh);
+		
+		hktamdao.save(hktam);
+		
 		String songuoi = (String) session.getAttribute("songuoi");
 		System.out.println("So nguoi " + songuoi);
 		if (songuoi.equals("1")) {
@@ -276,7 +309,7 @@ public class HomeController {
 
 	    // Gửi danh sách IDGHE đã được đặt đến view
 	    model.addAttribute("bookedSeats", bookedSeats);
-		
+	
 		
 		return "/user/Teste";
 	}
@@ -291,7 +324,7 @@ public class HomeController {
 
 		String ngaydi = session.getAttribute("NgayDi").toString();
 		Date datedi = formatter.parse(ngaydi);
-
+	
 		String ngayve = session.getAttribute("NgayVe").toString();
 		boolean flag = true;
 		if (ngayve.equals("ko")) {
@@ -308,17 +341,20 @@ public class HomeController {
 			}
 
 			LoaiVe lv = lvdao.findById(loaive).get();
+//			if(taikhoan == null) {
+				datve.setHANHKHACH(null);
+				datve.setSOGHE(songuoi);
+				datve.setLICHTAUCHAY(licht);
+				datve.setNGAYDI(datedi);
+				datve.setNGAYVE(null);
+				// datve.setNGAYDAT(ngaydat);
+				datve.setLOAIVE(lv);
 
-			datve.setHANHKHACH(null);
-			datve.setSOGHE(songuoi);
-			datve.setLICHTAUCHAY(licht);
-			datve.setNGAYDI(datedi);
-			datve.setNGAYVE(null);
-			// datve.setNGAYDAT(ngaydat);
-			datve.setLOAIVE(lv);
-
-			dvdao.save(datve);
-			System.out.println("succes");
+				//dvdao.save(datve);
+				System.out.println("succes");
+//			}else {
+//				
+//			}
 			
 			DatVe MADATVEMAX = dvservice.FINDIDMAX();
 			
@@ -334,13 +370,16 @@ public class HomeController {
 				DatGhe dg = new DatGhe();
 			    // Chuyển đổi chuỗi thành int
 			    int intValue = Integer.parseInt(GHENGOI);
-			    
+		
 				GheNgoi ghe = ghservice.findByid(intValue);
-				session.setAttribute("ghe" + i, ghe);
-				dg.setDATVE(dv);
-				dg.setGHENGOI(ghe);
+				session.setAttribute("ghengoi" + i, ghe.getIDGHE());
 				
-				dgdao.save(dg);
+				Integer ghengoi = Integer.parseInt(session.getAttribute("ghengoi" + i).toString());
+				System.out.println(ghengoi + i);
+//				dg.setDATVE(dv);
+//				dg.setGHENGOI(ghe);
+//				
+//				dgdao.save(dg);
 				
 				
 			}
@@ -350,7 +389,7 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getMAHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIKH());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
@@ -359,7 +398,7 @@ public class HomeController {
 				ngdicung.setDATVE(dvtam);
 				ngdicung.setLOAIHANHKHACH(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getMAHK());
+				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());
@@ -431,7 +470,7 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getMAHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIKH());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
@@ -440,7 +479,7 @@ public class HomeController {
 				ngdicung.setDATVE(dvtam);
 				ngdicung.setLOAIHANHKHACH(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getMAHK());
+				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());

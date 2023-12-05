@@ -50,10 +50,11 @@
 									<thead>
 										<tr style="background: #17bac5;">
 											<th>ID</th>
-											<th>MÃ ĐẶT VÉ</th>
 											<th>TÊN KHÁCH HÀNG</th>
 											<th>NGÀY NHẬP</th>
 											<th>TỔNG TIỀN</th>
+											<th>TRẠNG THÁI</th>
+											<th>LOẠI THANH TOÁN</th>
 											<th>XEM</th>
 										</tr>
 									</thead>
@@ -89,8 +90,8 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="dv in selectedItem">
-											<td>{{dv.hanhkhach.idhanhkhach}}</td>
-											<td>{{dv.hanhkhach.hovaten}}</td>
+											<td>{{dv.taikhoan.idtaikhoan}}</td>
+											<td>{{dv.taikhoan.hovaten}}</td>
 											<td>{{dv.soghe}}</td>
 											<td>{{dv.nguoidicung.hovaten}}</td>
 											<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>

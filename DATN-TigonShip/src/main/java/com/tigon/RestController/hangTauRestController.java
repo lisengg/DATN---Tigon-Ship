@@ -73,8 +73,8 @@ public class hangTauRestController {
     @PostMapping("/rest/hangtau/lichsu/save")
     public LichSuHangTau saveLichSu(@RequestBody LichSuHangTau lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      TaiKhoan hanhkhach = taiKhoanService.findById(user);
-      lichSu.setTEN(hanhkhach.getHOVATEN());
+      TaiKhoan taikhoan = taiKhoanService.findById(user);
+      lichSu.setTEN(taikhoan.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }
     @PutMapping("/rest/hangtau/{id}")
