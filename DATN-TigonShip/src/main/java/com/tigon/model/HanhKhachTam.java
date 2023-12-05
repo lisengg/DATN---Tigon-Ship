@@ -15,18 +15,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="NGUOIDICUNGTAM")
+@Table(name="HANHKHACHTAM")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class NguoiDiCungTam {
+public class HanhKhachTam {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer IDTAM;
+	Integer IDHKTAM;
     String HOVATEN;
-    String SDT;
     String CCCD;
-    Integer IDLOAIKH;
+    String SDT;
+    String EMAIL;
     String QUOCTICH;
     @Temporal(TemporalType.DATE)
     Date NGAYSINH;
