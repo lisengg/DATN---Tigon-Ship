@@ -42,8 +42,8 @@ public class DatVe {
 
     @ManyToOne
 	@JoinColumn(name = "IDTAIKHOAN")
-	TaiKhoan HANHKHACH;
-
+	TaiKhoan TAIKHOAN;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "DATVE")
     @JsonBackReference
@@ -61,6 +61,10 @@ public class DatVe {
 	@ManyToOne
 	@JoinColumn(name = "LOAIVE")
 	LoaiVe LOAIVE;
+	
+	@ManyToOne
+	@JoinColumn(name = "IDHANHKHACH")
+	HanhKhach HANHKHACH;
 
 
 }

@@ -204,7 +204,7 @@ public class HomeController {
 					hkt.setHOVATEN(username.get(i - 2));
 					hkt.setCCCD(cccd.get(i - 2));
 					hkt.setSDT(SDT.get(i - 2));
-					hkt.setMAHK(mahk);
+					hkt.setIDLOAIHK(mahk);
 					
 					hktdao.save(hkt);
 
@@ -350,7 +350,7 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getMAHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIHK());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
@@ -359,7 +359,7 @@ public class HomeController {
 				ngdicung.setDATVE(dvtam);
 				ngdicung.setLOAIHANHKHACH(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getMAHK());
+				System.out.println(hktam.get(i).getIDLOAIHK());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());
@@ -431,7 +431,7 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getMAHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIHK());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
@@ -440,7 +440,7 @@ public class HomeController {
 				ngdicung.setDATVE(dvtam);
 				ngdicung.setLOAIHANHKHACH(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getMAHK());
+				System.out.println(hktam.get(i).getIDLOAIHK());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());

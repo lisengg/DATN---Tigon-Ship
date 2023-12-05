@@ -16,10 +16,11 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 			data: data.hoadon, // Sử dụng mảng giave từ dữ liệu
 			columns: [
 				{ data: 'mahd' },
-				{ data: 'datve.madatve' },
-				{ data: 'datve.hanhkhach.hovaten' },
+				{ data: 'datve.taikhoan.hovaten' },
 				{ data: 'ngaylap' },
 				{ data: 'tongtien' },
+				{ data: 'trangthai' },
+				{ data: 'loaithanhtoan' },
 				// Cột mới chứa nút bấm
 				{ data: null,
 				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Chi tiết</button>'}

@@ -42,7 +42,7 @@ public class TaiKhoanController {
 	public String thongtintaikhoan(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 		TaiKhoan taikhoan = taiKhoanService.findById(user);
-		List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
+		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
 
 		if (datve != null) {
@@ -219,7 +219,7 @@ public class TaiKhoanController {
 		String diaChi = null;
 		String diachi_old = taikhoan.getDIACHI();
 
-		List<DatVe> lichsuve = datveService.ListDatVeByidKhach(user);
+		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
 		TaiKhoan taikhoan_updated = taiKhoanService.findById(user);
 
