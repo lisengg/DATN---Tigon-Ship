@@ -36,10 +36,10 @@ public class gheNgoiRestController {
     public List<GheNgoi> getAllGheNgoi(@PathVariable("id") Integer id) {
         return gheNgoiDAO.gheNgoiByIdtau(id);
     }
-    @GetMapping("/rest/ghe/{id}")// lấy 1 ghế ngồi qua id ghế
-    public GheNgoi getOne(@PathVariable("id") Integer id) {
-        return gheNgoiDAO.findById(id).get();
-    }
+//    @GetMapping("/rest/ghe/{id}")// lấy 1 ghế ngồi qua id ghế
+//    public GheNgoi getOne(@PathVariable("id") Integer id) {
+//        return gheNgoiDAO.findById(id).get();
+//    }
     @PostMapping("/rest/ghengoi/save")
     public GheNgoi save(@RequestBody GheNgoi gheNgoi) {
         return gheNgoiDAO.save(gheNgoi);

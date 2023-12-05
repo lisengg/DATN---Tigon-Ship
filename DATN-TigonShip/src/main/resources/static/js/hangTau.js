@@ -1,5 +1,5 @@
-const app = angular.module('hangtau-app', []);
-app.controller('hangtau-ctrl', function($scope, $http) {
+const app = angular.module('hangtau-app', ['ngSanitize']);
+app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 	$scope.form = {};
 	$scope.initialize = function() {
 		$http.get("/rest/hangtau").then(response => {
@@ -20,6 +20,7 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 				{ data: 'sdt' },
 				{ data: 'email' },
 				{ data: 'diachi' },
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -34,7 +35,7 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			var data = table.row($(this).parents('tr')).data();
 			$scope.$apply(function() {
 				$scope.edit(data);
-			});
+			})
 		});
 	}
 	$scope.initialize()
@@ -43,7 +44,9 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 	}
 	//Xóa form
 	$scope.reset = function() {
-		$scope.form = null;
+		$scope.form = {
+			trangthai: 'Đang hoạt động',
+		};
 		$scope.post = true;
 		$scope.put = false;
 		$scope.delete = false;
@@ -58,22 +61,31 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 	}
 	//THÊM HÃNG TÀU
 	$scope.save = function() {
+		// Cập nhật giá trị city, district, và ward từ các trường HTML
+		$scope.form.city = $("#city option:selected").text();
+		$scope.form.district = $("#district option:selected").text();
+		$scope.form.ward = $("#ward option:selected").text();
 		console.log($scope.form); // Kiểm tra giá trị của $scope.form
-		/*var item = angular.copy($scope.form);*/
 		var item = {
 			"tenhangtau": $scope.form.tenhangtau,
 			"diachi": $scope.form.diachi,
 			"sdt": $scope.form.sdt,
-			"email": $scope.form.email
+			"email": $scope.form.email,
+			"city": $scope.form.city,
+			"district": $scope.form.district,
+			"ward": $scope.form.ward,
+			"diaChi": $scope.form.diaChi,
+			"trangthai": $scope.form.trangthai
 		}
+		// Thêm dữ liệu Tỉnh/Thành phố, Quận/Huyện, và Phường/Xã vào địa chỉ
+		item.diachi = $scope.form.diaChi + ', ' + $scope.form.ward + ', ' + $scope.form.district + ', ' + $scope.form.city;
+		var url = `/rest/hangtau/save`;
 		// Kiểm tra tên hãng tàu không được để trống
 		if (!$scope.form.tenhangtau) {
 			document.getElementById('check11').checked = true;
 			return;
 		}
-		var url = `/rest/hangtau/save`;
-
-		if (!$scope.form.diachi) {
+		if (!$scope.form.city || !$scope.form.district || !$scope.form.ward || !$scope.form.diaChi) {
 			document.getElementById('check4').checked = true;
 			return;
 		}
@@ -101,14 +113,14 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			return;
 		}
 		var tenHangTau = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.tenhangtau.toLowerCase() === item.tenhangtau.toLowerCase());
-		var diaChi = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
+		diachi = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
 		var email = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.email.toLowerCase() === item.email.toLowerCase());
 		var sdt = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.sdt === item.sdt);
 		if (tenHangTau) {
 			document.getElementById('check9').checked = true;
 			return; // Ngăn cập nhật nếu tên hãng tàu trùng
 		}
-		if (diaChi) {
+		if (diachi) {
 			document.getElementById('check12').checked = true;
 			return; // Ngăn cập nhật nếu địa chỉ trùng
 		}
@@ -125,36 +137,66 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			var table = $('#table2').DataTable();
 			table.row.add(response.data).draw();
 			document.getElementById('check3').checked = true;
+			var itemlichsu = {
+				"hangtau": response.data,
+				"thaotac": "Đã thêm mới hãng tàu có ID : " + response.data.idhangtau,
+			}
+			$http.post('/rest/hangtau/lichsu/save', itemlichsu)
+				.then(function(response) {
+					$scope.items.lichsu.push(response.data)
+				})
+				.catch(function(error) {
+					console.log("Error creating LichSuHangTau", error);
+				});
 			$scope.reset();
 		}).catch(error => {
 			document.getElementById('check15').checked = true;
 			console.log("Error", error)
 		})
 	}
+	 $scope.formatThaoTac = function(thaoTac) {
+        if (thaoTac.includes('#')) {
+            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+            var separatedLines = thaoTac.split('#').map(line => line.trim());
+            return $sce.trustAsHtml(separatedLines.join('<br>'));
+        } else {
+            // Ngược lại, trả về nguyên bản
+            return thaoTac;
+        }
+    };
 	//CẬP NHẬT HÃNG TÀU
-	$scope.updateSuccess = false;
 	$scope.update = function() {
+
+		// Cập nhật giá trị city, district, và ward từ các trường HTML
+		$scope.form.city = $("#city option:selected").text();
+		$scope.form.district = $("#district option:selected").text();
+		$scope.form.ward = $("#ward option:selected").text();
+		var itemold = $scope.originalData
+		console.log(itemold.trangthai)
 		var item = angular.copy($scope.form);
 		var url = `/rest/hangtau/${item.idhangtau}`;
 
-		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
-		if (angular.equals(item, $scope.originalData)) {
-			// Hiển thị thông báo lỗi vì không có sự thay đổi
-			document.getElementById('check10').checked = true;
+		// Thêm dữ liệu Tỉnh/Thành phố, Quận/Huyện, và Phường/Xã vào địa chỉ
+		item.diachi = $scope.form.diaChi + ', ' + $scope.form.ward + ', ' + $scope.form.district + ', ' + $scope.form.city;
+
+		if (!$scope.form.diaChi && !$scope.form.ward && !$scope.form.district && !$scope.form.city) {
+			item.diachi = $scope.form.diachi;
+		}
+		else if (!$scope.form.city || !$scope.form.diaChi) {
+			document.getElementById('check4').checked = true;
 			return;
 		}
-		if ($scope.updateSuccess) {
-			document.getElementById('check10').checked = true;
+		else if ($scope.form.city && $scope.form.diaChi && !$scope.form.district) {
+			document.getElementById('check4').checked = true;
+			return;
+		} else if ($scope.form.city && $scope.form.diaChi && $scope.form.district && !$scope.form.ward) {
+			document.getElementById('check4').checked = true;
 			return;
 		}
+
 		// Kiểm tra tên hãng tàu không được để trống
 		if (!$scope.form.tenhangtau) {
 			document.getElementById('check11').checked = true;
-			return;
-		}
-		// Kiểm tra địa chỉ không được để trống
-		if (!$scope.form.diachi) {
-			document.getElementById('check4').checked = true;
 			return;
 		}
 		// Kiểm tra số điện thoại không được để trống
@@ -180,14 +222,14 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			document.getElementById('check8').checked = true; return;
 		}
 		var tenHangTau = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.tenhangtau.toLowerCase() === item.tenhangtau.toLowerCase());
-		var diaChi = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
+		var diachi = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.diachi.toLowerCase() === item.diachi.toLowerCase());
 		var email = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.email.toLowerCase() === item.email.toLowerCase());
 		var sdt = $scope.items.hangtau.some(a => a.idhangtau !== item.idhangtau && a.sdt === item.sdt);
 		if (tenHangTau) {
 			document.getElementById('check9').checked = true;
 			return; // Ngăn cập nhật nếu tên hãng tàu trùng
 		}
-		if (diaChi) {
+		if (diachi) {
 			document.getElementById('check12').checked = true;
 			return; // Ngăn cập nhật nếu địa chỉ trùng
 		}
@@ -199,6 +241,36 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			document.getElementById('check14').checked = true;
 			return; // Ngăn cập nhật nếu số điện thoại trùng
 		}
+
+		var ttupdate = "Cập nhật hãng tàu có ID: " + itemold.idhangtau;
+
+		if (itemold.tenhangtau.toLowerCase() !== item.tenhangtau.toLowerCase()) {
+			ttupdate += "# Tên: " + itemold.tenhangtau + " thành " + item.tenhangtau;
+		}
+
+		if (itemold.sdt !== item.sdt) {
+			ttupdate += "# số ĐT: " + itemold.sdt + " thành " + item.sdt;
+		}
+
+		if (itemold.email.toLowerCase() !== item.email.toLowerCase()) {
+			ttupdate += "# email: " + itemold.email + " thành " + item.email;
+		}
+
+		if (itemold.diachi.toLowerCase() !== item.diachi.toLowerCase()) {
+			ttupdate += "# đc: " + itemold.diachi + " thành " + item.diachi;
+		}
+
+		if (itemold.trangthai.toLowerCase() !== item.trangthai.toLowerCase()) {
+			ttupdate += "# trạng thái thành " + item.trangthai;
+		}
+
+		console.log(ttupdate); // In ra để kiểm tra giá trị của ttupdate
+
+
+		var itemlichsu = {
+			"hangtau": item,
+			"thaotac": ttupdate,
+		}
 		$http.put(url, item).then(response => {
 			var index = $scope.items.hangtau.findIndex(a => a.idhangtau === item.idhangtau);
 			$scope.items.hangtau[index] = item;
@@ -206,35 +278,16 @@ app.controller('hangtau-ctrl', function($scope, $http) {
 			var row = table.row(index);
 			row.data(item).draw();
 			document.getElementById('check3').checked = true;
-			$scope.updateSuccess = true; // Đặt trạng thái cập nhật thành công
+			$http.post('/rest/hangtau/lichsu/save', itemlichsu)
+				.then(function(response) {
+					$scope.items.lichsu.push(response.data)
+				})
+				.catch(function(error) {
+					console.log("Error creating LichSuHangTau", error);
+				});
 		}).catch(error => {
 			console.log("Error", error)
 			document.getElementById('check15').checked = true;
-		});
-	}
-	1//XÓA HÃNG TÀU
-	$scope.deleteItem = function(data) {
-		var url = `/rest/hangtau/${data.idhangtau}`;
-		// Kiểm tra xem hãng tàu đó có đang được sử dụng trong tàu hay không
-		var isHangtauUsedInTau = $scope.items.tau.some(function(tau) {
-			return tau.hangtau.idhangtau === data.idhangtau;
-		});
-		if (isHangtauUsedInTau) {
-			document.getElementById('check2').checked = true;
-			return;
-		}
-		$http.delete(url).then(response => {
-			var index = $scope.items.findIndex(a => a.idhangtau === data.idhangtau);
-			$scope.items.splice(index, 1);
-			// Cập nhật DataTables
-			var table = $('#table2').DataTable();
-			table.row(index).remove().draw();
-			document.getElementById('check1').checked = true; // Hiển thị form thành công
-			document.getElementById('check').checked = false;
-		}).catch(error => {
-			document.getElementById('check2').checked = true;
-			document.getElementById('check').checked = false;
-			console.log("Error", error);
 		});
 	}
 })

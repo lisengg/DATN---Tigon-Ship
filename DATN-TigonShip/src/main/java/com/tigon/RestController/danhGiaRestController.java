@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.DanhGiaDAO;
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.TuyenDAO;
 
 @CrossOrigin("*")
@@ -22,7 +22,7 @@ public class danhGiaRestController {
     @Autowired 
     TuyenDAO tuyenDAO;
     @Autowired
-    HanhKhachDAO hanhKhachDAO;
+    TaiKhoanDAO hanhKhachDAO;
 
 
     @GetMapping("/rest/danhgia")// lấy thông tin all
@@ -44,15 +44,35 @@ public class danhGiaRestController {
         return danhGiaDAO.AVGall();
     }
 
-    @GetMapping("/rest/danhgia/top5")// top5ng hoạt động nhiều nhất
+    @GetMapping("/rest/danhgia/top5")//Các tuyến được đi nhiều theo thứ tự giảm dần
     public List<Object> getTop5(){
         return danhGiaDAO.Top5();
     }
-
-    @GetMapping("/rest/danhgia/tuyen/avg")// tên tuyến - điểm TB mỗi tuyến
-    public List<Object> AVGTuyen(){
-        return danhGiaDAO.AVGTuyen();
+    @GetMapping("/rest/danhgia/diemGiamDan")//Các tuyến được đánh giá theo điểm giảm dần
+    public List<Object> getdiemGiamDan(){
+        return danhGiaDAO.diemGiamDan();
     }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/honson")// HÒN SƠN
+    public List<Object> AVGHonSon(){
+        return danhGiaDAO.AVGHonSon();
+    }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/kiengiang")// KIÊN GIANG
+    public List<Object> AVGKienGiang(){
+        return danhGiaDAO.AVGKienGiang();
+    }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/namdu")// NAM DU
+    public List<Object> AVGNamDu(){
+        return danhGiaDAO.AVGNamDu();
+    }
+
+    @GetMapping("/rest/danhgia/tuyen/avg/phuquoc")// PHÚ QUỐC
+    public List<Object> AVGPhuQuoc(){
+        return danhGiaDAO.AVGPhuQuoc();
+    }
+
 
     
 

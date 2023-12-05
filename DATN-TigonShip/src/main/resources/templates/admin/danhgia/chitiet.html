@@ -1,5 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,9 +24,20 @@
 <link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" th:href="@{/css/style1.css}">		
+<link rel="stylesheet" th:href="@{/css/style1.css}">	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<style>
+	.card-title {
+		  font-size: 24px; /* Adjust the font size as needed */
+		  font-weight: bold; /* Make the font bold */
+		  color: #333; /* Change the text color */
+		  margin-bottom: 10px; /* Add some bottom margin for spacing */
+		  color:#597aa7
+	  }
+</style>
 </head>
-<body ng-app="hanhkhach-app" ng-controller="hanhkhach-ctrl">
+
+<body ng-app="danhgia-app" ng-controller="danhgia-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -38,80 +50,88 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-lg-6">
 						<div class="card">
 							<div class="card-header">
-								<h3><strong class="card-title">DANH SÁCH HÀNH KHÁCH</strong></h3>
+								<strong class="card-title">Các tuyến được đi nhiều nhất</strong>
 							</div>
 							<div class="card-body">
-								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
-									<thead>
-										<tr style="background: #17bac5;">
-											<th>ID</th>
-											<th>TÊN</th>
-											<th>ĐỊA CHỈ</th>
-											<th>EMAIL</th>
-											<th>SDT</th>
-											<th>XEM</th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-								</table>
-							</div>
+								<table class="table">
+									<thead class="thead-light text-center">
+										<tr>
+										  <th scope="col">Lượt khách</th>
+										  <th scope="col">Tuyến</th>
+									  </tr>
+								  </thead>
+								  <tbody ng-repeat="top in top5">
+									<tr>
+										<td class="text-center">{{top[0]}}</td>
+										<td class="text-center">{{top[1]}}</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
-					<!-- Modal Body -->
-					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h3 class="modal-title" id="modalTitleId">Lịch sử đặt</h3>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<table class="table">
-										<thead>
-											<tr style="background: #17bac5;">
-												<th>Mã đặt vé</th>
-												<th>Số ghế</th>
-												<th>Tên tuyến</th>
-												<th>Ngày đi</th>
-												<th>Ngày về</th>
-												<th>Ngày đặt</th>
-												<th>Loại vé</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="dv in items.datve">
-												<td>{{dv.madatve}}</td>
-												<td>{{dv.soghe}}</td>
-												<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>
-												<td>{{dv.ngaydi}}</td>
-												<td>{{dv.ngayve}}</td>
-												<td>{{dv.ngaydat}}</td>
-												<td>{{dv.loaive.loaive}}</td>
-
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="modal-footer text-center">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-								</div>
-							</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<strong class="card-title">Các tuyến được yêu thích nhất</strong>
 						</div>
+						<div class="card-body">
+							<table class="table">
+								<thead class="thead-light text-center">
+									<tr>
+									  <th scope="col">Tuyến</th>
+									  <th scope="col">Điểm</th>
+								  </tr>
+							  </thead>
+							  <tbody ng-repeat="diem in diemGiamDan">
+								<tr>
+									<td class="text-center">{{diem[0]}}</td>
+									<td class="text-center">{{diem[1]}}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-
 				</div>
 			</div>
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-header">
+							Chọn tuyến tàu:
+							<select name="tuyen" class="form-control" ng-change="showDanhGia()" ng-model="form.tuyen.idtuyen" required style="width: 300px; height: 35px;">
+								<option ng-repeat="option in items.tuyen" ng-value="option.idtuyen">{{option.tentuyen}}</option>
+							</select>
+						</div>
+						<div class="card-body">
+							<table class="table">
+								<thead class="thead-light">
+									<tr>
+									  <th scope="col">Tên hành khách</th>
+									  <th scope="col">Điểm</th>
+									  <th scope="col">Bình luận</th>
+									  <th scope="col">Ngày đánh giá</th>
+								  </tr>
+							  </thead>
+							  <tbody ng-repeat="dg in danhgia">
+								<tr>
+									<td>{{dg[0]}}</td>
+									<td>{{dg[1]}}</td>
+									<td>{{dg[2]}}</td>
+									<td>{{dg[3] | date:'dd-MM-yyyy'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+				</div>
+			</div>
+			
 		</div>
-		<!-- .animated -->
-		<!-- Footer-->
-		<div th:replace="~{admin/fragments_admin :: footer}"></div>
-		<!-- Footer -->
 	</div>
+
 	<!-- Scripts -->
 	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
@@ -121,6 +141,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-	<script th:src="@{/js/hanhKhach.js}"></script>
+	<script th:src="@{/js/danhgia.js}"></script>
 </body>
 </html>

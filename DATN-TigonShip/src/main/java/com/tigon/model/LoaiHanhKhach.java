@@ -30,7 +30,7 @@ public class LoaiHanhKhach {
     @JsonIgnore
     @OneToMany(mappedBy = "LOAIHANHKHACH")
     @JsonBackReference
-    List<HanhKhach> HANHKHACH;
+    List<TaiKhoan> TAIKHOAN;
 
     @JsonIgnore
     @OneToMany(mappedBy = "LOAIHANHKHACH")

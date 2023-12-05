@@ -32,12 +32,11 @@ public class Tau {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDTAU;
     String TENTAU;
-    String TINHTRANG;
     @Temporal(TemporalType.DATE)
 	@Column(name = "NGAYNHAP")
 	Date NGAYNHAP = new Date();
     Integer SOGHE;
-
+    String TRANGTHAI;
     @ManyToOne
 	@JoinColumn(name = "IDHANGTAU")
 	HangTau HANGTAU;

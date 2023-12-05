@@ -1,6 +1,5 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,8 +25,16 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<style>
+      .card-title {
+            font-size: 24px; /* Adjust the font size as needed */
+            font-weight: bold; /* Make the font bold */
+            color: #333; /* Change the text color */
+            margin-bottom: 10px; /* Add some bottom margin for spacing */
+            color:#597aa7
+        }
+</style>
 </head>
-
 <body ng-app="doanhthu-app" ng-controller="doanhthu-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
@@ -41,10 +48,44 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
-					<div class="col-lg-5">
+					<div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Tổng doanh thu hôm nay: {{doanhthu}} VND</strong>
+                                <strong class="card-title">
+                                    Tổng doanh thu hôm nay: {{ doanhthu.toLocaleString('en-US') }} VND
+                                </strong>
+                            </div>
+                            <div class="table-stats order-table ov-h">
+                                <table class="table">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>Tên tuyến</th>
+                                            <th>Tổng hóa đơn</th>
+                                            <th>Lượt hành khách</th>
+                                            <th class="text-center">Doanh thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in items">
+                                        <tr>
+                                            <td class="text-center"><span>{{item[3]}} </span></td>
+                                            <td class="text-center"><span>{{item[1]}}</span></td>
+                                            <td class="text-center"><span></span>{{item[2]}}</td>
+                                            <td class="text-center"><span>{{item[0].toLocaleString('en-US')}} VND</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+						<canvas id="chartDoanhThu"></canvas>
+					</div>
+                 <!--    <div class="col-lg-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Tổng doanh thu <input type="date" ng-model="date" ng-change="dttheongay()">
+                                     : {{doanhthu}} VND</strong>
                             </div>
                             <div class="table-stats order-table ov-h">
                                 <table class="table " >
@@ -52,55 +93,26 @@
                                         <tr>
                                             <th class="serial">Tổng hóa đơn</th>
                                             <th>Tên tuyến</th>
+                                            <th>Tổng hóa đơn</th>
                                             <th>Doanh thu</th>
                                         </tr>
                                     </thead>
-                                    <tbody ng-repeat="item in items">
+                                    <tbody ng-repeat="item in doanhthutheongay">
                                         <tr>
-                                            <td class="serial">{{item[0]}}</td>
+                                            
                                             <td>  <span class="name">{{item[2]}}</span> </td>
                                             <td><span>{{item[1]}} VND</span></td>
-                                           <!--  <td>
+                                            <td>
                                                 <span class="badge badge-complete">Complete</span>
-                                            </td> -->
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div> <!-- /.table-stats -->
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Tổng doanh thu  <input type="date">
-                                     : {{doanhthu}} VND</strong>
-                                    
-                            </div>
-                            <div class="table-stats order-table ov-h">
-                                <table class="table " >
-                                    <thead class="text-center">
-                                        <tr>
-                                           <!--  <th class="serial">Tổng hóa đơn</th> -->
-                                            <th>Tên tuyến</th>
-                                            <th>Doanh thu</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody ng-repeat="item in items">
-                                        <tr>
-                                            <!-- <td class="serial">{{item[0]}}</td> -->
-                                            <td>  <span class="name">{{item[2]}}</span> </td>
-                                            <td><span>{{item[1]}} VND</span></td>
-                                           <!--  <td>
-                                                <span class="badge badge-complete">Complete</span>
-                                            </td> -->
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> <!-- /.table-stats -->
+                            </div> /.table-stats
                         </div>
                     </div>
 				</div>
-			</div>
+			</div> -->
 			
 		
 		</div>

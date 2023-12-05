@@ -1,10 +1,6 @@
 package com.tigon.config;
-
-import java.util.List;
 import java.util.NoSuchElementException;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,15 +20,15 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
-import com.tigon.model.HanhKhach;
-import com.tigon.service.HanhKhachService;
+import com.tigon.model.TaiKhoan;
+import com.tigon.service.TaiKhoanService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	HanhKhachService hanhKhachService;
+	TaiKhoanService taiKhoanService;
 	
 	@Autowired
 	BCryptPasswordEncoder pe;
@@ -48,19 +44,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			try {
 
 				System.out.println("Username :" + username);
-				HanhKhach hanhkhach = hanhKhachService.findIdByEmailOrPhone(username);
+				TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(username);
 				String password = null;
 				String roles = null;
 				String hoten = null;
 				 	
 				// Nhập đúng thông tin dăng nhập
-				if (hanhkhach.getIDHANHKHACH() != null) {
-					HanhKhach user = hanhKhachService.findById(hanhkhach.getIDHANHKHACH());
+				if (taikhoan.getIDTAIKHOAN() != null) {
+					TaiKhoan user = taiKhoanService.findById(taikhoan.getIDTAIKHOAN());
 					System.out.println(user.getHOVATEN());
 					password = pe.encode(user.getMATKHAU());
-					roles = user.getQUYEN();
+					roles = user.getVAITRO();
 					hoten = user.getEMAIL();
-					session.setAttribute("user", user.getIDHANHKHACH());
+					hoten = user.getHOVATEN();
+					session.setAttribute("user", user.getIDTAIKHOAN());
 					session.setAttribute("role", roles);
 				}
 
@@ -80,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// Phân quyền sử dụng
 		http.authorizeRequests()
-		.antMatchers("/admin").hasAnyRole("ADMIN","STAF")
+		.antMatchers("/admin").hasAnyRole("ADMIN","STAFF")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);

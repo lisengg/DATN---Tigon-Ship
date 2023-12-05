@@ -1,5 +1,5 @@
 const app = angular.module('giave-app', []);
-app.controller('giave-ctrl', function($scope, $http) {
+app.controller('giave-ctrl', function($scope, $http, $sce) {
 	$scope.form = {
 		ngaybatdau: new Date(),
 		ngayketthuc: new Date(),
@@ -46,6 +46,7 @@ app.controller('giave-ctrl', function($scope, $http) {
 						return data; // Trả về dữ liệu gốc cho các loại khác
 					}
 				},
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -80,6 +81,7 @@ app.controller('giave-ctrl', function($scope, $http) {
 		$scope.form = {
 			ngaybatdau: new Date(),
 			ngayketthuc: new Date(),
+			trangthai: 'Đang hoạt động',
 		};
 		$scope.post = true;
 		$scope.put = false;
@@ -104,7 +106,8 @@ app.controller('giave-ctrl', function($scope, $http) {
 			"tuyen": $scope.items.tuyen[index1],
 			"gia": $scope.form.gia,
 			"ngaybatdau": $scope.form.ngaybatdau = new Date(),
-			"ngayketthuc": $scope.form.ngayketthuc = new Date()
+			"ngayketthuc": $scope.form.ngayketthuc = new Date(),
+			"trangthai": $scope.form.trangthai,
 		}
 		var url = `/rest/giave/save`;
 		// Kiểm tra giá vé không được để trống
@@ -136,6 +139,17 @@ app.controller('giave-ctrl', function($scope, $http) {
 				var table = $('#table2').DataTable();
 				table.row.add(response.data).draw();
 				document.getElementById('check3').checked = true; // Hiển thị form thành công
+				var itemlichsu = {
+					"giave": response.data,
+					"thaotac": "Vừa thêm mới giá vé có ID : " + response.data.idgiave,
+				}
+				$http.post('/rest/tau/giave/save', itemlichsu)
+					.then(function(response) {
+						$scope.items.lichsu.push(response.data)
+					})
+					.catch(function(error) {
+						console.log("Error creating LichuHangTau", error);
+					});
 				$scope.reset();
 			}).catch(error => {
 				document.getElementById('check2').checked = true;
@@ -143,18 +157,25 @@ app.controller('giave-ctrl', function($scope, $http) {
 			})
 		}
 	}
+	$scope.formatThaoTac = function(thaoTac) {
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
 	//Cập nhật giá vé
-	$scope.updateSuccess = false;
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
 		var url = `/rest/giave/${item.idgiave}`;
+		var itemold = $scope.originalData;
+		console.log(itemold)
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
 		if (angular.equals(item, $scope.originalData)) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
-			document.getElementById('check10').checked = true;
-			return;
-		}
-		if ($scope.updateSuccess) {
 			document.getElementById('check10').checked = true;
 			return;
 		}
@@ -183,6 +204,28 @@ app.controller('giave-ctrl', function($scope, $http) {
 		if (isDuplicate) {
 			document.getElementById('check8').checked = true;
 		} else {
+			var ttupdate = "Cập nhật giá vé có ID: " + itemold.idgiave;
+			if (itemold.trangthai !== item.trangthai) {
+				ttupdate += "#Trạng thái thành " + item.trangthai;
+			}
+			if (itemold.giave !== item.giave) {
+				ttupdate += "#Giá vé: " + itemold.giave + " thành " + item.trangthai;
+			}
+			if (!angular.equals(itemold.ngaybatdau, item.ngaybatdau)) {
+				var batdau = moment(item.ngaybatdau).format('DD/MM/YYYY');
+				var batdaumoi = moment(itemold.ngaybatdau).format('DD/MM/YYYY');
+				ttupdate += "#Ngày bắt đầu: " + batdaumoi + " thành " + batdau;
+			}
+			if (!angular.equals(itemold.ngayketthuc, item.ngayketthuc)) {
+				var ketthuc = moment(item.ngayketthuc).format('DD/MM/YYYY');
+				var ketthucmoi = moment(itemold.ngayketthuc).format('DD/MM/YYYY');
+				ttupdate += "#Ngày kết thúc: " + ketthucmoi + " thành " + ketthuc;
+			}
+			console.log(ttupdate);
+			var itemlichsu = {
+				"giave": item,
+				"thaotac": ttupdate,
+			}
 			$http.put(url, item).then(response => {
 				var index = $scope.items.giave.findIndex(p => p.idgiave == item.idgiave);
 				$scope.items.giave[index] = item;
@@ -190,34 +233,18 @@ app.controller('giave-ctrl', function($scope, $http) {
 				var row = table.row(index);
 				row.data(item).draw();
 				document.getElementById('check3').checked = true; // Hiển thị form thành công
-				$scope.updateSuccess = true;
+				$http.post('/rest/giave/lichsu/save', itemlichsu)
+					.then(function(response) {
+						$scope.items.lichsu.push(response.data)
+					})
+					.catch(function(error) {
+						console.log("Error creating LichSuGiaVe", error);
+					});
 			}).catch(error => {
 				document.getElementById('check2').checked = true;
 				console.log("Error", error)
 
 			});
 		}
-	}
-	//Xóa giá vé
-	$scope.deleteItem = function(data) {
-		var url = `/rest/giave/${data.idgiave}`;
-		$http.delete(url).then(response => {
-			var index = $scope.items.giave.findIndex(p => p.idgiave == data.idgiave);
-			if (index !== -1) {
-				$scope.items.giave.splice(index, 1); // Xóa item khỏi danh sách
-				// Cập nhật DataTables
-				var table = $('#table2').DataTable();
-				table.row(index).remove().draw();
-				document.getElementById('check1').checked = true; // Hiển thị form thành công
-				document.getElementById('check').checked = false;
-			} else {
-				alert("Không tìm thấy item để xóa!");
-			}
-		})
-			.catch(error => {
-				document.getElementById('check2').checked = true;
-				document.getElementById('check').checked = false;
-				console.log("Error", error);
-			});
 	}
 })
