@@ -52,7 +52,7 @@
                     </div>
                     <div id="KhoanDuoi" class="tabcontent" onclick="selectSeat(event)">
                         <div class="seat-row" style="text-align: center;">
-        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none;' : ''}">
             <label th:text=${p.TENGHE}></label>
         </div>
     </div>
@@ -89,12 +89,12 @@
                     </li>
 
                     <li>
-                        <div class="seat" style="background-color: gray;"></div>
+                        <div class="seat" style="background-color: blue;"></div>
                         <small>Ghế đang chọn</small>
                     </li>
 
                     <li>
-                        <div class="seat" style="background-color: blue;"></div>
+                        <div class="seat" style="background-color: red;"></div>
                         <small>Ghế đã được chọn</small>
                     </li>
                 </ul>

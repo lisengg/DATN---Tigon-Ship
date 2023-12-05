@@ -136,6 +136,7 @@
     </div>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+         
         // Lấy element input số hành khách
         var passengerInput = document.getElementById('NoOfPassenger');
 
@@ -143,18 +144,61 @@
         passengerInput.addEventListener('change', function() {
             localStorage.setItem('NoOfPassenger', passengerInput.value);
         });
+		
+        var ngayDiInput = document.getElementById('NgayDi');
+        var ngayVeInput = document.getElementById('NgayVe');
+        var khuhoiCheckbox = document.getElementById('khuhoiCheckbox');
 
         // Lấy ngày hiện tại
         var currentDate = new Date().toISOString().split('T')[0];
+
         // Đặt giá trị tối thiểu cho ngày khởi hành là ngày hiện tại
-        document.getElementById('NgayDi').min = currentDate;
-        document.getElementById('NgayVe').min = currentDate;
-    });
-        function toggleNgayVeInput(checkbox) {
-            var ngayVeInput = document.getElementsByName("NgayVe")[0];
-            ngayVeInput.disabled = !checkbox.checked;
+        ngayDiInput.min = currentDate;
+
+        // Sự kiện thay đổi ngày khởi hành
+        ngayDiInput.addEventListener('change', function() {
+            if (khuhoiCheckbox.checked) {
+                // Nếu là khứ hồi, đặt giá trị tối thiểu cho ngày về là ngày khởi hành đã chọn
+                ngayVeInput.min = ngayDiInput.value;
+
+                // Nếu ngày về đã chọn và nhỏ hơn ngày khởi hành, đặt lại giá trị ngày về
+                if (ngayVeInput.value && ngayVeInput.value < ngayDiInput.value) {
+                    ngayVeInput.value = ngayDiInput.value;
+                }
+            }
+        });
+
+        // Sự kiện thay đổi ngày về
+        ngayVeInput.addEventListener('change', function() {
+            // Nếu ngày về đã chọn và không thuộc năm 2023, đặt lại giá trị ngày về
+            if (ngayVeInput.value && ngayVeInput.value.substr(0, 4) !== '2023') {
+                ngayVeInput.value = ngayDiInput.value;
+            }
+        });
+
+        // Nếu ngày khởi hành đã chọn, đặt lại giá trị tối thiểu cho ngày về
+        if (khuhoiCheckbox.checked && ngayDiInput.value) {
+            ngayVeInput.min = ngayDiInput.value;
         }
         
+    });
+    
+    function toggleNgayVeInput(checkbox) {
+        var ngayVeInput = document.getElementsByName("NgayVe")[0];
+        ngayVeInput.disabled = !checkbox.checked;
+
+        // Nếu không phải là khứ hồi, đặt giá trị tối thiểu cho ngày về là ngày hiện tại
+        if (!checkbox.checked) {
+            ngayVeInput.min = new Date().toISOString().split('T')[0];
+        } else {
+            // Nếu là khứ hồi và ngày khởi hành đã chọn, đặt lại giá trị tối thiểu cho ngày về
+            var ngayDiInput = document.getElementById('NgayDi');
+            if (ngayDiInput.value) {
+                ngayVeInput.min = ngayDiInput.value;
+            }
+        }
+    }
+      
 
     </script>
 
