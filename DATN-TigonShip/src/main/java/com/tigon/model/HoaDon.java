@@ -26,7 +26,8 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer MAHD;
     BigDecimal TONGTIEN;
-
+    String TRANGTHAI;
+    String LOAITHANHTOAN;
     @Temporal(TemporalType.DATE)
    	@Column(name = "NGAYLAP")
    	Date NGAYLAP = new Date();

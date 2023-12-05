@@ -22,7 +22,7 @@ public class danhGiaRestController {
     @Autowired 
     TuyenDAO tuyenDAO;
     @Autowired
-    TaiKhoanDAO hanhKhachDAO;
+    TaiKhoanDAO taiKhoanDAO;
 
 
     @GetMapping("/rest/danhgia")// lấy thông tin all
@@ -30,7 +30,7 @@ public class danhGiaRestController {
         Map<String, Object> map = new HashMap<>();
         map.put("danhgia", danhGiaDAO.findAll());
         map.put("tuyen", tuyenDAO.findAll());
-        map.put("hanhkhach", hanhKhachDAO.findAll());
+        map.put("taikhoan", taiKhoanDAO.findAll());
         return map;
     }
 

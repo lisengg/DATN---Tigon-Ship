@@ -43,9 +43,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 	}
 
 	@Override
-	public TaiKhoan updateHanhKhach(String hovaten, String sdt, String cccd, String diachi, Integer id) {
+	public TaiKhoan updateTaiKhoan(String hovaten, String sdt, String cccd, String diachi, Integer id) {
 		// TODO Auto-generated method stub
-		return dao.updateHanhKhach(hovaten, sdt, cccd, diachi, id);
+		return dao.updateTaiKhoan(hovaten, sdt, cccd, diachi, id);
 	}
 
 }

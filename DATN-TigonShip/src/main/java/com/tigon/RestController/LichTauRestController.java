@@ -65,8 +65,8 @@ public class LichTauRestController {
 	@PostMapping("/rest/lichtau/lichsu/save")
     public LichSuLichTauChay saveLichSu(@RequestBody LichSuLichTauChay lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      TaiKhoan hanhkhach = taiKhoanService.findById(user);
-      lichSu.setTEN(hanhkhach.getHOVATEN());
+      TaiKhoan taikhoan = taiKhoanService.findById(user);
+      lichSu.setTEN(taikhoan.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }
 	@PutMapping("/rest/lichtau/{id}")

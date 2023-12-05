@@ -37,11 +37,11 @@ public class taiKhoanRestController {
     }
     @GetMapping("/rest/taikhoan/{id}") // lấy danh sách ghế ngồi theo id tàu
     public List<DatVe> getAll(@PathVariable("id") Integer id) {
-        return datVeDAO.ListDatVeByidKhach(id);
+        return datVeDAO.ListDatVeByIdTaiKhoan(id);
     }
     @GetMapping("/rest/taikhoan/all")// lấy ra tổng có bao nhiêu USER
-    public List<Object> getAllHK(){
-        return taiKhoanDAO.AllHK();
+    public List<Object> getAllTK(){
+        return taiKhoanDAO.AllTK();
     }
 
 }

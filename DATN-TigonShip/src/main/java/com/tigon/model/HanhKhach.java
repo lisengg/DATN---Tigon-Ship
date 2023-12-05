@@ -32,8 +32,5 @@ public class HanhKhach {
     String QUOCTICH;
     @Temporal(TemporalType.DATE)
     Date NGAYSINH;
-    
-    @OneToOne
-	@JoinColumn(name = "MADATVE")
-	DatVe DATVE;
+  
 }

@@ -11,7 +11,7 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
 	}
 	function initDataTable(data) {
 		var table = $('#table2').DataTable({
-			data: data.hanhkhach, // Sử dụng mảng giave từ dữ liệu
+			data: data.taikhoan, // Sử dụng mảng giave từ dữ liệu
 			columns: [
 				{ data: 'idtaikhoan' },
 				{ data: 'hovaten' },
@@ -36,7 +36,7 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
     $scope.initialize()
  	//hiển thị lên modal
      $scope.showDatVe = function(id) {
-        console.log(id); //
+        console.log(id); 
         var url = `/rest/taikhoan/${id}`;
         $http.get(url).then(response => {
             $scope.items.datve = response.data;
@@ -46,13 +46,13 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
     } 
     
        //lấy ra tất cả user
-	$scope.allHK = function() {
+	$scope.allTK = function() {
 		var url = `/rest/taikhoan/all`;
 		$http.get(url).then(response => {
-			$scope.allHK = response.data;
+			$scope.allTK = response.data;
 		}).catch(err => {
 			console.log("Error", err)
 		})
 	}
-	console.log($scope.allHK);
+	console.log($scope.allTK);
 })
