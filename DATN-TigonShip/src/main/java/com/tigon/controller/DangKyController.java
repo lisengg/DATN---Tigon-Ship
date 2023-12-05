@@ -1,36 +1,33 @@
 package com.tigon.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LoaiHanhKhach;
 
 @Controller
 public class DangKyController {
 
 	@Autowired
-	HanhKhachDAO dao;
+	TaiKhoanDAO dao;
 
 	@Autowired
 	LoaiHanhKhachDAO loaiHKDao;
 
 	@PostMapping("/processRegister")
-	public String processRegister(Model model, HanhKhach hanhkhach, @RequestParam String username,
+	public String processRegister(Model model, TaiKhoan taikhoan, @RequestParam String username,
 			@RequestParam String password, @RequestParam String password2, @RequestParam String email) {
 
 		// Kiem tra email dang ky co ton tai hay chua
 		boolean emptyEmail = true;
 		if (dao.getAllEmail(email) != null) {
-			HanhKhach getEmail = dao.getAllEmail(email);
+			TaiKhoan getEmail = dao.getAllEmail(email);
 			System.out.println(getEmail.getEMAIL());
 			if (getEmail.getEMAIL() != null) {
 				emptyEmail = false;
@@ -55,13 +52,12 @@ public class DangKyController {
 			return "user/login/register";
 		} else {
 			LoaiHanhKhach loaiHanhKhach = loaiHKDao.getIdNguoiLon();
-			hanhkhach.setLOAIHANHKHACH(loaiHanhKhach);
-			hanhkhach.setHOVATEN(username);
-			hanhkhach.setEMAIL(email);
-			hanhkhach.setMATKHAU(password);
-			hanhkhach.setQUYEN("USER");
-			hanhkhach.setSOHDDADAT(0);
-			dao.save(hanhkhach);
+			taikhoan.setLOAIHANHKHACH(loaiHanhKhach);
+			taikhoan.setHOVATEN(username);
+			taikhoan.setEMAIL(email);
+			taikhoan.setMATKHAU(password);
+			taikhoan.setVAITRO("HANHKHACH");
+			dao.save(taikhoan);
 			return "user/index";
 		}
 

@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.HangTauDAO;
 import com.tigon.dao.LichSuHangTauDAO;
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.TauDAO;
 import com.tigon.model.HangTau;
 import com.tigon.model.LichSuHangTau;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.service.DatVeService;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @RestController
@@ -41,13 +41,13 @@ public class hangTauRestController {
     HttpSession session;
   
     @Autowired
-    HanhKhachService hanhKhachService;
+    TaiKhoanService taiKhoanService;
   
     @Autowired
     HttpServletRequest request;
   
     @Autowired
-    HanhKhachDAO dao;
+    TaiKhoanDAO dao;
   
     @Autowired
     DatVeService datveService;
@@ -73,8 +73,8 @@ public class hangTauRestController {
     @PostMapping("/rest/hangtau/lichsu/save")
     public LichSuHangTau saveLichSu(@RequestBody LichSuHangTau lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      HanhKhach hanhkhach = hanhKhachService.findById(user);
-      lichSu.setTEN(hanhkhach.getHOVATEN());
+      TaiKhoan taikhoan = taiKhoanService.findById(user);
+      lichSu.setTEN(taikhoan.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }
     @PutMapping("/rest/hangtau/{id}")

@@ -1,9 +1,7 @@
 package com.tigon.model;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,13 +37,13 @@ public class DatVe {
     Date NGAYDI;
     @Temporal(TemporalType.DATE)
     Date NGAYVE;
-    @Column(name = "NGAYDAT")
-	LocalDateTime NGAYDAT = LocalDateTime.now();
+    @Temporal(TemporalType.DATE)
+    Date NGAYDAT;
 
     @ManyToOne
-	@JoinColumn(name = "IDHANHKHACH")
-	HanhKhach HANHKHACH;
-
+	@JoinColumn(name = "IDTAIKHOAN")
+	TaiKhoan TAIKHOAN;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "DATVE")
     @JsonBackReference
@@ -63,6 +61,10 @@ public class DatVe {
 	@ManyToOne
 	@JoinColumn(name = "LOAIVE")
 	LoaiVe LOAIVE;
+	
+	@ManyToOne
+	@JoinColumn(name = "IDHANHKHACH")
+	HanhKhach HANHKHACH;
 
 
 }

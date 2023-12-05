@@ -1,7 +1,5 @@
 package com.tigon.controller;
 
-import java.util.Date;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,8 +59,8 @@ public class BangtinController {
 		model.addAttribute("tieude", bt.getTIEUDE());
 		model.addAttribute("noidung", bt.getNOIDUNG());
 		model.addAttribute("hinhanh", bt.getHINHANH());
-	
-		
+		System.out.println(bt.getTIEUDE());
+		System.out.println(bt.getIDBANGTIN());
 		List<Bangtin> list = dao.findAll();
 		model.addAttribute("items", list);
 		
@@ -71,8 +69,6 @@ public class BangtinController {
 
 	@RequestMapping("/update")
 	public String luu(Model model, @RequestParam int id, @RequestParam String tieu_de, @RequestParam String noi_dung, Bangtin bt) {
-		
-		
 		bt.setIDBANGTIN(id);
 		bt.setTIEUDE(tieu_de);
 		bt.setNOIDUNG(noi_dung);

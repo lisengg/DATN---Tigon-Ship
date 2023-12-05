@@ -25,7 +25,7 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">		
 </head>
-<body ng-app="hanhkhach-app" ng-controller="hanhkhach-ctrl">
+<body ng-app="taikhoan-app" ng-controller="taikhoan-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -113,7 +113,7 @@
 		<!-- Footer -->
 	</div>
 	<!-- Scripts -->
-	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
+	<!-- <script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script> -->
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
@@ -121,6 +121,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-	<script th:src="@{/js/hanhKhach.js}"></script>
+	<script th:src="@{/js/taikhoan.js}"></script>
 </body>
 </html>

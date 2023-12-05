@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tigon.dao.HanhKhachTamDAO;
-import com.tigon.model.HanhKhachTam;
-import com.tigon.service.HanhKhachTamService;
+import com.tigon.dao.NguoiDiCungTamDAO;
+import com.tigon.model.NguoiDiCungTam;
+import com.tigon.service.NguoiDiCungTamService;
 
 @Service
-public class HanhKhachTamServiceImpl implements HanhKhachTamService{
+public class NguoiDiCungTamServiceImpl implements NguoiDiCungTamService{
 
 	@Autowired
-	HanhKhachTamDAO hktdao;
+	NguoiDiCungTamDAO hktdao;
 
 	@Override
-	public List<HanhKhachTam> findAll() {
+	public List<NguoiDiCungTam> findAll() {
 		// TODO Auto-generated method stub
 		return hktdao.findAll();
 	}
