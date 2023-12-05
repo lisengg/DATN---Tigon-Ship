@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Thông tin tài khoản</title>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+        rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+        type="text/javascript"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"
+        type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" type="text/javascript"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+
+        }
+
+        .alert {
+            background: #ffffff;
+            padding: 20px 40px;
+            min-width: 420px;
+            position: absolute;
+            right: 0;
+            top: 10px;
+            border-radius: 4px;
+            border-left: 8px solid #1a2cd1;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .alert.showAlert {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .alert.show {
+            animation: show_slide 1s ease forwards;
+        }
+
+        @keyframes show_slide {
+            0% {
+                transform: translateX(100%);
+            }
+
+            40% {
+                transform: translateX(-10%);
+            }
+
+            80% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-10px);
+            }
+        }
+
+        .alert.hide {
+            animation: hide_slide 1s ease forwards;
+        }
+
+        @keyframes hide_slide {
+            0% {
+                transform: translateX(-10px);
+            }
+
+            40% {
+                transform: translateX(0%);
+            }
+
+            80% {
+                transform: translateX(-10%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .alert .fa-exclamation-circle {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0078ce;
+            font-size: 30px;
+        }
+
+        .alert .msg {
+            padding: 0 20px;
+            font-size: 18px;
+            color: #0078ce;
+        }
+
+        .alert .close-btn {
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            padding: 20px 18px;
+            cursor: pointer;
+        }
+
+        .alert .close-btn:hover {
+            background: #ffffff;
+        }
+
+        .alert .close-btn .fas {
+            color: #0078ce;
+            font-size: 22px;
+            line-height: 40px;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50/ 15%);
+        }
+
+        .card .card-header {
+            font-weight: 500;
+        }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control,
+        .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+	<div th:if="${thongbao}" class="alert hide">
+		<span class="fas fa-exclamation-circle"></span> <span class="msg"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times"></span>
+		</div>
+	</div>
+	<div th:if="${thongbaoerror}" class="alert hide" style="border-left: 8px solid red">
+		<span class="fas fa-exclamation-circle" style="color: red"></span> <span class="msg" style="color: red"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times" style="color: red"></span>
+		</div>
+	</div>
+    <div class="container-xl px-4 mt-4 main">
+        <!-- Account page navigation-->
+        <div style="text-align: left;">
+            <a th:href="@{/}" style="text-decoration: none;font-weight: 700">Quay về trang chủ</a>
+        </div>
+        <nav class="nav nav-borders">
+            <a class="nav-link" th:if="${#request.isUserInRole('USER')}"
+                 th:href="@{/thongtintaikhoan}">Hồ sơ</a> <a class="nav-link active"
+                th:href="@{/chinhsuataikhoan}">Thông tin chi tiết</a> <a class="nav-link" 
+                th:href="@{/baomat}">Bảo mật</a> <a
+                class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page" th:if="${#request.isUserInRole('USER')}"
+                target="__blank">Thông báo</a>
+
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header text-center">Thông tin tài khoản</div>
+                    <table class="table table-bordered">
+  <tbody>
+    <tr>
+      <td >Họ và tên</td>
+      <td colspan="2" th:text="${user.HOVATEN}"></td>
+    </tr>
+    <tr>
+      <td>Số điện thoại</td>
+       <td colspan="2" th:text="${user.SDT}"></td>
+    </tr>
+    <tr>
+      <td>Số CCCD</td>
+     <td colspan="2" th:text="${user.CCCD}"></td>
+    </tr><tr>
+      <td>Địa chỉ</td>
+     <td colspan="2" th:text="${user.DIACHI}"></td>
+    </tr>  
+  </tbody>
+</table>
+                   
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Chỉnh sửa tài khoản</div>
+                    <div class="card-body">
+                        <form th:action="@{/user/chinhsuataikhoan}" method="post">
+                            <!-- Form Group (username)-->
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputUsername">Họ và tên</label>
+                                    <input class="form-control" id="inputUsername" type="text" name="hovaten"
+                                        placeholder="Điền họ và tên của bạn" th:value="${user.HOVATEN}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhone">Số điện
+                                        thoại : </label> <input class="form-control" id="inputPhone" type="tel" name="sdt"
+                                        placeholder="Nhập số điện thoại" th:value="${user.SDT}">
+                                </div>
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+                                <label class="medium" style="font-weight: 700;" for="inputFirstName">Thông tin địa chỉ :
+                                </label>
+                                <!-- Form Group (dia chi)-->
+                                <div class="col-md-4">
+                                    <label class="small mb-1" for="inputFirstName">Tỉnh/Thành
+                                        phố :</label> <select class="form-select form-select-md mb-3" name="city" id="city">
+                                        <option value="" selected></option>
+                                    </select>
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-4">
+                                    <label class="small mb-1" for="inputFirstName">Quận/Huyện
+                                        : </label> <select class="form-select form-select-md mb-3" name="district" id="district">
+                                        <option value="" selected></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small mb-1" for="inputFirstName">Phường/Xã
+                                        :</label> <select class="form-select form-select-mb mb-3" name="ward" id="ward">
+                                        <option value="" selected></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Form Row        -->
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputLocation">Địa chỉ
+                                        cụ thể :(Số nhà, hẻm, ấp,...)</label> <input
+                                        class="form-control form-control-sm" id="inputLocation" type="text" name="diachi"
+                                        th:value="${diachi}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputBirthday">Số căn
+                                        cước công dân :</label> <input class="form-control" id="inputBirthday"
+                                        type="text" name="cccd" placeholder="Nhập số căn cước công dân"
+                                        th:value="${user.CCCD}">
+                                </div>
+                            </div>
+                        
+                            <!-- Save changes button-->
+                                <button style="text-align: right;" class="btn btn-primary">Cập nhật tài
+                                    khoản</button>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript">
+    window.addEventListener("load", (event) => {
+        $('.alert').addClass("show");
+        $('.alert').removeClass("hide");
+        $('.alert').addClass("showAlert");
+        setTimeout(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+        }, 5000);
+    });
+
+    $('.close-btn').click(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    });
+    </script>
+    <script>
+        //Lấy hình ảnh
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(170);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        const host = "https://provinces.open-api.vn/api/";
+        var callAPI = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data, "city");
+                });
+        }
+        callAPI('https://provinces.open-api.vn/api/?depth=1');
+        var callApiDistrict = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.districts, "district");
+                });
+        }
+        var callApiWard = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.wards, "ward");
+                });
+        }
+
+        var renderData = (array, select) => {
+            let row = ' <option disable value="">Chọn</option>';
+            array.forEach(element => {
+                row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+            });
+            document.querySelector("#" + select).innerHTML = row
+        }
+
+        $("#city").change(() => {
+            callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+        $("#district").change(() => {
+            callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+        $("#ward").change(() => {
+            printResult();
+        })
+
+        var printResult = () => {
+            if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+                $("#ward").find(':selected').data('id') != "") {
+                let result = $("#city option:selected").text() +
+                    " | " + $("#district option:selected").text() + " | " +
+                    $("#ward option:selected").text();
+                $("#result").text(result)
+            }
+
+        }
+    </script>
+</body>
+
+</html>

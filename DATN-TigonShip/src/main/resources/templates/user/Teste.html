@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<style>
+        /* CSS để định dạng nút nhấn */
+        .button-style {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50; /* Màu nền */
+            color: white; /* Màu chữ */
+            border: none; /* Loại bỏ đường viền */
+            border-radius: 20px; /* Góc bo tròn */
+            cursor: pointer;
+            font-weight: bold;
+        } 
+        .no-border {
+        	background-color: white;
+        	border: none;
+    	}	
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Tigon Ship</title>
+    <link rel="stylesheet" href="/user/styledatve.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+	 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+	
+    <div class="reservation-form">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="movie-container" style="text-align: center;">
+                    <H1>Chọn Ghế Ngồi</H1>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="tab">
+                        <button class="tablinks active" onclick="openkhoan(event, 'KhoanDuoi')">Khoan Dưới</button>
+                        <button class="tablinks" onclick="openkhoan(event, 'TrenLau')">Trên lầu</button>
+
+                    </div>
+                    <div id="KhoanDuoi" class="tabcontent" onclick="selectSeat(event)">
+                        <div class="seat-row" style="text-align: center;">
+        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+            <label th:text=${p.TENGHE}></label>
+        </div>
+    </div>
+                        <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
+                            <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
+                            <div class="wc" style="width: 130px; height: 100px; margin-left: 170px; display: flex; align-items: center; justify-content: center; "><b>WC2</b></div>
+                        </div>
+                    </div>
+                    <div id="TrenLau" class="tabcontent" onclick="selectSeat(event)">
+                        <div class="seat-row" style="text-align: center;">
+                           
+                           <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
+                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+    							<label th:text=${p.TENGHE}></label>
+							</div>
+                        </div>
+                        <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
+                            <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
+                            <div class="wc" style="width: 130px; height: 100px; margin-left: 170px; display: flex; align-items: center; justify-content: center; "><b>WC2</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+            
+                <div class="movie-container" style="text-align: center;">
+                    <H1>Hành khách</H1>
+                </div>
+				
+                <ul class="showcase">
+                    <li>
+                        <div class="seat"></div>
+                        <small>Ghế trống</small>
+                    </li>
+
+                    <li>
+                        <div class="seat" style="background-color: gray;"></div>
+                        <small>Ghế đang chọn</small>
+                    </li>
+
+                    <li>
+                        <div class="seat" style="background-color: blue;"></div>
+                        <small>Ghế đã được chọn</small>
+                    </li>
+                </ul>
+                <br>
+               <input style="margin-left: 345px" name="ngaydat" th:value="${#dates.createNow()}" type="hidden" class="no-border" >
+
+                <table id="tblSeatInfoReturn" data-toggle="table" class="table table-responsive table-hover table-striped table-bordered" data-striped="true" data-click-to-select="true" data-single-select="true" data-checkbox-header="false">
+                    <thead>
+                        <tr style="background-color: #4CAF50;">
+                            <th data-field="No" data-halign="center" data-align="center" data-width="50px">STT</th>
+                           
+                            <th data-field="SeatNmReturn" data-halign="center">Ghế đi</th>
+                            
+                        </tr>
+
+                        
+                    </thead>
+                   	
+                </table>
+                	
+				<a id="btnXacNhan"  class="button-style" onclick="sendSelectedSeatsToController()">Xác nhận</a>
+            </div>
+        </div>
+    </div>
+
+<script th:inline="javascript">
+
+// Hàm mở tab
+function openkhoan(evt, GheNgoi) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(GheNgoi).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Tự động hiển thị tab "KhoanDuoi" khi trang được tải
+document.getElementById('KhoanDuoi').style.display = "block";
+document.querySelector('.tablinks.active').click();
+
+var selectedSeats = [];
+var songuoiJS = /*[[${songuoi}]]*/
+
+function selectSeat(event) {
+    if (event.target.classList.contains('seat')) {
+        var seatId = event.target.getAttribute('data-seat-id');
+        var seatName = event.target.getAttribute('data-seat-name');
+
+        // Kiểm tra xem ghế đã được chọn chưa
+        var seatIndex = selectedSeats.indexOf(seatId);
+        if (seatIndex === -1) {
+            // Ghế chưa được chọn, kiểm tra số ghế đã chọn
+            if (selectedSeats.length < songuoiJS) {
+                selectedSeats.push(seatId);
+                event.target.style.backgroundColor = 'blue';
+            } else {
+                //alert('Bạn chỉ có thể chọn ' + songuoiJS + ' ghế.');
+            }
+        } else {
+            // Ghế đã được chọn, loại bỏ khỏi danh sách và cập nhật màu
+            selectedSeats.splice(seatIndex, 1);
+            event.target.style.backgroundColor = '';
+        }
+
+        // Hiển thị thông tin ghế lên bảng
+        updateTable();
+    }
+}
+
+function updateTable() {
+    // Thực hiện cập nhật thông tin lên bảng
+    var table = document.getElementById('tblSeatInfoReturn');
+    // Xóa tất cả các dòng trước khi cập nhật lại
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+
+    // Thêm lại dữ liệu từ danh sách ghế đã chọn
+    selectedSeats.forEach(function(seatId, index) {
+        var seatName = document.querySelector('.seat[data-seat-id="' + seatId + '"]').getAttribute('data-seat-name');
+
+        var row = table.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        cell1.innerHTML = index + 1;
+
+        var cell2 = row.insertCell(1);
+        cell2.innerHTML = seatName;
+    });
+}
+
+function sendSelectedSeatsToController() {
+	if (selectedSeats.length !== songuoiJS) {
+        alert('Vui lòng chọn đủ ' + songuoiJS + ' ghế trước khi xác nhận.');
+        return "";
+    }
+	
+	// Gửi thông điệp chứa các ghế đã chọn đến controller
+    var selectedSeatsMessage = "";
+    selectedSeats.forEach(function (seat, index) {
+        selectedSeatsMessage += seat + ", ";
+    });
+
+    // Xóa dấu ',' cuối cùng
+    selectedSeatsMessage = selectedSeatsMessage.slice(0, -2);
+
+    // Sử dụng Ajax để gửi dữ liệu đến controller
+    var xhr = new XMLHttpRequest();
+    var url = "/user/dat";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Gửi dữ liệu đến server
+    xhr.send("selectedSeats=" + encodeURIComponent(selectedSeatsMessage));
+   
+    // Xử lý kết quả từ server (nếu cần)
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("Dữ liệu đã gửi thành công.");
+            window.location.href = "/datve/timtuyen";
+        } else {
+            console.error("Có lỗi khi gửi dữ liệu đến server.");
+        }
+    };
+}
+
+</script>
+    
+
+</body>
+
+</html>

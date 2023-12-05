@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Tigon Ship</title>
+
+    
+	<link rel="stylesheet" href="/user/styleHanhKhachDiCung.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
+</head>
+
+<body style="background-image: url('/images/b1.jpg');">
+
+    
+    <div class="w3layoutscontaineragileits" style="width: 600px; margin-top: 40px">
+        <h2><b>ĐẶT VÉ</b></h2>
+       <form action="#" method="post">
+            <div class="form-group">
+                            <input type="text" name="username" placeholder="Họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="cccd" placeholder="CCCD" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <!-- Thêm sự kiện onchange để lắng nghe sự thay đổi trong ngày sinh -->
+                            <input type="date" name="date" placeholder="Ngày Tháng Năm Sinh" required onchange="calculateAge(this)">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="SDT" placeholder="Số điện thoại" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="tickit" disabled placeholder="Loại Vé" required>
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-left: 23px;">
+                            <label for="nationality" style="color: white;"> <b>Quốc Tịch:</b> </label>
+                            <select name="nationality" style="width: 200px; height: 35px; margin-left: 8px; background: rgba(0, 0, 0, 0.2); color: white;">
+                                <option value="Vietnam"><b>Việt Nam</b></option>
+                                <option value="Thailand"><b>Thái Lan</b></option>
+                                <option value="UK"><b>Anh</b></option>
+                                <option value="USA"><b>Mỹ</b></option>
+                                <option value="Other"><b>Khác</b></option>
+                            </select>
+                        </div>
+                        <br>
+            <div class="aitssendbuttonw3ls">
+                 <button formaction="/datve/HanhKhachDiCung" class="w3-button w3-red w3-round-large" ><b>Tiếp Tục</b></button>
+            </div>
+</form>
+    </div>
+	<!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var continueButton = document.getElementById('continueButton');
+            continueButton.addEventListener('click', function() {
+                // Kiểm tra số lượng hành khách và chuyển hướng đến end.html hoặc tieptuc.html
+                var noOfPassenger = localStorage.getItem('NoOfPassenger');
+                if (noOfPassenger == 1) {
+                    window.location.href = '/user/datghe';
+                } else {
+                    window.location.href = '/user/HanhKhachDiCung';
+                }
+                
+            });
+        });
+    </script> -->
+    
+
+</body>
+
+</html>

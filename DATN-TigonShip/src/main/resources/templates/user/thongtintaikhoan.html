@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tài khoản của bạn</title>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+		integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+		crossorigin="anonymous" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/983a8f0a4d.js"
+	crossorigin="anonymous"></script>
+<style>
+body {
+	margin-top: 20px;
+	background-color: #f2f6fc;
+	color: #69707a;
+	overflow: hidden;
+}
+
+.alert {
+	background: #ffffff;
+	padding: 20px 40px;
+	min-width: 420px;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	border-radius: 4px;
+	border-left: 8px solid #1a2cd1;
+	overflow: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.alert.showAlert {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.alert.show {
+	animation: show_slide 1s ease forwards;
+}
+
+
+        @keyframes show_slide {
+            0% {
+                transform: translateX(100%);
+            }
+
+            40% {
+                transform: translateX(-10%);
+            }
+
+            80% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-10px);
+            }
+        }
+
+        .alert.hide {
+            animation: hide_slide 1s ease forwards;
+        }
+
+        @keyframes hide_slide {
+            0% {
+                transform: translateX(-10px);
+            }
+
+            40% {
+                transform: translateX(0%);
+            }
+
+            80% {
+                transform: translateX(-10%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+		.alert .fa-exclamation-circle {
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #0078ce;
+			font-size: 30px;
+		}
+
+.alert .msg {
+	padding: 0 20px;
+	font-size: 18px;
+	color: #0078ce;
+}
+
+.alert .close-btn {
+	position: absolute;
+	right: 0px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #ffffff;
+	padding: 20px 18px;
+	cursor: pointer;
+}
+
+.alert .close-btn:hover {
+	background: #ffffff;
+}
+
+.alert .close-btn .fas {
+	color: #0078ce;
+	font-size: 22px;
+	line-height: 40px;
+}
+
+.img-account-profile {
+	height: 10rem;
+}
+
+.rounded-circle {
+	border-radius: 50% !important;
+}
+
+.card {
+	box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50/ 15%);
+}
+
+.card .card-header {
+	font-weight: 500;
+}
+
+.card-header:first-child {
+	border-radius: 0.35rem 0.35rem 0 0;
+}
+
+.card-header {
+	padding: 1rem 1.35rem;
+	margin-bottom: 0;
+	background-color: rgba(33, 40, 50, 0.03);
+	border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+.form-control, .dataTable-input {
+	display: block;
+	width: 100%;
+	padding: 0.875rem 1.125rem;
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1;
+	color: #69707a;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #c5ccd6;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 0.35rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nav-borders .nav-link.active {
+	color: #0061f2;
+	border-bottom-color: #0061f2;
+}
+
+.nav-borders .nav-link {
+	color: #69707a;
+	border-bottom-width: 0.125rem;
+	border-bottom-style: solid;
+	border-bottom-color: transparent;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.fa-2x {
+	font-size: 2em;
+}
+
+.table-billing-history th, .table-billing-history td {
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	padding-left: 1.375rem;
+	padding-right: 1.375rem;
+}
+
+.table>:not(caption)>*>*, .dataTable-table>:not(caption)>*>* {
+	padding: 0.75rem 0.75rem;
+	background-color: var(- -bs-table-bg);
+	border-bottom-width: 1px;
+	box-shadow: inset 0 0 0 9999px var(- -bs-table-accent-bg);
+}
+
+.border-start-primary {
+	border-left-color: #0061f2 !important;
+}
+
+.border-start-secondary {
+	border-left-color: #6900c7 !important;
+}
+
+.border-start-success {
+	border-left-color: #00ac69 !important;
+}
+
+.border-start-lg {
+	border-left-width: 0.25rem !important;
+}
+
+.h-100 {
+	height: 100% !important;
+}
+</style>
+</head>
+
+<body>
+	<div th:if="${thongbao}" class="alert hide">
+		<span class="fas fa-exclamation-circle"></span> <span class="msg"
+			th:text="${ndungtbao}"></span>
+		<div class="close-btn">
+			<span class="fas fa-times"></span>
+		</div>
+	</div>
+	<div class="container-xl px-4 mt-4">
+		<!-- Account page navigation-->
+		<nav class="nav nav-borders">
+			<a class="nav-link active ms-0" th:href="@{/thongtintaikhoan}"
+				target="__blank">Hồ sơ</a> <a class="nav-link "
+				th:href="@{/user/chinhsuataikhoan/form}">Thông tin chi tiết</a> <a
+				class="nav-link"
+				href="https://www.bootdey.com/snippets/view/bs5-profile-security-page"
+				target="__blank">Bảo mật</a> <a class="nav-link"
+				href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
+				target="__blank">Thông báo</a>
+		</nav>
+		<hr class="mt-0 mb-4">
+		<div class="row">
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 1-->
+				<div class="card h-100 border-start-lg border-warning">
+					<div class="card-body">
+						<div class="medium text-muted">
+							<i class="fa-solid fa-crown"
+								style="color: #ffae00; padding-right: 5px;"></i>Tổng điểm thưởng
+						</div>
+						<div class="h1">21</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 2-->
+				<div class="card h-100 border-start-lg border-start-primary">
+					<div class="card-body">
+						<div class="medium text-muted">
+							<i class="fa-solid fa-ship"
+								style="color: #030ff8; padding-right: 5px;"></i>Số hoá đơn đã
+							đặt
+						</div>
+						<div class="h1">
+							<p th:if="chuacove" >0
+							<p th:unless="chuacove" th:text=" ${user.SOHDDADAT}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mb-4">
+				<!-- Billing card 3-->
+				<div class="card h-100 border-start-lg border-start-success">
+					<div class="card-body">
+						<div class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span>Chưa có chuyến đi</span>
+						</div>
+						<div th:if="${chuadatve}" class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span th:if="${ngaydat.before(#dates.createNow())}">Chuyến đi gần đây nhất</span>
+								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>	
+						</div>
+						<div th:unless="${chuacove}" style="margin-top: 5px;" class="h2">
+							<p th:text="${chuyengannhat}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Billing history card-->
+<div class="card mb-4">
+			<div class="card-header">Lịch sử mua vé</div>
+			<div class="card-body p-0">
+				<!-- Billing history table-->
+				<div class="table-responsive table-billing-history">
+					<table class="table mb-0">
+						<thead>
+							<tr class="text-center">
+								<th class="border-gray-200" scope="col">Mã đặt vé</th>
+								<th class="border-gray-200" scope="col">Ngày đặt</th>
+								<th class="border-gray-200" scope="col">Tuyến</th>
+								<th class="border-gray-200" scope="col">Trạng thái</th>
+							</tr>
+						</thead>
+						<tbody th:if="${chuacove}">
+							 <tr class="text-center">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>
+								<span class="bg-light text-success"></span>
+								</td>
+							</tr>
+						</tbody>
+						<tbody th:unless="${chuacove}">
+							 <tr class="text-center" th:each="ls : ${lichsu}">
+								<td th:text="${ls.MADATVE}"></td>
+								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
+								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
+								<td>
+								<span th:if="${ls.NGAYDAT.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+								<span th:if="${ls.NGAYDAT.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+    window.addEventListener("load", (event) => {
+        $('.alert').addClass("show");
+        $('.alert').removeClass("hide");
+        $('.alert').addClass("showAlert");
+        setTimeout(function () {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
+        }, 5000);
+    });
+
+    $('.close-btn').click(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+	integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e"
+	crossorigin="anonymous" />
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+	rel="stylesheet">
+
+<title>Tigon Ship</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="/assets/css/fontawesome.css">
+<link rel="stylesheet" href="/assets/css/templatemo-woox-travel.css">
+<link rel="stylesheet" href="/assets/css/owl.css">
+<link rel="stylesheet" href="/assets/css/animate.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<!--
+
+TemplateMo 580 Woox Travel
+
+https://templatemo.com/tm-580-woox-travel
+
+-->
+</head>
+
+<body  >
+
+	<!-- ***** Preloader Start ***** -->
+	<div id="js-preloader" class="js-preloader">
+		<div class="preloader-inner">
+			<span class="dot"></span>
+			<div class="dots">
+				<span></span> <span></span> <span></span>
+			</div>
+		</div>
+	</div>
+	<!-- ***** Preloader End ***** -->
+
+	<!-- ***** Header Area Start ***** -->
+	<header class="header-area header-sticky" >
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav class="main-nav">
+						<!-- ***** Logo Start ***** -->
+						<div>
+							<a href="/user/index" class="logo"> <img
+								src="/images/logotau.jpg" alt=""
+								style="width: 150px; height: 70px; margin-top: 0px" >
+							</a>
+						</div>
+
+						<!-- ***** Logo End ***** -->
+						<!-- ***** Menu Start ***** -->
+						<ul class="nav">
+							<li><a href="/user/index">Trang chủ</a></li>
+							<li><a href="/lienhe">Liên hệ</a></li>
+							<li><a href="/gopy">Góp Ý</a></li>
+							<li><a href="/gioithieu">Giới thiệu</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+							<li th:if="${#request.isUserInRole('ADMIN') or  #request.isUserInRole('STAF')}"><a th:href="@{/user/chinhsuataikhoan/form}">Quản lý</a></li>
+							<li th:if="${#request.isUserInRole('USER')}"><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
+						</ul>
+						<a class='menu-trigger'> <span>Menu</span>
+						</a>
+						<!-- ***** Menu End ***** -->
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- ***** Header Area End ***** -->
+
+	<div class="amazing-deals" style="margin-bottom: 115px;" >
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-sm-6">
+					<div class="item">
+						<div class="row">
+							<div class="col-lg-5">
+								<div class="image">
+									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 295px" >
+								</div>
+							</div>
+							<div class="col-lg-7 align-self-center">
+								<div class="content" th:each="p:${items}">
+									<!-- <h5>Kiên Giang - Hòn Sơn</h5> -->
+									<h5 th:text=${Ten}></h5>
+									<!-- <label th:text=${p.IDLICHTAU}></label>
+									<label th:text=${p.GIOXUATPHAT}></label>
+									<label th:text=${p.GIODENNOI}></label> -->
+									<div class="row" style="margin-top: 10px;">
+										<hr style="color: black">
+										<div class="col-6">
+											<i class="bi bi-clock">Giờ Đi: </i> <span class="list"><label th:text=${p.GIOXUATPHAT}></label></span>
+										</div>
+
+										<div class="col-6" style="margin-bottom: 15px;">
+											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list"><label th:text=${p.GIODENNOI}></label></span>
+										</div>
+										<hr style="color: black"> 
+										<span style="margin-bottom: 15px; color: black"><b>Còn
+												vé</b></span>
+										<hr style="color: black">
+										<br>
+									</div>
+									<div class="main-button" style="text-align: center;">
+										<a  th:href="@{/datve/hanhkhach}" style="background-color: aqua; color: black;">Đặt vé</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+					
+				
+				
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<p>
+						Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights
+						reserved. <br>Design: <a href="https://templatemo.com"
+							target="_blank" title="free CSS templates">TemplateMo</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<!-- Scripts -->
+	<!-- Bootstrap core JavaScript -->
+	<script src="/assets/vendor/jquery/jquery.min.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="/assets/js/isotope.min.js"></script>
+	<script src="/assets/js/owl-carousel.js"></script>
+	<script src="/assets/js/tabs.js"></script>
+	<script src="/assets/js/popup.js"></script>
+	<script src="/assets/js/custom.js"></script>
+
+	<script>
+		$(".option").click(function() {
+			$(".option").removeClass("active");
+			$(this).addClass("active");
+		});
+	</script>
+
+</body>
+
+</html>
