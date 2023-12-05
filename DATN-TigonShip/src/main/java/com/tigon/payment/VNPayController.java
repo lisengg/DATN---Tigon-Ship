@@ -17,21 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RestController
+@Controller
 @RequestMapping("/payment/vnpay")
 public class VNPayController {
 
 	@GetMapping("/createpayment")
-	public ResponseEntity<?> createpayment(HttpServletRequest req) throws UnsupportedEncodingException {
+	public String createpayment(HttpServletRequest req) throws UnsupportedEncodingException {
 
 		String orderType = "other";
 //		long amount = Integer.parseInt(req.getParameter("amount")) * 100;
-		long amount = 20000;
+		long amount = 200000 * 100;
 		String bankCode = "NCB";
 
 		String vnp_TxnRef = Config.getRandomNumber(8);
@@ -97,13 +98,8 @@ public class VNPayController {
 //	        job.addProperty("data", paymentUrl);
 //	        Gson gson = new Gson();
 //	        resp.getWriter().write(gson.toJson(job));
-
-		paymentDTO dto = new paymentDTO();
-		dto.setStatus("OK");
-		dto.setMessages("Successfully");
-		dto.setURL(paymentUrl);
 //		ResponseEntity.status(HttpStatus.OK).body(dto);
 	
-		return ResponseEntity.status(HttpStatus.OK).body(dto);
+		return "redirect:"+paymentUrl;
 	}
 }
