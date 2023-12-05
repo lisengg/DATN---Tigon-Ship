@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tigon.dao.BangtinDAO;
 import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
@@ -25,6 +26,7 @@ import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.dao.TuyenDAO;
+import com.tigon.model.Bangtin;
 import com.tigon.model.DatGhe;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
@@ -96,10 +98,13 @@ public class HomeController {
 
 	@Autowired
 	HttpSession session;
-
+	
+	@Autowired
+	BangtinDAO bangtin;
 	@RequestMapping("/")
-	public String index() {
-
+	public String index(Model model) {
+		List<Bangtin> list = bangtin.findAll();
+		model.addAttribute("items", list);
 		return "user/index";
 	}
 
