@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            font-family: 'Arial', sans-serif;
+            color: black;
+        }
+
+        .thong-bao {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        #dem-nguoc {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+    </style>
+    <title>Thay Đổi Mật Khẩu Thành Công</title>
+</head>
+<body>
+    <div class="thong-bao">
+        <p>Mật khẩu của bạn đã được thay đổi thành công!</p>
+        <p>Trang web sẽ tự chuyển hướng về trang chủ trong <span id="dem-nguoc">60</span> giây...</p>
+        <a th:href="@{/security/logoff}" style="color: blue;text-decoration: none;">Quay về trang chủ ngay</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let demNguoc = 60;
+            const demNguocElement = document.getElementById("dem-nguoc");
+
+            function capNhatDemNguoc() {
+                demNguocElement.textContent = demNguoc;
+                if (demNguoc === 0) {
+                    window.location.href = "http://localhost:8080/security/logoff";
+                } else {
+                    demNguoc--;
+                    setTimeout(capNhatDemNguoc, 1000);
+                }
+            }
+
+            capNhatDemNguoc();
+        });
+    </script>
+</body>
+</html>
