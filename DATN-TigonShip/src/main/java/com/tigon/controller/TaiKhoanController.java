@@ -113,6 +113,8 @@ public class TaiKhoanController implements CommandLineRunner {
 			int viTriChuoi = chuoi.indexOf(", Thị trấn");
 			String ketQua = chuoi.substring(0, viTriChuoi).trim();
 			model.addAttribute("diachi", ketQua);
+		}else {
+			model.addAttribute("diachi", taikhoan.getDIACHI());
 		}
 
 		model.addAttribute("user", taikhoan);
@@ -138,7 +140,20 @@ public class TaiKhoanController implements CommandLineRunner {
 		String xa = "Xã";
 		String phuong = "Phường";
 		String chuoi = taikhoan.getDIACHI();
+		String chuoichicodiachi = taikhoan.getDIACHI();
+		String[] parts = chuoichicodiachi.split(", ");
+		String chuoichicodiachi_dacat = "";
 
+		int commaIndex = chuoichicodiachi.indexOf(", ");
+
+        // Kiểm tra xem có vị trí của ", " không
+        if (commaIndex != -1) {
+            // Cắt chuỗi sau ", "
+        	chuoichicodiachi_dacat = chuoichicodiachi.substring(commaIndex + 2);
+          
+        } else {
+            System.out.println("Không có chuỗi sau ', '");
+        }
 		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diachi.isEmpty()) {
 
 			model.addAttribute("thongbaoerror", "...");
@@ -147,10 +162,10 @@ public class TaiKhoanController implements CommandLineRunner {
 			return "/user/chinhsuataikhoan";
 		} else {
 			if (!diachi.isEmpty()) {
-				if (!thanhPho.isEmpty() || !quanHuyen.isEmpty() || !phuongXa.isEmpty()) {
-					diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
+				if (thanhPho.isEmpty() || quanHuyen.isEmpty() || phuongXa.isEmpty()) {
+					diaChi = diachi + ", " + chuoichicodiachi_dacat;
 				} else {
-					diaChi = diachi;
+					diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
 				}
 			} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
 				diaChi = diachi_old;
@@ -179,6 +194,11 @@ public class TaiKhoanController implements CommandLineRunner {
 			} else if (chuoi.contains(thitran)) {
 				// Tìm vị trí của chuỗi ", Thị Xã"
 				int viTriChuoi = chuoi.indexOf(", Thị trấn");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			}else {
+				// Tìm vị trí của chuỗi ", "
+				int viTriChuoi = chuoi.indexOf(", ");
 				String ketQua = chuoi.substring(0, viTriChuoi).trim();
 				model.addAttribute("diachi", ketQua);
 			}

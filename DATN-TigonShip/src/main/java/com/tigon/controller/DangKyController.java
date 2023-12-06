@@ -1,5 +1,7 @@
 package com.tigon.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +21,19 @@ public class DangKyController {
 
 	@Autowired
 	LoaiHanhKhachDAO loaiHKDao;
+	
+	@Autowired
+	HttpServletRequest request;
 
 	@PostMapping("/processRegister")
 	public String processRegister(Model model, TaiKhoan taikhoan, @RequestParam String username,
-			@RequestParam String password, @RequestParam String password2, @RequestParam String email) {
-
+			@RequestParam String password, @RequestParam String password2, @RequestParam String email,@RequestParam String diachi) {
+		
+		String thanhPho = request.getParameter("city");
+		String quanHuyen = request.getParameter("district");
+		String phuongXa = request.getParameter("ward");
+		
+		
 		// Kiem tra email dang ky co ton tai hay chua
 		boolean emptyEmail = true;
 		if (dao.getAllEmail(email) != null) {
@@ -34,7 +44,7 @@ public class DangKyController {
 			}
 		}
 
-		if (username.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty()) {
+		if (username.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty() || thanhPho.isEmpty() || quanHuyen.isEmpty() || phuongXa.isEmpty() || diachi.isEmpty()) {
 			model.addAttribute("error", "Vui lòng điền đầy đủ thông tin");
 			return "user/login/register";
 		} else if (password.length() < 6) {
@@ -57,12 +67,13 @@ public class DangKyController {
 			taikhoan.setEMAIL(email);
 			taikhoan.setMATKHAU(password);
 			taikhoan.setVAITRO("HANHKHACH");
+			String diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
+			taikhoan.setDIACHI(diaChi);
 			dao.save(taikhoan);
 			return "user/index";
 		}
 
 	}
-	
 
 	private boolean isValidEmail(String email) {
 		String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
