@@ -45,7 +45,6 @@ public class TaiKhoanController {
 		TaiKhoan taikhoan = taiKhoanService.findById(user);
 		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
-
 		if (datve != null) {
 			model.addAttribute("lichsu", lichsuve);
 			model.addAttribute("user", taikhoan);
@@ -66,8 +65,8 @@ public class TaiKhoanController {
 	public String chinhsuatk(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
 		TaiKhoan taikhoan = taiKhoanService.findById(user);
-
 		String xa = "Xã";
+		String thitran = "Thị trấn";
 		String phuong = "Phường";
 		String chuoi = taikhoan.getDIACHI();
 
@@ -79,6 +78,11 @@ public class TaiKhoanController {
 		} else if (chuoi.contains(xa)) {
 			// Tìm vị trí của chuỗi ", Xã"
 			int viTriChuoi = chuoi.indexOf(", Xã");
+			String ketQua = chuoi.substring(0, viTriChuoi).trim();
+			model.addAttribute("diachi", ketQua);
+		}else if (chuoi.contains(thitran)) {
+			// Tìm vị trí của chuỗi ", Thị Xã"
+			int viTriChuoi = chuoi.indexOf(", Thị trấn");
 			String ketQua = chuoi.substring(0, viTriChuoi).trim();
 			model.addAttribute("diachi", ketQua);
 		}
@@ -102,19 +106,12 @@ public class TaiKhoanController {
 		String phuongXa = request.getParameter("ward");
 		String diaChi = null;
 		String diachi_old = taikhoan.getDIACHI();
+		String thitran = "Thị trấn";
+		String xa = "Xã";
+		String phuong = "Phường";
+		String chuoi = taikhoan.getDIACHI();
 
-		if (!diachi.isEmpty()) {
-			if (!thanhPho.isEmpty() || !quanHuyen.isEmpty() || !phuongXa.isEmpty()) {
-				diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
-			} else {
-				diaChi = diachi;
-			}
-		} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
-			diaChi = diachi_old;
-		} else {
-			diaChi = diachi_old;
-		}
-
+		
 		if (hovaten.isEmpty() || sdt.isEmpty() || cccd.isEmpty() || diachi.isEmpty()) {
 
 			model.addAttribute("thongbaoerror", "...");
@@ -122,6 +119,17 @@ public class TaiKhoanController {
 			model.addAttribute("user", taikhoan);
 			return "/user/chinhsuataikhoan";
 		} else {
+			if (!diachi.isEmpty()) {
+				if (!thanhPho.isEmpty() || !quanHuyen.isEmpty() || !phuongXa.isEmpty()) {
+					diaChi = diachi + ", " + phuongXa + ", " + quanHuyen + ", " + thanhPho;
+				} else {
+					diaChi = diachi;
+				}
+			} else if (diachi.isEmpty() && thanhPho.isEmpty()) {
+				diaChi = diachi_old;
+			} else {
+				diaChi = diachi_old;
+			}
 			taikhoan.setHOVATEN(hovaten);
 			taikhoan.setDIACHI(diaChi);
 			taikhoan.setSDT(sdt);
@@ -129,6 +137,27 @@ public class TaiKhoanController {
 			dao.save(taikhoan);
 
 			TaiKhoan taikhoan_updated = taiKhoanService.findById(user);
+			chuoi = taikhoan_updated.getDIACHI();
+			System.out.println(chuoi);
+			if (chuoi.contains(phuong)) {
+				// Tìm vị trí của chuỗi ", phường"
+				int viTriChuoi = chuoi.indexOf(", Phường");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			} else if (chuoi.contains(xa)) {
+				// Tìm vị trí của chuỗi ", Xã"
+				int viTriChuoi = chuoi.indexOf(", Xã");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			}else if (chuoi.contains(thitran)) {
+				// Tìm vị trí của chuỗi ", Thị Xã"
+				int viTriChuoi = chuoi.indexOf(", Thị trấn");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			}
+			
+
+			
 			model.addAttribute("thongbao", "Cập nhật thông tin thành công!");
 			model.addAttribute("ndungtbao", "Thông báo: Thông tin của bạn đã được cập nhật!");
 
@@ -210,30 +239,4 @@ public class TaiKhoanController {
 	public String baomat(Model model) {
 		return "/user/baomat";
 	}
-
-	public void getData(Model model, @RequestParam String hovaten, @RequestParam String sdt, @RequestParam String cccd,
-			@RequestParam String diachi) {
-		// Lấy idhanhkhach bằng session
-		Integer user = Integer.parseInt(session.getAttribute("user").toString());
-
-		TaiKhoan taikhoan = taiKhoanService.findById(user);
-
-		String thanhPho = request.getParameter("city");
-		String quanHuyen = request.getParameter("district");
-		String phuongXa = request.getParameter("ward");
-		String diaChi = null;
-		String diachi_old = taikhoan.getDIACHI();
-
-		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
-		DatVe datve = datveService.getNgayDatMoiNhat(user);
-		TaiKhoan taikhoan_updated = taiKhoanService.findById(user);
-
-		model.addAttribute("lichsu", lichsuve);
-		model.addAttribute("user", taikhoan_updated);
-		model.addAttribute("ngaydat", datve.getNGAYDAT());
-		model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
-		model.addAttribute("datve", datve);
-		model.addAttribute("user", taikhoan);
-	}
-
 }

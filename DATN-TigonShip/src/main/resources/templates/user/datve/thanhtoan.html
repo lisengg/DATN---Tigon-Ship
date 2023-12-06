@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Thanh toán đơn hàng</title>
@@ -336,8 +336,8 @@ input[type="radio"] {
             </div>
             <div class="box-inner-1 pb-3 mb-3 ">
                 <div class="d-flex justify-content-between mb-3 userdetails">
-                    <p class="fw-bold">Phú Quốc - Nam Du</p>
-                    <p class="fw-lighter"><span class="fas fa-dollar-sign"></span>897.000đ</p>
+                    <p class="fw-bold" th:text="${tuyen}"></p>
+                  
                 </div>
                 <div id="my" class="carousel slide carousel-fade img-details" data-bs-ride="carousel"
                     data-bs-interval="2000">
@@ -345,7 +345,7 @@ input[type="radio"] {
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                            <img src="https://img.pikbest.com/origin/09/22/49/09KpIkbEsTEAP.jpg!w700wp"
                                 class="d-block w-100">
                         </div>
                     </div>
@@ -378,31 +378,31 @@ input[type="radio"] {
                 <form action="">
                     <div class="mb-3">
                         <p class="dis fw-bold mb-2">Họ và tên :</p>
-                        <input class="form-control" type="text" value="luke@skywalker.com">
+                        <input class="form-control" type="text" th:value="${hoten}">
                     </div>
                     <div class="mb-3">
                         <p class="dis fw-bold mb-2">Email :</p>
-                        <input class="form-control" type="text" value="luke@skywalker.com">
+                        <input class="form-control" type="text" th:value="${email}">
                     </div>
                     <div class="mb-3">
                         <p class="dis fw-bold mb-2">Số điện thoại liên lạc :</p>
-                        <input class="form-control" type="text" value="luke@skywalker.com">
+                        <input class="form-control" type="text" th:value="${sdt}">
                     </div>
                     <div>
                         <p class="dis fw-bold mb-2">Số ghế :</p>
-                        <label style="border: none;">G1,G2,G3</label>
+                        <label style="border: none;" th:text="${soghe}"></label>
                          <p class="dis fw-bold mb-2" style="margin-top: 10px;">Loại vé :</p>
-                        <label style="border: none;">Khứ hồi</label>
+                        <label style="border: none;" th:text="${loaive}"></label>
                         <div class="row">
     <div class="col-lg-6">
         <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ xuất phát:</p>
-        <label style="border: none;">8:00</label>
+        <label style="border: none;" th:text="${gioxuatphat}"></label>
     </div>
     <div class="col-lg-6">
         <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi:</p>
-        <label style="border: none;">9:30</label>
+        <label style="border: none;" th:text="${giodennoi}"></label>
     </div> <p class="dis fw-bold mb-2" style="margin-top: 10px;">Ngày đặt vé:</p>
-        <label style="border: none;">8:00 22/12/2023</label>
+        <label style="border: none;" th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss dd-MM-yyyy')}"></label>
 </div>
               
                         <div class="address" style="margin-top: 10px">
@@ -417,7 +417,7 @@ input[type="radio"] {
                             <div class="d-flex flex-column dis">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <p>Tổng tiền :</p>
-                                    <p><span class="fas fa-dollar-sign"></span>897.000đ</p>
+                                    <p><span class="fas fa-dollar-sign" th:text="${tongtien}"></span></p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <p>Giảm giá :<span></span></p>
@@ -425,9 +425,9 @@ input[type="radio"] {
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <p class="fw-bold">Tổng tiền thanh toán</p>
-                                    <p class="fw-bold"><span class="fas fa-dollar-sign"></span>897.000đ</p>
+                                    <p class="fw-bold"><span class="fas fa-dollar-sign" th:text="${tongtien}"></span></p>
                                 </div>
-                               <a class="btn btn-success mt-2">Thanh toán<span class="fas fa-dollar-sign px-1" style="color: white">897.000đ</span></a>
+                               <a class="btn btn-success mt-2" th:href="@{/thanhtoanthanhcong}">Thanh toán<span class="fas fa-dollar-sign px-1" style="color: white" th:text="${tongtien}"></span></a>
 
                             </div>
                         </div>
@@ -436,26 +436,6 @@ input[type="radio"] {
             </div>
         </div>
     </div>
-     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h5 class="modal-title" id="exampleModalLabel">Thanh toán thành công!</h5>
-                    <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-     <script>
-        // Hiển thị modal khi nhấn vào nút thanh toán
-        $(document).ready(function(){
-            $(".btn-success").click(function(){
-                $("#successModal").modal();
-            });
-        });
-    </script>
+   
 </body>
 </html>

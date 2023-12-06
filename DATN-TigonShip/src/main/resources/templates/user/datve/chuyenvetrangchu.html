@@ -77,9 +77,9 @@
 							style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
 						<td
 							style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;">
-							<p
+							<p th:text="${hoten}"
 								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;">
-								Xin chào [name],</p>
+								 ,</p>
 						</td>
 						<td width="36"
 							style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
@@ -96,9 +96,11 @@
 							<p
 								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;">Cảm ơn bạn đã đặt vé tàu của Tigon Ship</p> <br>
 							<p
-								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;">
-								<strong>Thông tin hóa đơn:</strong><br /> Tuyến đi: <br /> Số
-								ghế : <br> Tổng tiền: <br /> <br>
+								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;"></p>
+								<strong>Thông tin hóa đơn:</strong>
+								<p th:text="${tuyen}" style="margin-top: 10px;"></p>
+								<p th:text="${soghe}" style="margin-top: 10px;"></p>
+								<p th:text="${tongtien}" style="margin-top: 10px;"></p>
 							<p
 								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;">
 								Chúng tôi sẽ liên hệ với bạn sớm nhất để hoàn tất thủ tục thanh
@@ -155,7 +157,7 @@
 		</tr>
 	</table>
 	<!-- Content End -->
-	<script>
+	 <script>
         // Chờ 5s và chuyển hướng về trang chủ
         let countdown = 60;
         updateCountdown();
@@ -169,6 +171,6 @@
                 setTimeout(updateCountdown, 1000);
             }
         }
-    </script>
+    </script> 
 </body>
 </html>
