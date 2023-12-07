@@ -41,9 +41,9 @@ public class DatVe {
     Date NGAYDAT;
 
     @ManyToOne
-	@JoinColumn(name = "IDHANHKHACH")
-	HanhKhach HANHKHACH;
-
+	@JoinColumn(name = "IDTAIKHOAN")
+	TaiKhoan TAIKHOAN;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "DATVE")
     @JsonBackReference
@@ -61,6 +61,10 @@ public class DatVe {
 	@ManyToOne
 	@JoinColumn(name = "LOAIVE")
 	LoaiVe LOAIVE;
+	
+	@ManyToOne
+	@JoinColumn(name = "IDHANHKHACH")
+	HanhKhach HANHKHACH;
 
 
 }

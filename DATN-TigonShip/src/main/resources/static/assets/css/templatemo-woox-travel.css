@@ -78,7 +78,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: rgb(0, 128, 128);
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -104,7 +104,7 @@ ul {
 p {
   font-size: 15px;
   line-height: 30px;
-  color: #afafaf;
+  color: white;
 }
 
 img {
@@ -119,23 +119,23 @@ Global Styles
 */
 html,
 body {
-  background: #fff;
+  background: rgb(35, 35, 35);
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #22b3c1;
-  color: #fff;
+  background: rgb(0, 128, 128);
+  color: rgb(0, 128, 128);
 }
 
 ::-moz-selection {
   background: #22b3c1;
-  color: #fff;
+  color: #66FCF1;
 }
 
 .text-button a {
   font-size: 14px;
-  color: #22b3c1;
+  color: rgb(0, 128, 128);
   font-weight: 500;
   transition: all .3s;
 }
@@ -151,9 +151,9 @@ body {
 
 .border-button a {
   font-size: 14px;
-  color: #22b3c1;
+  color: rgb(0, 128, 128);
   background-color: transparent;
-  border: 1px solid #22b3c1;
+  border: 1px solid rgb(0, 64, 128);
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -166,15 +166,15 @@ body {
 }
 
 .border-button a:hover {
-  background-color: #22b3c1;
-  color: #fff;
+  background-color: rgb(0, 128, 128);
+  color: rgb(255, 255, 255);
 }
 
 .main-button a {
-  font-size: 14px;
-  color: #fff;
-  background-color: #22b3c1;
-  border: 1px solid #22b3c1;
+font-size: 14px;
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 128, 128);
+  border: 1px solid rgb(0, 255, 255);
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -187,9 +187,9 @@ body {
 }
 
 .main-button a:hover {
-  background-color: #fff;
-  color: #22b3c1;
-  border: 1px solid #fff;
+  background-color: #66FCF1;
+  color: #66FCF1;
+  border: 1px solid #66FCF1;
 }
 
 section {
@@ -211,7 +211,7 @@ section {
   font-size: 30px;
   font-weight: 700;
   text-transform: capitalize;
-  color: #2a2a2a;
+  color: rgb(255, 255, 255);
 }
 
 /* 
@@ -287,7 +287,7 @@ Pre-loader Style
   height: 16px;
   top: 12px;
   left: 15px;
-  background: #22b3c1;
+  background: #66FCF1;
   border-radius: 50%;
   -webkit-transform: translateX(0);
   transform: translateX(0);
@@ -310,7 +310,7 @@ Pre-loader Style
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  background: #22b3c1;
+  background: #66FCF1;
   border-radius: 50%;
 }
 
@@ -323,7 +323,7 @@ Header Style
 */
 
 .background-header {
-  background-color: #22b3c1 !important;
+  background-color: 66FCF1 !important;
   height: 70px!important;
   position: fixed!important;
   top: 0!important;
@@ -333,21 +333,22 @@ Header Style
   -webkit-transition: all .5s ease 0s;
   -moz-transition: all .5s ease 0s;
   -o-transition: all .5s ease 0s;
-  transition: all .5s ease 0s;
+transition: all .5s ease 0s;
 }
 
 .header-area {
-  background-color: #22b3c1;
+  background-color: rgb(0, 128, 128);
   position: absolute;
   height: 70px;
   top: 0;
-  left: 0;
+  left: 0;	
   right: 0;
   z-index: 100;
   -webkit-transition: all .5s ease 0s;
   -moz-transition: all .5s ease 0s;
   -o-transition: all .5s ease 0s;
   transition: all .5s ease 0s;
+  text-align: center;
 }
 
 .header-area .main-nav {
@@ -358,7 +359,7 @@ Header Style
 
 .background-header .main-nav {
   padding: 0px;
-  background-color: transparent;
+  background-color: 66FCF1;
 }
 
 .header-area .main-nav .logo {
@@ -392,6 +393,7 @@ Header Style
   z-index: 999;
 }
 
+
 .header-area .main-nav .nav li {
   padding-left: 10px;
   padding-right: 10px;
@@ -413,7 +415,22 @@ Header Style
   border-radius: 18px;
   letter-spacing: 0.5px;
 }
+.header-area .main-nav .nav-item {
+	
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 7.5px;
+}
 
+.header-area .main-nav .nav-item a {
+	display: block;
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: capitalize;
+  color: #fff;
+
+
+}
 .header-area .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover,
 .background-header .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover {
   padding-left: 25px !important;
@@ -600,7 +617,7 @@ Header Style
   .background-header .main-nav .border-button {
     top: 0px !important;
   }
-  .header-area .main-nav .border-button {
+.header-area .main-nav .border-button {
     position: absolute;
     top: 15px;
     right: 70px;
@@ -744,7 +761,7 @@ Banner Style
   background-position: 50% 50%;
   transition: all 0.5s ease;
 }
-#section-1 .more-info {
+#section-1 .more- {
   margin-top: 60px;
   background-color: #fff;
   padding: 30px 60px;
@@ -755,7 +772,7 @@ Banner Style
   bottom: 130px;
   display: inline-block;
 }
-#section-1 .more-info i {
+#section-1 .more- i {
   color: #22b3c1;
   font-size: 24px;
   width: 60px;
@@ -859,7 +876,7 @@ Banner Style
   padding-top: 1em;
   text-align: left;
   text-transform: uppercase;
-  font-family: Montserrat, sans-serif;
+font-family: Montserrat, sans-serif;
   font-size: 1em;
   color: #f6eac5;
   font-weight: 400;
@@ -941,7 +958,7 @@ Visit Country Style
 }
 
 .visit-country .side-bar-map {
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .visit-country .item {
@@ -972,7 +989,7 @@ Visit Country Style
 
 .visit-country .item .right-content .main-button {
   position: absolute;
-  right: 0;
+right: 0;
   top: 0;
 }
 
@@ -989,7 +1006,7 @@ Visit Country Style
 
 .visit-country .item .right-content ul {
   border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  
   padding: 15px 0px;
 }
 
@@ -1005,7 +1022,8 @@ Visit Country Style
 }
 
 .visit-country .item .right-content ul li:last-child {
-  text-align: right;
+  text-align: left;
+  margin-left: 5px;
 }
 
 .visit-country .item .right-content ul li i {
@@ -1109,8 +1127,8 @@ Footer Style
 */
 
 footer {
-  background-color: #22b3c1;
-  text-align: center;
+  background-color: rgb(0, 128, 128);
+  text-align: left;
   padding: 25px 0px;
 }
 
@@ -1143,7 +1161,7 @@ About Page Style
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+background-position: center center;
   padding: 130px 0px 200px 0px;
 }
 
@@ -1311,7 +1329,7 @@ About Page Style
 .weekly-offers .item .thumb .text {
   position: absolute;
   background-color: #fff;
-  border-radius: 23px;
+border-radius: 23px;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -1352,7 +1370,7 @@ About Page Style
 }
 
 .weekly-offers .item .thumb .text ul li:first-child {
-  color: #2a2a2a;
+  color: rgb(0, 0, 0);
   font-weight: 600;
 }
 
@@ -1474,7 +1492,7 @@ body #user-button {
 }
 @-webkit-keyframes slide {
   0%, 50% {
-    opacity: 0;
+opacity: 0;
     display: block !important;
   }
   100% {
@@ -1607,7 +1625,7 @@ body #user-button .u-icons > * {
   background: var(--singlecolour);
   border-radius: 100%;
   cursor: pointer;
-  transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
   transition: 0.25s -0.05s;
 }
 body #user-button .u-icons > *:before {
@@ -1702,7 +1720,7 @@ body .options {
 }
 @media screen and (max-width: 558px) {
   body .options {
-    min-width: 360px;
+min-width: 360px;
   }
   body .options .option:nth-child(3) {
     display: block;
@@ -2006,7 +2024,6 @@ Deals Page Style
   border-radius: 50%;
   transition: all .3s;
 }
-
 .amazing-deals ul.page-numbers li.active a,
 .amazing-deals ul.page-numbers li a:hover {
   background-color: #22b3c1;
@@ -2026,7 +2043,7 @@ Reservation Page Style
 */
 
 .second-page-heading {
-  background-image: url(../images/heading-bg-02.jpg);
+  background-image: url(../images/banner-01.jpg);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -2168,7 +2185,7 @@ Reservation Page Style
   background-color: #22b3c1;
   border: 1px solid #22b3c1;
   padding: 12px 30px;
-  width: 100%;
+width: 100%;
   text-align: center;
   display: inline-block;
   border-radius: 25px;
@@ -2249,13 +2266,13 @@ body {
 }
 
 @media (max-width: 992px) {
-  #section-1 .more-info {
+  #section-1 .more- {
     margin-top: 60px;
   }
-  #section-1 .more-info h4 span {
+  #section-1 .more- h4 span {
     font-size: 15px;
   }
-  #section-1 .more-info h4 {
+  #section-1 .more- h4 {
     font-size: 20px;
     margin-bottom: 15px;
   }
@@ -2310,7 +2327,7 @@ body {
   .amazing-deals .item .content {
     padding: 30px !important;
   }
-  .more-info .info-item {
+  .more- .-item {
     margin-bottom: 30px;
   }
   .reservation-form #reservation-form {
@@ -2319,10 +2336,10 @@ body {
 }
 
 @media (max-width: 1200px) {
-  #section-1 .more-info h4 span {
+#section-1 .more- h4 span {
     font-size: 12px;
   }
-  #section-1 .more-info h4 {
+  #section-1 .more- h4 {
     font-size: 15px;
   }
   .weekly-offers .container-fluid {

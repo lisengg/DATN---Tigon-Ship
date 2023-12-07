@@ -7,44 +7,33 @@
 <title>TigonShip</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script  th:src="@{/js/jquery.dataTables.min.js}"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
 <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!--AngularJS  -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-<!-- <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"> -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
 <link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
-
-<link
-	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
-	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" th:href="@{/css/style1.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
+<script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>		
 </head>
-
-<body>
+<body ng-app="tau-app" ng-controller="tau-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
-
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
@@ -54,125 +43,162 @@
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
-
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<strong class="card-title">Danh sách tàu</strong>
+								<h3>
+									<strong class="card-title">DANH SÁCH TÀU</strong>
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm tàu</button>
+									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+										Lịch sử cập nhật
+									</button>
+								</h3>
+								<div th:replace="~{admin/fragments_admin :: history}"></div>
+								
 							</div>
 							<div class="card-body">
-								<table id="bootstrap-data-table"
-									class="table table-striped table-bordered">
+								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr>
-											<th>Id tàu</th>
-											<th>Tên tàu</th>
-											<th>Số ghế</th>
-											<th>Tình trạng</th>
-											<th>Ngày nhập</th>
-											<th>Tên hãng tàu</th>
-											<th></th>
+										<tr style="background: #17bac5;">
+											<th class="text-center">ID</th>
+											<th class="text-center">TÊN TÀU</th>
+											<th class="text-center">TÊN HÃNG TÀU</th>					
+											<th class="text-center">SỐ GHẾ</th>		
+											<th class="text-center">NGÀY NHẬP</th>
+											<th class="text-center">TRẠNG THÁI</th>
+											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr ng-repeat="item in items">
-											<td>{{item.id}}</td>
-											<td>{{item.name}}</td>
-											<td>{{item.price}}</td>
-											<td>{{item.createDate}}</td>
-											<td>{{item.image}}</td>
-											<td>{{item.category.name}}</td>
-											<td>
-												<div class="btn-group btn-group-xs">
-													<button ng-click="edit(item)"
-														class="btn btn-warning glyphicon glyphicon-edit"></button>
-													<button ng-click="delete(item)"
-														class="btn btn-danger glyphicon glyphicon-trash"></button>
-												</div>
-											</td>
-										</tr>
-									</tbody>
+									<tbody class="text-center"></tbody>
 								</table>
-								<div class="panel-footer text-center">
-									<button ng-click="pager.first()" class="btn btn-danger">
-										<b class="glyphicon glyphicon-hand-up"></b>
-									</button>
-									<button ng-click="pager.prev()" class="btn btn-primary">
-										<b class="glyphicon glyphicon-hand-left"></b>
-									</button>
-									<button class="btn btn-success">{{pager.page + 1}} of
-										{{pager.count}}</button>
-									<button ng-click="pager.next()" class="btn btn-primary">
-										<b class="glyphicon glyphicon-hand-right"></b>
-									</button>
-									<button ng-click="pager.last()" class="btn btn-danger">
-										<b class="glyphicon glyphicon-hand-down"></b>
-									</button>
-								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Chỉnh sửa tàu</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Tên tàu</div>
-										<input ng-model="form.name" class="form-control">
-									</div>
-									<div class="form-group col-sm-6">
-										<div>Số ghế</div>
-										<input ng-model="form.price" class="form-control">
-									</div>
+					<!-- Modal Body -->
+					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header" style="background: #17bac5;">
+									<h3 class="modal-title" id="modalTitleId">Tàu</h3>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Trạng thái</div>
-										<div class="form-control">
-											<label class="radio-inline"> <input
-												ng-model="form.available" ng-value="true" name="available"
-												type="radio">Đang hoạt động
-											</label> <label class="radio-inline"> <input
-												ng-model="form.available" ng-value="false" name="available"
-												type="radio">Ngưng hoạt động
-											</label>
+								<div class="modal-body">
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Tên tàu</label> 
+											<input ng-model="form.tentau" class="form-control">
+										</div>
+										<div class="col-md-4">
+									        <label class="form-label">Tên hãng tàu</label> 
+									        <select ng-model="form.hangtau.idhangtau" class="form-control" ng-options="hangtau.idhangtau as hangtau.tenhangtau for hangtau in items.hangtau | filter: { trangthai: 'Đang hoạt động' }">
+									            <option value="">Chọn hãng tàu</option>
+									        </select>
+									    </div>
+										<div class="col-md-4">
+											<label class="form-label">Ngày nhập</label> 
+											<input ng-model="form.ngaynhap" type="date" class="form-control">
 										</div>
 									</div>
-									<div class="form-group col-sm-6">
-										<div>Tên hãng tàu</div>
-										<select ng-model="form.category.id" class="form-control">
-											<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
-										</select>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-6">
-										<div>Ngày tạo</div>
-										<input ng-model="form.createDate" type="date"
-											class="form-control">
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Số ghế</label> 
+											<input ng-model="form.soghe" class="form-control" readonly>
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">Trạng Thái</label> 
+											<select ng-model="form.trangthai" class="form-control">
+											<option>Đang hoạt động</option>
+											<option>Ngưng hoạt dộng</option>
+											</select>
+										</div>										
 									</div>
 
+								</div>
+								<div class="modal-footer text-center">
+									 <button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
+									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>						
+									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
+									<div class="container">
+								      <input type="checkbox" id="check3" >
+								      <div class="background"></div>
+								      <div class="alert_box3">
+									      <div class="icon">
+									          <i class="fas fa-check-circle"></i>
+										  </div>
+										  <header>Thành công</header>
+										  <div class="btns3">
+										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check2" >
+								      <div class="background"></div>
+								      <div class="alert_box2">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Tàu đang được sử dụng!</header>
+										  <div class="btns2">
+										      <label for="check2" >Đóng</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check4" >
+								      <div class="background"></div>
+								      <div class="alert_box4">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập tên tàu!</header>
+										  <div class="btns4">
+										      <label for="check4" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check5" >
+								      <div class="background"></div>
+								      <div class="alert_box5">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn tên hãng tàu!</header>
+										  <div class="btns5">
+										      <label for="check5" >OK</label>
+									      </div>
+								      </div>	
+								      
+								      <input type="checkbox" id="check8" >
+								      <div class="background"></div>
+								      <div class="alert_box8">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Tên tàu tồn tại!</header>
+										   <p>Hãy chọn giá trị khác.</p>
+										  <div class="btns8">
+										      <label for="check8" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check10" >
+								      <div class="background"></div>
+								      <div class="alert_box10">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Dữ liệu không được chỉnh sửa!</header>
+										  <div class="btns10">
+										      <label for="check10" >OK</label>
+									      </div>
+								      </div>	
+								      						    
+									</div>
+									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="panel-footer text-center">
-						<button ng-click="create()" class="btn btn-primary">
-							<b class="glyphicon glyphicon-plus"></b> Tạo
-						</button>
-						<button ng-click="update()" class="btn btn-success">
-							<b class="glyphicon glyphicon-pencil"></b> Chỉnh sửa
-						</button>
-						<button ng-click="delete(form)" class="btn btn-danger">
-							<b class="glyphicon glyphicon-trash"></b> Xóa
-						</button>
-						<button ng-click="reset()" class="btn btn-info">
-							<b class="glyphicon glyphicon-refresh"></b> Xóa form
-						</button>
-
 					</div>
 				</div>
 			</div>
@@ -182,28 +208,15 @@
 		<div th:replace="~{admin/fragments_admin :: footer}"></div>
 		<!-- Footer -->
 	</div>
-	<!-- .content -->
-
-
-
-
-
-
-
-
-
-
 	<!-- Scripts -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<!-- 	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script> -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-
+	<script th:src="@{/js/tau.js}"></script>
 </body>
-
 </html>

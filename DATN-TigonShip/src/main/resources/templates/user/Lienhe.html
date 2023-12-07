@@ -3,28 +3,24 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 
-<title>Tigon Ship</title>
+	<title>Tigon Ship</title>
 
-<!-- Bootstrap core CSS -->
-<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Additional CSS Files -->
-<link rel="stylesheet" href="/assets/css/fontawesome.css">
-<link rel="stylesheet" href="/assets/css/templatemo-woox-travel.css">
-<link rel="stylesheet" href="/assets/css/owl.css">
-<link rel="stylesheet" href="/assets/css/animate.css">
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-<!--
+	<!-- Additional CSS Files -->
+	<link rel="stylesheet" href="/assets/css/fontawesome.css">
+	<link rel="stylesheet" href="/assets/css/templatemo-woox-travel.css">
+	<link rel="stylesheet" href="/assets/css/owl.css">
+	<link rel="stylesheet" href="/assets/css/animate.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+	<!--
 
 TemplateMo 580 Woox Travel
 
@@ -50,21 +46,29 @@ https://templatemo.com/tm-580-woox-travel
 	<header class="header-area header-sticky">
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-lg-12">
 					<nav class="main-nav">
-						<!-- ***** Logo Start ***** -->
-						<a href="/user/index" class="logo"> <img
-							src="/assets/images/logo1.png" alt=""
-							style="width: 100px; height: 40px">
-						</a>
-						<!-- ***** Logo End ***** -->
-						<!-- ***** Menu Start ***** -->
-						<ul class="nav">
-							<li><a href="/user/index" class="active">Trang chủ</a></li>
+
+						<div>
+							<a href="/" class="logo"> <img src="/assets/images/logoweb.png" alt=""
+									style="width: 135px; height: 70px; margin-top: 0px">
+							</a>
+						</div>
+
+
+						<ul class="nav" style="left: 90px;">
+							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
+							<li><a href="/datve/timtuyen">Đặt vé</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
-							<li><a href="/dangki">Đăng Ký</a></li>
-							<li><a href="/dangnhap">Đăng nhập</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
@@ -103,7 +107,7 @@ https://templatemo.com/tm-580-woox-travel
 					<div class="info-item">
 						<i class="fa fa-envelope"></i>
 						<h4>Email</h4>
-						<a href="#">tigonship173@gmail.com</a>
+						<a href="https://mail.google.com/">tigonship173@gmail.com</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-sm-6">
@@ -114,144 +118,296 @@ https://templatemo.com/tm-580-woox-travel
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<div class="reservation-form">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12"></div>
-				<div class="col-lg-12">
-					<form id="reservation-form" name="gs" method="submit" role="search"
-						action="#">
-						<div class="row">
-							<div class="col-lg-12">
-								<h4>
-									Điền <em>Thông tin</em> Và <em>Góp ý </em>của bạn vào đây
-								</h4>
-							</div>
-							<div class="col-lg-6">
-								<fieldset>
-									<label for="Name" class="form-label">Họ Và Tên</label> <input
-										type="text" name="Name" class="Name" placeholder="Họ và tên"
-										autocomplete="on" required>
-								</fieldset>
-							</div>
-							<div class="col-lg-6">
-								<fieldset>
-									<label for="Number" class="form-label">Số điện thoại</label> <input
-										type="text" name="Number" class="Number"
-										placeholder="+xxx xxx xxx" autocomplete="on" required>
-								</fieldset>
-							</div>
-							<div class="col-lg-6">
-								<fieldset>
-									<label for="chooseGuests" class="form-label">Số người
-										đi cùng</label> <select name="Guests" class="form-select"
-										aria-label="Default select example" id="chooseGuests"
-										onChange="this.form.click()">
-										<option selected>3 hoặc 4 hoặc 5</option>
-										<option type="checkbox" name="option1" value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4+">4+</option>
-									</select>
-								</fieldset>
-							</div>
-							<div class="col-lg-6">
-								<fieldset>
-									<label for="Number" class="form-label">Năn sinh</label> <input
-										type="date" name="date" class="date" required>
-								</fieldset>
-							</div>
-							<div class="col-lg-12">
-								<fieldset>
-									<label for="chooseDestination" class="form-label">Mức
-										độ phục vụ vủa TIGONSHIP</label> <select name="Destination"
-										class="form-select" aria-label="Default select example"
-										id="chooseCategory" onChange="this.form.click()">
-										<option selected>Rất Tốt</option>
-										<option value="">Tốt</option>
-										<option value="">Không hài lòng</option>
-										<option value="">Tệ</option>
-									</select>
 
-								</fieldset>
-							</div>
-							<div class="col-lg-12">
-								<fieldset>
-									<button class="main-button">Gưi</button>
-								</fieldset>
-							</div>
-						</div>
-					</form>
-					<br>
-					<div id="map">
-						<iframe
-							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d502973.2463182415!2d105.0955351922941!3d9.977275944200624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0b3782eb8ad69%3A0x7c4b9c0801f9077f!2zQ-G6o25nIFbhu6UgSMOgbmcgSOG6o2kgS2nDqm4gR2lhbmc!5e0!3m2!1sen!2s!4v1693141317536!5m2!1sen!2s"
-							width="100%" height="450px" frameborder="0"
-							style="border: 0; border-top-left-radius: 23px; border-top-right-radius: 23px;"
-							allowfullscreen=""></iframe>
+
+
+			<br>
+
+
+			<div class="row" style="background-color: rgb(51, 51, 51);">
+
+				<div class="col-lg-4">
+
+						<table style="margin-top: 24px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Hà Tiên--> </button>
+								</td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 11 Đường Trần Hầu, Phường Bình San, Thành Phố Hà Tiên, Tỉnh Kiên Giang.<br>
+									SĐT: (0297) 3955 933<br>
+									Email: hatien.sales@superdong.com.vn
+								</td>
+
+							</tr>
+						</table>
+						<table style="margin-top: 24px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phú Quý--> </button>
+								</td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 47 Đường Ngô Quyền, Thôn Triều Dương, Xã Tam Thanh, Huyện Phú Quý, Tỉnh Bình Thuận.<br>
+									SĐT: (0252) 3765 999 / (0252) 3768 666
+								</td>
+
+							</tr>
+						</table>
+						<table style="margin-top: 24px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phan Thiết--> </button>
+								</td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 169 Đường Võ Thị Sáu, Phường Hưng Long, Thành phố Phan Thiết, Tỉnh Bình Thuận<br>
+									SĐT: (0252) 3817 337 / (0252) 3817 338 <br>
+									Đường dây nóng: 0946 198 768 <br>
+									Email: phanthiet.sales@superdong.com.vn
+								</td>
+
+							</tr>
+						</table>
+					
+
+				</div>
+
+				<div class="col-lg-4">
+					<h5 style="color: rgb(255, 255, 255); text-align: center; margin-right: 30px;">Hệ Thống phòng vé
+					</h5>
+					<div style="text-align: left; margin-left: 20px;">
+						<table>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 260px; text-align: left;">Trụ sở chính tại Kiên Giang--> </button>
+								</td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 173 Đường Phan Huy Ích, Khu phố 5,Tp Rạch
+									Giá,tỉnh Kiên Giang <br>
+									SĐT: (0297)2368 173<br>
+									Email: tigonship173@gmail.com<br>
+									Đường dây nóng hỗ trợ booking online: 18001000<br>
+									Giờ làm viêc:(6h30 - 20h30)
+								</td>
+
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng vé Hòn
+							Sơn --></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Ấp Bãi Nhà, Xã Lại Sơn, Huyện Kiên Hải, Tỉnh Kiên
+									Giang.
+									<br>
+									SĐT: SĐT: 091 1541 331<br>
+
+								</td>
+
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng vé Nam Du
+							--></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Xã An Sơn, Huyện Kiên Hải, Tỉnh Kiên Giang.
+									<br>
+									SĐT: (0297) 3890 389 / (0297) 3777 989<br>
+
+								</td>
+
+							</tr>
+						</table>
+								<table>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phú Quốc
+							--></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 187 Đường Nguyễn Trung Trực, Khu phố 5, Phường Dương Đông, Thành phố Phú Quốc, Tỉnh Kiên Giang.
+									<br>
+									SĐT: (0297) 3980 111<br>
+
+								</td>
+
+							</tr>
+						</table>
+					</div>
+					<div style="text-align: left;  margin-left: 20px;">
 						
+						
+						
+						
+					
+					
+						
+
+					</div>
+
+				</div>
+				<div class="col-lg-4">
+					
+							<table style="margin-top: 24px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Sóc
+							Trăng --></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 193 Đường Lê Hồng Phong, Phường 3, Thành phố Sóc Trăng.
+									<br>
+								SĐT: (0299) 3616 111- (0299) 3637 888<br>
+								Hotline xe buýt: 0916.294.399<br>
+								Email: soctrang.sales@superdong.com.vn
+								</td>
+
+							</tr>
+						</table>
+							<table style="margin-top: 18px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)"><button style="background-color: cadetblue;width: 220px; text-align: left;">VPDD HCM</button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 610 Đường Điện Biên Phủ, Phường 11, Quận 10, TP.HCM.
+									<br>
+								SĐT: (028)38 666 333 - (028)38 688 276<br>
+								Email: saigon.sales@superdong.com.vn<br></td>
+
+							</tr>
+						</table>
+						<table style="margin-top: 18px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">	<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Hòn Tre --></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Ấp 1 Hòn Tre, Huyện Kiên Hải, Tỉnh Kiên Giang.
+									
+								</td>
+
+							</tr>
+						</table>
+						<table style="margin-top: 18px;">
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">	<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Cần Thơ
+							--></button></td>
+							</tr>
+							<tr>
+								<td style="color:  rgb(255, 255, 255)">Số 62B Đường Võ Nguyên Giáp, Phường Tân Phú, Quận Cái Răng, TP. Cần Thơ
+									<br>
+									SĐT: 0886 712 233
+								</td>
+
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	</div>
+	</div>
+	</div>
+	</div>
+	<hr>
+	<table style="color: rgb(255, 255, 255);">
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		
+	</table>
 	<footer>
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
-					<p>
-						Copyright © 2023 <a href="/index.html">TIGON SHIP</a> Company. All
-						rights reserved. <br>Design: <a>TIGON TEAM</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h5 style="color: White">Các Tuyến nổi bật</h5>
 
-					<li><a href="/user/index" style="color: White">Kiên
-							Giang-Hòn Sơn</a></li>
-					<li><a href="/user/index" style="color: White">Kiên
-							Giang-Nam Du</a></li>
-					<li><a href="/user/index" style="color: White">Kiên
-							Giang-Phú Quốc</a></li>
-					<li><a href="/user/index" style="color: White">Hòn Sơn-Nam
-							Du</a></li>
-					<li><a href="/user/index" style="color: White">Hòn Sơn-Phú
-							Quốc</a></li>
-					<li><a href="/user/index" style="color: White">Nam Du-Phú
-							Quốc</a></li>
-
-				</div>
 				<div class="col-lg-4">
-					<h5 style="color: White">Các điểm, du lịch</h5>
-					<li><a href="/user/index" style="color: White">Bãi Bàng.</a></li>
-					<li><a href="/user/index" style="color: White">Bãi Đá
-							Chài.</a></li>
-					<li><a href="/user/index" style="color: White">Ma Thiên
-							Lãnh.</a></li>
-					<li><a href="/user/index" style="color: White">Bãi cây
-							Mến.</a></li>
-					<li><a href="/user/index" style="color: White">Vinpearl
-							Safari Phú Quốc</a></li>
-					<li><a href="/user/index" style="color: White">VinWonders
-							Phú Quốc.</a></li>
-					<li><a href="/user/index" style="color: White">Grand World
-							Phú Quốc.</a></li>
-					<li><a href="/user/index" style="color: White">Con đường
-							quanh đảo, cây cô độc và đồi cỏ lau.</a></li>
+
+
+					<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Điều lệ vận
+							chuyển</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều khoản và điều
+							kiện sử dụng</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Chính sách bảo mật
+							thông tin</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều kiện đặt vé trực
+							tuyến</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Quy định đổi vé</a>
+					</li>
+
+					<br>
+					<br>
+					<br>
+					<h6> Follow US</h6>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Facebook</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Zalo</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Instagram</a></li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline: 18001000</a>
+					</li>
+					<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Website:
+							tigonship.com</a></li>
 
 				</div>
+
 				<div class="col-lg-4">
-					<h5 style="color: White">Về TIGONSHIP</h5>
-					<li><a href="/user/index" style="color: White">Các tuyến
+					<h5 style="color: rgb(27, 27, 27) ; text-align: center; margin-right: 30px;">Hệ Thống phòng vé
+					</h5>
+					<div style="text-align: left; margin-left: 20px;">
+						<table>
+							<tr>
+								<td style="text-align: center;">Trụ sỡ chính tại Kiên Giang</td>
+							</tr>
+							<tr>
+								<td>Số 173 Đường Phan Huy Ích, Khu phố 5,Tp Rạch Giá,tỉnh Kiên Giang <br>
+									SĐT: (0297)2368 173<br>
+									Email: tigonship173@gmail.com<br>
+									Đường dây nóng hỗ trợ booking online: 18001000<br>
+									Giờ làm viêc:(6h30 - 20h30)
+								</td>
+
+							</tr>
+						</table>
+					</div>
+					<div style="text-align: left;  margin-left: 20px;">
+						<button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng vé Hòn
+							Sơn --></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Nam Du
+							--></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Sóc
+							Trăng --></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Tp HCM
+							--></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phú
+							Quốc --></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Hòn Tre
+							--></button>
+						<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Cần Thơ
+							--></button>
+
+					</div>
+
+				</div>
+				<div class="col-lg-4">
+					<h5 style="color:rgb(27, 27, 27) ;">Về TIGONSHIP</h5>
+					<li><a href="/user/index" style="color:rgb(27, 27, 27) ;">Các tuyến
 							vận hành ở TIGONSHIP</a></li>
-					<li><a href="/dangki" style="color: White">Đăng kí nhanh</a></li>
-					<li><a href="/user/index" style="color: White">Facebook</a></li>
-					<li><a href="/user/index" style="color: White">Hotline:
-							18001000</a></li>
+					<li><a href="/dangki" style="color:rgb(27, 27, 27) ;">Đăng kí nhanh</a></li>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+
+					<div class="col-lg-12">
+						<p style="color: rgb(27, 27, 27) ;">
+							Copyright © 2023 <a href="/index.html" style="color: rgb(27, 27, 27) ;">TIGON SHIP</a>
+							Company.
+							All rights reserved. <br>Design: <a>TIGON TEAM</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -270,7 +426,7 @@ https://templatemo.com/tm-580-woox-travel
 	<script src="/assets/js/custom.js"></script>
 
 	<script>
-		$(".option").click(function() {
+		$(".option").click(function () {
 			$(".option").removeClass("active");
 			$(this).addClass("active");
 		});

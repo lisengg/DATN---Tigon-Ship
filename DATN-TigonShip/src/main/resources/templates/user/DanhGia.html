@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form>
+		
+		<div class="rate">
+			<input type="radio" id="star5" name="rate" value="5" />
+			<label for="star5" title="text">5 stars</label>
+			<input type="radio" id="star4" name="rate" value="4" />
+			<label for="star4" title="text">4 stars</label>
+			<input type="radio" id="star3" name="rate" value="3" />
+			<label for="star3" title="text">3 stars</label>
+			<input type="radio" id="star2" name="rate" value="2" />
+			<label for="star2" title="text">2 stars</label>
+			<input type="radio" id="star1" name="rate" value="1" />
+			<label for="star1" title="text">1 star</label>
+		</div>
+		<br>
+		<br>
+		<br>
+		<div style="margin-left: 30px;">
+			<textarea class="form-control" name="binhluan" th:text="${binhluan}" placeholder="Bình Luận"
+				style="margin-top: 20px;width: 1000px; height: 100px;"></textarea>
+			<br>
+			<br>
+			<a th:href="@{/add/danhgia}">Đăng bài</a>
+			<button class="btn btn-outline-primary" formaction="/">Đăng bài</button>
+			<button class="btn btn-outline-primary" formaction="/delete">Xóa bài</button>
+			<button class="btn btn-outline-primary" formaction="/update">Lưu</button>
+
+		</div>
+
+	
+	</form>
+	<table id="table2" class="table table-bordered border-primary" style="min-width: 845px; margin-top: 20px;">
+		<thead>
+			<tr style="background: #17bac5;">
+				<th class="text-center">Ngày Đăng</th>
+				<th class="text-center">Binh Luận</th>
+				<th class="text-center">THAO TÁC</th>
+			</tr>
+		</thead>
+		<!--							<table class="table" border="1" style="width: 950px; margin-top: 40px; border: none;">-->
+		<tbody>
+			<tr th:each="p:${items}">
+				<!--<td th:text=${p.NGAYDANHGIA}></td>-->
+				<td th:text=${p.BINHLUAN}></td>
+			<!--	<td><a th:href="@{|/baidang/update/${p.IDDANHGIA}|}" style="text-align: center;">Chỉnh sửa</a></td>-->
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
