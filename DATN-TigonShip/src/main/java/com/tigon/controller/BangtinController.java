@@ -53,7 +53,7 @@ public class BangtinController {
 
 	@RequestMapping("/delete")
 	public String delete(Model model, @RequestParam String tieu_de, @RequestParam String noi_dung, Bangtin bt) {
-
+		System.out.println(tieu_de);
 		System.out.println(tieu_de);
 		dao.deletetieu_de(tieu_de);
 		List<Bangtin> list = dao.findAll();
