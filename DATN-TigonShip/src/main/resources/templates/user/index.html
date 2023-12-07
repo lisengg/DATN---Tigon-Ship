@@ -70,12 +70,10 @@
 									style="width: 135px; height: 70px; margin-top: 0px">
 							</a>
 						</div>
-
-
 						<ul class="nav" style="left: 90px;">
 							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
-							<li><a href="/gopy">Góp Ý</a></li>
+								<li><a href="/datve/timtuyen">Đặt vé</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
 							<th:block th:unless="${#httpServletRequest.remoteUser}">
 								<li><a href="/dangnhap">Đăng nhập</a></li>
@@ -85,7 +83,6 @@
 								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
 								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
-								
 							</th:block> -->
 							<div class="dropdown">
 								<li th:if="${#request.remoteUser}" class="nav-item dropdown-toggle" type="button"
@@ -114,7 +111,6 @@
 		</div>
 	</header>
 	<!-- ***** Header Area End ***** -->
-
 	<!-- ***** Main Banner Area Start ***** -->
 	<section id="section-1">
 		<div class="content-slider">
@@ -216,7 +212,8 @@
 												<div class="right-content">
 													<h7> </h7>
 													<br>
-													<span th:text=${p.TIEUDE}></span>
+												<span  th:text=${p.TIEUDE}></span>
+											
 													<div class="main-button">
 														<a href="index.html">Đặt vé ngay</a>
 													</div>

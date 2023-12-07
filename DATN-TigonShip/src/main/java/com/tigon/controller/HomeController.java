@@ -117,6 +117,12 @@ public class HomeController {
 	public String gioithieu() {
 		return "user/GioiThieu";
 	}
+	
+
+	@RequestMapping("/gioithieuDG")
+	public String gioithieuDG() {
+		return "user/TestDG";
+	}
 
 	@RequestMapping("/gopy")
 	public String gopy() {
@@ -461,6 +467,5 @@ public class HomeController {
 //		hk.save;
 //		hktamdao.delete(hktam.getid.(0));
 //	}
-	
 	
 }
