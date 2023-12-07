@@ -58,7 +58,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.form = {
 			ngaynhap: new Date(),// Gán ngày mặc định (hoặc giá trị khác) vào biến ngaynhap
 			trangthai: 'Đang hoạt động',
-			soghe: '160',
 		}
 		$scope.post = true
 		$scope.put = false
@@ -74,7 +73,7 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.delete = true;
 	}
 	//THÊM TÀU
-	$scope.create = function() {
+$scope.create = function() {
 
 		// Kiểm tra tên tàu đã được chọn
 		if (!$scope.form.tentau) {
@@ -84,6 +83,11 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		// Kiểm tra tên hãng tàu không được để trống
 		if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
 			document.getElementById('check5').checked = true;
+			return;
+		}
+		// Kiểm tra tên tàu đã được chọn
+		if (!$scope.form.soghe) {
+			document.getElementById('check6').checked = true;
 			return;
 		}
 		var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)
@@ -111,45 +115,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 				"tau": response.data,
 				"thaotac": "Đã thêm mới tàu có ID : " + response.data.idtau,
 			}
-			//Ghế ngồi
-			let tenghe = [];
-			let khoan = [];
-			let idtau = [];
-			let trangthai = [];
-
-			for (let i = 1; i <= 160; i++) {
-				let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
-				let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
-				let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
-
-				tenghe.push(`${letter}${columnIndex}`);
-				trangthai.push(true); // Đặt tất cả trạng thái là true
-				idtau.push(response.data);
-
-				// Kiểm tra xem i có nằm trong 100 giá trị đầu hay không
-				if (i <= 100) {
-					khoan.push(1);
-				} else {
-					khoan.push(2);
-				}
-			}
-
-			var itemghengoi = {
-				"khoan": khoan,
-				"tenghe": tenghe,
-				"tau": idtau,
-				"trangthai": trangthai
-			};
-
-			// Thêm ghế khi thêm tàu 
-			$http.post('/rest/tau/ghengoi/saveAll', itemghengoi)
-				.then(function(response) {
-					$scope.items.ghengoi.push(response.data)
-				})
-				.catch(function(error) {
-					console.log("Error creating Ghế ngồi", error);
-				});
-
 			// thêm lịch sử tàu
 			$http.post('/rest/tau/lichsu/save', itemlichsu)
 				.then(function(response) {
@@ -159,14 +124,18 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 					console.log("Error creating LichsuTau", error);
 				});
 			var itemsghe = [];
-			for (let i = 1; i <= 160; i++) {
+			var soghe = $scope.form.soghe
+			console.log("Số ghế ngồi:" + soghe)
+			for (let i = 1; i <= soghe; i++) {
 				let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
 				let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
 				let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
+				let tt = "Hoạt động"
 				let item = {
 					khoang: i <= 100 ? 1 : 2,
 					tenghe: `${letter}${columnIndex}`,
-					tau: response.data
+					tau: response.data,
+					trangthai: tt
 				};
 				itemsghe.push(item);
 			}

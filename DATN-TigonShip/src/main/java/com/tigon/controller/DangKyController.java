@@ -62,7 +62,7 @@ public class DangKyController {
 			return "user/login/register";
 		} else {
 			LoaiHanhKhach loaiHanhKhach = loaiHKDao.getIdNguoiLon();
-			taikhoan.setLOAIHANHKHACH(loaiHanhKhach);
+			taikhoan.setLOAIHK(loaiHanhKhach);
 			taikhoan.setHOVATEN(username);
 			taikhoan.setEMAIL(email);
 			taikhoan.setMATKHAU(password);

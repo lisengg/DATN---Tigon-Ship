@@ -23,8 +23,11 @@
 <link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" th:href="@{/css/style1.css}">		
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
+<link rel="stylesheet" th:href="@{/css/style1.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>	
+<script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
 <body ng-app="authority1-app" ng-controller="authority1-ctrl">
 	<!-- Left Panel (menu)-->
@@ -42,16 +45,28 @@
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<h3><strong class="card-title">QUẢN LÝ PHÂN QUYỀN</strong></h3>
+								<h3>
+									<strong class="card-title">QUẢN LÝ PHÂN QUYỀN</strong>
+									<button data-bs-toggle="modal" type="button" ng-click="reset()"
+									data-bs-target="#modal" class="btn btn-primary">Thêm nhân viên</button>
+								</h3>
+								
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
 											<th class="text-center">ID</th>
-											<th class="text-center">HỌ VÀ TÊN</th>
+											<th class="text-center">TÊN</th>
 											<th class="text-center">EMAIL</th>
-											<th class="text-center">QUYỀN</th>
+											<th class="text-center">VAI TRÒ</th>
+											<th class="text-center">CCCD</th>
+											<th class="text-center">SDT</th>
+											<th class="text-center">ĐỊA CHỈ</th>
+											<th class="text-center">QUỐC TỊCH</th>
+											<th class="text-center">NGÀY SINH</th>
+											<th class="text-center">MẬT KHẨU</th>
+											<th class="text-center">LOẠI KH</th>
 											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
@@ -63,28 +78,76 @@
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
 								<div class="modal-header" style="background: #17bac5;">
 									<h4 class="modal-title" id="modalTitleId">Cấp quyền</h4>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<div class="mb-3">
-										<label class="form-label">Họ và tên</label> 
-										<input ng-model="form.hovaten" class="form-control" readonly>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Quyền</label>
-										<select  ng-model="form.quyen" class="form-control">
-											<option>USER</option>
+									<div class="row mb-3">
+										<div class="col-md-4">
+											<label class="form-label">Họ và tên:</label> 
+											<input ng-model="form.hovaten" class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">Email:</label> 
+											<input ng-model="form.email" class="form-control">
+										</div>
+										<div class="col-md-4" ng-show="post">
+											<label class="form-label">SDT:</label> 
+											<input ng-model="form.sdt" class="form-control">
+										</div>
+									 	<div class="col-md-4" ng-show="put">
+											<label class="form-label">vai trò:</label> 
+											<select  ng-model="form.vaitro" class="form-control">
+											<option>KHACHHANG</option>
 											<option>STAFF</option>
-											<option ng-if="form.quyen === 'ADMIN'">ADMIN</option> 
+											<option ng-if="form.vaitro === 'ADMIN'">ADMIN</option> 
 										</select>
+										</div> 
 									</div>
+									<div class="row mb-3" ng-show="post">
+										<label class="form-label" style="font-weight: 700;">Thông tin địa chỉ: </label>
+										<div class="col-md-4">
+											<label class="form-label">Tỉnh/Thành phố:</label> 
+										    <select class="form-select form-select-sm" ng-model="form.city" id="city" aria-label=".form-select-sm">
+										         <option value="" selected></option>
+										    </select>
+										</div>
+										<div class="col-md-4">
+										    <label class="form-label">Quận/Huyện: </label> 
+										    <select class="form-select form-select-sm" ng-model="form.district" id="district" aria-label=".form-select-sm">
+										          <option value="" selected></option>
+										    </select>
+										</div>
+										<div class="col-md-4">
+										    <label class="form-label">Phường/Xã:</label> 
+										    <select class="form-select form-select-sm" ng-model="form.ward" id="ward" aria-label=".form-select-sm">
+										          <option value="" selected></option>
+										    </select>
+										</div>
+									</div>
+							<div class="row mb-3" ng-show="post">
+								<div class="col-md-4">
+									<label class="form-label">Địa chỉ cụ thể:</label> 
+									<input id="diaChi" ng-model="form.diaChi" type="text" placeholder="Nhập số nhà, hẻm, ấp,..." class="form-control">
+								</div>
+								
+										<div class="col-md-4">
+											<label class="form-label">Ngày sinh</label> 
+											<input ng-model="form.ngaysinh" type="date" class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label class="form-label">CCCD:</label> 
+											<input ng-model="form.cccd" class="form-control">
+										</div>
+							</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
+									<button type="button" ng-show="post" ng-click="save()" class="btn btn-primary">Tạo</button>
+							<button type="button" ng-show="put" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
+							<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>
 										<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">      
 								      <input type="checkbox" id="check3" >
@@ -93,7 +156,7 @@
 									      <div class="icon">
 									          <i class="fas fa-check-circle"></i>
 										  </div>
-										  <header>Phân quyền thành công</header>
+										  <header>Thành công</header>
 										  <div class="btns3">
 										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
 									      </div>
@@ -105,7 +168,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Phân quyền thất bại!</header>
+										  <header>Thất bại!</header>
 										  <div class="btns2">
 										      <label for="check2" >Đóng</label>
 									      </div>
@@ -123,6 +186,79 @@
 									      </div>
 								      </div>
 								      
+								       <input type="checkbox" id="check5" >
+								      <div class="background"></div>
+								      <div class="alert_box5">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập họ và tên!</header>
+										  <div class="btns5">
+										      <label for="check5" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check6" >
+								      <div class="background"></div>
+								      <div class="alert_box6">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn ngày sinh!</header>
+										  <div class="btns6">
+										      <label for="check6" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check7" >
+								      <div class="background"></div>
+								      <div class="alert_box7">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập số điện thoại!</header>
+										  <div class="btns7">
+										      <label for="check7" >OK</label>
+									      </div>
+								      </div>
+								      
+								       <input type="checkbox" id="check8" >
+									      <div class="background"></div>
+									      <div class="alert_box8">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-circle"></i>
+											  </div>
+											  <header>Vui lòng nhập đầy đủ thông tin địa chỉ!</header>
+											  <div class="btns8">
+											      <label for="check8" >OK</label>
+										      </div>
+									      </div>
+									      
+									      <input type="checkbox" id="check9" >
+									      <div class="background"></div>
+									      <div class="alert_box9">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-triangle"></i>
+											  </div>
+											  <header>Số điện thoại không hợp lệ!</header>
+											   <p>Phải có 10 số và là định dạng số điện thoại ở Việt Nam.</p>
+											  <div class="btns9">
+											      <label for="check9" >OK</label>
+										      </div>
+									      </div>
+									      
+									       <input type="checkbox" id="check11" >
+									      <div class="background"></div>
+									      <div class="alert_box11">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-triangle"></i>
+											  </div>
+											  <header>Vui lòng nhập đúng định dạng Email!</header>
+											  <div class="btns11">
+											      <label for="check11" >OK</label>
+										      </div>
+									      </div>
+									      		
 								      <input type="checkbox" id="check10" >
 								      <div class="background"></div>
 								      <div class="alert_box10">
@@ -134,7 +270,120 @@
 										      <label for="check10" >OK</label>
 									      </div>
 								      </div>	
-								      						    
+								      
+								       <input type="checkbox" id="check12" >
+									      <div class="background"></div>
+									      <div class="alert_box12">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-triangle"></i>
+											  </div>
+											  <header>Địa chỉ đã tồn tại!</header>
+											   <p>Vui lòng nhập địa chỉ khác.</p>
+											  <div class="btns12">
+											      <label for="check12" >OK</label>
+										      </div>
+									      </div>
+									      
+								      <input type="checkbox" id="check13" >
+									      <div class="background"></div>
+									      <div class="alert_box13">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-triangle"></i>
+											  </div>
+											  <header>Email đã tồn tại!</header>
+											   <p>Vui lòng nhập email khác.</p>
+											  <div class="btns13">
+											      <label for="check13" >OK</label>
+										      </div>
+									      </div>
+									      
+									       <input type="checkbox" id="check14" >
+									      <div class="background"></div>
+									      <div class="alert_box14">
+										      <div class="icon">
+										          <i class="fas fa-exclamation-triangle"></i>
+											  </div>
+											  <header>Số điện thoại đã tồn tại!</header>
+											   <p>Vui lòng nhập số điện thoại khác.</p>
+											  <div class="btns14">
+											      <label for="check14" >OK</label>
+										      </div>
+									      </div>	
+									      
+									    <input type="checkbox" id="check15" >
+								      	<div class="background"></div>
+								     	<div class="alert_box15">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập mật khẩu!</header>
+										  <div class="btns15">
+										      <label for="check15" >OK</label>
+									      </div>
+								     	 </div>
+								     	 
+								     	<input type="checkbox" id="check16" >
+								      	<div class="background"></div>
+								     	<div class="alert_box16">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập email!</header>
+										  <div class="btns16">
+										      <label for="check16" >OK</label>
+									      </div>
+								     	 </div>
+								     	 
+								     	 <input type="checkbox" id="check17" >
+								      	<div class="background"></div>
+								     	<div class="alert_box17">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng nhập cccd!</header>
+										  <div class="btns17">
+										      <label for="check17" >OK</label>
+									      </div>
+								     	 </div>
+								     	 
+								     	  <input type="checkbox" id="check18" >
+								      	<div class="background"></div>
+								     	<div class="alert_box18">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										 <header>CCCD đã tồn tại!</header>
+											   <p>Vui lòng nhập CCCD khác.</p>
+										  <div class="btns18">
+										      <label for="check18" >OK</label>
+									      </div>
+								     	 </div>
+								     	 
+								     	 <input type="checkbox" id="check19" >
+								      	<div class="background"></div>
+								     	<div class="alert_box19">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										 <header>Ngày sinh không hợp lệ!</header>
+											   <p>Người dùng phải trên 18 tuổi</p>
+										  <div class="btns19">
+										      <label for="check19" >OK</label>
+									      </div>
+								     	 </div>
+								     	 
+								     	 <input type="checkbox" id="check20" >
+								      	<div class="background"></div>
+								     	<div class="alert_box20">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn loaihk!</header>
+										  <div class="btns20">
+										      <label for="check20" >OK</label>
+									      </div>
+								     	 </div>
+								      					    
 									</div>
 									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 								</div>
@@ -150,7 +399,61 @@
 		<!-- Footer -->
 	</div>
 	<!-- Scripts -->
-	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
+		<script>
+        const host = "https://provinces.open-api.vn/api/";
+        var callAPI = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data, "city");
+                });
+        }
+        callAPI('https://provinces.open-api.vn/api/?depth=1');
+        var callApiDistrict = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.districts, "district");
+                });
+        }
+        var callApiWard = (api) => {
+            return axios.get(api)
+                .then((response) => {
+                    renderData(response.data.wards, "ward");
+                });
+        }
+
+        var renderData = (array, select) => {
+            let row = ' <option disable value=""></option>';
+            array.forEach(element => {
+                row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+            });
+            document.querySelector("#" + select).innerHTML = row
+        }
+
+        $("#city").change(() => {
+            callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+        $("#district").change(() => {
+            callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+            printResult();
+        });
+        $("#ward").change(() => {
+            printResult();
+        })
+
+        var printResult = () => {
+            if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+                $("#ward").find(':selected').data('id') != "") {
+                let result = $("#city option:selected").text() +
+                    " | " + $("#district option:selected").text() + " | " +
+                    $("#ward option:selected").text();
+                $("#result").text(result)
+            }
+
+        }
+    </script>
+	<!-- Scripts -->
+	 <script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script> 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>

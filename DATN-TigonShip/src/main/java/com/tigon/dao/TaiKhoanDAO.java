@@ -19,6 +19,6 @@ public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, Integer> {
 	@Query(value = "UPDATE taikhoan SET hovaten=?1, sdt=?2, cccd=?3, diachi=?4 WHERE idtaikhoan=?5", nativeQuery = true)
 	TaiKhoan updateTaiKhoan(String hovaten, String sdt, String cccd, String diachi, Integer id);
 	
-	@Query(value = "SELECT * FROM TAIKHOAN WHERE VAITRO = 'KHACHHANG'", nativeQuery = true)
-	List<Object> AllTK();
+	@Query(value = "SELECT count(*) FROM TAIKHOAN WHERE VAITRO = 'KHACHHANG'", nativeQuery = true)
+	Integer AllTK();
 }
