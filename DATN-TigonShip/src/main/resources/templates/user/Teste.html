@@ -65,7 +65,7 @@
                         <div class="seat-row" style="text-align: center;">
                            
                            <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
-                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none;' : ''}">
     							<label th:text=${p.TENGHE}></label>
 							</div>
                         </div>

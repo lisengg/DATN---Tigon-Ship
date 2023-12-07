@@ -42,7 +42,7 @@ public class TaiKhoan {
     Date NGAYSINH;
     @ManyToOne
     @JoinColumn(name = "IDLOAIHK")
-    LoaiHanhKhach LOAIHANHKHACH;
+    LoaiHanhKhach LOAIHK;
 
     @JsonIgnore
     @OneToMany(mappedBy = "TAIKHOAN")

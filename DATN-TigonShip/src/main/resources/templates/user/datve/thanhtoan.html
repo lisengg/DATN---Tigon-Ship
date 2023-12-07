@@ -355,9 +355,9 @@ input[type="radio"] {
                     <label for="one" class="box py-2 first">
                         <div class="d-flex">
                             <div class="course">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="fw-bold">
-                                       Tên ng đi cùng
+                                <div class="d-flex align-items-center justify-content-between mb-2" th:each="p:${ndtam}">
+                                    <span class="fw-bold" th:text=${p.HOVATEN}>
+                                       
                                     </span>
                                     <span class="fas fa-dollar-sign">Giá vé</span>
                                 </div>
@@ -375,7 +375,7 @@ input[type="radio"] {
                     <p class="fw-bold">Thông tin đặt vé</p>
            
                 </div>
-                <form action="">
+                <form action="" method="post">
                     <div class="mb-3">
                         <p class="dis fw-bold mb-2">Họ và tên :</p>
                         <input class="form-control" type="text" th:value="${hoten}">
@@ -402,7 +402,7 @@ input[type="radio"] {
         <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi:</p>
         <label style="border: none;" th:text="${giodennoi}"></label>
     </div> <p class="dis fw-bold mb-2" style="margin-top: 10px;">Ngày đặt vé:</p>
-        <label style="border: none;" th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss dd-MM-yyyy')}"></label>
+        <input style="border: none;" name="ngaydat" th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss dd-MM-yyyy')}"></input>
 </div>
               
                         <div class="address" style="margin-top: 10px">
