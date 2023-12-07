@@ -39,9 +39,6 @@
     <span class="nov-10" style="color: #d62839; font-size: 18px; text-align: center;">28 Tháng 12</span>
     <span style="font-size: 18px; text-align: right;">2023</span>
 </p>
-
-
-
                         <div class="show-name" style="font-size: 18px; color: #d62839; font-weight: 700;">
                           <h1 style="font-size: 30px; letter-spacing: 0.05em; margin-bottom: 4px; color: #93229f; font-family: 'Saira Stencil One', sans-serif;">Phú Quốc - Sóc Trăng</h1>
                           <h2 style="margin-bottom: 2px;">Tigon Ship V</h2>
@@ -69,12 +66,12 @@
             <!-- <h1>#SaveWarriorNun</h1> -->
         </div>
         <div class="time" style="color: #505050; font-weight: 700; margin-top: 10px;">
-            <p>Quét mã để xem chi tiết hóa đơn</p>
+            <p>Quét mã QR được đính kèm phía dưới để xem chi tiết hóa đơn</p>
         </div>
         <div id="barcode">
-           <img th:src="@{'/generateQRCode?text=' + ${qrCodeText}}" alt="QR Code" style="height: 200px;width: 200px;">
+          <!--  <img src="/images/qr/mahoadon.png" alt="QR Code" style="height: 200px;width: 200px;"> -->
         </div>
-        <p class="ticket-number" style="color: #505050; font-weight: 700; margin-top: 10px;">Thank you</p>
+        <p class="ticket-number" style="color: #505050; font-weight: 700; margin-top: 10px;"></p>
     </div>
 </div>
 

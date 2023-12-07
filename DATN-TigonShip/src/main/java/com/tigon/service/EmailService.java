@@ -1,15 +1,25 @@
 package com.tigon.service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import org.thymeleaf.context.Context;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
 
 @Service
 public class EmailService {
@@ -33,18 +43,31 @@ public class EmailService {
 		javaMailSender.send(message);
 	}
 
-	public void sendEmailWithHtmlTemplate(String to, String subject, String templateName, Context context) {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+	 public void sendEmailWithHtmlTemplateAndAttachment(String to, String subject, String templateName, Context context, String imagePath) {
+		 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		    
+		    try {
+		        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+		        helper.setTo(to);
+		        helper.setSubject(subject);
 
-		try {
-			helper.setTo(to);
-			helper.setSubject(subject);
-			String htmlContent = templateEngine.process(templateName, context);
-			helper.setText(htmlContent, true);
-			javaMailSender.send(mimeMessage);
-		} catch (MessagingException e) {
-			System.out.println(e);
-		}
-	}
+	            // Attach Image
+	            Path path = Paths.get(imagePath);
+	            byte[] imageBytes = Files.readAllBytes(path);
+	            Resource imageResource = new ByteArrayResource(imageBytes);
+
+	            // Add the image as an attachment
+	            helper.addAttachment("QR_HoaDonDatVe.png", imageResource);
+
+	            // Process and set HTML content from Thymeleaf template
+	            String htmlContent = templateEngine.process(templateName, context);
+	            helper.setText(htmlContent, true);
+
+	            javaMailSender.send(mimeMessage);
+	        } catch (MessagingException | IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	
 }

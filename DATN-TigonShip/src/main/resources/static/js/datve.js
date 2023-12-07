@@ -22,12 +22,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
         var currentDate = new Date();
     
         // Kiểm tra xem ngày được chọn có vượt quá ngày hiện tại không
-        if (selectedDate > currentDate) {
-            $scope.errorMsg = "Ngày được chọn không được vượt quá ngày hiện tại.";
-            // Hiển thị modal
-            $('#errorMessageModal').modal('show');
-            return; // Ngừng thực hiện hàm nếu có lỗi
-        }
+        
     
         var formattedDate = $scope.selectedDate;
         console.log("Formatted Date:", formattedDate);
