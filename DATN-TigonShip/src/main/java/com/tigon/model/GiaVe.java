@@ -47,4 +47,7 @@ public class GiaVe {
 	@JoinColumn(name = "IDLOAIVE")
 	LoaiVe LOAIVE;
 
+	@ManyToOne
+	@JoinColumn(name = "IDLOAIHK")
+	LoaiHanhKhach LOAIHANHKHACH;
 }

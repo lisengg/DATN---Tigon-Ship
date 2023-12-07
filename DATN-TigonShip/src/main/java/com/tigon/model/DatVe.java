@@ -40,20 +40,20 @@ public class DatVe {
     @Temporal(TemporalType.DATE)
     Date NGAYDAT;
 
-    @ManyToOne
-	@JoinColumn(name = "IDTAIKHOAN")
-	TaiKhoan TAIKHOAN;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "DATVE")
-    @JsonBackReference
-    List<HoaDon> HoaDon;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "DATVE")
-    @JsonBackReference
-    List<NguoiDiCung> NGUOIDICUNG;
-    
+//    @ManyToOne
+//	@JoinColumn(name = "IDTAIKHOAN")
+//	TaiKhoan TAIKHOAN;
+//    
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "DATVE")
+//    @JsonBackReference
+//    List<HoaDon> HoaDon;
+//    
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "DATVE")
+//    @JsonBackReference
+//    List<NguoiDiCung> NGUOIDICUNG;
+//    
     @ManyToOne
 	@JoinColumn(name = "IDLICHTAU")
 	LichTauChay LICHTAUCHAY;
@@ -65,6 +65,10 @@ public class DatVe {
 	@ManyToOne
 	@JoinColumn(name = "IDHANHKHACH")
 	HanhKhach HANHKHACH;
+	
+	@ManyToOne
+	@JoinColumn(name = "IDTAIKHOAN")
+	TaiKhoan TAIKHOAN;
 
 
 }

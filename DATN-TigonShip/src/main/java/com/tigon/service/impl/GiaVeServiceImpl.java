@@ -18,4 +18,16 @@ public class GiaVeServiceImpl implements GiaVeService {
 		return dao.findByIdTuyenIdLoaiVe(tuyen, loaive);
 	}
 
+	@Override
+	public GiaVe findByIdTuyenIdLoaiVeTreEm(Integer tuyen, Integer loaive) {
+		// TODO Auto-generated method stub
+		return dao.findByIdTuyenIdLoaiVeTreEm(tuyen, loaive);
+	}
+
+	@Override
+	public GiaVe findByIdTuyenIdLoaiVeTongTien(Integer tuyen, Integer loaihk, Integer loaive) {
+		// TODO Auto-generated method stub
+		return dao.findByIdTuyenIdLoaiVeTongTien(tuyen, loaihk, loaive);
+	}
+
 }

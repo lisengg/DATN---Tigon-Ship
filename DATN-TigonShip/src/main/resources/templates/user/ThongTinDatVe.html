@@ -23,23 +23,23 @@
         <h2><b>HÀNH KHÁCH CHÍNH</b></h2>
        	<form action="#" method="post" onsubmit="return validateForm()">
             <div class="form-group">
-                            <input type="text" name="username" placeholder="Họ và tên" required>
+                            <input type="text" name="username" th:value="${username}" placeholder="Họ và Tên"  required>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="cccd" placeholder="CCCD" required pattern="[0-9]{12}" title="CCCD phải đủ 12 số">
+                            <input type="text" name="cccd" th:value="${cccd}" placeholder="CCCD" required pattern="[0-9]{12}" title="CCCD phải đủ 12 số">
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="email" name="email" th:value="${email}" placeholder="Email" required>
                         </div>
                         <div class="form-group">
                             <!-- Thêm sự kiện onchange để lắng nghe sự thay đổi trong ngày sinh -->
-                            <input type="date" name="date" placeholder="Ngày Tháng Năm Sinh" required onchange="validateAge(this)">
+                            <input type="date" name="date" th:value="${date}" placeholder="Ngày Tháng Năm Sinh" required onchange="validateAge(this)">
                         </div>
                         <div class="form-group">
-                            <input type="tel" name="SDT" placeholder="Số điện thoại" required pattern="[0-9]{10,11}" title="Số điện thoại không hợp lệ">
+                            <input type="tel" name="SDT" th:value="${SDT}" placeholder="Số điện thoại" required pattern="[0-9]{10,11}" title="Số điện thoại không hợp lệ">
                         </div>
                         <div class="form-group">
-                            <input type="hidden" name="tickit" disabled placeholder="Loại Vé" required>
+                            <input type="hidden" name="tickit" th:value="${username}" disabled placeholder="Loại Vé" required>
                         </div>
                         <div class="form-group" style="text-align: left; margin-left: 23px;">
                             <label for="nationality" style="color: white;"> <b>Quốc Tịch:</b> </label>
@@ -48,7 +48,7 @@
                                 <option value="Thailand"><b>Thái Lan</b></option>
                                 <option value="UK"><b>Anh</b></option>
                                 <option value="USA"><b>Mỹ</b></option>
-                                <option value="Other"><b>Khác</b></option>
+                                <option value=""><b>Khác</b></option>
                             </select>
                         </div>
                         <br>
