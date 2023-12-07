@@ -313,8 +313,8 @@ public class TaiKhoanController implements CommandLineRunner {
 			Context context = new Context();
 			context.setVariable("message", randomNumber);
 
-			emailService.sendEmailWithHtmlTemplate(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
-					"/user/login/emailtemplates", context);
+			emailService.sendEmailWithHtmlTemplateAndAttachment(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
+					"/user/login/emailtemplates", context,"");
 
 			// Lưu otp
 			TaiKhoan taikhoanemail = taiKhoanService.findIdByEmailOrPhone(taikhoan.getEMAIL());
@@ -365,8 +365,8 @@ public class TaiKhoanController implements CommandLineRunner {
 		Context context = new Context();
 		context.setVariable("message", randomNumber);
 
-		emailService.sendEmailWithHtmlTemplate(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
-				"/user/login/emailtemplates", context);
+		emailService.sendEmailWithHtmlTemplateAndAttachment(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
+				"/user/login/emailtemplates", context,"");
 
 		// Lưu otp
 		TaiKhoan taikhoanemail = taiKhoanService.findIdByEmailOrPhone(taikhoan.getEMAIL());

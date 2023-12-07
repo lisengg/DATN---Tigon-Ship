@@ -32,10 +32,10 @@ public class GuiHoaDonController {
 		Context context = new Context();
 		context.setVariable("qrCodeText", link);
 		context.setVariable("servletContext", servletContext);
-
+		qrService.generateQRCode(link);
 		emailService.sendEmailWithHtmlTemplateAndAttachment("nlsangnlpc04364@gmail.com", "Thông Tin Đặt Vé Tàu Tigon Ship",
 				"/user/datve/guihoadonkemqr", context,"src/main/resources/static/images/qr/mahoadon.png");
-//		qrService.generateQRCode(link);
+		
 		return "/user/datve/guihoadonkemqr";
 	}
 }

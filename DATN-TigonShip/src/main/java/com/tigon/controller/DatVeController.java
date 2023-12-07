@@ -357,7 +357,7 @@ public class DatVeController {
 				ngdicung.setCCCD(hktam.get(i).getCCCD());
 				ngdicung.setSDT(hktam.get(i).getSDT());
 				ngdicung.setDATVE(dvtam);
-				ngdicung.setLOAIHANHKHACH(lhk);
+				ngdicung.setLOAIHK(lhk);
 				System.out.println("----------------------");
 				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());
@@ -437,7 +437,7 @@ public class DatVeController {
 				ngdicung.setCCCD(hktam.get(i).getCCCD());
 				ngdicung.setSDT(hktam.get(i).getSDT());
 				ngdicung.setDATVE(dvtam);
-				ngdicung.setLOAIHANHKHACH(lhk);
+				ngdicung.setLOAIHK(lhk);
 				System.out.println("----------------------");
 				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());

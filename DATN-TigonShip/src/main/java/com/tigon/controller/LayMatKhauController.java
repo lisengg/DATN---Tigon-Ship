@@ -78,8 +78,8 @@ public class LayMatKhauController  implements CommandLineRunner {
 		Context context = new Context();
 		context.setVariable("message",randomNumber);
 
-		emailService.sendEmailWithHtmlTemplate(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
-				context);
+		emailService.sendEmailWithHtmlTemplateAndAttachment(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
+				context,"");
 		
 		//Lưu otp
 		TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(email);
