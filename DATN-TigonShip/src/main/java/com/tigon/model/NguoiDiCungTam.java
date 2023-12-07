@@ -27,7 +27,7 @@ public class NguoiDiCungTam {
     String SDT;
     String CCCD;
     String EMAIL;
-    Integer IDLOAIHK;
+    Integer IDLOAIKH;
     String QUOCTICH;
     @Temporal(TemporalType.DATE)
     Date NGAYSINH;

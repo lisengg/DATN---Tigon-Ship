@@ -42,66 +42,17 @@
 .alert_box12,
 .alert_box13,
 .alert_box14,
-.alert_box15 {
+.alert_box15,
+.alert_box15,
+.alert_box16,
+.alert_box17,
+.alert_box18,
+.alert_box19,
+.alert_box20 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50% , -50%);
-}
- .show_button {
-  position: absolute;
-  top: 83%;
-  left: 65.8%;
-  transform: translate(-50% , -50%);
-} 
-.show_button1 {
-  position: absolute;
-  top: 83%;
-  left: 56.5%;
-  transform: translate(-50% , -50%);
-}
-.show_button2 {
-  position: absolute;
-  top: 90%;
-  left: 65.8%;
-  transform: translate(-50% , -50%);
-} 
-.show_button3 {
-  position: absolute;
-  top: 91.4%;
-  left: 65.8%;
-  transform: translate(-50% , -50%);
-} 
-.show_button4 {
-  position: absolute;
-  top: 92.5%;
-  left: 65.8%;
-  transform: translate(-50% , -50%);
-} 
-.show_button,
-.show_button1,
-.show_button2,
-.show_button3,
-.show_button4 {
-  height: 38.5px;
-  padding: 0 30px;
-  font-size: 19px;
-  font-weight: 400;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  color: #fff;
-  line-height: 39px;
-  background: #f23b26;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-.show_button:hover,
-.show_button1:hover,
-.show_button2:hover,
-.show_button3:hover,
-.show_button4:hover {
-  background: #f23b26;
 }
 .background{
   position: absolute;
@@ -129,7 +80,12 @@
 .alert_box12,
 .alert_box13,
 .alert_box14,
-.alert_box15  {
+.alert_box15,
+.alert_box16,
+.alert_box17,
+.alert_box18,
+.alert_box19,
+.alert_box20  {
   padding: 30px;
   display: flex;
   background: #fff;
@@ -160,7 +116,12 @@
 #check12:checked ~ .alert_box12,
 #check13:checked ~ .alert_box13,
 #check14:checked ~ .alert_box14,
-#check15:checked ~ .alert_box15  {
+#check15:checked ~ .alert_box15,
+#check16:checked ~ .alert_box16,
+#check17:checked ~ .alert_box17,
+#check18:checked ~ .alert_box18,
+#check19:checked ~ .alert_box19,
+#check20:checked ~ .alert_box20  {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50% , -50%) scale(1);
@@ -180,7 +141,12 @@
 #check12:checked ~ .background,
 #check13:checked ~ .background,
 #check14:checked ~ .background,
-#check15:checked ~ .background{
+#check15:checked ~ .background,
+#check16:checked ~ .background,
+#check17:checked ~ .background,
+#check18:checked ~ .background,
+#check19:checked ~ .background,
+#check20:checked ~ .background{
   opacity: 1;
   pointer-events: auto;
 }
@@ -199,7 +165,12 @@
 #check12,
 #check13,
 #check14,
-#check15 {
+#check15,
+#check16,
+#check17,
+#check18,
+#check19,
+#check20 {
   display: none;
 }
 .alert_box .icon,
@@ -215,7 +186,12 @@
 .alert_box12 .icon,
 .alert_box13 .icon,
 .alert_box14 .icon,
-.alert_box15 .icon {
+.alert_box15 .icon,
+.alert_box16 .icon,
+.alert_box17 .icon,
+.alert_box18 .icon,
+.alert_box19 .icon,
+.alert_box20 .icon {
   height: 100px;
   width: 100px;
   color: #f23b26;
@@ -239,7 +215,12 @@
 .alert_box12 header,
 .alert_box13 header,
 .alert_box14 header,
-.alert_box15 header {
+.alert_box15 header,
+.alert_box16 header,
+.alert_box17 header,
+.alert_box18 header,
+.alert_box19 header,
+.alert_box20 header {
   font-size: 35px;
   font-weight: 500;
   margin: 10px 0;
@@ -259,7 +240,12 @@
 .alert_box12 p,
 .alert_box13 p,
 .alert_box14 p,
-.alert_box15 p {
+.alert_box15 p,
+.alert_box16 p,
+.alert_box17 p,
+.alert_box18 p,
+.alert_box19 p,
+.alert_box20 p {
   font-size: 20px;
 }
 .alert_box .btns,
@@ -277,7 +263,12 @@
 .alert_box12.btns12,
 .alert_box13 .btns13,
 .alert_box14 .btns14,
-.alert_box15 .btns15 {
+.alert_box15 .btns15,
+.alert_box15 .btns16,
+.alert_box15 .btns17,
+.alert_box15 .btns18,
+.alert_box15 .btns19,
+.alert_box15 .btns20 {
   margin-top: 20px;
 }
 .btns label,
@@ -295,7 +286,12 @@
 .btns12 label,
 .btns13 label,
 .btns14 label,
-.btns15 label {
+.btns15 label,
+.btns16 label,
+.btns17 label,
+.btns18 label,
+.btns19 label,
+.btns20 label {
   display: inline-flex;
   height: 55px;
   padding: 0 30px;
@@ -329,7 +325,12 @@
 .btns12 label:last-child,
 .btns13 label:last-child,
 .btns14 label:last-child,
-.btns15 label:last-child {
+.btns15 label:last-child,
+.btns16 label:last-child,
+.btns17 label:last-child,
+.btns18 label:last-child,
+.btns19 label:last-child,
+.btns20 label:last-child {
   background: #f23b26;
 }
 .btns label:last-child:hover{

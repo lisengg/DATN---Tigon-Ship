@@ -28,12 +28,12 @@ public class LoaiHanhKhach {
     String LOAIHK;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "LOAIHANHKHACH")
+    @OneToMany(mappedBy = "LOAIHK")
     @JsonBackReference
     List<TaiKhoan> TAIKHOAN;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "LOAIHANHKHACH")
+    @OneToMany(mappedBy = "LOAIHK")
     @JsonBackReference
     List<NguoiDiCung> NGUOIDICUNG;
 

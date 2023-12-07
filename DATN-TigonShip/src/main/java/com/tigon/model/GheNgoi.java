@@ -23,7 +23,7 @@ public class GheNgoi {
     Integer IDGHE;
     String TENGHE;
     Integer KHOANG;
-
+    String TRANGTHAI;
     @ManyToOne
 	@JoinColumn(name = "IDTAU")
 	Tau TAU;

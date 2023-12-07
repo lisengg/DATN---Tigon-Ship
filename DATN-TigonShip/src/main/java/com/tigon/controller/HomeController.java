@@ -202,7 +202,7 @@ public class HomeController {
 					hkt.setHOVATEN(username.get(i - 2));
 					hkt.setCCCD(cccd.get(i - 2));
 					hkt.setSDT(SDT.get(i - 2));
-					hkt.setIDLOAIHK(mahk);
+					hkt.setIDLOAIKH(mahk);
 					
 					hktdao.save(hkt);
 
@@ -340,16 +340,16 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIKH());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
 				ngdicung.setCCCD(hktam.get(i).getCCCD());
 				ngdicung.setSDT(hktam.get(i).getSDT());
 				ngdicung.setDATVE(dvtam);
-				ngdicung.setLOAIHANHKHACH(lhk);
+				ngdicung.setLOAIHK(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getIDLOAIHK());
+				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());
@@ -421,16 +421,16 @@ public class HomeController {
 			for(int i=0;i<songuoi && i < hktam.size();i++) {
 				
 				DatVe dvtam = dvservice.findById(MADATVEMAX.getMADATVE());
-				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIHK());
+				LoaiHanhKhach lhk = lhksertvice.findByid(hktam.get(i).getIDLOAIKH());
 				
 				NguoiDiCung ngdicung = new NguoiDiCung();
 				ngdicung.setHOVATEN(hktam.get(i).getHOVATEN());
 				ngdicung.setCCCD(hktam.get(i).getCCCD());
 				ngdicung.setSDT(hktam.get(i).getSDT());
 				ngdicung.setDATVE(dvtam);
-				ngdicung.setLOAIHANHKHACH(lhk);
+				ngdicung.setLOAIHK(lhk);
 				System.out.println("----------------------");
-				System.out.println(hktam.get(i).getIDLOAIHK());
+				System.out.println(hktam.get(i).getIDLOAIKH());
 				System.out.println(hktam.get(i).getHOVATEN());
 				System.out.println(hktam.get(i).getCCCD());
 				System.out.println(hktam.get(i).getSDT());

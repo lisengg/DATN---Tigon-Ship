@@ -13,7 +13,6 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				});
 				$scope.post = true;
 				$scope.put = false;
-				$scope.delete = false;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
 				initDataTable($scope.items);
 			});
@@ -85,7 +84,6 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 		};
 		$scope.post = true;
 		$scope.put = false;
-		$scope.delete = false;
 	}
 	//Thêm giá vé mới
 	$scope.create = function() {
