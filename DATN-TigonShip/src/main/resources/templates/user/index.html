@@ -208,7 +208,7 @@
 										<div class="row">
 											<div class="col-lg-4 col-sm-5">
 												<div class="image">
-													<img th:src="@{'/assets/images/' + ${p.hinh_anh}} " width="190px;"
+													<img th:src="@{'/assets/images/' + ${p.HINHANH}} " width="190px;"
 														height="270px">
 												</div>
 											</div>
@@ -216,14 +216,14 @@
 												<div class="right-content">
 													<h7> </h7>
 													<br>
-													<span th:text=${p.tieu_de}></span>
+													<span th:text=${p.TIEUDE}></span>
 													<div class="main-button">
 														<a href="index.html">Đặt vé ngay</a>
 													</div>
-													<p th:text=${p.noi_dung}></p>
+													<p th:text=${p.NOIDUNG}></p>
 													<ul class="info">
 														<lable style="color: aliceblue; ">Ngày đăng:<li
-																th:text=${p.ngay_dang}> </li>
+																th:text=${p.NGAYDANG}> </li>
 														</lable>
 
 													</ul>

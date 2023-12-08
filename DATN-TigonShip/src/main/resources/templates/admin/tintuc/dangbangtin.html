@@ -62,12 +62,12 @@
 		</tr>-->
 		<tbody>
 			<tr th:each="p:${items}">				
-				<td th:text=${p.ngay_dang}></td>
-				<td th:text=${p.tieu_de}></td>
-				<td><img th:src="@{'/assets/images/' + ${p.hinh_anh}}" width="1000px" height="140px" />
+				<td th:text=${p.NGAYDANG}></td>
+				<td th:text=${p.TIEUDE}></td>
+				<td><img th:src="@{'/assets/images/' + ${p.HINHANH}}" width="1000px" height="140px" />
 </td>
-				<td th:text=${p.noi_dung}></td>
-				<td><a th:href="@{|/baidang/update/${p.id}|}">Cập nhật</a></td>
+				<td th:text=${p.NOIDUNG}></td>
+				<td><a th:href="@{|/baidang/update/${p.IDBANGTIN}|}">Cập nhật</a></td>
 			</tr>
 		</tbody>
 	</table>
