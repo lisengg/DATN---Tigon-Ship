@@ -26,70 +26,52 @@ body {
 	color: #69707a;
 	overflow: hidden;
 }
-/* Modal Header */
-#chiTietModal .modal-header {
-    background-color: #0078ce; /* Màu nền header */
-    color: #ffffff; /* Màu chữ header */
-    border-bottom: 1px solid #005694; /* Viền dưới header */
-}
+/* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
 
-/* Modal Body */
-#chiTietModal .modal-body {
-    padding: 20px;
-}
+        .modal-content {
+            background: #fff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+            border-radius: 8px;
+        }
 
-/* Modal Footer */
-#chiTietModal .modal-footer {
-    background-color: #f2f6fc; /* Màu nền footer */
-    border-top: 1px solid #c5ccd6; /* Viền trên footer */
-}
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+        }
 
-/* Button màu primary */
-#chiTietModal .btn-primary {
-    background-color: #0078ce;
-    border-color: #0078ce;
-}
+        /* Icon Styles */
+        .icon {
+            display: inline-block;
+            margin-right: 5px;
+        }
 
-/* Button màu primary khi hover */
-#chiTietModal .btn-primary:hover {
-    background-color: #005694;
-    border-color: #005694;
-    color: #ffffff;
-}
+        /* Ticket Info Styles */
+        .ticket-info {
+            margin-bottom: 20px;
+        }
 
-/* Nội dung chi tiết */
-#chiTietModal .modal-body p {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-/* Nội dung chi tiết - Mã đặt vé */
-#chiTietModal #maDatVeChiTiet {
-    font-weight: bold;
-    color: #0078ce;
-}
-
-/* Nội dung chi tiết - Các thông tin khác */
-#chiTietModal .modal-body span {
-    color: #333333;
-}
-
-/* Button close trong header */
-#chiTietModal .modal-header .close {
-    color: #ffffff;
-   background-color: #0078ce;
-   border:  #0078ce;
-}
-
-/* Thay đổi kiểu biểu tượng close */
-#chiTietModal .modal-header .close span {
-    font-size: 30px;
-}
-
-/* Hiệu ứng hover nút close */
-#chiTietModal .modal-header .close:hover {
-    opacity: 0.8;
-}
+        /* Passenger Info Styles */
+        .passenger-info {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
 
 .form-control, .dataTable-input {
 	display: block;
@@ -279,7 +261,8 @@ body {
 								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
 								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
 								<td> <a href="#" style="color: blue; text-decoration: none;" 
-   th:attr="onclick='openModal(\'' + ${ls.MADATVE} + '\', \'' + ${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')} + '\', \'' + ${ls.LICHTAUCHAY.TUYEN.TENTUYEN} + '\');'">
+   th:attr="onclick='openModal(\'' + ${ls.MADATVE} + '\', \'' + ${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')} + '\', \'' + ${ls.LICHTAUCHAY.TUYEN.TENTUYEN} + '\',
+   \'' + ${#dates.format(ls.NGAYDI, 'dd/MM/yyyy')} + '\',\'' + ${#dates.format(ls.NGAYVE, 'dd/MM/yyyy')} + '\');'">
    Xem chi tiết
 </a>
  </td>
@@ -296,44 +279,18 @@ body {
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
-<div class="modal fade" id="chiTietModal" tabindex="-1" role="dialog" aria-labelledby="chiTietModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="chiTietModalLabel">Chi tiết vé đặt</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Nội dung chi tiết hóa đơn sẽ được hiển thị ở đây -->
-        <!-- Bạn có thể thêm các trường và dữ liệu tương ứng -->
-        <p>Mã đặt vé: <span id="maDatVeChiTiet"></span></p>
-        <p>Ngày đặt: <span id="ngayDatChiTiet"></span></p>
-        <p>Tuyến: <span id="tuyenChiTiet"></span></p>
-        <p>Ngày đi: <span id="ngayDi"></span></p>
-        <p>Ngày về: <span id="ngayVe"></span></p>
-        <p>Người đặt: <span id="nguoiDiCung"></span></p>
-        <p>Số ghế: <span id="soGhe"></span></p>
-      </div>
-    </div>
-  </div>
-</div>
-
- <button onclick="openModal()">Xem thông tin vé</button>
-
     <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div  id="chiTietModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
 
             <!-- Ticket Information -->
             <div class="ticket-info">
                 <h2>Thông tin vé</h2>
-                <p><span class="icon">🎫</span> Mã đặt vé: <strong>ABC123</strong></p>
-                <p><span class="icon">📅</span> Ngày đặt: <strong>01/01/2023</strong></p>
-                <p><span class="icon">🚌</span> Tuyến: <strong>Điểm A - Điểm B</strong></p>
+                <hr>
+                <p><span class="icon">🎫</span> Mã đặt vé: <strong id="maDatVeChiTiet"></strong></p>
+                <p><span class="icon">📅</span> Ngày đặt: <strong id="ngayDatChiTiet"></strong></p>
+                <p><span class="icon">🚢</span> Tuyến đi: <strong id="tuyenChiTiet"></strong></p>
                 <p><span class="icon">📅</span> Ngày đi: <strong>02/01/2023</strong></p>
                 <p><span class="icon">📅</span> Ngày về: <strong>03/01/2023</strong></p>
                 <p><span class="icon">👥</span> Số ghế: <strong>12A, 12B</strong></p>
@@ -350,41 +307,37 @@ body {
 
         </div>
     </div>
- <button onclick="openModal1()">Xem thông tin vé</button>
 	<script th:inline="javascript">
     /*<![CDATA[*/
-    function openModal(maDatVe, ngayDat, tuyen) {
-        hienThiChiTietModal(maDatVe, ngayDat, tuyen);
+    function openModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe) {
+        hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe);
     }
     /*]]>*/
 </script>
 	
 <script type="text/javascript">
-function openModal1() {
-    document.getElementById('myModal').style.display = 'block';
-}
-    $(document).ready(function () {
-        $('.alert').addClass("show");
-        $('.alert').removeClass("hide");
-        $('.alert').addClass("showAlert");
-        setTimeout(function () {
-            $('.alert').removeClass("show");
-            $('.alert').addClass("hide");
-        }, 5000);
-    });
 
-    $('.close-btn').click(function () {
-        $('.alert').removeClass("show");
-        $('.alert').addClass("hide");
-    });
-
-    function hienThiChiTietModal(maDatVe, ngayDat, tuyen) {
+    function hienThiChiTietModal(maDatVe, ngayDat, tuyen,ngayDi,ngayVe) {
+    	 
         // Đổ dữ liệu vào modal
         $('#maDatVeChiTiet').text(maDatVe);
         $('#ngayDatChiTiet').text(ngayDat);
         $('#tuyenChiTiet').text(tuyen);
+        $('#ngayDi').text(ngayDi);
+        $('#ngayVe').text(ngayVe);
         // Hiển thị modal
-        $('#chiTietModal').modal('show');
+        document.getElementById('chiTietModal').style.display = 'block';
+    }
+    
+    function closeModal() {
+        document.getElementById('chiTietModal').style.display = 'none';
+    }
+
+    // Close the modal if the overlay (outside modal) is clicked
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('chiTietModal')) {
+            closeModal();
+        }
     }
 </script>
 
