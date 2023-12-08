@@ -16,6 +16,9 @@
 	crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/983a8f0a4d.js"
 	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 body {
 	margin-top: 20px;
@@ -23,130 +26,69 @@ body {
 	color: #69707a;
 	overflow: hidden;
 }
-
-.alert {
-	background: #ffffff;
-	padding: 20px 40px;
-	min-width: 420px;
-	position: absolute;
-	right: 0;
-	top: 10px;
-	border-radius: 4px;
-	border-left: 8px solid #1a2cd1;
-	overflow: hidden;
-	opacity: 0;
-	pointer-events: none;
+/* Modal Header */
+#chiTietModal .modal-header {
+    background-color: #0078ce; /* Màu nền header */
+    color: #ffffff; /* Màu chữ header */
+    border-bottom: 1px solid #005694; /* Viền dưới header */
 }
 
-.alert.showAlert {
-	opacity: 1;
-	pointer-events: auto;
+/* Modal Body */
+#chiTietModal .modal-body {
+    padding: 20px;
 }
 
-.alert.show {
-	animation: show_slide 1s ease forwards;
+/* Modal Footer */
+#chiTietModal .modal-footer {
+    background-color: #f2f6fc; /* Màu nền footer */
+    border-top: 1px solid #c5ccd6; /* Viền trên footer */
 }
 
-
-        @keyframes show_slide {
-            0% {
-                transform: translateX(100%);
-            }
-
-            40% {
-                transform: translateX(-10%);
-            }
-
-            80% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-10px);
-            }
-        }
-
-        .alert.hide {
-            animation: hide_slide 1s ease forwards;
-        }
-
-        @keyframes hide_slide {
-            0% {
-                transform: translateX(-10px);
-            }
-
-            40% {
-                transform: translateX(0%);
-            }
-
-            80% {
-                transform: translateX(-10%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-		.alert .fa-exclamation-circle {
-			position: absolute;
-			left: 20px;
-			top: 50%;
-			transform: translateY(-50%);
-			color: #0078ce;
-			font-size: 30px;
-		}
-
-.alert .msg {
-	padding: 0 20px;
-	font-size: 18px;
-	color: #0078ce;
+/* Button màu primary */
+#chiTietModal .btn-primary {
+    background-color: #0078ce;
+    border-color: #0078ce;
 }
 
-.alert .close-btn {
-	position: absolute;
-	right: 0px;
-	top: 50%;
-	transform: translateY(-50%);
-	background: #ffffff;
-	padding: 20px 18px;
-	cursor: pointer;
+/* Button màu primary khi hover */
+#chiTietModal .btn-primary:hover {
+    background-color: #005694;
+    border-color: #005694;
+    color: #ffffff;
 }
 
-.alert .close-btn:hover {
-	background: #ffffff;
+/* Nội dung chi tiết */
+#chiTietModal .modal-body p {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.alert .close-btn .fas {
-	color: #0078ce;
-	font-size: 22px;
-	line-height: 40px;
+/* Nội dung chi tiết - Mã đặt vé */
+#chiTietModal #maDatVeChiTiet {
+    font-weight: bold;
+    color: #0078ce;
 }
 
-.img-account-profile {
-	height: 10rem;
+/* Nội dung chi tiết - Các thông tin khác */
+#chiTietModal .modal-body span {
+    color: #333333;
 }
 
-.rounded-circle {
-	border-radius: 50% !important;
+/* Button close trong header */
+#chiTietModal .modal-header .close {
+    color: #ffffff;
+   background-color: #0078ce;
+   border:  #0078ce;
 }
 
-.card {
-	box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50/ 15%);
+/* Thay đổi kiểu biểu tượng close */
+#chiTietModal .modal-header .close span {
+    font-size: 30px;
 }
 
-.card .card-header {
-	font-weight: 500;
-}
-
-.card-header:first-child {
-	border-radius: 0.35rem 0.35rem 0 0;
-}
-
-.card-header {
-	padding: 1rem 1.35rem;
-	margin-bottom: 0;
-	background-color: rgba(33, 40, 50, 0.03);
-	border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+/* Hiệu ứng hover nút close */
+#chiTietModal .modal-header .close:hover {
+    opacity: 0.8;
 }
 
 .form-control, .dataTable-input {
@@ -269,8 +211,10 @@ body {
 							đặt
 						</div>
 						<div class="h1">
-							<p th:if="chuacove" >0
-							<p th:unless="chuacove" th:text=" ${user.SOHDDADAT}">
+							<p th:unless="${chuacove}" th:text="${sohd}">
+						</div>
+						<div class="h1">
+							<p th:if="${chuacove}">0
 						</div>
 					</div>
 				</div>
@@ -279,9 +223,15 @@ body {
 				<!-- Billing card 3-->
 				<div class="card h-100 border-start-lg border-start-success">
 					<div class="card-body">
-						<div class="medium text-muted">
+						<div th:unless="${chuacove}" class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span>Chuyến đi gần đây</span>
+							
+						</div>
+						<div th:if="${chuacove}" class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
 								style="color: #009e1a; padding-right: 5px;"></i> <span>Chưa có chuyến đi</span>
+							
 						</div>
 						<div th:if="${chuadatve}" class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
@@ -289,7 +239,7 @@ body {
 								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>	
 						</div>
 						<div th:unless="${chuacove}" style="margin-top: 5px;" class="h2">
-							<p th:text="${chuyengannhat}">
+						<p th:text="${chuyengannhat}">
 						</div>
 					</div>
 				</div>
@@ -308,11 +258,13 @@ body {
 								<th class="border-gray-200" scope="col">Mã đặt vé</th>
 								<th class="border-gray-200" scope="col">Ngày đặt</th>
 								<th class="border-gray-200" scope="col">Tuyến</th>
+								<th class="border-gray-200" scope="col">Xem chi tiết</th>
 								<th class="border-gray-200" scope="col">Trạng thái</th>
 							</tr>
 						</thead>
 						<tbody th:if="${chuacove}">
 							 <tr class="text-center">
+								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -326,6 +278,13 @@ body {
 								<td th:text="${ls.MADATVE}"></td>
 								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
 								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
+								<td> <a href="#" style="color: blue; text-decoration: none;" 
+   th:attr="onclick='openModal(\'' + ${ls.MADATVE} + '\', \'' + ${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')} + '\', \'' + ${ls.LICHTAUCHAY.TUYEN.TENTUYEN} + '\');'">
+   Xem chi tiết
+</a>
+ </td>
+
+
 								<td>
 								<span th:if="${ls.NGAYDAT.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
 								<span th:if="${ls.NGAYDAT.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
@@ -337,8 +296,74 @@ body {
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-    window.addEventListener("load", (event) => {
+	<!-- Modal -->
+<div class="modal fade" id="chiTietModal" tabindex="-1" role="dialog" aria-labelledby="chiTietModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chiTietModalLabel">Chi tiết vé đặt</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Nội dung chi tiết hóa đơn sẽ được hiển thị ở đây -->
+        <!-- Bạn có thể thêm các trường và dữ liệu tương ứng -->
+        <p>Mã đặt vé: <span id="maDatVeChiTiet"></span></p>
+        <p>Ngày đặt: <span id="ngayDatChiTiet"></span></p>
+        <p>Tuyến: <span id="tuyenChiTiet"></span></p>
+        <p>Ngày đi: <span id="ngayDi"></span></p>
+        <p>Ngày về: <span id="ngayVe"></span></p>
+        <p>Người đặt: <span id="nguoiDiCung"></span></p>
+        <p>Số ghế: <span id="soGhe"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <button onclick="openModal()">Xem thông tin vé</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+
+            <!-- Ticket Information -->
+            <div class="ticket-info">
+                <h2>Thông tin vé</h2>
+                <p><span class="icon">🎫</span> Mã đặt vé: <strong>ABC123</strong></p>
+                <p><span class="icon">📅</span> Ngày đặt: <strong>01/01/2023</strong></p>
+                <p><span class="icon">🚌</span> Tuyến: <strong>Điểm A - Điểm B</strong></p>
+                <p><span class="icon">📅</span> Ngày đi: <strong>02/01/2023</strong></p>
+                <p><span class="icon">📅</span> Ngày về: <strong>03/01/2023</strong></p>
+                <p><span class="icon">👥</span> Số ghế: <strong>12A, 12B</strong></p>
+            </div>
+
+            <!-- Passenger Information -->
+            <div class="passenger-info">
+                <h2>Thông tin hành khách</h2>
+                <p><span class="icon">👤</span> Người đặt vé: <strong>Người A</strong></p>
+                <p><span class="icon">👥</span> Người đi cùng: <strong>Người B, Người C</strong></p>
+            </div>
+
+            <!-- Add more sections/icons as needed -->
+
+        </div>
+    </div>
+ <button onclick="openModal1()">Xem thông tin vé</button>
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    function openModal(maDatVe, ngayDat, tuyen) {
+        hienThiChiTietModal(maDatVe, ngayDat, tuyen);
+    }
+    /*]]>*/
+</script>
+	
+<script type="text/javascript">
+function openModal1() {
+    document.getElementById('myModal').style.display = 'block';
+}
+    $(document).ready(function () {
         $('.alert').addClass("show");
         $('.alert').removeClass("hide");
         $('.alert').addClass("showAlert");
@@ -352,7 +377,17 @@ body {
         $('.alert').removeClass("show");
         $('.alert').addClass("hide");
     });
-    </script>
+
+    function hienThiChiTietModal(maDatVe, ngayDat, tuyen) {
+        // Đổ dữ liệu vào modal
+        $('#maDatVeChiTiet').text(maDatVe);
+        $('#ngayDatChiTiet').text(ngayDat);
+        $('#tuyenChiTiet').text(tuyen);
+        // Hiển thị modal
+        $('#chiTietModal').modal('show');
+    }
+</script>
+
 </body>
 
 </html>

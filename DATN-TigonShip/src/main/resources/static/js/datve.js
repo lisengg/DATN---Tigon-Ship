@@ -135,6 +135,8 @@ app.controller('datve-ctrl', function ($scope, $http) {
             $('#modal').modal('show');
         }
     };
+
+    
     function initDataTable(data) {
         var table = $('#table2').DataTable({
             data: data, // Sử dụng dữ liệu từ server

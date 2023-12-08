@@ -30,15 +30,6 @@ public class DatVeRestController {
     DatGheDAO datgheDAO;
     @Autowired 
     NguoiDiCungDAO nguoidicungDAO;
-    
-
-    /*
-     * @GetMapping("/rest/datve")
-     * public Map<String, Object> getAll() {
-     * Map<String, Object> map = new HashMap<>();
-     * map.put("tuyen", tuyenDAO.findAll());
-     * return map;}
-     */
 
     @GetMapping("/rest/datve")
     public List<Tuyen> getAllTuyen() { //select tuyến

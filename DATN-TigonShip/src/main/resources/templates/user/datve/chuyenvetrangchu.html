@@ -1,6 +1,6 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html
+<html xmlns:th="http://www.thymeleaf.org"
 	style="-moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; background-color: #464646; margin: 0; padding: 0;">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -133,7 +133,7 @@
 							</p> <br>
 								<p>Trang sẽ tự động chuyển về trang chủ trong <span id="countdown">60</span> giây.</p>
 							<p
-								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;"><button class="btn btn-primary">Quay về trang chủ</button></p>
+								style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;"><a th:href="@{/guihoadon}" class="btn btn-primary">Quay về trang chủ</a></p>
 						</td>
 						<td width="36"
 							style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
@@ -165,7 +165,7 @@
         function updateCountdown() {
             document.getElementById('countdown').innerText = countdown;
             if (countdown === 0) {
-                window.location.href = "http://localhost:8080/";
+                window.location.href = "http://localhost:8080/guihoadon";
             } else {
                 countdown--;
                 setTimeout(updateCountdown, 1000);

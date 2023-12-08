@@ -26,4 +26,11 @@ public class BangtinServiceImpl  implements BangtinService{
 		return dao.findById(id).get();
 	}
 
+	@Override
+	public Bangtin findBytieude(String TIEUDE) {
+		
+		return dao.findBytieude(TIEUDE);
+	}
+
+
 }

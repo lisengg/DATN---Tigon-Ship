@@ -17,5 +17,11 @@ public class HoaDonServiceImpl implements HoaDonService {
 		// TODO Auto-generated method stub
 		return dao.findByMaDateVe(madatve);
 	}
+
+	@Override
+	public HoaDon findMaxDatVe() {
+		// TODO Auto-generated method stub
+		return dao.findMaxDatVe();
+	}
 	
 }

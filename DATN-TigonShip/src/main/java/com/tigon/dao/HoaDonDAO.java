@@ -43,4 +43,7 @@ public interface HoaDonDAO extends JpaRepository<HoaDon, Integer> {
 
     @Query(value = "SELECT * FROM GIAVE WHERE MADATVE=?1", nativeQuery = true)
     public HoaDon findByMaDateVe(Integer madatve);
+    
+    @Query(value = "SELECT TOP 1 * from hoadon ORDER BY MADATVE DESC", nativeQuery = true)
+    HoaDon findMaxDatVe();
 }

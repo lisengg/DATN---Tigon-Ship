@@ -29,11 +29,11 @@ import javax.imageio.ImageIO;
 @Service
 public class GenerateQRService {
 	private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));	
-	public MultipartFile generateQRCodeAsMultipartFile(String data) {
+	public MultipartFile generateQRCodeAsMultipartFile(String data,String mahoadon) {
         try {
         	int width = 200;
         	int height = 200;
-        	String filename = "mahoadon";
+        	String filename = "mahoadon"+mahoadon;
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, width, height);
             byte[] qrCodeData = matrixToByteArray(bitMatrix, "PNG");
 
@@ -103,8 +103,8 @@ public class GenerateQRService {
 			
 		}
     }
-	public void generateQRCode(String data) throws IOException {
-		MultipartFile qrCodeFile = generateQRCodeAsMultipartFile(data);
+	public void generateQRCode(String data,String mahoadon) throws IOException {
+		MultipartFile qrCodeFile = generateQRCodeAsMultipartFile(data,mahoadon);
 
 		Path staticPath = Paths.get("src/main/resources/static");
 		Path imagePath = Paths.get("images");

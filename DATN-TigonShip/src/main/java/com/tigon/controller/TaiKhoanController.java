@@ -70,12 +70,12 @@ public class TaiKhoanController implements CommandLineRunner {
 	@RequestMapping("/thongtintaikhoan")
 	public String thongtintaikhoan(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());
-		TaiKhoan taikhoan = taiKhoanService.findById(user);
+		List<DatVe> sohd = datveService.ListDatVeByIdTaiKhoan(user);
 		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
 		if (datve != null) {
 			model.addAttribute("lichsu", lichsuve);
-			model.addAttribute("user", taikhoan);
+			model.addAttribute("sohd",sohd.size());
 			model.addAttribute("ngaydat", datve.getNGAYDAT());
 			model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
 		} else {
@@ -395,6 +395,12 @@ public class TaiKhoanController implements CommandLineRunner {
 		session.setAttribute("email", email);
 		return "/user/login/layOTP";
 	}
+	
+	@RequestMapping("/chitietmadatve")
+	public String chitietmadatve(Model model) {
+		return "/user/datve/chitietmadatve";
+	}
+	
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub

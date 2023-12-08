@@ -25,6 +25,7 @@ import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
 import com.tigon.dao.HanhKhachDAO;
 import com.tigon.dao.HanhKhachTamDAO;
+import com.tigon.dao.HoaDonDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.NguoiDiCungDAO;
@@ -36,6 +37,7 @@ import com.tigon.model.GheNgoi;
 import com.tigon.model.GiaVe;
 import com.tigon.model.HanhKhach;
 import com.tigon.model.HanhKhachTam;
+import com.tigon.model.HoaDon;
 import com.tigon.model.LichTauChay;
 import com.tigon.model.LoaiHanhKhach;
 import com.tigon.model.LoaiVe;
@@ -47,6 +49,7 @@ import com.tigon.service.DatVeService;
 import com.tigon.service.GheNgoiService;
 import com.tigon.service.GiaVeService;
 import com.tigon.service.HanhKhachTamService;
+import com.tigon.service.HoaDonService;
 import com.tigon.service.LichTauService;
 import com.tigon.service.LoaiHanhKhachService;
 import com.tigon.service.LoaiVeService;
@@ -58,7 +61,8 @@ import com.tigon.service.TuyenTauService;
 public class DatVeController {
 	@Autowired
 	TuyenDAO dao;
-
+	@Autowired
+	HoaDonDAO hddao;
 	@Autowired
 	HanhKhachTamDAO hktamdao;
 
@@ -94,6 +98,9 @@ public class DatVeController {
 
 	@Autowired
 	NguoiDiCungTamDAO hktdao;
+
+	@Autowired
+	HoaDonService hoadonService;
 
 	@Autowired
 	LoaiVeDAO lvdao;
@@ -140,6 +147,7 @@ public class DatVeController {
 		model.addAttribute("items", list);
 		session.setAttribute("tongtien", "0");
 		hktdao.deleteAll();
+		hktamdao.deleteAll();
 		return "/user/TuyenTau";
 	}
 
@@ -420,10 +428,10 @@ public class DatVeController {
 			model.addAttribute("sdt", taikhoan.getSDT());
 		}
 		// Nguoi di cung
-		
+
 		List<NguoiDiCungTam> ndtam = ndctsevice.findAll();
 		model.addAttribute("ndtam", ndtam);
-		
+
 		String soghe = session.getAttribute("ghengoi1").toString();
 		GheNgoi ghe = gheService.findByid(Integer.parseInt(soghe));
 		String listtenghe = ghe.getTENGHE();
@@ -573,7 +581,19 @@ public class DatVeController {
 					gdcdao.save(ngdicung);
 					hktdao.deleteById(ndtam.get(i).getIDTAM());
 					System.out.println("Thanh Cong");
+
 				}
+				String tongTienStr = session.getAttribute("tongtien").toString();
+				BigDecimal tongTien = new BigDecimal(tongTienStr);
+				HoaDon hd = new HoaDon();
+				hd.setDATVE(datve);
+				hd.setTONGTIEN(tongTien);
+				hd.setNGAYLAP(ngaydat);
+				hd.setTRANGTHAI("Đã thanh toán");
+				hd.setLOAITHANHTOAN("Xác thực");
+				hddao.save(hd);
+				HoaDon hdmax = hoadonService.findMaxDatVe();
+				session.setAttribute("mahoadon", hdmax.getMAHD());
 			} else {
 				List<HanhKhachTam> hktam = hktservice.findAll();
 
@@ -637,6 +657,7 @@ public class DatVeController {
 					dgdao.save(dg);
 
 					System.out.println("ghe thanh cong:");
+
 				}
 				DatVe datve = dvservice.FINDIDMAX();
 				for (int i = 1; i <= songuoi; i++) {
@@ -674,7 +695,19 @@ public class DatVeController {
 					gdcdao.save(ngdicung);
 					hktdao.deleteById(ndtam.get(i).getIDTAM());
 					System.out.println("Thanh Cong");
+
 				}
+				String tongTienStr = session.getAttribute("tongtien").toString();
+				BigDecimal tongTien = new BigDecimal(tongTienStr);
+				HoaDon hd = new HoaDon();
+				hd.setDATVE(datve);
+				hd.setTONGTIEN(tongTien);
+				hd.setNGAYLAP(ngaydat);
+				hd.setTRANGTHAI("Đã thanh toán");
+				hd.setLOAITHANHTOAN("Xác thực");
+				hddao.save(hd);
+				HoaDon hdmax = hoadonService.findMaxDatVe();
+				session.setAttribute("mahoadon", hdmax.getMAHD());
 			}
 			System.out.println("ko có id");
 		} else {
@@ -752,9 +785,20 @@ public class DatVeController {
 					gdcdao.save(ngdicung);
 					hktdao.deleteById(ndtam.get(i).getIDTAM());
 					System.out.println("Thanh Cong");
+
 				}
+				String tongTienStr = session.getAttribute("tongtien").toString();
+				BigDecimal tongTien = new BigDecimal(tongTienStr);
+				HoaDon hd = new HoaDon();
+				hd.setDATVE(datve);
+				hd.setTONGTIEN(tongTien);
+				hd.setNGAYLAP(ngaydat);
+				hd.setTRANGTHAI("Đã thanh toán");
+				hd.setLOAITHANHTOAN("Xác thực");
+				hddao.save(hd);
+				HoaDon hdmax = hoadonService.findMaxDatVe();
+				session.setAttribute("mahoadon", hdmax.getMAHD());
 			} else {
-				
 
 				HanhKhach idkh = hanhkdao.FINDIDHKMAX();
 
@@ -840,8 +884,20 @@ public class DatVeController {
 					gdcdao.save(ngdicung);
 					hktdao.deleteById(ndtam.get(i).getIDTAM());
 					System.out.println("Thanh Cong");
-					session.setAttribute("tongtien", "0");
+
 				}
+				String tongTienStr = session.getAttribute("tongtien").toString();
+				BigDecimal tongTien = new BigDecimal(tongTienStr);
+				HoaDon hd = new HoaDon();
+				hd.setDATVE(datve);
+				hd.setTONGTIEN(tongTien);
+				hd.setNGAYLAP(ngaydat);
+				hd.setTRANGTHAI("Đã thanh toán");
+				hd.setLOAITHANHTOAN("Xác thực");
+				hddao.save(hd);
+				HoaDon hdmax = hoadonService.findMaxDatVe();
+				session.setAttribute("mahoadon", hdmax.getMAHD());
+				session.setAttribute("tongtien", "0");
 			}
 		}
 
