@@ -590,7 +590,11 @@ public class DatVeController {
 				hd.setTONGTIEN(tongTien);
 				hd.setNGAYLAP(ngaydat);
 				hd.setTRANGTHAI("Đã thanh toán");
-				hd.setLOAITHANHTOAN("Xác thực");
+				if(session.getAttribute("vnpay").toString()==null) {
+					hd.setLOAITHANHTOAN("Xác thực");
+				}else {
+					hd.setLOAITHANHTOAN("VN Pay");
+				}	
 				hddao.save(hd);
 				HoaDon hdmax = hoadonService.findMaxDatVe();
 				session.setAttribute("mahoadon", hdmax.getMAHD());
@@ -690,7 +694,7 @@ public class DatVeController {
 					ngdicung.setLOAIHK(lhk);
 					ngdicung.setQUOCTICH(ndtam.get(i).getQUOCTICH());
 					ngdicung.setNGAYSINH(ndtam.get(i).getNGAYSINH());
-					System.out.println("----------------------");
+
 
 					gdcdao.save(ngdicung);
 					hktdao.deleteById(ndtam.get(i).getIDTAM());
@@ -704,12 +708,15 @@ public class DatVeController {
 				hd.setTONGTIEN(tongTien);
 				hd.setNGAYLAP(ngaydat);
 				hd.setTRANGTHAI("Đã thanh toán");
-				hd.setLOAITHANHTOAN("Xác thực");
+				if(session.getAttribute("vnpay").toString()==null) {
+					hd.setLOAITHANHTOAN("Xác thực");
+				}else {
+					hd.setLOAITHANHTOAN("VN Pay");
+				}		
 				hddao.save(hd);
 				HoaDon hdmax = hoadonService.findMaxDatVe();
 				session.setAttribute("mahoadon", hdmax.getMAHD());
 			}
-			System.out.println("ko có id");
 		} else {
 
 			// Lưu tài khoản
@@ -794,7 +801,11 @@ public class DatVeController {
 				hd.setTONGTIEN(tongTien);
 				hd.setNGAYLAP(ngaydat);
 				hd.setTRANGTHAI("Đã thanh toán");
-				hd.setLOAITHANHTOAN("Xác thực");
+				if(session.getAttribute("vnpay").toString()==null) {
+					hd.setLOAITHANHTOAN("Xác thực");
+				}else {
+					hd.setLOAITHANHTOAN("VN Pay");
+				}	
 				hddao.save(hd);
 				HoaDon hdmax = hoadonService.findMaxDatVe();
 				session.setAttribute("mahoadon", hdmax.getMAHD());
@@ -893,7 +904,12 @@ public class DatVeController {
 				hd.setTONGTIEN(tongTien);
 				hd.setNGAYLAP(ngaydat);
 				hd.setTRANGTHAI("Đã thanh toán");
-				hd.setLOAITHANHTOAN("Xác thực");
+				System.out.println(session.getAttribute("vnpay").toString());
+				if(session.getAttribute("vnpay").toString()==null) {
+					hd.setLOAITHANHTOAN("Xác thực");
+				}else {
+					hd.setLOAITHANHTOAN("VN Pay");
+				}				
 				hddao.save(hd);
 				HoaDon hdmax = hoadonService.findMaxDatVe();
 				session.setAttribute("mahoadon", hdmax.getMAHD());

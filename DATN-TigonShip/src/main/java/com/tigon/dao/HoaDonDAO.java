@@ -41,7 +41,7 @@ public interface HoaDonDAO extends JpaRepository<HoaDon, Integer> {
             "GROUP BY t.TENTUYEN, l.IDTUYEN", nativeQuery = true)
     List<Object> doanhThuTheoNgay(Date ngay);
 
-    @Query(value = "SELECT * FROM GIAVE WHERE MADATVE=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM HOADON WHERE MADATVE=?1", nativeQuery = true)
     public HoaDon findByMaDateVe(Integer madatve);
     
     @Query(value = "SELECT TOP 1 * from hoadon ORDER BY MADATVE DESC", nativeQuery = true)

@@ -30,6 +30,14 @@ public class DatVeRestController {
     DatGheDAO datgheDAO;
     @Autowired 
     NguoiDiCungDAO nguoidicungDAO;
+    
+    /*
+     * @GetMapping("/rest/datve")
+     * public Map<String, Object> getAll() {
+     * Map<String, Object> map = new HashMap<>();
+     * map.put("tuyen", tuyenDAO.findAll());
+     * return map;}
+     */
 
     @GetMapping("/rest/datve")
     public List<Tuyen> getAllTuyen() { //select tuyến
@@ -54,6 +62,11 @@ public class DatVeRestController {
     @GetMapping("/rest/datve/nguoidicung/{iddatve}") // select người đi cùng
     public List<Object> getNguoiDiCungById(@PathVariable Integer iddatve) {
         return datVeDAO.thongTinNguoiDiCung(iddatve);
+    } 
+
+    @GetMapping("/rest/datve/nguoidicung/{id}/{idtuyen}/{idloaive}") // Tính lại tiền hóa đơn sau khi xóa hành khách
+    public List<Object> tinhTienKhiXoaHK(@PathVariable Integer id ,@PathVariable Integer idtuyen,@PathVariable Integer idloaive) {
+        return datVeDAO.tongTien(id,idtuyen,idloaive);
     }
 
     @DeleteMapping("/rest/datve/theongay/{id}")// xóa hóa đơn + đặt vé
