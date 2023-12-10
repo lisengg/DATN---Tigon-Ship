@@ -15,7 +15,6 @@
 <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -48,7 +47,7 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">DANH SÁCH GIÁ VÉ TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm giá vé</button>
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm giá vé</button>
 									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
 									</button>
@@ -117,15 +116,15 @@
 											<label class="form-label">Trạng Thái</label> 
 											<select ng-model="form.trangthai" class="form-control">
 											<option>Đang hoạt động</option>
-											<option>Ngưng hoạt dộng</option>
+											<option>Ngưng hoạt động</option>
 											</select>
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer text-center">
 									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button>
-									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>									
+									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>									
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >

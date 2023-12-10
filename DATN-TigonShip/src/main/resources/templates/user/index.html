@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>TigonShip</title>
 
 <!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script  src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> 
+        <!-- <link rel="stylesheet" href="admin/css/style.css"> -->
+        
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="/assets/css/animate.css" rel="stylesheet">
@@ -22,9 +26,15 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <style>
-.opacity:hover{opacity:0.6} /* 0.6 là điều chỉnh thông số thông suốt  */
-.black:hover{filter: grayscale(100%);} /*  100% là độ chuyển màu sang đen của ảnh  */
-.blur:hover{filter: blur(5px);} /* 5px là độ blur của hình ảnh */
+.opacity:hover {
+	opacity: 0.6
+} /* 0.6 là điều chỉnh thông số thông suốt  */
+.black:hover {
+	filter: grayscale(100%);
+} /*  100% là độ chuyển màu sang đen của ảnh  */
+.blur:hover {
+	filter: blur(5px);
+} /* 5px là độ blur của hình ảnh */
 </style>
 </head>
 
@@ -47,18 +57,17 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<nav class="main-nav">
-						<!-- ***** Logo Start ***** -->
+
 						<div>
-							<a href="/user/index" class="logo"> <img
-								src="/images/logotau.jpg" alt=""
-								style="width: 150px; height: 70px; margin-top: 0px" >
+							<a href="/" class="logo"> <img
+								src="/assets/images/logoweb.png" alt=""
+								style="width: 135px; height: 70px; margin-top: 0px">
 							</a>
 						</div>
 
-						<!-- ***** Logo End ***** -->
-						<!-- ***** Menu Start ***** -->
-						<ul class="nav">
-							<li><a href="/user/index">Trang chủ</a></li>
+
+						<ul class="nav" style="left: 0px;">
+							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
 							<li><a href="/gopy">Góp Ý</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
@@ -66,13 +75,33 @@
 								<li><a href="/dangnhap">Đăng nhập</a></li>
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
-							<th:block th:if="${#httpServletRequest.remoteUser}">
-							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
-							<li><a th:href="@{/admin}">Quản lý</a></li>
-							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
-							
-							</th:block>
+						<!-- 	<th:block th:if="${#httpServletRequest.remoteUser}">
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
+								
+							</th:block> -->
+						
+							<div class="dropdown">
+								<li th:if="${#request.remoteUser}"
+									class="nav-item dropdown-toggle" type="button"
+									data-bs-toggle="dropdown" aria-expanded="false">Xin chào
+									[[${#request.remoteUser}]]</li>
+								<ul class="dropdown-menu" style="background: #fff;">
+									<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a class="dropdown-item" th:href="@{/admin}"
+										style="color: black;"><i class="menu-icon fa fa-laptop"></i>
+											Quản lý</a></li>
+									<li><a class="dropdown-item"
+										th:href="@{/thongtintaikhoan}" style="color: black;"><i
+											class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
+									<li><a class="dropdown-item" th:href="@{/security/logoff}"
+										style="color: black;"><i class="menu-icon ti-new-window"></i>
+											Đăng xuất</a></li>
+								</ul>
+							</div>
 						</ul>
+						<!-- <li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li> -->
+						
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
 						<!-- ***** Menu End ***** -->
@@ -98,7 +127,7 @@
 							<h2>Nhìn thoáng vào phong cảnh xinh đẹp của:</h2>
 							<h1>Nam Du</h1>
 							<div class="border-button">
-								<a href="index.html">Go There</a>
+								<a href="/user/timtuyen">Go There</a>
 							</div>
 						</div>
 						<div class="container"></div>
@@ -330,8 +359,8 @@
 					<div class="col-lg-4">
 						<h5 style="color: White">Các Tuyến nổi bật</h5>
 
-						<li><a href="/user/index" style="color: White">Kiên
-								Giang-Hòn Sơn</a></li>
+						<li><a href="/user/index" style="color: White">KiênGiang-Hòn
+								Sơn</a></li>
 						<li><a href="/user/index" style="color: White">Kiên
 								Giang-Nam Du</a></li>
 						<li><a href="/user/index" style="color: White">Kiên
@@ -389,7 +418,14 @@
 		<script src="/assets/js/tabs.js"></script>
 		<script src="/assets/js/popup.js"></script>
 		<script src="/assets/js/custom.js"></script>
-
+		 <script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+		integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+		crossorigin="anonymous"></script>
 		<script>
 			function bannerSwitcher() {
 				next = $('.sec-1-input').filter(':checked')
@@ -407,6 +443,15 @@
 				bannerTimer = setInterval(bannerSwitcher, 5000)
 			});
 		</script>
+<!-- 		<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="TigonShip"
+  agent-id="4a40018d-56b3-40fb-b826-ce614e6477e4"
+  language-code="vi"
+></df-messenger> -->
+ <script th:src="@{/js/chatbot.js}"></script> 
+
 </body>
 
 </html>

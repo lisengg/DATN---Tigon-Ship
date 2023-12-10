@@ -89,7 +89,8 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 			"tuyen": $scope.items.tuyen[index],
 			"tau": $scope.items.tau[index1],
 			"gioxuatphat": $scope.form.gioxuatphat,
-			"giodennoi": $scope.form.giodennoi
+			"giodennoi": $scope.form.giodennoi,
+			"trangthai": $scope.form.trangthai
 		}
 		var url = `/rest/lichtau/save`;
 		// Kiểm tra giờ xuất phát không được để trống
@@ -129,14 +130,14 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 				document.getElementById('check3').checked = true;
 				var itemlichsu = {
 					"lichtau": response.data,
-					"thaotac" : "Vừa thêm mới tàu có ID : " + response.data.idlichtau ,
+					"thaotac" : "Đã thêm mới lịch tàu có ID : " + response.data.idlichtau ,
 				}
 				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
 					.then(function(response) {   
 						$scope.items.lichsu.push(response.data)
 					})
 					.catch(function(error) {
-						console.log("Error creating LichuHangTau", error);
+						console.log("Error creating LichSuLichTau", error);
 					});
 				$scope.reset();
 			}).catch(error => {
@@ -207,7 +208,7 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 
 		console.log(ttupdate);
 		var itemlichsu = {
-			"tuyen": item,
+			"lichtau": item,
 			"thaotac": ttupdate,
 		}
 		if (isDuplicate) {

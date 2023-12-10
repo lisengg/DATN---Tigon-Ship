@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
 <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>	
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"><!--Tab -->
 <style>
 	/* Style for the date input */
 	input[type=date] {
@@ -71,7 +72,7 @@
 		color: #fff;
 	}
 	.card-title {
-		font-size: 18px; /* Adjust the font size as needed */
+		font-size: 25px; /* Adjust the font size as needed */
 		font-weight: bold; /* Make the font bold */
 		color: #333; /* Change the text color */
 		margin-bottom: 10px; /* Add some bottom margin for spacing */
@@ -105,101 +106,197 @@ select:hover {
 select:active {
     border-color: #7597b8;
 }
-</style>
+#errorMessageModal { 
+        top: 5px; /* Điều chỉnh giá trị này để thay đổi khoảng cách từ top xuống dưới */
+    }
 </style>
 <link rel="stylesheet" th:href="@{/css/style1.css}">		
 </head>
 <body ng-app="datve-app" ng-controller="datve-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
-	<!-- /Left-panel -->
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
 	</div>
 	<!---------------->
+	
 	<div id="right-panel" class="right-panel">
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">
-									Thông tin đặt vé ngày: </strong>
+							<!-- nút tìm kiếm theo ngày - tuyến - mã hóa đơn -->
+							<div class="card-header" style="text-align: center;">
+								<strong class="card-title">Thông tin vé đặt khởi hành ngày </strong>
 								<input type="date" id="datepicker" ng-model="selectedDate">
-								<select class="text-center" ng-model="selectedTuyen"
-									ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
+								<select class="text-center" ng-model="selectedTuyen" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
 								</select>
 								<button ng-click="searchByDate()" class="custom-button">
-									<i class="fas fa-search"></i>
+									<i class="fas fa-search"></i> 
 								</button>
-								<!-- <input type="text" ng-model="searchMaHD" placeholder="Nhập MaHD">
-								<button ng-click="searchByMaHD(searchMaHD)">Tìm Kiếm</button> -->
-							</div>
+								<button ng-click="reset()" class="custom-button">
+									<i class="fas fa-sync"></i>
+								</button>
 							
+								<div style="margin: 10px 0;">
+									<input class="custom-button" type="text" ng-model="searchMaHD" placeholder="Nhập mã Hóa đơn" ng-show="maHD">
+									<button class="custom-button" ng-click="searchByMaHD(searchMaHD)" ng-show="search">
+										<i class="fas fa-search"></i> 	
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								 <!-- Tabs (tab1: tài khoản, tab2: khách hàng) -->
+								<div class="container">
+									<ul class="nav nav-tabs" id="myTabs">
+										<li class="nav-item">
+											<a class="nav-link active" id="tab1" data-toggle="tab" href="#content1">Tài Khoản</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="tab2" data-toggle="tab" href="#content2">Hành khách</a>
+										</li>
+									</ul>
+								</div>
+								<!-- Tab Contents -->
+							<div class="tab-content mt-2">
+								<div class="tab-pane fade show active" id="content1">
+									<div class="table-stats order-table ov-h">
+										<table class="table">
+											<thead class="text-center">
+												<tr>
+													<th>Mã HD</th>
+													<th>Ngày đặt</th>
+													<th>Tên</th>
+													<th class="text-center">Số ĐT</th>
+													<th>Số ghế</th>
+													<th>Tàu</th>
+													<th class="text-center">Chi tiết</th>
+												</tr>
+											</thead>
+											<tbody ng-repeat="item in datvetheongay">
+												<tr>
+													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
+													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
+												 	<!--<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
+													<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- Mã đặt vé -->
+													<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ngày về -->
+													<!--<td class="text-center"><span>{{item[5]}}</span></td> --><!-- trạng thái -->
+													<td class="text-center"><span>{{item[6]}}</span></td><!-- HỌ VÀ TÊN -->
+													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
+													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
+													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
+													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
+														<i class="fas fa-pen"></i> </button></td>					
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="content2">
+									<div class="table-stats order-table ov-h">
+										<table class="table">
+											<thead class="text-center">
+												<tr>
+													<th>Mã HD</th>
+													<th>Ngày đặt</th>
+													<th>Tên</th>
+													<th class="text-center">Số ĐT</th>
+													<th>Số ghế</th>
+													<th>Tàu</th>
+													<th class="text-center">Chi tiết</th>
+												</tr>
+											</thead>
+											<tbody ng-repeat="item in datvetheongayHK">
+												<tr>
+													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
+													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
+												 	<!--<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
+													<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- Mã đặt vé -->
+													<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ngày về -->
+													<!--<td class="text-center"><span>{{item[5]}}</span></td> --><!-- trạng thái -->
+													<td class="text-center"><span>{{item[6]}}</span></td><!-- HỌ VÀ TÊN -->
+													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
+													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
+													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
+													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
+														<i class="fas fa-pen"></i> </button></td>					
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- Tab Contents -->
+							</div>
 							    <!-- Bootstrap modal for error message -->
 							<div class="modal" id="errorMessageModal" tabindex="-1" role="dialog">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title">Thông báo</h5>
+											<h5 class="modal-title">{{ errorMsg }}</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
-										<div class="modal-body">
-											{{ errorMsg }}
-										</div>
+										<!-- <div class="modal-body">
+										</div> -->
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 										</div>
 									</div>
+								
 								</div>
 							</div>
+							 <!-- Bootstrap modal for form đặt ghế + người đi cùng + cập nhật đặt vé -->
 							<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header" style="background: #597aa7;">
-											<h3 class="modal-title" id="modalTitleId">Thông tin đặt vé</h3>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											
+											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé<i class="fas fa-trash"></i> </button>
+											<button ng-click="" class="custom-button">Cập nhật vé<i class="fas fa-sync"></i> </button>
+											<button type="button" ng-click="checkAndClose()" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+
 										</div>
 										<div class="modal-body">
 											<div class="table-stats order-table ov-h">
 												<table class="table">
 													<thead class="text-center">
 														<tr>
-															<th>Mã HD</th>
-															<th>Tên</th>
-															<th class="text-center">SDT</th>
-															
+															<th>ID đặt ghế</th>
+															<th>Tên ghế</th>
+															<th class="text-center">Khoang</th>
+															<th  class="text-center">Hủy</th>
 														</tr>
 													</thead>
 													<tbody ng-repeat="item in datghe">
 														<tr>
-															<td>{{item[0]}}</td>
-															<td>{{item[1]}}</td>
-															<td>{{item[2]}}</td>
+															<td class="text-center">{{item[0]}}</td>
+															<td class="text-center">{{item[1]}}</td>
+															<td class="text-center">{{item[2]}}</td>
+															<td  class="text-center"><button ng-click="deleteDatGhe(item[0])"  class="custom-button"><i class="fas fa-trash"></i> </button></td>
 														</tr>
 													</tbody>
 												</table>
 											</div>
 											<div class="table-stats order-table ov-h">
-												Người đi cùng
 												<table class="table">
 													<thead class="text-center">
 														<tr>
-															<th>Mã HD</th>
 															<th>Tên</th>
+															<th>CCCD</th>
 															<th class="text-center">SDT</th>
-															
+															<th  class="text-center">Hủy</th>
 														</tr>
 													</thead>
 													<tbody ng-repeat="item in nguoidicung">
 														<tr>
-															<td class="text-center">{{item[0]}}</td>
 															<td class="text-center">{{item[1]}}</td>
 															<td class="text-center">{{item[2]}}</td>
+															<td class="text-center">{{item[3]}}</td>
+															<td  class="text-center"><button ng-click="deleteNguoiDiCung(item[0])"  class="custom-button"><i class="fas fa-trash"></i> </button></td>
 														</tr>
 													</tbody>
 												</table>
@@ -207,58 +304,21 @@ select:active {
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="card-body">
-								<div class="table-stats order-table ov-h">
-									<table class="table">
-										<thead class="text-center">
-											<tr>
-												<th>Mã HD</th>
-												<th>Tên</th>
-												<th>SDT</th>
-												<th class="text-center">Số ghế</th>
-												<th>Tàu</th>
-												<th>Tuyến</th>
-												<th>Mã DV</th>
-												<th class="text-center">Chi tiết</th>
-											</tr>
-										</thead>
-										<tbody ng-repeat="item in datvetheongay">
-											<tr>
-												<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
-											<!--<td class="text-center"><span>{{item[1]}}</span></td>  ngày đặt-->
-											<!--<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
-											<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- NGÀY VỀ -->
-											<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ĐÃ THANHTOAN -->
-												<td class="text-center"><span>{{item[5]}}</span></td><!-- TÊN HK -->
-												<td class="text-center"><span>{{item[6]}}</span></td><!-- SDT -->
-												<td class="text-center"><span>{{item[7]}}</span></td><!-- tổng số ghế đặt -->
-												<td class="text-center"><span>{{item[9]}}</span></td><!-- Tàu -->
-												<td class="text-center"><span>{{item[10]}}</span></td><!-- Tuyến -->
-												<td class="text-center"><span>{{item[11]}}</span></td><!-- Mã đặt vé -->
-												<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[11])" class="custom-button">
-													<i class="fas fa-pen"></i> </button></td>
-													<!-- <button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button> -->
-												  
-
-																			
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-					
+							</div>			
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+		<!-- Footer-->
+	<!-- 	<div th:replace="~{admin/fragments_admin :: footer}"></div> -->
+		<!-- Footer -->
+
 	<!-- Scripts -->
 	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>

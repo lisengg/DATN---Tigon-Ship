@@ -32,6 +32,4 @@ public class HoaDonRestController {
     public HoaDon getOne(@PathVariable("id") Integer id) {
         return hoaDonDAO.findById(id).get();
     }
-
-    
 }

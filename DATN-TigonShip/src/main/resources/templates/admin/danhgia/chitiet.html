@@ -111,6 +111,7 @@
 									  <th scope="col">Tên hành khách</th>
 									  <th scope="col">Điểm</th>
 									  <th scope="col">Bình luận</th>
+									  <th scope="col">Ngày đánh giá</th>
 								  </tr>
 							  </thead>
 							  <tbody ng-repeat="dg in danhgia">
@@ -118,6 +119,7 @@
 									<td>{{dg[0]}}</td>
 									<td>{{dg[1]}}</td>
 									<td>{{dg[2]}}</td>
+									<td>{{dg[3] | date:'dd-MM-yyyy'}}</td>
 								</tr>
 							</tbody>
 						</table>

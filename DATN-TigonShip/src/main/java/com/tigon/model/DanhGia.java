@@ -1,5 +1,8 @@
 package com.tigon.model;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,23 +16,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name="DANHGIAHANHKHACH")
+@Table(name="DANHGIA")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class DanhGia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IDDANHGIAHK;
+    Integer IDDANHGIA;
     Integer DANHGIA;
     String BINHLUAN;
-
+    @Column(name = "NGAYDANHGIA")
+	LocalDateTime NGAYDANHGIA = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name="IDTUYEN")
     Tuyen TUYEN;
 
     @ManyToOne
-    @JoinColumn(name="IDHANHKHACH")
-    HanhKhach HANHKHACH;
+    @JoinColumn(name="IDTAIKHOAN")
+    TaiKhoan TAIKHOAN;
     
 }

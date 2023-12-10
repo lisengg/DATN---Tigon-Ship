@@ -14,13 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @Controller
 public class SecurityController {
 	
-	HanhKhachService hanhKhachService;
+	TaiKhoanService taiKhoanService;
 	
 	@Autowired
 	HttpSession session;
@@ -37,7 +37,7 @@ public class SecurityController {
 		model.addAttribute("message", "Đăng nhập thành công!");
 		return "user/index";
 	}
-
+	
 	@RequestMapping("/security/login/error")
 	public String loginError(Model model) {
 		model.addAttribute("messageError", "Sai thông tin đăng nhập!");

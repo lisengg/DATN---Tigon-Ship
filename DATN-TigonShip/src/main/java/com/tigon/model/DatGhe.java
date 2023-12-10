@@ -22,13 +22,14 @@ public class DatGhe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer IDDATGHE;
-	
+	String IDTUYEN;
+	String THOIGIAN;
     @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;
 
     @ManyToOne
-	@JoinColumn(name = "MADATVE")
+	@JoinColumn(name = "IDDATVE")
 	DatVe DATVE;
 
 }

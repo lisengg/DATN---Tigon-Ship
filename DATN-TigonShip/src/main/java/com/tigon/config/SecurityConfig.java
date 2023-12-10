@@ -1,9 +1,6 @@
 package com.tigon.config;
-
 import java.util.NoSuchElementException;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +20,15 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
-import com.tigon.model.HanhKhach;
-import com.tigon.service.HanhKhachService;
+import com.tigon.model.TaiKhoan;
+import com.tigon.service.TaiKhoanService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	HanhKhachService hanhKhachService;
+	TaiKhoanService taiKhoanService;
 	
 	@Autowired
 	BCryptPasswordEncoder pe;
@@ -39,27 +36,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	HttpSession session;
 
+
 	// Cung cấp nguồn dữ liệu đăng nhập
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(username -> {
 			try {
+
 				System.out.println("Username :" + username);
-				HanhKhach hanhkhach = hanhKhachService.findIdByEmailOrPhone(username);
+				TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(username);
 				String password = null;
 				String roles = null;
 				String hoten = null;
 				 	
 				// Nhập đúng thông tin dăng nhập
-				if (hanhkhach.getIDHANHKHACH() != null) {
-					HanhKhach user = hanhKhachService.findById(hanhkhach.getIDHANHKHACH());
+				if (taikhoan.getIDTAIKHOAN() != null) {
+					TaiKhoan user = taiKhoanService.findById(taikhoan.getIDTAIKHOAN());
 					System.out.println(user.getHOVATEN());
 					password = pe.encode(user.getMATKHAU());
-					roles = user.getQUYEN();
+					roles = user.getVAITRO();
+					hoten = user.getEMAIL();
 					hoten = user.getHOVATEN();
-					session.setAttribute("user", user.getIDHANHKHACH());
+					session.setAttribute("user", user.getIDTAIKHOAN());
 					session.setAttribute("role", roles);
 				}
+
+
+				
 				return User.withUsername(hoten).password(password).roles(roles).build();
 			} catch (NoSuchElementException e) {
 				throw new UsernameNotFoundException(username + "không tìm thấy!");
@@ -74,9 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// Phân quyền sử dụng
 		http.authorizeRequests()
-		.antMatchers("/thongtintaikhoan").hasRole("USER")
-		.antMatchers("/admin/*").hasAnyRole("ADMIN","STAFF")
-		.antMatchers("/rest/authority1").hasRole("ADMIN")
+		.antMatchers("/admin").hasAnyRole("ADMIN","STAFF")
 		.anyRequest().permitAll(); // anonymous
 		
 //		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);

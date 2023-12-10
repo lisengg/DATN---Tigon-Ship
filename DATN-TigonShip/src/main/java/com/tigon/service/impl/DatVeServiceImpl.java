@@ -14,9 +14,9 @@ public class DatVeServiceImpl implements DatVeService {
 	DatVeDAO dao;
 
 	@Override
-	public DatVe getNgayDatMoiNhat(Integer idhanhkhach) {
+	public DatVe getNgayDatMoiNhat(Integer idtaikhoan) {
 		// TODO Auto-generated method stub
-		return dao.getNgayDatMoiNhat(idhanhkhach);
+		return dao.getNgayDatMoiNhat(idtaikhoan);
 	}
 
 	@Override
@@ -32,9 +32,15 @@ public class DatVeServiceImpl implements DatVeService {
 	}
 
 	@Override
-	public List<DatVe> ListDatVeByidKhach(Integer idhanhkhach) {
+	public List<DatVe> ListDatVeByIdTaiKhoan(Integer idtaikhoan) {
 		// TODO Auto-generated method stub
-		return dao.ListDatVeByidKhach(idhanhkhach);
+		return dao.ListDatVeByIdTaiKhoan(idtaikhoan);
+	}
+
+	@Override
+	public DatVe FINDIDMAX() {
+		// TODO Auto-generated method stub
+		return dao.FINDIDMAX();
 	}
 
 }

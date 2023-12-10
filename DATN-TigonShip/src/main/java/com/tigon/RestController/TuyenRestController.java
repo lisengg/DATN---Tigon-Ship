@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tigon.dao.LichSuTuyenDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TuyenDAO;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LichSuTuyen;
 import com.tigon.model.Tuyen;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @RestController
@@ -32,7 +32,7 @@ public class TuyenRestController {
 	@Autowired
 	LichTauChayDAO lichTauChayDAO;
 	@Autowired
-    HanhKhachService hanhKhachService;
+    TaiKhoanService taiKhoanService;
 	@Autowired 
 	LichSuTuyenDAO lichSuTuyenDAO;
 
@@ -57,8 +57,8 @@ public class TuyenRestController {
 	@PostMapping("/rest/tuyen/lichsu/save")
     public LichSuTuyen saveLichSu(@RequestBody LichSuTuyen lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      HanhKhach hanhkhach = hanhKhachService.findById(user);
-      lichSu.setTEN(hanhkhach.getHOVATEN());
+      TaiKhoan taikhoan = taiKhoanService.findById(user);
+      lichSu.setTEN(taikhoan.getHOVATEN());
         return lichSuTuyenDAO.save(lichSu);
     }
 

@@ -25,7 +25,6 @@ public class gheNgoiRestController {
     GheNgoiDAO gheNgoiDAO;
     @Autowired
     TauDAO tauDAO;
-
     @GetMapping("/rest/ghengoi")
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();
@@ -33,27 +32,23 @@ public class gheNgoiRestController {
         map.put("ghengoi", gheNgoiDAO.findAll());
         return map;
     }
-
     @GetMapping("/rest/ghengoi/{id}") // lấy danh sách ghế ngồi theo id tàu
     public List<GheNgoi> getAllGheNgoi(@PathVariable("id") Integer id) {
         return gheNgoiDAO.gheNgoiByIdtau(id);
     }
-
-    @GetMapping("/rest/ghe/{id}") // lấy 1 ghế ngồi qua id ghế
-    public GheNgoi getOne(@PathVariable("id") Integer id) {
-        return gheNgoiDAO.findById(id).get();
-    }
-
+//    @GetMapping("/rest/ghe/{id}")// lấy 1 ghế ngồi qua id ghế
+//    public GheNgoi getOne(@PathVariable("id") Integer id) {
+//        return gheNgoiDAO.findById(id).get();
+//    }
     @PostMapping("/rest/ghengoi/save")
     public GheNgoi save(@RequestBody GheNgoi gheNgoi) {
         return gheNgoiDAO.save(gheNgoi);
     }
-
     @PutMapping("/rest/ghengoi/{id}")
     public GheNgoi update(@PathVariable("id") Integer id, @RequestBody GheNgoi gheNgoi) {
         return gheNgoiDAO.save(gheNgoi);
     }
-
+    
     @DeleteMapping("/rest/ghengoi/{id}")
     public void delete(@PathVariable("id") Integer id) {
         gheNgoiDAO.deleteById(id);

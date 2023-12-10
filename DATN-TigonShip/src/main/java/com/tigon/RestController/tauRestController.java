@@ -19,36 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tigon.dao.GheNgoiDAO;
 import com.tigon.dao.HangTauDAO;
 import com.tigon.dao.LichSuTauDAO;
+//import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TauDAO;
 import com.tigon.model.GheNgoi;
-import com.tigon.model.HanhKhach;
+import com.tigon.model.TaiKhoan;
 import com.tigon.model.LichSuTau;
 import com.tigon.model.Tau;
-import com.tigon.service.GheNgoiService;
-import com.tigon.service.HanhKhachService;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @RestController
 public class TauRestController {
     @Autowired
     TauDAO tauDAO;
+    @Autowired 
+    GheNgoiDAO gheNgoiDAO;
     @Autowired
     HangTauDAO hangTauDAO;
     @Autowired 
     LichSuTauDAO lichsuDAO;
-    @Autowired 
-    GheNgoiDAO gheNgoiDAO;
+   // @Autowired 
+  //  LichTauChayDAO lichTauChayDAO;
     @Autowired
-    HanhKhachService hanhKhachService;
+    TaiKhoanService taiKhoanService;
     
     @GetMapping("/rest/tau")
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("tau", tauDAO.findAll());
         map.put("hangtau", hangTauDAO.findAll());
+       // map.put("lichtau", lichTauChayDAO.findAll());
         map.put("lichsu", lichsuDAO.findAll());
-        map.put("ghengoi",gheNgoiDAO.findAll());
-
         return map;
     }
     @GetMapping("/rest/tau/{id}")
@@ -60,22 +61,16 @@ public class TauRestController {
     public Tau save(@RequestBody Tau tau) {
         return tauDAO.save(tau);
     }
-
-     // Lưu 160 ghế khi thêm tàu.
-    /*  @PostMapping("/rest/tau/ghengoi/saveAll")
-     public List<GheNgoi> saveAll(@RequestBody GheNgoiService gheNgoiService) {
-         List<GheNgoi> danhSachGheNgoi = gheNgoiService.getDanhSachGheNgoi();
-         return gheNgoiDAO.saveAll(danhSachGheNgoi);
-     } */
-     @PostMapping("/rest/tau/ghengoi/saveAll")
-     public List<GheNgoi> saveAll(@RequestBody List<GheNgoi> danhSachGheNgoi) {
-         return gheNgoiDAO.saveAll(danhSachGheNgoi);
-     }
- 
+    
+    @PostMapping("/rest/tau/ghengoi/saveAll")
+    public List<GheNgoi> saveAll(@RequestBody List<GheNgoi> danhSachGheNgoi) {
+        return gheNgoiDAO.saveAll(danhSachGheNgoi);
+    }
+    
     @PostMapping("/rest/tau/lichsu/save")
     public LichSuTau saveLichSu(@RequestBody LichSuTau lichSu,HttpSession session) {
       Integer user = Integer.parseInt(session.getAttribute("user").toString());
-      HanhKhach hanhkhach = hanhKhachService.findById(user);
+      TaiKhoan hanhkhach = taiKhoanService.findById(user);
       lichSu.setTEN(hanhkhach.getHOVATEN());
         return lichsuDAO.save(lichSu);
     }

@@ -47,8 +47,7 @@
 								<h3>
 									<strong class="card-title">Danh sách tuyến tàu</strong>
 									<button data-bs-toggle="modal" type="button" ng-click="reset()"
-										data-bs-target="#modal" class="btn btn-primary">Thêm
-										tuyến</button>
+										data-bs-target="#modal" class="btn btn-primary" th:if="${#request.isUserInRole('ADMIN')}">Thêm tuyến</button>
 										<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 											Lịch sử cập nhật
 										</button>
@@ -96,7 +95,7 @@
 									<label class="form-label">Trạng Thái</label> 
 									<select ng-model="form.trangthai" class="form-control">
 										<option>Đang hoạt động</option>
-										<option>Ngưng hoạt dộng</option>
+										<option>Ngưng hoạt động</option>
 									</select>
 								</div>
 								
@@ -107,8 +106,8 @@
 							<button type="button" ng-show="post" ng-click="create()"
 								class="btn btn-primary">Tạo</button>
 							<button type="button" ng-show="put" ng-click="update()"
-								class="btn btn-success">Chỉnh sửa</button>
-							<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa
+								class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
+							<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa
 								form</button>					
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">								     

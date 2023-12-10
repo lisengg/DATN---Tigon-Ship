@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tigon.dao.HangTauDAO;
-import com.tigon.dao.HanhKhachDAO;
+import com.tigon.dao.TaiKhoanDAO;
 
 @Controller
 public class QuanlyController {
@@ -16,7 +16,7 @@ public class QuanlyController {
 	HangTauDAO hangTauDAO;
 
 	@Autowired
-	HanhKhachDAO hanhKhachDAO;
+	TaiKhoanDAO taiKhoanDAO;
 
 	@GetMapping("/admin")
 	public String quanly(Model model) {
@@ -49,10 +49,10 @@ public class QuanlyController {
 		return "admin/hangtau/hangtau";
 	}
 
-	@GetMapping("/admin/hanhkhach")
+	@GetMapping("/admin/taikhoan")
 	public String hanhkhach(Model model) {
 
-		return "admin/hanhkhach/hanhkhach";
+		return "admin/taikhoan/taikhoan";
 	}
 
 	@GetMapping("/admin/giave")
@@ -80,17 +80,19 @@ public class QuanlyController {
 	}
 	@GetMapping("/admin/hoadon")
 	public String hoadon(Model model) {
+
 		return "admin/hoadon/hoadon";
-	}
-	@GetMapping("/admin/datve")
-	public String datve(Model model) {
-		return "admin/datve/datve";
 	}
 
 	@GetMapping("/admin/doanhthu")
 	public String doanhthu(Model model) {
 		return "admin/doanhthu/doanhthu";
 	}
+	@GetMapping("/admin/datve")
+	public String datve(Model model) {
+		return "admin/datve/datve";
+	}
+
 
 	@GetMapping("/admin/doanhthu/theongay")
 	public String doanhthuTheoNgay(Model model) {

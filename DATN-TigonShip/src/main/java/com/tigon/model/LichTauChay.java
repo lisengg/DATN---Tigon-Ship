@@ -33,7 +33,6 @@ public class LichTauChay {
     String GIOXUATPHAT;
     String GIODENNOI;
     String TRANGTHAI;
-
     @ManyToOne
     @JoinColumn(name="IDTAU")
     Tau TAU;
@@ -46,11 +45,6 @@ public class LichTauChay {
     @OneToMany(mappedBy = "LICHTAUCHAY")
     @JsonBackReference
     List<DatVe> DATVE;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "LICHTAUCHAY")
-    @JsonBackReference
-    List<LichSuLichTauChay> LICHSULICHTAUCHAY;
 
 
     

@@ -1,6 +1,5 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,14 +48,14 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>ID</th>
-											<th>HỌ VÀ TÊN</th>
-											<th>EMAIL</th>
-											<th>QUYỀN</th>
-											<th>THAO TÁC</th>
+											<th class="text-center">ID</th>
+											<th class="text-center">HỌ VÀ TÊN</th>
+											<th class="text-center">EMAIL</th>
+											<th class="text-center">QUYỀN</th>
+											<th class="text-center">THAO TÁC</th>
 										</tr>
 									</thead>
-									<tbody></tbody>
+									<tbody class="text-center"></tbody>
 								</table>
 							</div>
 						</div>
@@ -68,16 +67,12 @@
 							<div class="modal-content">
 								<div class="modal-header" style="background: #17bac5;">
 									<h4 class="modal-title" id="modalTitleId">Cấp quyền</h4>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<div class="mb-3">
 										<label class="form-label">Họ và tên</label> 
 										<input ng-model="form.hovaten" class="form-control" readonly>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Email</label> 
-										<input ng-model="form.email" class="form-control" readonly>
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Quyền</label>
@@ -100,7 +95,7 @@
 										  </div>
 										  <header>Phân quyền thành công</header>
 										  <div class="btns3">
-										      <label for="check3">Đóng</label>
+										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
 									      </div>
 								      </div>
 								      

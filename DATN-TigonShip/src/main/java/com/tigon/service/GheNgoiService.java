@@ -1,16 +1,12 @@
 package com.tigon.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 import com.tigon.model.GheNgoi;
 
-public class GheNgoiService {
-    private List<GheNgoi> danhSachGheNgoi;
+@Service
+public interface GheNgoiService {
 
-    public List<GheNgoi> getDanhSachGheNgoi() {
-        return danhSachGheNgoi;
-    }
-    public void setDanhSachGheNgoi(List<GheNgoi> danhSachGheNgoi) {
-        this.danhSachGheNgoi = danhSachGheNgoi;
-    }
+	public GheNgoi findByid(Integer IDGHE);
 }
+

@@ -1,6 +1,7 @@
 const app = angular.module('tau-app', ['ngSanitize']);
 app.controller('tau-ctrl', function($scope, $http, $sce) {
 	$scope.form = { ngaynhap: new Date(), },
+	$scope.form.ghengoi
 		$scope.initialize = function() {
 			$http.get("/rest/tau").then(response => {
 				$scope.items = response.data;
@@ -22,7 +23,8 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 				{ data: 'tentau' },
 				{ data: 'hangtau.tenhangtau' },
 				{ data: 'soghe' },
-				{ data: 'ngaynhap',
+				{
+					data: 'ngaynhap',
 					render: function(data, type, full, meta) {
 						if (type === 'display') {
 							// Định dạng ngày theo dd/MM/yyyy
@@ -73,14 +75,15 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.delete = true;
 	}
 	//THÊM TÀU
-	$scope.create = function() {	
+	$scope.create = function() {
+
 		// Kiểm tra tên tàu đã được chọn
 		if (!$scope.form.tentau) {
 			document.getElementById('check4').checked = true;
 			return;
 		}
 		// Kiểm tra tên hãng tàu không được để trống
-		 if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
+		if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
 			document.getElementById('check5').checked = true;
 			return;
 		}
@@ -107,57 +110,59 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check3').checked = true;
 			var itemlichsu = {
 				"tau": response.data,
-				"thaotac" : "Đã thêm mới tàu có ID : " + response.data.idtau ,
+				"thaotac": "Đã thêm mới tàu có ID : " + response.data.idtau,
 			}
 			// thêm lịch sử tàu
 			$http.post('/rest/tau/lichsu/save', itemlichsu)
-                .then(function(response) {   
+				.then(function(response) {
 					$scope.items.lichsu.push(response.data)
-                })
+				})
 				.catch(function(error) {
 					console.log("Error creating LichsuTau", error);
 				});
-		
-			//Ghế ngồi làm được rồi yeahhhh
-		var itemsghe = [];
-		for (let i = 1; i <= 160; i++) {
-			let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
-			let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
-			let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
-			let item = {
-				khoang: i <= 100 ? 1 : 2,
-				tenghe: `${letter}${columnIndex}`,
-				tau: response.data 
-			};
-			itemsghe.push(item);
-		}
-    // Thực hiện yêu cầu POST để lưu trữ 160 đối tượng Ghế Ngồi
-    $http.post('/rest/tau/ghengoi/saveAll', itemsghe)
-        .then(function(response) {
-			console.log(response.data); // Xem response của yêu cầu POST
-			$scope.items.ghengoi.push(response.data);
-            console.log("Thành công");
-        })
-        .catch(function(error) {
-            console.log("Lỗi khi thêm ghế ngồi", error);
-        });
-    $scope.reset();
+			var itemsghe = [];
+			var soghe = $scope.form.soghe
+			console.log("Số ghế ngồi:" + soghe)
+			for (let i = 1; i <= soghe; i++) {
+				let rowIndex = Math.ceil(i / 10); // Số thứ tự của dòng (từ 1 đến 16)
+				let columnIndex = (i - 1) % 10 + 1; // Số thứ tự của cột (từ 1 đến 10)
+				let letter = String.fromCharCode('A'.charCodeAt(0) + rowIndex - 1);
+				let tt = "Hoạt động"
+				let item = {
+					khoang: i <= 100 ? 1 : 2,
+					tenghe: `${letter}${columnIndex}`,
+					tau: response.data,
+					trangthai: tt
+				};
+				itemsghe.push(item);
+			}
+			// Thực hiện yêu cầu POST để lưu trữ 160 đối tượng Ghế Ngồi
+			$http.post('/rest/tau/ghengoi/saveAll', itemsghe)
+				.then(function(response) {
+					console.log(response.data); // Xem response của yêu cầu POST
+					$scope.items.ghengoi.push(response.data);
+					console.log("Thành công");
+				})
+				.catch(function(error) {
+					console.log("Lỗi khi thêm ghế ngồi", error);
+				});
+			$scope.reset();
 		}).catch(error => {
 			document.getElementById('check2').checked = true;
 			console.log("Error", error)
 		})
 
 	}
-	 $scope.formatThaoTac = function(thaoTac) {
-        if (thaoTac.includes('#')) {
-            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
-            var separatedLines = thaoTac.split('#').map(line => line.trim());
-            return $sce.trustAsHtml(separatedLines.join('<br>'));
-        } else {
-            // Ngược lại, trả về nguyên bản
-            return thaoTac;
-        }
-    };
+	$scope.formatThaoTac = function(thaoTac) {
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
 	//CẬP NHẬT TÀU
 	$scope.update = function() {
 		var itemold = $scope.originalData
@@ -187,13 +192,19 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		if (itemold.tentau.toLowerCase() !== item.tentau.toLowerCase()) {
 			ttupdate += "# Tên tàu: " + itemold.tentau + " thành " + item.tentau;
 		}
-		
+
 		if (itemold.hangtau.tenhangtau.toLowerCase() !== item.hangtau.tenhangtau.toLowerCase()) {
 			ttupdate += "# Tên hãng tàu: " + itemold.hangtau.tenhangtau + " thành " + item.hangtau.tenhangtau;
 		}
 
 		if (itemold.soghe !== item.soghe) {
 			ttupdate += "# số ghế: " + itemold.soghe + " thành " + item.soghe;
+		}
+
+		if (!angular.equals(itemold.ngaynhap, item.ngaynhap)) {
+			var ngaynhap = moment(item.ngaynhap).format('DD/MM/YYYY');
+			var ngaynhapmoi = moment(itemold.ngaynhap).format('DD/MM/YYYY');
+			ttupdate += "#Ngày nhập: " + ngaynhapmoi + " thành " + ngaynhap;
 		}
 
 		if (itemold.trangthai.toLowerCase() !== item.trangthai.toLowerCase()) {
@@ -213,9 +224,9 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 			row.data(item).draw();
 			document.getElementById('check3').checked = true;
 			$http.post('/rest/tau/lichsu/save', itemlichsu)
-                .then(function(response) {   
+				.then(function(response) {
 					$scope.items.lichsu.push(response.data)
-                })
+				})
 				.catch(function(error) {
 					console.log("Error creating LichSuTau", error);
 				});

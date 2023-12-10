@@ -139,7 +139,7 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check3').checked = true;
 			var itemlichsu = {
 				"hangtau": response.data,
-				"thaotac": "Vừa thêm mới hãng tàu có ID : " + response.data.idhangtau,
+				"thaotac": "Đã thêm mới hãng tàu có ID : " + response.data.idhangtau,
 			}
 			$http.post('/rest/hangtau/lichsu/save', itemlichsu)
 				.then(function(response) {
@@ -264,7 +264,9 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			ttupdate += "# trạng thái thành " + item.trangthai;
 		}
 
-		console.log(ttupdate);
+		console.log(ttupdate); // In ra để kiểm tra giá trị của ttupdate
+
+
 		var itemlichsu = {
 			"hangtau": item,
 			"thaotac": ttupdate,
@@ -281,7 +283,7 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 					$scope.items.lichsu.push(response.data)
 				})
 				.catch(function(error) {
-					console.log("Error creating LichuHangTau", error);
+					console.log("Error creating LichSuHangTau", error);
 				});
 		}).catch(error => {
 			console.log("Error", error)

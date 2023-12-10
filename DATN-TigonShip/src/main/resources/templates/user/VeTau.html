@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -37,7 +37,7 @@ https://templatemo.com/tm-580-woox-travel
 -->
 </head>
 
-<body>
+<body  >
 
 	<!-- ***** Preloader Start ***** -->
 	<div id="js-preloader" class="js-preloader">
@@ -51,23 +51,35 @@ https://templatemo.com/tm-580-woox-travel
 	<!-- ***** Preloader End ***** -->
 
 	<!-- ***** Header Area Start ***** -->
-	<header class="header-area header-sticky">
+	<header class="header-area header-sticky" >
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-lg-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo"> <img
-							src="/assets/images/logo.png" alt="">
-						</a>
+						<div>
+							<a href="/user/index" class="logo"> <img
+								src="/images/logotau.jpg" alt=""
+								style="width: 150px; height: 70px; margin-top: 0px" >
+							</a>
+						</div>
+
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
-							<li><a href="index.html">Trang chủ</a></li>
-							<li><a href="LienHe.html">Liên hệ</a></li>
-							<li><a href="GioiThieu.html" class="active">Giới thiệu</a></li>
-							<li><a href="DangKy.html">Đăng Ký</a></li>
-							<li><a href="DangNhap.html">Đăng nhập</a></li>
+							<li><a href="/user/index">Trang chủ</a></li>
+							<li><a href="/lienhe">Liên hệ</a></li>
+							<li><a href="/gopy">Góp Ý</a></li>
+							<li><a href="/gioithieu">Giới thiệu</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+							<li th:if="${#request.isUserInRole('ADMIN') or  #request.isUserInRole('STAF')}"><a th:href="@{/user/chinhsuataikhoan/form}">Quản lý</a></li>
+							<li th:if="${#request.isUserInRole('USER')}"><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
@@ -79,28 +91,32 @@ https://templatemo.com/tm-580-woox-travel
 	</header>
 	<!-- ***** Header Area End ***** -->
 
-	<div class="amazing-deals">
+	<div class="amazing-deals" style="margin-bottom: 115px;" >
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-sm-6">
 					<div class="item">
 						<div class="row">
-							<div class="col-lg-6">
+							<div class="col-lg-5">
 								<div class="image">
-									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 290px" >
+									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 295px" >
 								</div>
 							</div>
-							<div class="col-lg-6 align-self-center">
-								<div class="content">
-									<h5>Kiên Giang - Hòn Sơn</h5>
+							<div class="col-lg-7 align-self-center">
+								<div class="content" th:each="p:${items}">
+									<!-- <h5>Kiên Giang - Hòn Sơn</h5> -->
+									<h5 th:text=${Ten}></h5>
+									<!-- <label th:text=${p.IDLICHTAU}></label>
+									<label th:text=${p.GIOXUATPHAT}></label>
+									<label th:text=${p.GIODENNOI}></label> -->
 									<div class="row" style="margin-top: 10px;">
 										<hr style="color: black">
 										<div class="col-6">
-											<i class="bi bi-clock">Giờ Đi: </i> <span class="list">6H</span>
+											<i class="bi bi-clock">Giờ Đi: </i> <span class="list"><label th:text=${p.GIOXUATPHAT}></label></span>
 										</div>
 
 										<div class="col-6" style="margin-bottom: 15px;">
-											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list">7h</span>
+											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list"><label th:text=${p.GIODENNOI}></label></span>
 										</div>
 										<hr style="color: black"> 
 										<span style="margin-bottom: 15px; color: black"><b>Còn
@@ -109,7 +125,7 @@ https://templatemo.com/tm-580-woox-travel
 										<br>
 									</div>
 									<div class="main-button" style="text-align: center;">
-										<a>Đặt vé</a>
+										<a  th:href="@{/datve/hanhkhach}" style="background-color: aqua; color: black;">Đặt vé</a>
 									</div>
 								</div>
 							</div>
@@ -117,117 +133,13 @@ https://templatemo.com/tm-580-woox-travel
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-sm-6">
-					<div class="item">
-						<div class="row">
-							<div class="col-lg-6">
-								<div class="image">
-									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 290px" >
-								</div>
-							</div>
-							<div class="col-lg-6 align-self-center">
-								<div class="content">
-									<h5>Kiên Giang - Hòn Sơn</h5>
-									<div class="row" style="margin-top: 10px;">
-										<hr style="color: black">
-										<div class="col-6">
-											<i class="bi bi-clock">Giờ Đi: </i> <span class="list">6H</span>
-										</div>
-
-										<div class="col-6" style="margin-bottom: 15px;">
-											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list">7h</span>
-										</div>
-										<hr style="color: black"> 
-										<span style="margin-bottom: 15px; color: black"><b>Còn
-												vé</b></span>
-										<hr style="color: black">
-										<br>
-									</div>
-									<div class="main-button" style="text-align: center;">
-										<a>Đặt vé</a>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-sm-6">
-					<div class="item">
-						<div class="row">
-							<div class="col-lg-6">
-								<div class="image">
-									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 290px" >
-								</div>
-							</div>
-							<div class="col-lg-6 align-self-center">
-								<div class="content">
-									<h5>Kiên Giang - Hòn Sơn</h5>
-									<div class="row" style="margin-top: 10px;">
-										<hr style="color: black">
-										<div class="col-6">
-											<i class="bi bi-clock">Giờ Đi: </i> <span class="list">6H</span>
-										</div>
-
-										<div class="col-6" style="margin-bottom: 15px;">
-											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list">7h</span>
-										</div>
-										<hr style="color: black"> 
-										<span style="margin-bottom: 15px; color: black"><b>Còn
-												vé</b></span>
-										<hr style="color: black">
-										<br>
-									</div>
-									<div class="main-button" style="text-align: center;">
-										<a>Đặt vé</a>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-sm-6">
-					<div class="item">
-						<div class="row">
-							<div class="col-lg-6">
-								<div class="image">
-									<img src="/assets/images/Tau.jpg" alt="" style="width: 250px ; height: 290px" >
-								</div>
-							</div>
-							<div class="col-lg-6 align-self-center">
-								<div class="content">
-									<h5>Kiên Giang - Hòn Sơn</h5>
-									<div class="row" style="margin-top: 10px;">
-										<hr style="color: black">
-										<div class="col-6">
-											<i class="bi bi-clock">Giờ Đi: </i> <span class="list">6H</span>
-										</div>
-
-										<div class="col-6" style="margin-bottom: 15px;">
-											<i class="bi bi-clock-fill">Giờ về: </i> <span class="list">7h</span>
-										</div>
-										<hr style="color: black"> 
-										<span style="margin-bottom: 15px; color: black"><b>Còn
-												vé</b></span>
-										<hr style="color: black">
-										<br>
-									</div>
-									<div class="main-button" style="text-align: center;">
-										<a>Đặt vé</a>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
+				
+					
+				
+				
 			</div>
 		</div>
 	</div>
-
-
-
 	<footer>
 		<div class="container">
 			<div class="row">

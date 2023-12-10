@@ -31,7 +31,6 @@ public class GiaVe {
 	Integer IDGIAVE;
 	String TRANGTHAI;
 	BigDecimal GIA;
-	
     @Temporal(TemporalType.DATE)
 	@Column(name = "NGAYBATDAU")
 	Date NGAYBATDAU = new Date();

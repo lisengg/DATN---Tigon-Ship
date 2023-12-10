@@ -30,15 +30,9 @@ public class HangTau {
     String SDT;
     String EMAIL;
     String TRANGTHAI;
-    
     @JsonIgnore
     @OneToMany(mappedBy = "HANGTAU")
     @JsonBackReference
     List<Tau> TAU;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "HANGTAU")
-    @JsonBackReference
-    List<LichSuHangTau> HangTauHistory;
     
 }

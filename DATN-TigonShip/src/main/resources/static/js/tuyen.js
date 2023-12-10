@@ -113,6 +113,10 @@ app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 	};
 	//Cập nhật tuyến
 	$scope.update = function() {
+		if (!$scope.form.tentuyen) {
+			document.getElementById('check6').checked = true;
+			return;
+		}
 		var itemold = $scope.originalData
 		var item = angular.copy($scope.form);
 		var url = `/rest/tuyen/${item.idtuyen}`;
@@ -124,14 +128,18 @@ app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 		}
 		// Kiểm tra xem tên tuyến mới có trùng với tên tuyến đã có không
 		var isDuplicate = $scope.items.tuyen.some(t => t.idtuyen !== item.idtuyen && t.tentuyen.toLowerCase() === item.tentuyen.toLowerCase());
+
 		if (isDuplicate) {
 			document.getElementById('check8').checked = true;
 			return; // Ngăn cập nhật nếu tên tuyến trùng
 		}
+
 		var ttupdate = "Cập nhật tuyến có ID: " + itemold.idtuyen;
+
 		if (itemold.tentuyen !== item.tentuyen) {
 			ttupdate += "# Tên tuyến: " + itemold.tentuyen + " thành " + item.tentuyen;
 		}
+
 		if (itemold.trangthai.toLowerCase() !== item.trangthai.toLowerCase()) {
 			ttupdate += "# trạng thái thành " + item.trangthai;
 		}

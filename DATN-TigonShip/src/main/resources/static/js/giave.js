@@ -1,5 +1,5 @@
 const app = angular.module('giave-app', []);
-app.controller('giave-ctrl', function($scope, $http,$sce) {
+app.controller('giave-ctrl', function($scope, $http, $sce) {
 	$scope.form = {
 		ngaybatdau: new Date(),
 		ngayketthuc: new Date(),
@@ -26,7 +26,6 @@ app.controller('giave-ctrl', function($scope, $http,$sce) {
 				{ data: 'loaive.loaive' },
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'gia' },
-				{ data: 'trangthai' },
 				{
 					data: 'ngaybatdau',
 					render: function(data, type, full, meta) {
@@ -47,6 +46,7 @@ app.controller('giave-ctrl', function($scope, $http,$sce) {
 						return data; // Trả về dữ liệu gốc cho các loại khác
 					}
 				},
+				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -106,7 +106,8 @@ app.controller('giave-ctrl', function($scope, $http,$sce) {
 			"tuyen": $scope.items.tuyen[index1],
 			"gia": $scope.form.gia,
 			"ngaybatdau": $scope.form.ngaybatdau = new Date(),
-			"ngayketthuc": $scope.form.ngayketthuc = new Date()
+			"ngayketthuc": $scope.form.ngayketthuc = new Date(),
+			"trangthai": $scope.form.trangthai,
 		}
 		var url = `/rest/giave/save`;
 		// Kiểm tra giá vé không được để trống
@@ -157,15 +158,15 @@ app.controller('giave-ctrl', function($scope, $http,$sce) {
 		}
 	}
 	$scope.formatThaoTac = function(thaoTac) {
-        if (thaoTac.includes('#')) {
-            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
-            var separatedLines = thaoTac.split('#').map(line => line.trim());
-            return $sce.trustAsHtml(separatedLines.join('<br>'));
-        } else {
-            // Ngược lại, trả về nguyên bản
-            return thaoTac;
-        }
-    };
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
 	//Cập nhật giá vé
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
@@ -208,7 +209,7 @@ app.controller('giave-ctrl', function($scope, $http,$sce) {
 				ttupdate += "#Trạng thái thành " + item.trangthai;
 			}
 			if (itemold.giave !== item.giave) {
-				ttupdate += "#Giá vé: "+itemold.giave +" thành " + item.trangthai;
+				ttupdate += "#Giá vé: " + itemold.giave + " thành " + item.trangthai;
 			}
 			if (!angular.equals(itemold.ngaybatdau, item.ngaybatdau)) {
 				var batdau = moment(item.ngaybatdau).format('DD/MM/YYYY');
