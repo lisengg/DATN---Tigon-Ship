@@ -165,6 +165,7 @@ select:active {
 													<th class="text-center">Số ĐT</th>
 													<th>Số ghế</th>
 													<th>Tàu</th>
+													<th>mail</th>
 													<th class="text-center">Chi tiết</th>
 												</tr>
 											</thead>
@@ -180,6 +181,8 @@ select:active {
 													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
 													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
 													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
+													<td class="text-center"><button  class="custom-button">
+														<i class="fas fa-pen"></i> </button></td>
 													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
 														<i class="fas fa-pen"></i> </button></td>					
 												</tr>

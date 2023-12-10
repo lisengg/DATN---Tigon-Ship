@@ -25,6 +25,7 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				{ data: 'loaive.loaive' },
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'gia' },
+				{ data: 'loaihk.loaihk' },
 				{
 					data: 'ngaybatdau',
 					render: function(data, type, full, meta) {
