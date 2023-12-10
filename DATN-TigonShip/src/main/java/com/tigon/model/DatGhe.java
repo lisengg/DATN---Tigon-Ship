@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class DatGhe {
     @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;
+    Integer IDTAU;
 
     @ManyToOne
 	@JoinColumn(name = "IDDATVE")

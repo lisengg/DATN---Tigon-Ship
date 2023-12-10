@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,10 +51,12 @@ import com.tigon.model.NguoiDiCungTam;
 import com.tigon.model.TaiKhoan;
 import com.tigon.model.Tau;
 import com.tigon.model.Tuyen;
+import com.tigon.service.DatGheService;
 import com.tigon.service.DatVeService;
 import com.tigon.service.GheNgoiService;
 import com.tigon.service.GiaVeService;
 import com.tigon.service.HanhKhachTamService;
+import com.tigon.service.HoaDonService;
 import com.tigon.service.LichTauService;
 import com.tigon.service.LoaiHanhKhachService;
 import com.tigon.service.LoaiVeService;
@@ -69,6 +73,9 @@ public class DatVeController {
 	LichTauService lichTauService;
 	@Autowired
 	HoaDonDAO hddao;
+
+	@Autowired
+	HoaDonService hoaDonService;
 
 	@Autowired
 	TauService tauservice;
@@ -145,6 +152,9 @@ public class DatVeController {
 	@Autowired
 	HanhKhachDAO hanhkdao;
 
+	@Autowired
+	DatGheService datGheService;
+
 	@RequestMapping("/datve/timtuyen")
 	public String tuyentau(Model model) {
 		if (session.getAttribute("user") == null) {
@@ -159,21 +169,23 @@ public class DatVeController {
 
 	@RequestMapping("/datve/tau")
 	public String ttau(Model model, @RequestParam("NoOfPassenger") String songuoi) throws ParseException {
-		//set tên tuyến + giờ đi, giờ về
+		session.setAttribute("songuoi", songuoi);
+		// set tên tuyến + giờ đi, giờ về
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date ngayDi = dateFormat.parse(servletRequest.getParameter("NgayDi"));
 		SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy");
 		String ngayDiFormatted = dateFormatOutput.format(ngayDi);
-		session.setAttribute("NgayDi", ngayDi);
+		session.setAttribute("NgayDi", ngayDiFormatted);
 
 		session.setAttribute("songuoi", songuoi);
 		String TenTuyen = servletRequest.getParameter("TENTUYEN");
-
+		session.setAttribute("TENTUYEN", TenTuyen);
 		Tuyen timIdTuyen = tuyenService.findByTuyen(TenTuyen);
-		
+		session.setAttribute("idtuyen", timIdTuyen.getIDTUYEN());
+
 		List<LichTauChay> lichtau = lichTauService.findByLichTau(timIdTuyen.getIDTUYEN());
-		
-		//kiểm tra loại vé, set session ngày về
+
+		// kiểm tra loại vé, set session ngày về, loại vé
 		int loaive;
 		String NgayVe = servletRequest.getParameter("NgayVe");
 		if (NgayVe == null) {
@@ -186,108 +198,107 @@ public class DatVeController {
 			session.setAttribute("NgayVe", NgayVe);
 		}
 
-		//set giá vé
+		// set giá vé
 		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(timIdTuyen.getIDTUYEN(), loaive);
 
 		GiaVe giavetr = giaveService.findByIdTuyenIdLoaiVeTreEm(timIdTuyen.getIDTUYEN(), loaive);
 
 		// Định dạng lại số với DecimalFormat để bỏ hết số 0 sau dấu chấm
-				DecimalFormat df = new DecimalFormat("###,###.##");
-				String gia = df.format(giave.getGIA()) + "VND";
-				String gia_treem = df.format(giavetr.getGIA()) + "VND";
+		DecimalFormat df = new DecimalFormat("###,###.##");
+		String gia = df.format(giave.getGIA()) + "VND";
+		String gia_treem = df.format(giavetr.getGIA()) + "VND";
 
-				model.addAttribute("gia", gia);
-				model.addAttribute("giatreem", gia_treem);
-				
+		model.addAttribute("gia", gia);
+		model.addAttribute("giatreem", gia_treem);
+
 		Tau soluongGhe = tauservice.findById(lichtau.get(0).getTAU().getIDTAU());
-		int sl = dgdao.countDatGheByNgayDi(ngayDi);
-		System.out.println(sl);
-		
-		List<Integer> listSoLuongGhe = new ArrayList();
-		for(int i=0;i<lichtau.size();i++) {
-			listSoLuongGhe.add(i, soluongGhe.getSOGHE());
-			}
 
-		model.addAttribute("soLuongGhe",listSoLuongGhe);
+		// set số lượng ghế đã đặt còn lại
+		List<Integer> listSoLuongGhe = new ArrayList<>();
+		List<Integer> listSoLuongGheDaDat = new ArrayList<>();
+		List<Integer> listSoLuongGheConLai = new ArrayList<>();
+
+		for (int i = 0; i < lichtau.size(); i++) {
+			int soLuongGhe = soluongGhe.getSOGHE();
+
+			listSoLuongGhe.add(i, soLuongGhe);
+
+			int soLuongGheDaDat = datGheService.countDatGheTimTuyen(ngayDi, lichtau.get(i).getTAU().getIDTAU(),
+					lichtau.get(i).getTUYEN().getIDTUYEN());
+			listSoLuongGheDaDat.add(i, soLuongGheDaDat);
+
+			int soLuongGheConLai = soLuongGhe - soLuongGheDaDat;
+			listSoLuongGheConLai.add(i, soLuongGheConLai);
+		}
+
+		// set session giờ xuất phát, giờ đến nơi, id lịch tàu, id tàu
+		for (int i = 0; i < lichtau.size(); i++) {
+			session.setAttribute("gioxuatphat" + i, lichtau.get(i).getGIOXUATPHAT());
+			session.setAttribute("giodennoi" + i, lichtau.get(i).getGIODENNOI());
+			session.setAttribute("idlichtau" + i, lichtau.get(i).getIDLICHTAU());
+			session.setAttribute("idtau" + i, lichtau.get(i).getTAU().getIDTAU());
+		}
+
+		model.addAttribute("soLuongGhe", listSoLuongGheConLai);
 		model.addAttribute("ngayDi", ngayDiFormatted);
 		model.addAttribute("lichTau", lichtau);
-		
+
 		return "/user/Ve";
 	}
 
-//	@RequestMapping("/datve/tuyentau")
-//	public String table(Model model, @RequestParam("NoOfPassenger") String songuoi) throws ParseException {
-//		session.setAttribute("songuoi", songuoi);
-//		String TenTuyen = servletRequest.getParameter("TENTUYEN");
-//
-//		Tuyen searchResults = ttservice.findByTuyen(TenTuyen);
-//		int idtuyen = searchResults.getIDTUYEN();
-//		session.setAttribute("idtuyen", idtuyen);
-//
-//		String NgayDi = servletRequest.getParameter("NgayDi");
-//		session.setAttribute("NgayDi", NgayDi);
-//
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//		Date ngayDii = dateFormat.parse(NgayDi);
-//
-//		SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy");
-//		String ngayDiFormatted = dateFormatOutput.format(ngayDii);
-//
-//		int sl = dgdao.countDatGheByNgayDi(ngayDii);
-//
-//		int sove = 160 - sl;
-//
-//		int loaive;
-//		String NgayVe = servletRequest.getParameter("NgayVe");
-//		if (NgayVe == null) {
-//			session.setAttribute("NgayVe", "ko");
-//			loaive = 1;
-//			session.setAttribute("loaive", loaive);
-//		} else {
-//			loaive = 2;
-//			session.setAttribute("loaive", loaive);
-//			session.setAttribute("NgayVe", NgayVe);
-//		}
-//		System.out.println("Loai ve: " + session.getAttribute("loaive").toString());
-//
-//		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(idtuyen, loaive);
-//
-//		GiaVe giavetr = giaveService.findByIdTuyenIdLoaiVeTreEm(idtuyen, loaive);
-//
-//		// Định dạng lại số với DecimalFormat để bỏ hết số 0 sau dấu chấm
-//		DecimalFormat df = new DecimalFormat("###,###.##");
-//		String tongtien = df.format(giave.getGIA()) + "VND";
-//		String tientre = df.format(giavetr.getGIA()) + "VND";
-//
-//		model.addAttribute("gia", tongtien);
-//
-//		model.addAttribute("giatr", tientre);
-//
-//		String TENTUYEN = servletRequest.getParameter("TENTUYEN");
-//		session.setAttribute("TENTUYEN", TENTUYEN);
-//
-//		LichTauChay search = ltservice.findByLichTau(idtuyen);
-//		int idlichtau = search.getIDLICHTAU();
-//		int idtau = search.getTAU().getIDTAU();
-//
-//		String gioxuatphat = search.getGIOXUATPHAT();
-//		String giodennoi = search.getGIODENNOI();
-//		session.setAttribute("gioxuatphat", gioxuatphat);
-//		session.setAttribute("giodennoi", giodennoi);
-//		session.setAttribute("idtau", idtau);
-//
-//		session.setAttribute("idlichtau", search.getIDLICHTAU());
-//
-//		String searchResults2 = session.getAttribute("TENTUYEN").toString();
-//		model.addAttribute("Ten", searchResults2);
-//
-//		model.addAttribute("xuatphat", ngayDiFormatted);
-//
-//		model.addAttribute("ve", sove);
-//		model.addAttribute("items", search);
-//
-//		return "/user/VeTau";
-//	}
+	@RequestMapping("datve/hanhkhach/{index}")
+	public String hanhkhach(Model model, @PathVariable int index) {
+		session.setAttribute("index", index);
+		if (session.getAttribute("user").toString().equals("hanhkhachmoi")) {
+			System.out.println("ko có id");
+			GiaVe giave = giaveService.findByIdTuyenIdLoaiVeTongTien(
+					Integer.parseInt(session.getAttribute("idtuyen").toString()), 1,
+					Integer.parseInt(session.getAttribute("loaive").toString()));
+			System.out.println(giave.getGIA());
+				session.setAttribute("tongtien", giave.getGIA());
+		} else {
+			TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
+			model.addAttribute("username", tk.getHOVATEN());
+			model.addAttribute("cccd", tk.getCCCD());
+			model.addAttribute("email", tk.getEMAIL());
+			model.addAttribute("SDT", tk.getSDT());
+			model.addAttribute("date", tk.getNGAYSINH());
+			GiaVe giave = giaveService.findByIdTuyenIdLoaiVeTongTien(
+					Integer.parseInt(session.getAttribute("idtuyen").toString()), 1,
+					Integer.parseInt(session.getAttribute("loaive").toString()));
+System.out.println(giave.getGIA());
+				session.setAttribute("tongtien", giave.getGIA());
+			System.out.println("id tai khoan:" + tk.getIDTAIKHOAN());
+		}
+
+		return "/user/ThongTinDatVe";
+	}
+
+	@RequestMapping("datve/datghechinh")
+	public String ghengoitest(Model model) throws ParseException {
+		String songuoistring = session.getAttribute("songuoi").toString();
+		int songuoi = Integer.parseInt(songuoistring);
+		model.addAttribute("songuoi", songuoi);
+
+		int idtau = (int) session.getAttribute("idtau" + session.getAttribute("index").toString());
+
+		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi(idtau);
+		model.addAttribute("items1", listduoi);
+		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
+		model.addAttribute("items2", listtren);
+
+		String ngayDiString = session.getAttribute("NgayDi").toString();
+		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date ngayDi = inputFormat.parse(ngayDiString);
+
+		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
+		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
+
+		// Gửi danh sách IDGHE đã được đặt đến view
+		model.addAttribute("bookedSeats", bookedSeats);
+
+		return "/user/GheNgoi";
+	}
 
 	@RequestMapping("datve/datghe")
 	public String ghengoi(Model model, @RequestParam("email") List<String> email,
@@ -298,6 +309,7 @@ public class DatVeController {
 
 		String songuoistring = (String) session.getAttribute("songuoi");
 		int songuoi = Integer.parseInt(songuoistring);
+		model.addAttribute("songuoi", songuoi);
 		int mahk;
 		if (songuoistring != null) {
 			try {
@@ -344,22 +356,23 @@ public class DatVeController {
 		} else {
 			System.err.println("Giá trị 'songuoi' từ session là null");
 		}
-		int idtau = (int) session.getAttribute("idtau");
-		model.addAttribute("songuoi", songuoi);
+		int idtau = (int) session.getAttribute("idtau" + session.getAttribute("index").toString());
+
 		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi(idtau);
 		model.addAttribute("items1", listduoi);
 		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
 		model.addAttribute("items2", listtren);
 
 		String ngayDiString = session.getAttribute("NgayDi").toString();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date ngayDi = dateFormat.parse(ngayDiString);
+		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date ngayDi = inputFormat.parse(ngayDiString);
 
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
 		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
 
 		// Gửi danh sách IDGHE đã được đặt đến view
 		model.addAttribute("bookedSeats", bookedSeats);
+
 		return "/user/GheNgoi";
 	}
 
@@ -383,73 +396,20 @@ public class DatVeController {
 			hktamdao.save(hktam);
 			GiaVe giave = giaveService
 					.findByIdTuyenIdLoaiVe(Integer.parseInt(session.getAttribute("idtuyen").toString()), 1);
-			session.setAttribute("tongtien", giave.getGIA());
 		} else {
 			TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
-			// session.setAttribute("idtaikhoan", tk.getIDTAIKHOAN());
-			// )
-			// model.addAttribute("username", tk.getHOVATEN());
+
 			session.setAttribute("idtaikhoan", tk.getIDTAIKHOAN());
 			GiaVe giave = giaveService
 					.findByIdTuyenIdLoaiVe(Integer.parseInt(session.getAttribute("idtuyen").toString()), 1);
-			session.setAttribute("tongtien", giave.getGIA());
 		}
 
 		String songuoi = (String) session.getAttribute("songuoi");
-		System.out.println("So nguoi " + songuoi);
 		if (songuoi.equals("1")) {
 			return "redirect:/datve/datghechinh";
 		} else {
 			return "/user/HanhkhachDiCung";
 		}
-	}
-
-	@RequestMapping("datve/hanhkhach")
-	public String hanhkhach(Model model) {
-		if (session.getAttribute("user").toString().equals("hanhkhachmoi")) {
-
-			System.out.println("ko có id");
-		} else {
-			TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
-
-			//
-			model.addAttribute("username", tk.getHOVATEN());
-			model.addAttribute("cccd", tk.getCCCD());
-			model.addAttribute("email", tk.getEMAIL());
-			model.addAttribute("SDT", tk.getSDT());
-			model.addAttribute("date", tk.getNGAYSINH());
-
-			System.out.println("id :" + tk.getIDTAIKHOAN());
-		}
-
-		return "/user/ThongTinDatVe";
-	}
-
-	@RequestMapping("datve/datghechinh")
-	public String ghengoitest(Model model) throws ParseException {
-
-		String songuoistring = (String) session.getAttribute("songuoi");
-		int songuoi = Integer.parseInt(songuoistring);
-		model.addAttribute("songuoi", songuoi);
-
-		int idtau = (int) session.getAttribute("idtau");
-
-		List<GheNgoi> listduoi = ghndao.findByghekhoangduoi(idtau);
-		model.addAttribute("items1", listduoi);
-		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
-		model.addAttribute("items2", listtren);
-
-		String ngayDiString = session.getAttribute("NgayDi").toString();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date ngayDi = dateFormat.parse(ngayDiString);
-
-		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
-		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
-
-		// Gửi danh sách IDGHE đã được đặt đến view
-		model.addAttribute("bookedSeats", bookedSeats);
-
-		return "/user/GheNgoi";
 	}
 
 	@PostMapping("user/dat")
@@ -529,15 +489,15 @@ public class DatVeController {
 		}
 		LoaiVe loaive = loaiveService.findById(Integer.parseInt(session.getAttribute("loaive").toString()));
 		System.out.println(session.getAttribute("loaive").toString());
-		model.addAttribute("giodennoi", session.getAttribute("giodennoi"));
-		model.addAttribute("gioxuatphat", session.getAttribute("gioxuatphat"));
+		model.addAttribute("giodennoi", session.getAttribute("giodennoi" + session.getAttribute("index")));
+		model.addAttribute("gioxuatphat", session.getAttribute("gioxuatphat" + session.getAttribute("index")));
 		model.addAttribute("loaive", loaive.getLOAIVE());
 		model.addAttribute("soghe", listtenghe);
 		LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
 		model.addAttribute("temporal", now);
 		// Lấy chuỗi từ session
 		String tongtienStr = session.getAttribute("tongtien").toString();
-
+		
 		// Chuyển đổi chuỗi thành số
 		double tongtienDouble = Double.parseDouble(tongtienStr);
 
@@ -561,7 +521,6 @@ public class DatVeController {
 				listtenghe = listtenghe + "," + ghe.getTENGHE();
 			}
 		}
-		System.out.println(listtenghe);
 		// Lấy chuỗi từ session
 		String tongtienStr = session.getAttribute("tongtien").toString();
 
@@ -600,12 +559,15 @@ public class DatVeController {
 
 			HanhKhach idkh = hanhkdao.FINDIDHKMAX();
 
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-			int idlichtau = Integer.parseInt(session.getAttribute("idlichtau").toString());
+			int idlichtau = Integer.parseInt(session.getAttribute("idlichtau" + session.getAttribute("index")).toString());
 
 			String ngaydi = session.getAttribute("NgayDi").toString();
-			Date datedi = formatter.parse(ngaydi);
+			// Đặt định dạng phù hợp với chuỗi ngày
+			SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datedi = inputFormat.parse(ngaydi);
+
 
 			LichTauChay lt = ltservice.findByid(idlichtau);
 
@@ -644,11 +606,12 @@ public class DatVeController {
 				dg.setDATVE(datve);
 				dg.setGHENGOI(gh);
 				dg.setTHOIGIAN(datedi);
-				// dg.setTHOIGIAN(now.toString());)
+				dg.setIDTAU(Integer.parseInt(session.getAttribute("idtau"+session.getAttribute("index")).toString()));
 				dgdao.save(dg);
 
 				System.out.println("ghe thanh cong:");
 			}
+			
 			DatVe datve = dvservice.FINDIDMAX();
 			List<NguoiDiCungTam> ndtam = ndctsevice.findAll();
 			for (int i = 0; i < songuoi && i < ndtam.size(); i++) {
@@ -683,21 +646,25 @@ public class DatVeController {
 			hd.setLOAITHANHTOAN("VN PAY");
 
 			hddao.save(hd);
-
+			HoaDon hdmax = hoaDonService.findMaxDatVe();
+			session.setAttribute("mahoadon", hdmax.getMAHD());
 			System.out.println("ko có id");
 		} else {
 
 			TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
 			model.addAttribute("hoten", "Xin chào " + tk.getHOVATEN() + ",");
 			String ngayve = session.getAttribute("NgayVe").toString();
-			System.out.println("Ngay ve : " + ngayve);
 
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-			int idlichtau = Integer.parseInt(session.getAttribute("idlichtau").toString());
+			int idlichtau = Integer
+					.parseInt(session.getAttribute("idlichtau" + session.getAttribute("index").toString()).toString());
 
 			String ngaydi = session.getAttribute("NgayDi").toString();
-			Date datedi = formatter.parse(ngaydi);
+
+			// Đặt định dạng phù hợp với chuỗi ngày
+			SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datedi = inputFormat.parse(ngaydi);
 
 			LichTauChay lt = ltservice.findByid(idlichtau);
 
@@ -776,6 +743,8 @@ public class DatVeController {
 			hd.setLOAITHANHTOAN("VN PAY");
 
 			hddao.save(hd);
+			HoaDon hdmax = hoaDonService.findMaxDatVe();
+			session.setAttribute("mahoadon", hdmax.getMAHD());
 		}
 
 		return "/user/datve/chuyenvetrangchu";

@@ -21,7 +21,6 @@
 </head>
 
 <body>
-
     <div th:each="lichtau, iterStat : ${lichTau}" id="rooms">
         <div class="container">
             <div  class="section-header">
@@ -69,7 +68,7 @@
                         <div class="col-md-3">
                             <div class="room-rate">
 
-                                <a th:href="@{/datve/hanhkhach}">Đặt vé</a>
+                                <a th:href="@{/datve/hanhkhach/{index}(index=${iterStat.index})}" data-toggle="modal" data-target="#modal-id">Đặt vé</a>
                             </div>
                         </div>
                     </div>
