@@ -52,7 +52,7 @@
                     </div>
                     <div id="KhoanDuoi" class="tabcontent" onclick="selectSeat(event)">
                         <div class="seat-row" style="text-align: center;">
-        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none;' : ''}">
+        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
             <label th:text=${p.TENGHE}></label>
         </div>
     </div>
@@ -65,7 +65,7 @@
                         <div class="seat-row" style="text-align: center;">
                            
                            <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
-                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none;' : ''}">
+                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
     							<label th:text=${p.TENGHE}></label>
 							</div>
                         </div>
@@ -156,13 +156,24 @@ function selectSeat(event) {
             if (selectedSeats.length < songuoiJS) {
                 selectedSeats.push(seatId);
                 event.target.style.backgroundColor = 'blue';
+                event.target.style.color = 'white';
+                // Chuyển đổi chữ thành in hoa
+                var label = event.target.querySelector('label');
+                label.innerText = seatName;
+                label.style.fontWeight = 'bold';
+
             } else {
-                //alert('Bạn chỉ có thể chọn ' + songuoiJS + ' ghế.');
+                alert('Bạn chỉ có thể chọn ' + songuoiJS + ' ghế.');
             }
         } else {
             // Ghế đã được chọn, loại bỏ khỏi danh sách và cập nhật màu
             selectedSeats.splice(seatIndex, 1);
             event.target.style.backgroundColor = '';
+            event.target.style.color = ''; // Đặt màu chữ về mặc định
+           
+            // Chuyển đổi chữ thành chữ thường khi ghế bị loại bỏ
+            var label = event.target.querySelector('label');
+            label.style.fontWeight = ''; // Đặt lại trọng số phông chữ về mặc định
         }
 
         // Hiển thị thông tin ghế lên bảng
