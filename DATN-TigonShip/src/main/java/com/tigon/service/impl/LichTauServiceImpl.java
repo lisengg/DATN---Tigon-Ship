@@ -1,5 +1,6 @@
 package com.tigon.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class LichTauServiceImpl implements LichTauService{
 	LichTauChayDAO ltdao;
 
 	@Override
-	public LichTauChay findByLichTau(int idtuyen) {
+	public List<LichTauChay> findByLichTau(int idtuyen) {
 		// TODO Auto-generated method stub
 		return ltdao.findByLichTau(idtuyen);
 	}

@@ -49,5 +49,5 @@ public class GiaVe {
 
 	@ManyToOne
 	@JoinColumn(name = "IDLOAIHK")
-	LoaiHanhKhach LOAIHANHKHACH;
+	LoaiHanhKhach LOAIHK;
 }

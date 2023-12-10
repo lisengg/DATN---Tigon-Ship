@@ -50,24 +50,22 @@
                         <button class="tablinks" onclick="openkhoan(event, 'TrenLau')">Trên lầu</button>
 
                     </div>
-                    <div id="KhoanDuoi" class="tabcontent">
+                    <div id="KhoanDuoi" class="tabcontent" onclick="selectSeat(event)">
                         <div class="seat-row" style="text-align: center;">
-                            <!-- Hàng ghế -->
-                           <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
-                        	<div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
-    							<label th:text=${p.TENGHE}></label>
-							</div>
-                        </div>
+        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
+            <label th:text=${p.TENGHE}></label>
+        </div>
+    </div>
                         <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
                             <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
                             <div class="wc" style="width: 130px; height: 100px; margin-left: 170px; display: flex; align-items: center; justify-content: center; "><b>WC2</b></div>
                         </div>
                     </div>
-                    <div id="TrenLau" class="tabcontent">
+                    <div id="TrenLau" class="tabcontent" onclick="selectSeat(event)">
                         <div class="seat-row" style="text-align: center;">
                            
                            <!-- <div class="seat" style="height: 30px;" th:each="p:${items}"><label th:text=${p.TENGHE}></label></div>  -->
-                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}">
+                        	<div class="seat" style="height: 30px;" th:each="p:${items2}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
     							<label th:text=${p.TENGHE}></label>
 							</div>
                         </div>
@@ -91,12 +89,12 @@
                     </li>
 
                     <li>
-                        <div class="seat" style="background-color: gray;"></div>
+                        <div class="seat" style="background-color: blue;"></div>
                         <small>Ghế đang chọn</small>
                     </li>
 
                     <li>
-                        <div class="seat" style="background-color: blue;"></div>
+                        <div class="seat" style="background-color: red;"></div>
                         <small>Ghế đã được chọn</small>
                     </li>
                 </ul>
@@ -111,97 +109,135 @@
                             <th data-field="SeatNmReturn" data-halign="center">Ghế đi</th>
                             
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            
-                            <td id="selectedSeatNumber" data-halign="center"></td>
-                            
-                        </tr>
-            
+
+                        
                     </thead>
                    	
                 </table>
                 	
-					<a id="confirmButton" th:href="@{/thanhtoan}" class="button-style">Xác nhận</a>
+				<a id="btnXacNhan"  class="button-style" onclick="sendSelectedSeatsToController()">Xác nhận</a>
             </div>
         </div>
     </div>
 
-<script>
-    // Hàm mở tab
-    function openkhoan(evt, GheNgoi) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
+<script th:inline="javascript">
+
+// Hàm mở tab
+function openkhoan(evt, GheNgoi) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(GheNgoi).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Tự động hiển thị tab "KhoanDuoi" khi trang được tải
+document.getElementById('KhoanDuoi').style.display = "block";
+document.querySelector('.tablinks.active').click();
+
+var selectedSeats = [];
+var songuoiJS = /*[[${songuoi}]]*/
+
+function selectSeat(event) {
+    if (event.target.classList.contains('seat')) {
+        var seatId = event.target.getAttribute('data-seat-id');
+        var seatName = event.target.getAttribute('data-seat-name');
+
+        // Kiểm tra xem ghế đã được chọn chưa
+        var seatIndex = selectedSeats.indexOf(seatId);
+        if (seatIndex === -1) {
+            // Ghế chưa được chọn, kiểm tra số ghế đã chọn
+            if (selectedSeats.length < songuoiJS) {
+                selectedSeats.push(seatId);
+                event.target.style.backgroundColor = 'blue';
+                event.target.style.color = 'white';
+                // Chuyển đổi chữ thành in hoa
+                var label = event.target.querySelector('label');
+                label.innerText = seatName;
+                label.style.fontWeight = 'bold';
+
+            } else {
+                alert('Bạn chỉ có thể chọn ' + songuoiJS + ' ghế.');
+            }
+        } else {
+            // Ghế đã được chọn, loại bỏ khỏi danh sách và cập nhật màu
+            selectedSeats.splice(seatIndex, 1);
+            event.target.style.backgroundColor = '';
+            event.target.style.color = ''; // Đặt màu chữ về mặc định
+           
+            // Chuyển đổi chữ thành chữ thường khi ghế bị loại bỏ
+            var label = event.target.querySelector('label');
+            label.style.fontWeight = ''; // Đặt lại trọng số phông chữ về mặc định
         }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(GheNgoi).style.display = "block";
-        evt.currentTarget.className += " active";
+
+        // Hiển thị thông tin ghế lên bảng
+        updateTable();
+    }
+}
+
+function updateTable() {
+    // Thực hiện cập nhật thông tin lên bảng
+    var table = document.getElementById('tblSeatInfoReturn');
+    // Xóa tất cả các dòng trước khi cập nhật lại
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
     }
 
-    // Tự động hiển thị tab "KhoanDuoi" khi trang được tải
-    document.getElementById('KhoanDuoi').style.display = "block";
-    document.querySelector('.tablinks.active').click();
-    
-    
-    document.getElementById('confirmButton').addEventListener('click', function() {
-        // Lấy giá trị từ ô ghế đi trong bảng
-        var selectedSeatNumber = document.getElementById('selectedSeatNumber').innerText;
+    // Thêm lại dữ liệu từ danh sách ghế đã chọn
+    selectedSeats.forEach(function(seatId, index) {
+        var seatName = document.querySelector('.seat[data-seat-id="' + seatId + '"]').getAttribute('data-seat-name');
 
-        // Lấy giá trị ngày đặt
-        var ngaydat = document.querySelector('input[name="ngaydat"]').value = new Date().toISOString();
+        var row = table.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        cell1.innerHTML = index + 1;
 
-        // Sử dụng AJAX để gửi giá trị lên server
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/user/xem", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        // Chuyển đổi giá trị thành JSON và gửi đi
-        xhr.send(JSON.stringify({ selectedSeatNumber: selectedSeatNumber, ngaydat: ngaydat }));
-
-        // Thực hiện các bước xác nhận khác tùy thuộc vào yêu cầu của bạn
-        // ...
+        var cell2 = row.insertCell(1);
+        cell2.innerHTML = seatName;
     });
-       
+}
 
-        document.addEventListener("DOMContentLoaded", function() {
-            var seats = document.querySelectorAll('.seat');
+function sendSelectedSeatsToController() {
+	if (selectedSeats.length !== songuoiJS) {
+        alert('Vui lòng chọn đủ ' + songuoiJS + ' ghế trước khi xác nhận.');
+        return "";
+    }
+	
+	// Gửi thông điệp chứa các ghế đã chọn đến controller
+    var selectedSeatsMessage = "";
+    selectedSeats.forEach(function (seat, index) {
+        selectedSeatsMessage += seat + ", ";
+    });
 
-            seats.forEach(function(seat) {
-                seat.addEventListener('click', function() {
-                    // Lấy tất cả các ô ghế
-                    var allSeats = document.querySelectorAll('.seat');
+    // Xóa dấu ',' cuối cùng
+    selectedSeatsMessage = selectedSeatsMessage.slice(0, -2);
 
-                    // Xóa class 'selected' từ tất cả các ô ghế
-                    allSeats.forEach(function(s) {
-                        s.classList.remove('selected');
-                    });
+    // Sử dụng Ajax để gửi dữ liệu đến controller
+    var xhr = new XMLHttpRequest();
+    var url = "/user/dat";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                    // Thêm class 'selected' vào ô ghế được chọn
-                    seat.classList.add('selected');
+    // Gửi dữ liệu đến server
+    xhr.send("selectedSeats=" + encodeURIComponent(selectedSeatsMessage));
+   
+    // Xử lý kết quả từ server (nếu cần)
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("Dữ liệu đã gửi thành công.");
+            window.location.href = "/thanhtoan";
+        } else {
+            console.error("Có lỗi khi gửi dữ liệu đến server.");
+        }
+    };
+}
 
-                    // Lấy thông tin ghế từ thuộc tính data và thêm vào cột ghế đi trong bảng
-                    var seatId = seat.getAttribute('data-seat-id');
-                    var seatName = seat.getAttribute('data-seat-name');
-
-                    // Lấy đối tượng cột ghế đi trong bảng
-                    var selectedSeatNumber = document.getElementById('selectedSeatNumber');
-
-                    // Gắn giá trị vào cột ghế đi
-                    selectedSeatNumber.innerText = seatName;
-
-                    
-                });
-            });
-        }); 
-        
-
-    </script>
-
+</script>
     
 
 </body>
