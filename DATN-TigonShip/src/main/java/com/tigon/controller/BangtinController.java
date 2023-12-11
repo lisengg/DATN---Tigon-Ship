@@ -34,8 +34,8 @@ public class BangtinController {
 	@RequestMapping("/add")
 	public String create(@RequestParam String tieu_de, @RequestParam String noi_dung, Bangtin bt) {
 
-		bt.setTIEUDE(tieu_de);
-		bt.setNOIDUNG(noi_dung);
+		bt.setTieu_de(tieu_de);
+		bt.setNoi_dung(noi_dung);
 
 		dao.save(bt);
 
@@ -58,12 +58,12 @@ public class BangtinController {
 	@RequestMapping("/baidang/update/{id}")
 	public String update(Model model, @PathVariable("id") String id) {
 		Bangtin bt = service.findById(Integer.parseInt(id));
-		model.addAttribute("tieude", bt.getTIEUDE());
-		model.addAttribute("noidung", bt.getNOIDUNG());
-		model.addAttribute("hinhanh", bt.getHINHANH());
-		System.out.println(bt.getTIEUDE());
-		System.out.println(bt.getTIEUDE());
-		System.out.println(bt.getIDBANGTIN());
+		model.addAttribute("tieude", bt.getTieu_de());
+		model.addAttribute("noidung", bt.getNoi_dung());
+		model.addAttribute("hinhanh", bt.getHinh_anh());
+		System.out.println(bt.getTieu_de());
+		System.out.println(bt.getTieu_de());
+		System.out.println(bt.getId());
 		List<Bangtin> list = dao.findAll();
 		model.addAttribute("items", list);
 		
@@ -74,9 +74,9 @@ public class BangtinController {
 	public String luu(Model model, @RequestParam int id, @RequestParam String tieu_de, @RequestParam String noi_dung, Bangtin bt) {
 		
 		
-		bt.setIDBANGTIN(id);
-		bt.setTIEUDE(tieu_de);
-		bt.setNOIDUNG(noi_dung);
+		bt.setId(id);
+		bt.setTieu_de(tieu_de);
+		bt.setNoi_dung(noi_dung);
 
 		dao.save(bt);
 		return "redirect:/admin/bangtin";
