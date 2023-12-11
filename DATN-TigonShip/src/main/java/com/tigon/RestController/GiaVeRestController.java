@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.GiaVeDAO;
 import com.tigon.dao.LichSuGiaVeDAO;
+import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.TuyenDAO;
 import com.tigon.model.GiaVe;
@@ -32,6 +33,8 @@ public class GiaVeRestController {
 	@Autowired
 	LoaiVeDAO loaiVeDAO;
 	
+	@Autowired
+	LoaiHanhKhachDAO loaiHanhKhachDAO;
 	@Autowired
 	TuyenDAO tuyenDAO;
 	
@@ -50,6 +53,7 @@ public class GiaVeRestController {
     public Map<String, Object> getAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("giave", giaVeDAO.findAll());
+        map.put("loaihk", loaiHanhKhachDAO.findAll());
         map.put("tuyen", tuyenDAO.findAll());
         map.put("loaive", loaiVeDAO.findAll());
         map.put("lichsu", lichsuDAO.findAll());
