@@ -71,12 +71,13 @@ public class BangtinController {
 	}
 
 	@RequestMapping("/update")
-	public String luu(Model model, @RequestParam int id, @RequestParam String tieu_de, @RequestParam String noi_dung, Bangtin bt) {
+	public String luu(Model model, @RequestParam int id, @RequestParam String tieu_de,@RequestParam String hinh_anh, @RequestParam String noi_dung, Bangtin bt) {
 		
 		
 		bt.setIDBANGTIN(id);
 		bt.setTIEUDE(tieu_de);
 		bt.setNOIDUNG(noi_dung);
+		bt.setHINHANH(hinh_anh);
 
 		dao.save(bt);
 		return "redirect:/admin/bangtin";
