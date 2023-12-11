@@ -6,7 +6,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			$scope.items = response.data;
 			$scope.post = true;
 			$scope.put = false;
-			$scope.delete = false;
 			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
 			initDataTable($scope.items);
 		});
@@ -49,7 +48,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		};
 		$scope.post = true;
 		$scope.put = false;
-		$scope.delete = false;
 	}
 	//hiển thị lên modal
 	$scope.edit = function(id) {
@@ -57,7 +55,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		$scope.form = angular.copy(id);
 		$scope.post = false;
 		$scope.put = true;
-		$scope.delete = true;
 	}
 	//THÊM HÃNG TÀU
 	$scope.save = function() {

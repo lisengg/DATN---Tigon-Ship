@@ -24,65 +24,68 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
     $scope.dt()
 
 	$scope.chart = function() {
-		var url = `/rest/doanhthu/bieudo`;
-		$http.get(url).then(response => {
-			$scope.avg = response.data;
-			console.log($scope.avg);
-		
-			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
-			var labels = $scope.avg.map(function(item) {
-				return item[0]; // Tên mục
-			});
-			var data = $scope.avg.map(function(item) {
-				return item[1]; // Số lượng
-			});
+    var url = `/rest/doanhthu/bieudo`;
+    $http.get(url).then(response => {
+        $scope.avg = response.data;
+        console.log($scope.avg);
 
-			// Lấy thẻ canvas để vẽ biểu đồ
-			var ctx = document.getElementById('chartDoanhThu').getContext('2d');
+        // Tính giá trị lớn nhất trong mảng data
+        var maxDataValue = Math.max(...$scope.avg.map(item => item[1]));
 
-			// Tạo biểu đồ cột
-			var chartDoanhThu = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: labels,
-					datasets: [{
-						label: 'Doanh thu',
-						data: data,
-						backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
-						borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
-						borderWidth: 1,
-					}]
-				},
-				options: {
-					scales: {
-                        xAxes: [{
-                            barPercentage: 0.5, // Đặt độ rộng của cột là 50%
-       					    categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
-                          }],
-						yAxes: [{
-							ticks: {
-								beginAtZero: true,
-								max: 10000000, 
-							}
-						}]
-					},
-					legend: {
-						display: false // Ẩn chú thích
-					},
-					title: {
-						display: true,
-						text: 'Biểu đồ doanh thu hôm nay',
-						fontFamily: 'Arial',
-						fontSize: 20,
-						fontStyle: 'bold',
-						fontColor: '#333'
-					}
-				}
-			});
-		}).catch(err => {
-			console.log("Error", err);
-		});
-	}
+        // Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
+        var labels = $scope.avg.map(function(item) {
+            return item[0]; // Tên mục
+        });
+        var data = $scope.avg.map(function(item) {
+            return item[1]; // Số lượng
+        });
+
+        // Lấy thẻ canvas để vẽ biểu đồ
+        var ctx = document.getElementById('chartDoanhThu').getContext('2d');
+
+        // Tạo biểu đồ cột
+        var chartDoanhThu = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 1)', // Màu nền cột
+                    borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.5, // Đặt độ rộng của cột là 50%
+                        categoryPercentage: 0.8, // Đặt khoảng cách giữa các cột là 80%
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: maxDataValue, // Sử dụng giá trị lớn nhất tính được
+                        }
+                    }]
+                },
+                legend: {
+                    display: false // Ẩn chú thích
+                },
+                title: {
+                    display: true,
+                    text: 'Biểu đồ doanh thu hôm nay',
+                    fontFamily: 'Arial',
+                    fontSize: 20,
+                    fontStyle: 'bold',
+                    fontColor: '#333'
+                }
+            }
+        });
+    }).catch(err => {
+        console.log("Error", err);
+    });
+}
 	$scope.chart()
 
 	$scope.searchByDate = function () {

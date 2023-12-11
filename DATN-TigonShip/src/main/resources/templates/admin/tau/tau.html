@@ -48,7 +48,7 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">DANH SÁCH TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm tàu</button>
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()">Thêm tàu</button>
 									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
 									</button>
@@ -95,15 +95,12 @@
 									            <option value="">Chọn hãng tàu</option>
 									        </select>
 									    </div>
-										<div class="col-md-4">
-											<label class="form-label">Ngày nhập</label> 
-											<input ng-model="form.ngaynhap" type="date" class="form-control">
-										</div>
 									</div>
 									<div class="row mb-3">
 										<div class="col-md-4">
 											<label class="form-label">Số ghế</label> 
-											<input ng-model="form.soghe" class="form-control" readonly>
+											<select ng-model="form.soghe" class="form-control" ng-options="value for value in [160, 180, 200, 220, 240, 260]">
+											</select>
 										</div>
 										<div class="col-md-4">
 											<label class="form-label">Trạng Thái</label> 
@@ -117,8 +114,8 @@
 								</div>
 								<div class="modal-footer text-center">
 									 <button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
-									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>						
+									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success">Chỉnh sửa</button>
+									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info">Xóa form</button>						
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >
@@ -167,7 +164,19 @@
 										  <div class="btns5">
 										      <label for="check5" >OK</label>
 									      </div>
-								      </div>	
+								      </div>
+								      
+								       <input type="checkbox" id="check6" >
+								      <div class="background"></div>
+								      <div class="alert_box6">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn số ghế!</header>
+										  <div class="btns6">
+										      <label for="check6" >OK</label>
+									      </div>
+								      </div>		
 								      
 								      <input type="checkbox" id="check8" >
 								      <div class="background"></div>

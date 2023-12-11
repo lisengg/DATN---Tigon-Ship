@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tigon.dao.BangtinDAO;
 import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.GheNgoiDAO;
@@ -26,6 +27,7 @@ import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.LoaiVeDAO;
 import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.dao.TuyenDAO;
+import com.tigon.model.Bangtin;
 import com.tigon.model.DatGhe;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
@@ -36,6 +38,7 @@ import com.tigon.model.LoaiHanhKhach;
 import com.tigon.model.LoaiVe;
 import com.tigon.model.NguoiDiCung;
 import com.tigon.model.Tuyen;
+import com.tigon.service.BangtinService;
 import com.tigon.service.DatVeService;
 import com.tigon.service.GheNgoiService;
 import com.tigon.service.NguoiDiCungTamService;
@@ -47,22 +50,22 @@ import com.tigon.service.TuyenTauService;
 public class HomeController {
 	@Autowired
 	TuyenDAO dao;
-	
+
 	@Autowired
 	HanhKhachTamDAO hktamdao;
 
 	@Autowired
 	TuyenTauService ttservice;
-	
+
 	@Autowired
 	LoaiHanhKhachService lhksertvice;
-	
+
 	@Autowired
 	GheNgoiDAO ghdao;
-	
+
 	@Autowired
 	GheNgoiService ghservice;
-	
+
 	@Autowired
 	DatGheDAO dgdao;
 
@@ -86,13 +89,13 @@ public class HomeController {
 
 	@Autowired
 	GheNgoiDAO ghndao;
-	
+
 	@Autowired
 	NguoiDiCungDAO gdcdao;
 
 	@Autowired
 	LichTauService ltservice;
-	
+
 	@Autowired
 	NguoiDiCungTamService hktservice;
 
@@ -101,10 +104,15 @@ public class HomeController {
 
 	@Autowired
 	HttpSession session;
+	@Autowired
+	BangtinService service;
+	@Autowired
+	BangtinDAO bangtindao;
 
 	@RequestMapping("/")
-	public String index() {
-
+	public String index(Model model) {
+		List<Bangtin> list = bangtindao.findAll();
+		model.addAttribute("items", list);
 		return "user/index";
 	}
 
@@ -133,5 +141,4 @@ public class HomeController {
 		return "user/login/register";
 	}
 
-	
 }

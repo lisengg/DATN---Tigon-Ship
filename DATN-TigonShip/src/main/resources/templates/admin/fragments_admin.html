@@ -8,16 +8,16 @@
 					<li class="active"><a></a></li>
 					<li class="menu-title">Quản lí</li>
 					<!-- /.menu-title -->
-					<li><a th:href="@{/admin/hangtau}"> <i
+					<li th:if="${#request.isUserInRole('ADMIN')}"><a th:href="@{/admin/hangtau}"> <i
 							class="menu-icon fa fa-tasks"></i>Hãng tàu
 					</a></li>
-					<li><a th:href="@{/admin/tau}"> <i
+					<li th:if="${#request.isUserInRole('ADMIN')}"><a th:href="@{/admin/tau}"> <i
 							class="menu-icon fa fa-anchor"></i>Tàu
 					</a></li>
 					<li><a th:href="@{/admin/ghengoi}"> <i
 							class="menu-icon ti-wheelchair"></i>Ghế ngồi
 					</a></li>
-					<li><a th:href="@{/admin/tuyentau}"> <i
+					<li th:if="${#request.isUserInRole('ADMIN')}"><a th:href="@{/admin/tuyentau}"> <i
 							class="menu-icon fa fa-retweet"></i>Tuyến tàu
 					</a></li>
 					<li><a th:href="@{/admin/lichtau}"> <i
@@ -29,10 +29,13 @@
 					<li><a th:href="@{/admin/taikhoan}"> <i
 							class="menu-icon ti-user"></i>Người dùng
 					</a></li>
+					<li><a th:href="@{/admin/bangtin}"> <i
+							class="menu-icon ti-user"></i>Bảng tin
+					</a></li>
 					<li class="menu-title">Thống kê</li>
 					<li><a th:href="@{/admin/datve}"><i
 							class="menu-icon ti-menu"></i>Đặt vé </a></li>
-					<li><a th:href="@{/admin/hoadon}"><i
+					<li><a th:href="@{/admin/hoadon}" th:if="${#request.isUserInRole('ADMIN')}"><i
 							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
 				<li class="menu-item-has-children dropdown" th:if="${#request.isUserInRole('ADMIN')}">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-money"></i>Doanh thu</a>
@@ -48,6 +51,7 @@
 						<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia/chitiet}">Chi tiết</a></li>
 					</ul>
 				</li>
+				
 					<!-- <li><a th:href="@{/admin/danhgia}"> <i
 							class="menu-icon ti-heart"></i>Đánh giá
 					</a></li> -->

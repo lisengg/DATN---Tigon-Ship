@@ -78,8 +78,8 @@ public class LayMatKhauController  implements CommandLineRunner {
 		Context context = new Context();
 		context.setVariable("message",randomNumber);
 
-		emailService.sendEmailWithHtmlTemplate(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
-				context);
+		emailService.sendEmailWithHtmlTemplateAndAttachment(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
+				context,"");
 		
 		//Lưu otp
 		TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(email);
@@ -117,7 +117,18 @@ public class LayMatKhauController  implements CommandLineRunner {
 			model.addAttribute("message","OTP này không đúng!");
 			return "/user/login/layOTP";
 		}
-		return "/user/login/matkhaumoi";
+		if(session.getAttribute("createdpass")==null) {
+			return "/user/login/matkhaumoi";
+		}
+		if(session.getAttribute("email")!=null) {
+			TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
+			taiKhoan.setEMAIL(session.getAttribute("email").toString());
+			taiKhoanDAO.save(taiKhoan);
+		}
+		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
+		taiKhoan.setMATKHAU(session.getAttribute("pass").toString());
+		taiKhoanDAO.save(taiKhoan);
+		return "/user/login/doimatkhauthanhcong";
 	}
 	
 	@PostMapping("/doimatkhau")
@@ -129,10 +140,13 @@ public class LayMatKhauController  implements CommandLineRunner {
 		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("iddoimk").toString()));
 		taiKhoan.setMATKHAU(matkhaumoi);
 		taiKhoanDAO.save(taiKhoan);
-		return "/user/index";
+		return "/user/login/doimatkhauthanhcong";
 	}
 	
-
+@RequestMapping("/doimatkhauthanhcong")
+	public String doimatkhauthanhcong() {
+	return "/user/login/doimatkhauthanhcong";
+}
 	
 	@Override
 	public void run(String... args) throws Exception {
