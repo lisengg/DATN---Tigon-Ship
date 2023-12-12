@@ -2,6 +2,7 @@ package com.tigon.model;
 
 import java.time.LocalDateTime;
 
+import javax.mail.search.DateTerm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

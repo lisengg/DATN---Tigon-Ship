@@ -84,7 +84,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -129,6 +129,7 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.15</version> <!-- Đảm bảo phiên bản mới nhất -->
 		</dependency>
+
 	</dependencies>
 
 	<build>

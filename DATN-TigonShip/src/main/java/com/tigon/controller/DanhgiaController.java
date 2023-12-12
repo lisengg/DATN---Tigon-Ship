@@ -1,5 +1,6 @@
 package com.tigon.controller;
 
+import javax.mail.search.DateTerm;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ public class DanhgiaController {
 		public String danhgia() {
 			return "user/DanhGia";
 		}
-		@RequestMapping("/add/DanhGia")
-		public String Create( @RequestParam String noidung, DanhGia dg) {
-			dg.setBINHLUAN(noidung);
+		@RequestMapping("/add/danhgia")
+		public String Create( @RequestParam String binhluan, @RequestParam int danhgia,@RequestParam int tuyen,
+				DanhGia dg) {
+			
+			dg.setBINHLUAN(binhluan);
+			dg.setDANHGIA(danhgia);
+			
 			dao.save(dg);
-			return"redirect:/user/DanhGia";
+			return" redirect: user/DanhGia";
 		}
 }
