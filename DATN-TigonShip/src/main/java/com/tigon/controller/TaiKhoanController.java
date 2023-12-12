@@ -124,26 +124,30 @@ public class TaiKhoanController implements CommandLineRunner {
 		String xa = "Xã";
 		String thitran = "Thị trấn";
 		String phuong = "Phường";
+		if(taikhoan.getDIACHI()!=null) {
 		String chuoi = taikhoan.getDIACHI();
-
-		if (chuoi.contains(phuong)) {
-			// Tìm vị trí của chuỗi ", phường"
-			int viTriChuoi = chuoi.indexOf(", Phường");
-			String ketQua = chuoi.substring(0, viTriChuoi).trim();
-			model.addAttribute("diachi", ketQua);
-		} else if (chuoi.contains(xa)) {
-			// Tìm vị trí của chuỗi ", Xã"
-			int viTriChuoi = chuoi.indexOf(", Xã");
-			String ketQua = chuoi.substring(0, viTriChuoi).trim();
-			model.addAttribute("diachi", ketQua);
-		} else if (chuoi.contains(thitran)) {
-			// Tìm vị trí của chuỗi ", Thị Xã"
-			int viTriChuoi = chuoi.indexOf(", Thị trấn");
-			String ketQua = chuoi.substring(0, viTriChuoi).trim();
-			model.addAttribute("diachi", ketQua);
-		} else {
-			model.addAttribute("diachi", taikhoan.getDIACHI());
+			if (chuoi.contains(phuong)) {
+				// Tìm vị trí của chuỗi ", phường"
+				int viTriChuoi = chuoi.indexOf(", Phường");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			} else if (chuoi.contains(xa)) {
+				// Tìm vị trí của chuỗi ", Xã"
+				int viTriChuoi = chuoi.indexOf(", Xã");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			} else if (chuoi.contains(thitran)) {
+				// Tìm vị trí của chuỗi ", Thị Xã"
+				int viTriChuoi = chuoi.indexOf(", Thị trấn");
+				String ketQua = chuoi.substring(0, viTriChuoi).trim();
+				model.addAttribute("diachi", ketQua);
+			} else {
+				model.addAttribute("diachi", taikhoan.getDIACHI());
+			}
+		}else {
+			model.addAttribute("diachi", "");
 		}
+		
 
 		model.addAttribute("user", taikhoan);
 

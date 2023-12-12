@@ -47,4 +47,9 @@ public class GuiHoaDonController {
 		System.out.println("da gui ma hoa don");
 		return "/user/index";
 	}
+	
+	@RequestMapping("/a")
+	public String a() {
+		return "/user/datve/hoadon";
+	}
 }

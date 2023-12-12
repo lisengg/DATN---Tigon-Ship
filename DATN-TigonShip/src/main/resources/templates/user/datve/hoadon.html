@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa Đơn Đặt Chỗ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #e6f7ff; /* Màu nền xanh nhạt */
+        }
+
+        #invoice {
+            max-width: 600px;
+            margin: 20px 0;
+            border: 1px solid #99c2ff; /* Viền nền xanh nhạt */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* Nền trắng */
+            float: left; /* Đặt hóa đơn bên trái */
+        }
+
+        #header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #logo {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        #customer-info,
+        #journey-info {
+            margin-bottom: 20px;
+        }
+
+        #table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #table th {
+            background-color: #004080; /* Màu blue đậm cho thẻ th */
+            color: #fff; /* Màu chữ trắng để tương phản */
+            border: 1px solid #00254d; /* Viền bảng xanh đậm */
+            padding: 10px;
+        }
+
+        #table td {
+            border: 1px solid #cce5ff; /* Viền bảng xanh nhạt */
+            padding: 10px;
+        }
+
+        #footer {
+            margin-top: 20px;
+        }
+
+        .note {
+            color: #004080;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        #contact-info {
+            font-size: 13px;
+            color: #004080;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="invoice">
+        <div id="header">
+            <img id="logo" src="path/to/your/logo.png" alt="Company Logo">
+            <h2>Tigon Ship</h2>
+        </div>
+        <p style="font-size: 13px;">Chào quý khách, cảm ơn Quý khách đã mua vé tàu Tigon Ship</p>
+        <p style="font-size: 13px;">Ngày đặt</p>
+
+        <div id="customer-info">
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Khách Hàng:</strong> John Doe</p>
+        </div>
+
+        <div id="journey-info">
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Tuyến:</strong> Hà Nội - Hồ Chí Minh</p>
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Trạng Thái Đặt Chỗ:</strong> Đã Xác Nhận</p>
+            <p><strong>Loại Vé:</strong> Vé Thường</p>
+            <p><strong>Số Lượng Hành Khách:</strong> 2 người</p>
+            <p><strong>Tổng Giá:</strong> $200</p>
+        </div>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Tàu</th>
+                    <th>Khởi Hành</th>
+                    <th>Đến</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tàu A</td>
+                    <td>01/01/2023 08:00 AM</td>
+                    <td>01/01/2023 04:00 PM</td>
+                </tr>
+                <!-- Thêm dòng khác nếu cần -->
+            </tbody>
+        </table>
+
+        <div id="customer-info">
+            <p class="note">Thông Tin Hành Khách</p>
+        </div>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Tàu</th>
+                    <th>Khởi Hành</th>
+                    <th>Đến</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tàu A</td>
+                    <td>01/01/2023 08:00 AM</td>
+                    <td>01/01/2023 04:00 PM</td>
+                </tr>
+                <!-- Thêm dòng khác nếu cần -->
+            </tbody>
+        </table>
+
+        <div id="footer">
+            <p class="note">LƯU Ý:</p>
+            <p>Thư được tạo tự động từ hệ thống máy tính. Vui lòng không trả lời thư này.</p>
+           <p id="contact-info">Quý khách cần hỗ trợ, vui lòng liên hệ:</p>
+            <p id="contact-info">Tigon Ship - Địa chỉ: </p>
+            <p id="contact-info">Số điện thoại: 1800 1000 - Email: tigonshipfpt@gmail.com</p>
