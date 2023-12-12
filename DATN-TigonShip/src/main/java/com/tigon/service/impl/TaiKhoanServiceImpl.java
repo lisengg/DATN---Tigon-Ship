@@ -48,4 +48,10 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 		return dao.updateTaiKhoan(hovaten, sdt, cccd, diachi, id);
 	}
 
+	@Override
+	public TaiKhoan findByGoogleId(String googleid) {
+		// TODO Auto-generated method stub
+		return dao.findByGoogleId(googleid);
+	}
+
 }

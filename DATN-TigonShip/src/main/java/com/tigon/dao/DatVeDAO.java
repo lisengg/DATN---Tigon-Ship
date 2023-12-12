@@ -20,7 +20,9 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 	@Query(value = "SELECT * FROM DatVe WHERE idtaikhoan = ?", nativeQuery = true)
     List<DatVe> ListDatVeByIdTaiKhoan(Integer idtaikhoan); // lấy tất cả thông tin đặt vé của 1 hành khách
 	
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE, ltc.GIOXUATPHAT, t.TENTAU, tuyen.TENTUYEN "
+
+	/* TÀI KHOẢN */
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE "
 	        + "FROM HOADON hd "
 	        + "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 	        + "INNER JOIN TAIKHOAN hk ON hk.IDTAIKHOAN = dv.IDTAIKHOAN "
@@ -29,6 +31,34 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 	        + "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
 	        + "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay AND hd.TRANGTHAI LIKE N'%Đã thanh toán%'", nativeQuery = true)
 	List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
+
+	
+	/* HÀNH KHÁCH */
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU "
+	        + "FROM HOADON hd "
+	        + "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
+	        + "INNER JOIN HANHKHACH  hk ON hk.IDHANHKHACH = dv.IDHANHKHACH "
+	        + "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU "
+	        + "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU "
+	        + "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
+	        + "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay AND hd.TRANGTHAI LIKE N'%Đã thanh toán%'", nativeQuery = true)
+	List<Object> thongTinDatVeHK(@Param("id") Integer id, @Param("ngay") Date ngay);
+
+	//Thông tin đặt ghế (tên ghế - id ghế)
+	@Query(value = "SELECT IDDATGHE,TENGHE,KHOANG FROM DATGHE INNER JOIN GHENGOI ON GHENGOI.IDGHE = DATGHE.IDGHE WHERE IDDATVE = ?1", nativeQuery = true)
+    List<Object> thongTinGheDat(Integer iddatve);
+
+	//Thông tin người đi cùng
+    @Query(value = "SELECT * FROM NGUOIDICUNG WHERE MADATVE = ?1", nativeQuery = true)
+    List<Object> thongTinNguoiDiCung(Integer iddatve);
+
+	//Tính lại tổng tiền hóa đơn sau khi xóa 1 khách 
+	@Query(value = "SELECT g.GIA FROM LOAIHK hk " +
+	"INNER JOIN NGUOIDICUNG n ON hk.IDLOAIHK = n.IDLOAIHK " +
+	"INNER JOIN GIAVE g ON g.IDLOAIHK = n.IDLOAIHK " +
+	"INNER JOIN LOAIVE l ON l.IDLOAIVE = g.IDLOAIVE " +
+	"WHERE n.IDNGUOIDICUNG = :id AND g.IDTUYEN = :idTuyen AND g.IDLOAIVE = :idLoaiVe", nativeQuery = true)
+	List<Object> tongTien(@Param("id") Integer iddatve, @Param("idTuyen") Integer idTuyen, @Param("idLoaiVe") Integer idLoaiVe);
 
 	 
 }

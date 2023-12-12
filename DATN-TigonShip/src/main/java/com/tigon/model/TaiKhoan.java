@@ -38,11 +38,12 @@ public class TaiKhoan {
     String CCCD;
     String VAITRO;
     String QUOCTICH;
+    String GOOGLEID;
     @Temporal(TemporalType.DATE)
     Date NGAYSINH;
     @ManyToOne
     @JoinColumn(name = "IDLOAIHK")
-    LoaiHanhKhach LOAIHANHKHACH;
+    LoaiHanhKhach LOAIHK;
 
     @JsonIgnore
     @OneToMany(mappedBy = "TAIKHOAN")

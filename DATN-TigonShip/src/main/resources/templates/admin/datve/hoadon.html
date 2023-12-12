@@ -1,286 +1,142 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-@import url("https://fonts.googleapis.com/css2?family=Barlow&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap");
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa Đơn Đặt Chỗ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #e6f7ff; /* Màu nền xanh nhạt */
+        }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+        #invoice {
+            max-width: 600px;
+            margin: 20px 0;
+            border: 1px solid #99c2ff; /* Viền nền xanh nhạt */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* Nền trắng */
+            float: left; /* Đặt hóa đơn bên trái */
+        }
 
-body,
-html {
-	height: 100vh;
-	display: grid;
-	font-family: "Barlow", sans-serif;
-	background: #520a71;
-	color: black;
-	font-size: 14px;
-	letter-spacing: 0.1em;
-}
+        #header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.ticket {
-	margin: auto;
-	display: flex;
-	background: white;
-	box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-}
+        #logo {
+            max-width: 100px;
+            max-height: 100px;
+        }
 
-.left {
-	display: flex;
-}
+        #customer-info,
+        #journey-info {
+            margin-bottom: 20px;
+        }
 
-.image {
-	height: auto;
-	background-image: url("https://vcdn1-dulich.vnecdn.net/2022/04/08/dulichPhuQuoc-1649392573-9234-1649405369.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=SU6n3IvJxW1Sla0xqg31Kg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	opacity: 0.95;
-}
+        #table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-.admit-one {
-	position: absolute;
-	color: darkgray;
-	height: 250px;
-	padding: 0 10px;
-	letter-spacing: 0.15em;
-	font-size: 12px;
-	display: flex;
-	text-align: center;
-	justify-content: space-around;
-	writing-mode: vertical-rl;
-	transform: rotate(-180deg);
-}
+        #table th {
+            background-color: #004080; /* Màu blue đậm cho thẻ th */
+            color: #fff; /* Màu chữ trắng để tương phản */
+            border: 1px solid #00254d; /* Viền bảng xanh đậm */
+            padding: 10px;
+        }
 
-.admit-one span:nth-child(2) {
-	color: white;
-	font-weight: 700;
-}
+        #table td {
+            border: 1px solid #cce5ff; /* Viền bảng xanh nhạt */
+            padding: 10px;
+        }
 
-.left .ticket-number {
-	height: 250px;
-	width: 300px;
-	display: flex;
-	justify-content: flex-end;
-	align-items: flex-end;
-	padding: 10px;
-	color: white;
-}
+        #footer {
+            margin-top: 20px;
+        }
 
-.ticket-info {
-	padding: 10px 20px;
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	justify-content: space-between;
-	align-items: center;
-}
+        .note {
+            color: #004080;
+            font-size: 15px;
+            font-weight: bold;
+        }
 
-.date {
-	border-top: 1px solid gray;
-	border-bottom: 1px solid gray;
-	padding: 5px 0;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-}
-
-.date span:first-child {
-	text-align: left;
-	width: 100px;
-}
-
-.date span:last-child {
-	text-align: right;
-	width: 100px;
-}
-
-.date .nov-10 {
-	color: #d62839;
-	font-size: 18px;
-	width: 150px;
-}
-
-.show-name {
-	font-size: 18px;
-	color: #d62839;
-	font-weight: 700;
-}
-
-.show-name h1 {
-	font-size: 30px;
-	letter-spacing: 0.05em;
-	margin-bottom: 4px;
-	color: #93229f;
-	font-family: "Saira Stencil One", sans-serif;
-}
-
-.show-name h2 {
-	margin-bottom: 2px;
-}
-
-.time {
-	color: #505050;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	font-weight: 700;
-}
-
-.time span {
-	font-weight: 400;
-	color: darkgray;
-}
-
-.left .time {
-	font-size: 16px;
-	margin-bottom: 5px;
-}
-
-.tagline {
-	font-weight: 700;
-	font-size: 14px;
-}
-
-.location {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	padding-top: 8px;
-	border-top: 1px solid gray;
-	font-weight: 700;
-}
-
-.location span:first-child {
-	text-align: left;
-}
-
-.location span:last-child {
-	text-align: right;
-}
-
-.location .separator {
-	font-size: 20px;
-}
-
-.right {
-	width: 225px;
-	border-left: 1px dashed #404040;
-}
-
-.right .admit-one {
-	color: darkgray;
-}
-
-.right .admit-one span:nth-child(2) {
-	color: #505050;
-}
-
-.right .right-info-container {
-	height: 250px;
-	padding: 10px 10px 10px 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-}
-
-.right .show-name h1 {
-	font-size: 18px;
-	font-family: "Barlow", sans-serif;
-}
-
-.right .time {
-	margin-top: 10px;
-}
-
-.barcode {
-	height: 135px;
-}
-
-.barcode img {
-	height: 100%;
-}
-
-.right .ticket-number {
-	color: #505050;
-	font-weight: 700;
-}
-
-</style>
+        #contact-info {
+            font-size: 13px;
+            color: #004080;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 
-<div class="ticket">
-	<div class="left">
-		<div class="image">
-			<p class="admit-one">
-				<span>TIGON SHIP</span>
-				<span>TIGON SHIP</span>
-				<span>TIGON SHIP</span>
-			</p>
-			<div class="ticket-number">
-				<p>
-					
-				</p>
-			</div>
-		</div>
-		<div class="ticket-info">
-			<p class="date">
-				<span>Thứ 2</span>
-				<span class="nov-10">28 Tháng 12</span>
-				<span>2023</span>
-			</p>
-			<div class="show-name">
-				<h1>Phú Quốc - Sóc Trăng</h1>
-				<h2>Tigon Ship V</h2>
-				<h4>KHOANG: 1</h4>
-				<h4>GHẾ: G1,G2,G3,G5</h4>
-			</div>
-			<div class="tagline">
-				<p>HÀNH KHÁCH CHÍNH: TRẦN MỘNG CƠ</p>
-			</div>
-			<div class="time">
-				<p>Thời gian khởi hành: 7:00 - 28/12/2023</p>
-			</div>
-			
-			<p class="location"><span></span>
-				<span class="separator"><i class=""></i></span><span>NGÀY ĐẶT: 27/12/2023</span>
-			</p>
-		</div>
-	</div>
-	<div class="right">
-		<p class="admit-one">
-			<span>QR CODE</span>
-			<span>QR CODE</span>
-			<span>QR CODE</span>
-		</p>
-		<div class="right-info-container">
-			<div class="show-name">
-				<!-- <h1>#SaveWarriorNun</h1> -->
-			</div>
-			<div class="time">
-				<p>Quét mã để xem chi tiết hóa đơn</p>
-				
-			</div>
-			<div class="barcode">
-				<img src="https://i.imgur.com/HMAAsVO.png" alt="QR code">
-			</div>
-			<p class="ticket-number">
-				Thank you
-			</p>
-		</div>
-	</div>
-</div>
-</body>
-</html>
+    <div id="invoice">
+        <div id="header">
+            <img id="logo" src="path/to/your/logo.png" alt="Company Logo">
+            <h2>Tigon Ship</h2>
+        </div>
+        <p style="font-size: 13px;">Chào quý khách, cảm ơn Quý khách đã mua vé tàu Tigon Ship</p>
+        <p style="font-size: 13px;">Ngày đặt</p>
+
+        <div id="customer-info">
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Khách Hàng:</strong> John Doe</p>
+        </div>
+
+        <div id="journey-info">
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Tuyến:</strong> Hà Nội - Hồ Chí Minh</p>
+            <p style="color: rgb(241,88,35);font-weight: 700;"><strong>Trạng Thái Đặt Chỗ:</strong> Đã Xác Nhận</p>
+            <p><strong>Loại Vé:</strong> Vé Thường</p>
+            <p><strong>Số Lượng Hành Khách:</strong> 2 người</p>
+            <p><strong>Tổng Giá:</strong> $200</p>
+        </div>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Tàu</th>
+                    <th>Khởi Hành</th>
+                    <th>Đến</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tàu A</td>
+                    <td>01/01/2023 08:00 AM</td>
+                    <td>01/01/2023 04:00 PM</td>
+                </tr>
+                <!-- Thêm dòng khác nếu cần -->
+            </tbody>
+        </table>
+
+        <div id="customer-info">
+            <p class="note">Thông Tin Hành Khách</p>
+        </div>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Tàu</th>
+                    <th>Khởi Hành</th>
+                    <th>Đến</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tàu A</td>
+                    <td>01/01/2023 08:00 AM</td>
+                    <td>01/01/2023 04:00 PM</td>
+                </tr>
+                <!-- Thêm dòng khác nếu cần -->
+            </tbody>
+        </table>
+
+        <div id="footer">
+            <p class="note">LƯU Ý:</p>
+            <p>Thư được tạo tự động từ hệ thống máy tính. Vui lòng không trả lời thư này.</p>
+           <p id="contact-info">Quý khách cần hỗ trợ, vui lòng liên hệ:</p>
+            <p id="contact-info">Tigon Ship - Địa chỉ: </p>
+            <p id="contact-info">Số điện thoại: 1800 1000 - Email: tigonshipfpt@gmail.com</p>

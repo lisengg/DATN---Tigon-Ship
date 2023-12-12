@@ -41,10 +41,12 @@
 					nhập</a>
 			</button>
 			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-4">
+			<h3 class="mb-4 text-center" style="color: white;">Đăng ký</h3>
+				
 					<div class="login-wrap p-0">
-						<h3 class="mb-4 text-center">Đăng ký</h3>
 						<form th:action="@{/processRegister}" method="post">
+						<div class="row justify-content-center">
+						<div class="col-md-6 col-lg-4">
 							<p th:text="${messageError}"></p>
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="Họ và tên"
@@ -68,28 +70,39 @@
 									placeholder="Email" name="email" required>
 								<p th:text="${errorEmail}"></p>
 							</div>
-							
+							<div class="form-group">
+								<input type="text" class="form-control"
+									placeholder="Số điện thoại" name="sdt" required>
+								
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control"
+									placeholder="Số căn cước công dân" name="cccd" required>
+								
+							</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
 							<div class="form-group">
 								 <div class="row gx-3 mb-3">
                                 
                                 <!-- Form Group (dia chi)-->
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <label class="small mb-1" for="inputFirstName">Tỉnh/Thành
-                                        phố :</label> <select class="form-select form-select-md mb-3" name="city" id="city">
-                                        <option value="" selected></option>
+                                        phố :</label> <select style="color: black;" class="form-select form-control form-select-md mb-3" name="city" id="city">
+                                        <option style="color: black;" value="" selected></option>
                                     </select>
                                 </div>
                                 <!-- Form Group (last name)-->
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <label class="small mb-1" for="inputFirstName">Quận/Huyện
-                                        : </label> <select class="form-select form-select-md mb-3" name="district" id="district">
-                                        <option value="" selected></option>
+                                        : </label> <select class="form-select form-control form-select-md mb-3" name="district" id="district">
+                                        <option style="color: black;" value="" selected></option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <label class="small mb-1" for="inputFirstName">Phường/Xã
-                                        :</label> <select class="form-select form-select-mb mb-3" name="ward" id="ward">
-                                        <option value="" selected></option>
+                                        :</label> <select class="form-select form-control form-select-mb mb-3" name="ward" id="ward">
+                                        <option style="color: black;" value="" selected></option>
                                     </select>
                                 </div>
                             </div>
@@ -98,7 +111,9 @@
 								<input type="text" class="form-control" placeholder="Địa chỉ cụ thể"
 									name="diachi" required>
 							</div>
-							<div class="form-group">
+							</div>
+							</div>
+							<div class="form-group" style="width: 30%; margin: 0 auto;">
 								<button type="submit"
 									class="form-control btn btn-primary submit px-3">Đăng
 									ký</button>
@@ -106,17 +121,18 @@
 						</form>
 						<p class="w-100 text-center">&mdash;Hoặc đăng nhập với &mdash;</p>
 						<div class="social d-flex text-center">
-							<a href="/oauth2/authorization/facebook"
-								class="px-2 py-2 mr-md-1 rounded"><span
-								class="ion-logo-facebook mr-2"></span> Facebook</a> <a
-								href="/oauth2/authorization/google"
-								class="px-2 py-2 ml-md-1 rounded"><span
-								class="ion-logo-google mr-2"></span> Google</a>
-						</div>
+    <a href="/oauth2/authorization/facebook" style="width: 20%; margin: 0 auto;"
+        class="px-2 py-2 mr-md-1 rounded"><span
+        class="ion-logo-facebook mr-2"></span> Facebook</a>
+    <a style="width: 20%; margin: 0 auto;"
+        href="/oauth2/authorization/google"
+        class="px-2 py-2 ml-md-1 rounded"><span
+        class="ion-logo-google mr-2"></span> Google</a>
+</div>
+
 					</div>
 				</div>
 			</div>
-		</div>
 
 	</section>
 <script type="text/javascript">

@@ -1593,12 +1593,13 @@ pre {
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.5;
+  font-size: 17px;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid white;
   border-radius: 0.25rem;
   -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
@@ -1616,7 +1617,7 @@ pre {
   .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #80bdff;
+    border-color: white;
     outline: 0;
     -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
@@ -1637,7 +1638,7 @@ pre {
     opacity: 1; }
 
 select.form-control:focus::-ms-value {
-  color: #495057;
+  color: black;
   background-color: #fff; }
 
 .form-control-file,
@@ -8226,7 +8227,7 @@ h1, h2, h3, h4, h5,
   background: transparent;
   border: none;
   height: 50px;
-  color: white !important;
+  color: black;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 40px;
@@ -8307,6 +8308,8 @@ textarea.form-control {
       -webkit-transition: none;
       -o-transition: none;
       transition: none; } }
+
+
 
 /* Show the checkmark when checked */
 .checkbox-wrap input:checked ~ .checkmark:after {

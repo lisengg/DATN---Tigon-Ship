@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thanh toán đơn hàng</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            padding: 5px;
+             background-image: url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/404844409.jpg?k=007f6aa147aaeef2e17fc21e906e00a32319c67c9d29deebc8f80a6abfb9eadd&o=&hp=1');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        }
+
+        p {
+            margin: 0%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            overflow: hidden;
+            background-color: #f8f9fa;
+        }
+
+        .box-1 {
+            max-width: 450px;
+            padding: 10px 40px;
+            user-select: none;
+        }
+.box-1 div .fs-12 {
+    font-size: 8px;
+    color: white;
+}
+
+.box-1 div .fs-14 {
+    font-size: 15px;
+    color: white;
+}
+
+.box-1 img.pic {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+
+.box-1 img.mobile-pic {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.box-1 .name {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dis {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+label.box {
+    width: 100%;
+    font-size: 12px;
+    background: #ddd;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+#one:checked~label.first,
+#two:checked~label.second,
+#three:checked~label.third {
+    border-color: #7700ff;
+}
+
+#one:checked~label.first .circle,
+#two:checked~label.second .circle,
+#three:checked~label.third .circle {
+    border-color: #7a34ca;
+    background-color: #fff;
+}
+
+label.box .course {
+    width: 100%;
+}
+
+label.box .circle {
+    height: 12px;
+    width: 12px;
+    background: #ccc;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 4px solid transparent;
+    display: inline-block;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.box-2 {
+    max-width: 450px;
+    padding: 10px 40px;
+}
+
+
+.box-2 .box-inner-2 input.form-control {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.box-2 .box-inner-2 .inputWithIcon {
+    position: relative;
+}
+
+.box-2 .box-inner-2 .inputWithIcon span {
+    position: absolute;
+    left: 15px;
+    top: 8px;
+}
+
+.box-2 .box-inner-2 .inputWithcheck {
+    position: relative;
+}
+
+.box-2 .box-inner-2 .inputWithcheck span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 15px;
+    top: 6px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid #7700ff;
+}
+
+.border:focus-within {
+    border: 1px solid #7700ff !important;
+}
+
+.box-2 .card-atm .form-control {
+    border: none;
+    box-shadow: none;
+}
+
+.form-select {
+    border-radius: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+
+.address .form-control.zip {
+    border-radius: 0;
+    border-bottom-left-radius: 10px;
+
+}
+
+.address .form-control.state {
+    border-radius: 0;
+    border-bottom-right-radius: 10px;
+
+}
+
+.box-2 .box-inner-2 .btn.btn-outline-primary {
+    width: 120px;
+    padding: 10px;
+    font-size: 11px;
+    padding: 0% !important;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 0;
+    background-color: whitesmoke;
+    color: black;
+    font-weight: 600;
+}
+
+.box-2 .box-inner-2 .btn.btn-primary {
+    background-color: #7700ff;
+    color: whitesmoke;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    justify-content: center;
+    border: none;
+    padding: 10px;
+}
+
+.box-2 .box-inner-2 .btn.btn-primary:hover {
+    background-color: #7a34ca;
+}
+
+.box-2 .box-inner-2 .btn.btn-primary .fas {
+    font-size: 13px !important;
+    color: whitesmoke;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 250px;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.carousel-control-prev {
+    transform: translateX(-50%);
+    opacity: 1;
+}
+
+.carousel-control-prev:hover .fas.fa-arrow-left {
+    transform: translateX(-5px);
+}
+
+.carousel-control-next {
+    transform: translateX(50%);
+    opacity: 1;
+}
+
+.carousel-control-next:hover .fas.fa-arrow-right {
+    transform: translateX(5px);
+}
+
+.fas.fa-arrow-left,
+.fas.fa-arrow-right {
+    font-size: 0.8rem;
+    transition: all .2s ease;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    background-color: #f8f9fa;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transform-origin: center;
+    opacity: 1;
+}
+
+.fas,
+.fab {
+    color: #6d6c6d;
+}
+
+::placeholder {
+    font-size: 12px;
+}
+
+@media (max-width:768px) {
+    .container {
+        max-width: 700px;
+        margin: 10px auto;
+    }
+
+    .box-1,
+    .box-2 {
+        max-width: 600px;
+        padding: 20px 90px;
+        margin: 20px auto;
+    }
+
+}
+
+@media (max-width:426px) {
+
+    .box-1,
+    .box-2 {
+        max-width: 400px;
+        padding: 20px 10px;
+    }
+
+    ::placeholder {
+        font-size: 9px;
+    }
+}
+
+  .modal-content {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-footer {
+            justify-content: center;
+        }
+        
+        .vnpay-section {
+        background-color: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .vnpay-logo {
+        max-width: 100px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container d-lg-flex">
+        <div class="box-1 bg-light user">
+            <div class="d-flex align-items-center mb-3">
+            </div>
+            <div class="box-inner-1 pb-3 mb-3 ">
+                <div class="d-flex justify-content-between mb-3 userdetails">
+                    <p class="fw-bold" th:text="${tuyen}"></p>
+                  
+                </div>
+                <div id="my" class="carousel slide carousel-fade img-details" data-bs-ride="carousel"
+                    data-bs-interval="2000">
+                    <div class="carousel-indicators">
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://img.pikbest.com/origin/09/22/49/09KpIkbEsTEAP.jpg!w700wp"
+                                class="d-block w-100">
+                        </div>
+                    </div>
+                </div>
+                <div class="radiobtn">
+                <label th:if="${ndtam}" class="py-2 first" style="font-weight: 700">Danh sách hành khách phụ</label>
+          
+                        <div class="d-flex" th:if="${ndtam}">
+                            <div class="course">
+                                <div class="d-flex align-items-center justify-content-between mb-2" th:each="p:${ndtam}">
+                                    <span class="fw-bold" th:text=${p.HOVATEN}>
+                                       
+                                    </span>
+                                  <!--   <span class="fas fa-dollar-sign">Giá vé</span> -->
+                                </div>
+                               <!--  <span th:text="${loaive}">Loại vé: </span> -->
+                            </div>
+                        </div>
+                    </label>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="box-2">
+            <div class="box-inner-2">
+                <div>
+                    <p class="fw-bold">Thông tin đặt vé</p>
+           
+                </div>
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <p class="dis fw-bold mb-2">Họ và tên :</p>
+                        <input class="form-control" type="text" th:value="${hoten}">
+                    </div>
+                    <div class="mb-3">
+                        <p class="dis fw-bold mb-2">Email :</p>
+                        <input class="form-control" type="text" th:value="${email}">
+                    </div>
+                    <div class="mb-3">
+                        <p class="dis fw-bold mb-2">Số điện thoại liên lạc :</p>
+                        <input class="form-control" type="text" th:value="${sdt}">
+                    </div>
+                    <div>
+                        <p class="dis fw-bold mb-2">Số ghế :</p>
+                        <label style="border: none;" th:text="${soghe}"></label>
+                        <p class="dis fw-bold mb-2">Số ghế về :</p>
+                        <label style="border: none;" th:text="${soghe_ve}"></label>
+                         <p class="dis fw-bold mb-2" style="margin-top: 10px;">Loại vé :</p>
+                        <label style="border: none;" th:text="${loaive}"></label>
+                        <div class="row">
+    <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ xuất phát:</p>
+        <label style="border: none;" th:text="${gioxuatphat}"></label>
+    </div>
+    <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ xuất phát về:</p>
+        <label style="border: none;" th:text="${gioxuatphat_ve}"></label>
+    </div>
+    <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi:</p>
+        <label style="border: none;" th:text="${giodennoi}"></label>
+    </div> 
+    <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi về:</p>
+        <label style="border: none;" th:text="${giodennoi_ve}"></label>
+    </div>
+    <p class="dis fw-bold mb-2" style="margin-top: 10px;">Ngày đặt vé:</p>
+        <input style="border: none;background-color: #f8f9fa" name="ngaydat" th:value="${#dates.format(#dates.createNow(), 'HH:mm:ss dd-MM-yyyy')}"></input>
+</div>
+              
+                        <div class="address" style="margin-top: 10px">
+                            
+                            <div class="d-flex">
+                                <input class="form-control zip" type="text" placeholder="" style="height: 1px;border: white;background: #f8f9fa;" disabled="disabled">
+                                 <input class="form-control zip" type="text" placeholder="" style="height: 1px;border: white;background: #f8f9fa;" disabled="disabled">
+                            </div>
+                            <div class=" my-3">
+                               
+                            </div>
+                            <div class="d-flex flex-column dis">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <p>Tổng tiền :</p>
+                                    <p><span class="fas fa-dollar-sign" th:text="${tongtien}"></span></p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <p>Giảm giá :<span></span></p>
+                                    <p><span class="fas fa-dollar-sign"></span></p>
+                                </div>
+                                <label style="font-weight: 600;font-size: 15px">Thanh toán trực tuyến qua các cổng :</label>
+    <a th:href="@{/payment/vnpay/createpayment}" target="_blank">
+        <img src="data:image/png;base64,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" alt="Logo VNPAY" class="vnpay-logo">
+    </a>
+
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <p class="fw-bold">Tổng tiền thanh toán</p>
+                                    <p class="fw-bold"><span class="fas fa-dollar-sign" th:text="${tongtien}"></span></p>
+                                </div>
+                               <a class="btn btn-success mt-2" th:href="@{/thanhtoanthanhcong}">Thanh toán<span class="fas fa-dollar-sign px-1" style="color: white" th:text="${tongtien}"></span></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

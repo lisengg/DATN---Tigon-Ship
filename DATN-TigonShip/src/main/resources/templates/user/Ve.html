@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>ROYAL HOTEL | Responsive Travel & Tourism Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+	<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+	integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e"
+	
+	crossorigin="anonymous" />
+
+    <link href="/user/bootstrap_min_datve.css" rel="stylesheet">
+    <link href="/user/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/user/hover-style.css" rel="stylesheet">
+    <link href="/user/styleVe.css" rel="stylesheet">
+</head>
+
+<body>
+    <div th:each="lichtau, iterStat : ${lichTau}" id="rooms">
+        <div class="container">
+            <div  class="section-header">
+            
+                <h2 th:text=${lichtau.TAU.TENTAU}></h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="room-img">
+                                <div class="box12">
+                                    <img src="/assets/images/Tau.jpg">
+                                    <div class="box-content">
+                                        <h3></h3>
+                                        <ul class="icon">
+                                            <li><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"><i class="fa fa-ship"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="room-des">
+                                <h3><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"></a></h3>
+                                <p>Ngày Khởi Hành: <label th:text="${ngayDi}"></label></p>
+                                <ul class="room-size">
+                                    <li><label>Vé người lớn: </label> <label th:text="${gia}"></label></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li><label>Vé trẻ em: </label> <label th:text="${giatreem}"></label></li>
+                                </ul>
+                                <ul class="room-size">
+                                   <i class="bi bi-clock"> Giờ xuất phát: </i> <label style="color: black;" th:text="${lichtau.GIOXUATPHAT}"></label>
+                                    <li></li>
+                                    <li></li>
+                                    <i class="bi bi-clock-fill"> Giờ đến nơi: </i> <label style="color: black;" th:text="${lichtau.GIODENNOI}"></label>
+                                </ul>
+                                <ul class="room-size">
+
+                                    <label>Vé còn lại: </label> <label th:text="${soLuongGhe[iterStat.index]}"></label>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="room-rate">
+
+                                <a th:href="@{/datve/hanhkhach/{index}(index=${iterStat.index})}" data-toggle="modal" data-target="#modal-id">Đặt vé</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div id="call-us">
+        <div class="container">
+            <div class="section-header">
+                <h2>Click Below to Call Us</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enim at venenatis tincidunt.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="tel:+12345678900">+1 234 567 8900</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

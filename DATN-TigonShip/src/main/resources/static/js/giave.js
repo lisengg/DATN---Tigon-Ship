@@ -13,7 +13,6 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				});
 				$scope.post = true;
 				$scope.put = false;
-				$scope.delete = false;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
 				initDataTable($scope.items);
 			});
@@ -26,6 +25,7 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				{ data: 'loaive.loaive' },
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'gia' },
+				{ data: 'loaihk.loaihk' },
 				{
 					data: 'ngaybatdau',
 					render: function(data, type, full, meta) {
@@ -85,7 +85,6 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 		};
 		$scope.post = true;
 		$scope.put = false;
-		$scope.delete = false;
 	}
 	//Thêm giá vé mới
 	$scope.create = function() {

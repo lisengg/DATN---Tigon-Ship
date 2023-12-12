@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
@@ -58,7 +59,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/login/quenmatkhau";
 	}
 
-	@RequestMapping("/layotp")
+	@PostMapping("/layotp")
 	public String layotp(@RequestParam("email") String email, Model model) {
 		TaiKhoan getAllEmail = taiKhoanService.getAllEmail(email);
 		if(getAllEmail==null) {
@@ -77,12 +78,14 @@ public class LayMatKhauController  implements CommandLineRunner {
 		Context context = new Context();
 		context.setVariable("message",randomNumber);
 
-		emailService.sendEmailWithHtmlTemplate(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
-				context);
+		emailService.sendEmailWithHtmlTemplateAndAttachment(email, "Yêu Cầu Cấp Lại Mật Khẩu", "/user/login/emailtemplates",
+				context,"");
 		
 		//Lưu otp
+		TaiKhoan taikhoan = taiKhoanService.findIdByEmailOrPhone(email);
 		OTP otp = new OTP();
 		otp.setMAOTP(String.valueOf(randomNumber));
+		otp.setTAIKHOAN(taikhoan);
 		otpDAO.save(otp);
 		System.out.println("Created OTP");
 		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
@@ -107,17 +110,28 @@ public class LayMatKhauController  implements CommandLineRunner {
 		return "/user/login/layOTP";
 	}
 	
-	@RequestMapping("/xacthucma")
+	@PostMapping("/xacthucma")
 	public String xacthucma(@RequestParam("otp") String otp, Model model) {
 		List<OTP> findMaOTPTrung = OTPService.findByMaOTP(otp);
 		if(findMaOTPTrung.isEmpty()) {
 			model.addAttribute("message","OTP này không đúng!");
 			return "/user/login/layOTP";
 		}
-		return "/user/login/matkhaumoi";
+		if(session.getAttribute("createdpass")==null) {
+			return "/user/login/matkhaumoi";
+		}
+		if(session.getAttribute("email")!=null) {
+			TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
+			taiKhoan.setEMAIL(session.getAttribute("email").toString());
+			taiKhoanDAO.save(taiKhoan);
+		}
+		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
+		taiKhoan.setMATKHAU(session.getAttribute("pass").toString());
+		taiKhoanDAO.save(taiKhoan);
+		return "/user/login/doimatkhauthanhcong";
 	}
 	
-	@RequestMapping("/doimatkhau")
+	@PostMapping("/doimatkhau")
 	public String doimatkhau(@RequestParam("matkhaumoi") String matkhaumoi,@RequestParam("matkhaumoi2") String matkhaumoi2, Model model) {
 		if(!matkhaumoi.equals(matkhaumoi2)) {
 			model.addAttribute("message","Mật khẩu xác nhận không khớp!");
@@ -126,10 +140,13 @@ public class LayMatKhauController  implements CommandLineRunner {
 		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("iddoimk").toString()));
 		taiKhoan.setMATKHAU(matkhaumoi);
 		taiKhoanDAO.save(taiKhoan);
-		return "/user/index";
+		return "/user/login/doimatkhauthanhcong";
 	}
 	
-
+@RequestMapping("/doimatkhauthanhcong")
+	public String doimatkhauthanhcong() {
+	return "/user/login/doimatkhauthanhcong";
+}
 	
 	@Override
 	public void run(String... args) throws Exception {

@@ -38,7 +38,11 @@ public class GiaVe {
     @Temporal(TemporalType.DATE)
 	@Column(name = "NGAYKETTHUC")
 	Date NGAYKETTHUC = new Date();
-
+    
+    @ManyToOne
+    @JoinColumn(name = "IDLOAIHK")
+    LoaiHanhKhach LOAIHK;
+    
 	@ManyToOne
 	@JoinColumn(name = "IDTUYEN")
 	Tuyen TUYEN;
@@ -46,5 +50,4 @@ public class GiaVe {
 	@ManyToOne
 	@JoinColumn(name = "IDLOAIVE")
 	LoaiVe LOAIVE;
-
 }
