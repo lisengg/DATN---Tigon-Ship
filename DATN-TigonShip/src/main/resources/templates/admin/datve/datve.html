@@ -115,7 +115,6 @@ select:active {
 <body ng-app="datve-app" ng-controller="datve-ctrl">
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
-	<!-- /Left-panel -->
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
@@ -128,20 +127,28 @@ select:active {
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
-							
-							<div class="card-header">
-                                <strong class="card-title">Thông tin vé đặt khởi hành ngày </strong>
-                                   <input type="date" id="datepicker" ng-model="selectedDate">
-								 <select class="text-center" ng-model="selectedTuyen" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
+							<!-- nút tìm kiếm theo ngày - tuyến - mã hóa đơn -->
+							<div class="card-header" style="text-align: center;">
+								<strong class="card-title">Thông tin vé đặt khởi hành ngày </strong>
+								<input type="date" id="datepicker" ng-model="selectedDate">
+								<select class="text-center" ng-model="selectedTuyen" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
 								</select>
 								<button ng-click="searchByDate()" class="custom-button">
 									<i class="fas fa-search"></i> 
 								</button>
-								<!-- <input class="custom-button" type="text" ng-model="searchMaHD" placeholder="Nhập MaHD">
-								<button class="custom-button" ng-click="searchByMaHD(searchMaHD)">Tìm Kiếm</button> -->
-                            </div>
+								<button ng-click="reset()" class="custom-button">
+									<i class="fas fa-sync"></i>
+								</button>
+							
+								<div style="margin: 10px 0;">
+									<input class="custom-button" type="text" ng-model="searchMaHD" placeholder="Nhập mã Hóa đơn" ng-show="maHD">
+									<button class="custom-button" ng-click="searchByMaHD(searchMaHD)" ng-show="search">
+										<i class="fas fa-search"></i> 	
+									</button>
+								</div>
+							</div>
 							<div class="card-body">
-								 <!-- Tabs -->
+								 <!-- Tabs (tab1: tài khoản, tab2: khách hàng) -->
 								<div class="container">
 									<ul class="nav nav-tabs" id="myTabs">
 										<li class="nav-item">
@@ -165,6 +172,7 @@ select:active {
 													<th class="text-center">Số ĐT</th>
 													<th>Số ghế</th>
 													<th>Tàu</th>
+													<th>mail</th>
 													<th class="text-center">Chi tiết</th>
 												</tr>
 											</thead>
@@ -180,6 +188,8 @@ select:active {
 													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
 													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
 													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
+													<td class="text-center"><button  class="custom-button">
+														<i class="fas fa-pen"></i> </button></td>
 													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
 														<i class="fas fa-pen"></i> </button></td>					
 												</tr>
@@ -242,14 +252,14 @@ select:active {
 								
 								</div>
 							</div>
+							 <!-- Bootstrap modal for form đặt ghế + người đi cùng + cập nhật đặt vé -->
 							<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header" style="background: #597aa7;">
-											<!-- <h3 class="modal-title" id="modalTitleId">Thông tin đặt vé</h3> -->
+											
 											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé<i class="fas fa-trash"></i> </button>
 											<button ng-click="" class="custom-button">Cập nhật vé<i class="fas fa-sync"></i> </button>
-											<!-- <button type="button" ng-click="check()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
 											<button type="button" ng-click="checkAndClose()" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
 
 										</div>
@@ -269,7 +279,7 @@ select:active {
 															<td class="text-center">{{item[0]}}</td>
 															<td class="text-center">{{item[1]}}</td>
 															<td class="text-center">{{item[2]}}</td>
-															<td  class="text-center"><button ng-click="deleteDatGhe(item[0])" class="custom-button"><i class="fas fa-trash"></i> </button></td>
+															<td  class="text-center"><button ng-click="deleteDatGhe(item[0])"  class="custom-button"><i class="fas fa-trash"></i> </button></td>
 														</tr>
 													</tbody>
 												</table>
@@ -289,7 +299,7 @@ select:active {
 															<td class="text-center">{{item[1]}}</td>
 															<td class="text-center">{{item[2]}}</td>
 															<td class="text-center">{{item[3]}}</td>
-															<td  class="text-center"><button ng-click="deleteNguoiDiCung(item[0])" class="custom-button"><i class="fas fa-trash"></i> </button></td>
+															<td  class="text-center"><button ng-click="deleteNguoiDiCung(item[0])"  class="custom-button"><i class="fas fa-trash"></i> </button></td>
 														</tr>
 													</tbody>
 												</table>
@@ -298,21 +308,20 @@ select:active {
 									</div>
 								</div>
 							</div>			
-				
-						</div>
-					</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+
 		<!-- Footer-->
 	<!-- 	<div th:replace="~{admin/fragments_admin :: footer}"></div> -->
 		<!-- Footer -->
 
 	<!-- Scripts -->
 	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
-	
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>

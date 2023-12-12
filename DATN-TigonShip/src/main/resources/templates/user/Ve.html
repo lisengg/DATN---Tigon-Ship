@@ -18,25 +18,63 @@
 
     <link href="/user/hover-style.css" rel="stylesheet">
     <link href="/user/styleVe.css" rel="stylesheet">
+    <link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
+    <style type="text/css">
+    html,body {
+    background-color: white;
+    }
+    </style>
 </head>
 
 <body>
-
+<header class="header-area header-sticky"> 
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav class="main-nav">
+					
+						<div>
+							<a href="/" class="logo"> <img
+								src="/assets/images/logoweb.png" alt=""
+								style="width: 135px; height: 70px; margin-top: 0px" >
+							</a>
+						</div>
+						<ul class="nav" style="left: 90px;">
+							<li><a href="/">Trang chủ</a></li>
+							<li><a href="/lienhe">Liên hệ</a></li>
+								<li><a href="/datve/timtuyen">Đặt vé</a></li>
+							<li><a href="/gioithieu">Giới thiệu</a></li>
+							<th:block th:unless="${#httpServletRequest.remoteUser}">
+								<li><a href="/dangnhap">Đăng nhập</a></li>
+								<li><a href="/dangki">Đăng Ký</a></li>
+							</th:block>
+							<th:block th:if="${#httpServletRequest.remoteUser}">
+							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+							</th:block>
+						</ul>
+						<a class='menu-trigger'> <span>Menu</span>
+						</a>
+						<!-- ***** Menu End ***** -->
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<form action=""  style="margin-top: 100px; text-align: center">
+	<h1 th:text=${TenTuyen}></h1>
     <div th:each="lichtau, iterStat : ${lichTau}" id="rooms">
         <div class="container">
-            <div  class="section-header">
-            
-                <h2 th:text=${lichtau.TAU.TENTAU}></h2>
-            </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" style="border: solid 0.5px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="room-img">
                                 <div class="box12">
                                     <img src="/assets/images/Tau.jpg">
                                     <div class="box-content">
-                                        <h3></h3>
+                                        <h3>Đặt vé</h3>
                                         <ul class="icon">
                                             <li><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"><i class="fa fa-ship"></i></a></li>
                                         </ul>
@@ -47,6 +85,7 @@
                         <div class="col-md-6">
                             <div class="room-des">
                                 <h3><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"></a></h3>
+                                 <h2 th:text=${lichtau.TAU.TENTAU}></h2>
                                 <p>Ngày Khởi Hành: <label th:text="${ngayDi}"></label></p>
                                 <ul class="room-size">
                                     <li><label>Vé người lớn: </label> <label th:text="${gia}"></label></li>
@@ -69,31 +108,16 @@
                         <div class="col-md-3">
                             <div class="room-rate">
 
-                                <a th:href="@{/datve/hanhkhach}">Đặt vé</a>
+                                <a th:href="@{/datve/hanhkhach/{index}(index=${iterStat.index})}" data-toggle="modal" data-target="#modal-id">Đặt vé</a>
                             </div>
                         </div>
                     </div>
-                    <hr>
                 </div>
             </div>
         </div>
     </div>
-     <div id="call-us">
-        <div class="container">
-            <div class="section-header">
-                <h2>Click Below to Call Us</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enim at venenatis tincidunt.
-                </p>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <a href="tel:+12345678900">+1 234 567 8900</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+        </form>
+  	
 </body>
 
 </html>

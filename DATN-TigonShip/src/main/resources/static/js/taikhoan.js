@@ -14,7 +14,6 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
 		var table = $('#table2').DataTable({
 			data: data.taikhoan, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idtaikhoan' },
 				{ data: 'hovaten' },
 				{ data: 'diachi' },
 				{ data: 'email' },

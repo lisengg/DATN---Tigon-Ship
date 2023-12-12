@@ -207,7 +207,7 @@ body {
 					<div class="card-body">
 						<div th:unless="${chuacove}" class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
-								style="color: #009e1a; padding-right: 5px;"></i> <span>Chuyến đi gần đây</span>
+								style="color: #009e1a; padding-right: 5px;"></i> <span>Chuyến đi đã đặt gần đây</span>
 							
 						</div>
 						<div th:if="${chuacove}" class="medium text-muted">
@@ -260,18 +260,25 @@ body {
 								<td th:text="${ls.MADATVE}"></td>
 								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
 								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
-								<td> <a href="#" style="color: blue; text-decoration: none;" 
-   th:attr="onclick='openModal(\'' + ${ls.MADATVE} + '\', \'' + ${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')} + '\', \'' + ${ls.LICHTAUCHAY.TUYEN.TENTUYEN} + '\',
-   \'' + ${#dates.format(ls.NGAYDI, 'dd/MM/yyyy')} + '\',\'' + ${#dates.format(ls.NGAYVE, 'dd/MM/yyyy')} + '\');'">
-   Xem chi tiết
-</a>
- </td>
+								<td><a href="#" style="color: blue; text-decoration: none;" th:attr="data-maDatVe=${ls.MADATVE}, data-ngayDat=${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}, 
+								data-tuyen=${ls.LICHTAUCHAY.TUYEN.TENTUYEN}, data-ngayDi=${#dates.format(ls.NGAYDI, 'dd/MM/yyyy')}, data-ngayVe=${#dates.format(ls.NGAYVE, 'dd/MM/yyyy')},
+								data-nguoiDat=${ls.TAIKHOAN.HOVATEN},data-loaiVe=${ls.LOAIVE.LOAIVE}" onclick="openModal(this)">
+    							Xem chi tiết
+								</a>
+ 								</td>
+ 								
+								<td th:if="${ls.NGAYVE == null}">
+    <!-- Nếu NGAYVE bằng null -->
+    <span th:if="${ls.NGAYVE == null and ls.NGAYDI.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+    <span th:if="${ls.NGAYVE == null and ls.NGAYDI.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+</td>
+<td th:unless="${ls.NGAYVE == null}">
+    <!-- Nếu NGAYVE không bằng null -->
+    <span th:if="${ls.NGAYDI != null and ls.NGAYDI.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+    <span th:if="${ls.NGAYDI != null and ls.NGAYDI.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+</td>
 
 
-								<td>
-								<span th:if="${ls.NGAYDAT.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
-								<span th:if="${ls.NGAYDAT.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
-								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -288,19 +295,28 @@ body {
             <div class="ticket-info">
                 <h2>Thông tin vé</h2>
                 <hr>
-                <p><span class="icon">🎫</span> Mã đặt vé: <strong id="maDatVeChiTiet"></strong></p>
-                <p><span class="icon">📅</span> Ngày đặt: <strong id="ngayDatChiTiet"></strong></p>
+                <div class="row">
+                <div class="col col-lg-6">
+                 <p><span class="icon">🎫</span> Mã đặt vé: <strong id="maDatVeChiTiet"></strong></p>               
                 <p><span class="icon">🚢</span> Tuyến đi: <strong id="tuyenChiTiet"></strong></p>
-                <p><span class="icon">📅</span> Ngày đi: <strong>02/01/2023</strong></p>
-                <p><span class="icon">📅</span> Ngày về: <strong>03/01/2023</strong></p>
-                <p><span class="icon">👥</span> Số ghế: <strong>12A, 12B</strong></p>
+                <p><span class="icon">👥</span> Số ghế: <strong id="soGhe"></strong></p>   
+ 				<p><span class="icon">🚢</span> Loại vé: <strong id="loaiVe"></strong></p>                              
+                </div>
+                <div class="col col-lg-6">   
+                 <p><span class="icon">📅</span> Ngày đặt: <strong id="ngayDatChiTiet"></strong></p>   
+                  <p><span class="icon">📅</span> Ngày đi: <strong id="ngayDi"></strong></p>          
+                <p><span class="icon">📅</span> Ngày về: <strong id="ngayVe"></strong></p>
+ 				<p><span class="icon">💲</span> Tổng tiền vé: <strong id="tongTienVe"></strong></p>   
+                </div>
+                </div>
+               
             </div>
 
             <!-- Passenger Information -->
             <div class="passenger-info">
                 <h2>Thông tin hành khách</h2>
-                <p><span class="icon">👤</span> Người đặt vé: <strong>Người A</strong></p>
-                <p><span class="icon">👥</span> Người đi cùng: <strong>Người B, Người C</strong></p>
+                <p><span class="icon">👤</span> Người đặt vé: <strong id="nguoiDat"></strong></p>
+                <p><span class="icon">👥</span> Người đi cùng: <strong id="nguoiDiCung"></strong></p>
             </div>
 
             <!-- Add more sections/icons as needed -->
@@ -308,26 +324,83 @@ body {
         </div>
     </div>
 	<script th:inline="javascript">
-    /*<![CDATA[*/
-    function openModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe) {
-        hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe);
-    }
-    /*]]>*/
+	function openModal(element) {
+	    var maDatVe = element.getAttribute('data-maDatVe');
+	    var ngayDat = element.getAttribute('data-ngayDat');
+	    var tuyen = element.getAttribute('data-tuyen');
+	    var ngayDi = element.getAttribute('data-ngayDi');
+	    var ngayVe = element.getAttribute('data-ngayVe');
+	    var nguoiDat = element.getAttribute('data-nguoiDat');
+	    var loaiVe = element.getAttribute('data-loaiVe');
+	    hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, loaiVe);
+	}
+
 </script>
 	
 <script type="text/javascript">
 
-    function hienThiChiTietModal(maDatVe, ngayDat, tuyen,ngayDi,ngayVe) {
-    	 
-        // Đổ dữ liệu vào modal
-        $('#maDatVeChiTiet').text(maDatVe);
-        $('#ngayDatChiTiet').text(ngayDat);
-        $('#tuyenChiTiet').text(tuyen);
-        $('#ngayDi').text(ngayDi);
-        $('#ngayVe').text(ngayVe);
-        // Hiển thị modal
-        document.getElementById('chiTietModal').style.display = 'block';
-    }
+function formatCurrency(number) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+}
+
+function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, loaiVe) {
+	
+	var thongTinGhe = '';
+    // Đổ dữ liệu vào modal
+    $('#maDatVeChiTiet').text(maDatVe);
+    $('#ngayDatChiTiet').text(ngayDat);
+    $('#tuyenChiTiet').text(tuyen);
+    $('#ngayDi').text(ngayDi);
+    $('#ngayVe').text(ngayVe);
+    $('#nguoiDat').text(nguoiDat);
+    $('#loaiVe').text(loaiVe);
+    $.get('/layDanhSachGheTheoMaDatVe/' + maDatVe, function(danhSachGhe) {
+        
+        var thongTinGhe = "";
+
+        if (danhSachGhe.length > 0) {
+            // Hiển thị danh sách ghế trong modal
+            for (var i = 0; i < danhSachGhe.length; i++) {
+                if (i == danhSachGhe.length - 1) {
+                    thongTinGhe += danhSachGhe[i].ghengoi.tenghe + '';
+                } else {
+                    thongTinGhe += danhSachGhe[i].ghengoi.tenghe + ', ';
+                }
+            }
+        } else {
+            console.log('Danh sách ghế rỗng.');
+        }
+        $('#soGhe').text(thongTinGhe);
+    });
+    
+ $.get('/layDanhSachNDCTheoMaDatVe/' + maDatVe, function(listNguoiDiCung) {
+        var thongTinNguoiDiCung = "";
+
+        if (listNguoiDiCung.length > 0) {
+
+            for (var i = 0; i < listNguoiDiCung.length; i++) {
+                if (i == listNguoiDiCung.length - 1) {
+                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + '';
+                } else {
+                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + ', ';
+                }
+            }
+        } else {
+            console.log('Danh sách ndc rỗng.');
+        }
+        $('#nguoiDiCung').text(thongTinNguoiDiCung);
+    });
+ 
+ $.get('/layTongTienVe/' + maDatVe, function(tongTien) {
+
+	 $('#tongTienVe').text(formatCurrency(tongTien.tongtien));
+ });
+   
+
+    $('#chiTietModal').css('display', 'block');
+}
+
+
     
     function closeModal() {
         document.getElementById('chiTietModal').style.display = 'none';

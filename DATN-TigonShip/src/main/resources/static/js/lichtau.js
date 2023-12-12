@@ -184,9 +184,11 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 	// Hàm kiểm tra sự chồng chép thời gian giữa lịch tàu mới và các lịch tàu đã có
 	function checkForTimeOverlap(item) {
 		var oldItem = angular.copy(item);
+		
 		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
 			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
 		});
+		
 		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
 			return (
 				compareTimes(existingItem.gioxuatphat, item.giodennoi) &&

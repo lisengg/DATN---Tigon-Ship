@@ -25,7 +25,13 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<link rel="stylesheet" th:href="@{/css/style1.css}">		
+<link rel="stylesheet" th:href="@{/css/style1.css}">	
+<style>
+	.custom-modal-width {
+    max-width: 80%; /* Điều chỉnh giá trị theo mong muốn của bạn */
+    width: 80%; /* Điều chỉnh giá trị theo mong muốn của bạn */
+}
+</style>	
 </head>
 <body ng-app="hoadon-app" ng-controller="hoadon-ctrl">
 	<!-- Left Panel (menu)-->
@@ -49,7 +55,6 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>ID</th>
 											<th>TÊN KHÁCH HÀNG</th>
 											<th>NGÀY NHẬP</th>
 											<th>TỔNG TIỀN</th>
@@ -66,7 +71,7 @@
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h3 class="modal-title" id="modalTitleId">Hóa đơn chi tiết mã đặt vé {{selectedItem.datve.madatve}}</h3>
@@ -76,10 +81,8 @@
 									<table class="table">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th>Id user</th>
-											<th>Tên hành khách</th>
+											<th>Tên</th>
 											<th>Số ghế</th>
-											<th>Người đi cùng</th>
 											<th>Tên tuyến</th>
 											<th>Ngày đi</th>
 											<th>Ngày về</th>
@@ -90,10 +93,8 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="dv in selectedItem">
-											<td>{{dv.taikhoan.idtaikhoan}}</td>
 											<td>{{dv.taikhoan.hovaten}}</td>
 											<td>{{dv.soghe}}</td>
-											<td>{{dv.nguoidicung.hovaten}}</td>
 											<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>
 											<td>{{dv.ngaydi}}</td>
 											<td>{{dv.ngayve}}</td>

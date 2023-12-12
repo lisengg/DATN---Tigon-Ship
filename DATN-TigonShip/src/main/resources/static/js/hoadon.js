@@ -15,7 +15,6 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 		var table = $('#table2').DataTable({
 			data: data.hoadon, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'mahd' },
 				{ data: 'datve.taikhoan.hovaten' },
 				{ data: 'ngaylap' },
 				{ data: 'tongtien' },

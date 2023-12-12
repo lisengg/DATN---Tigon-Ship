@@ -1,14 +1,14 @@
 package com.tigon.dao;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.tigon.model.NguoiDiCung;
 
 public interface NguoiDiCungDAO extends JpaRepository<NguoiDiCung, Integer>{
-	//@Query("SELECT p FROM NGUOIDICUNG p WHERE p.DATVE.MADATVE=?1")	
-	//List<NguoiDiCung> ListNguoiDiCungByiddatve(Integer id);
-
-//	List<NguoiDiCung> findByDATVEId(Integer cid);
+	@Query(value = "SELECT * FROM NGUOIDICUNG WHERE MADATVE=?1", nativeQuery = true)	
+	List<NguoiDiCung> ListNguoiDiCungByiddatve(Integer id);
 }
