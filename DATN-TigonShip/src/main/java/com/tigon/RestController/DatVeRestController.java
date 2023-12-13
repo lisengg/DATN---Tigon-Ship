@@ -1,13 +1,17 @@
 package com.tigon.RestController;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tigon.dao.DatGheDAO;
@@ -15,6 +19,7 @@ import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.HoaDonDAO;
 import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.dao.TuyenDAO;
+import com.tigon.model.HoaDon;
 import com.tigon.model.Tuyen;
 
 @CrossOrigin("*")
@@ -39,11 +44,28 @@ public class DatVeRestController {
      * return map;}
      */
 
+    @GetMapping("rest/datve/taikhoan")// lấy hết thông tin đặt vé của tài khoản 
+    public List<Object> thongTinTK(){
+        return datVeDAO.thongTinTK();
+    }
+
+    @GetMapping("rest/datve/hanhkhach") // lấy hết thông tin đặt vé của hành khách
+    public List<Object> thongTinHK(){
+        return datVeDAO.thongTinHK();
+    }
+  
     @GetMapping("/rest/datve")
-    public List<Tuyen> getAllTuyen() { //select tuyến
+    public List<Tuyen> getAllTuyen() { //select tất cả tuyến
         List<Tuyen> list = tuyenDAO.findAll();
         return list;
     }
+
+    @PutMapping("/rest/datve/hoadon/update/{id}")
+    public void capNhatTongTienHoaDon(@PathVariable Integer id, @RequestBody Map<String, BigDecimal> request) {
+        BigDecimal tongtien = request.get("tongtien");
+        datVeDAO.tongTienHoaDon(id, tongtien);
+    }
+    
 
     @GetMapping("/rest/datve/theongay/{id}/{ngay}")//select đặt vé theo ngày Tài Khoản
     public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date ngay) {
@@ -64,7 +86,7 @@ public class DatVeRestController {
         return datVeDAO.thongTinNguoiDiCung(iddatve);
     } 
 
-    @GetMapping("/rest/datve/nguoidicung/{id}/{idtuyen}/{idloaive}") // Tính lại tiền hóa đơn sau khi xóa hành khách
+    @GetMapping("/rest/datve/nguoidicung/{id}/{idtuyen}/{idloaive}") // Tính lại tiền hóa đơn sau khi xóa hành khách(nhưng chưa cập nhật)
     public List<Object> tinhTienKhiXoaHK(@PathVariable Integer id ,@PathVariable Integer idtuyen,@PathVariable Integer idloaive) {
         return datVeDAO.tongTien(id,idtuyen,idloaive);
     }

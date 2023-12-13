@@ -129,7 +129,7 @@ select:active {
 						<div class="card">
 							<!-- nút tìm kiếm theo ngày - tuyến - mã hóa đơn -->
 							<div class="card-header" style="text-align: center;">
-								<strong class="card-title">Thông tin vé đặt khởi hành ngày </strong>
+								<strong class="card-title">Thông tin hóa đơn đặt vé ngày:  </strong>
 								<input type="date" id="datepicker" ng-model="selectedDate">
 								<select class="text-center" ng-model="selectedTuyen" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
 								</select>
@@ -167,7 +167,7 @@ select:active {
 											<thead class="text-center">
 												<tr>
 													<th>Mã HD</th>
-													<th>Ngày đặt</th>
+													<th>Ngày xuất phát</th>
 													<th>Tên</th>
 													<th class="text-center">Số ĐT</th>
 													<th>Số ghế</th>
@@ -178,8 +178,8 @@ select:active {
 											<tbody ng-repeat="item in datvetheongay">
 												<tr>
 													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
-													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
-												 	<!--<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
+													<!-- <td class="text-center"><span>{{item[1]}}</span></td> --> <!--  ngày đặt -->
+												 	<td class="text-center"><span>{{item[2]}}</span></td><!-- NGÀY ĐI -->
 													<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- Mã đặt vé -->
 													<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ngày về -->
 													<!--<td class="text-center"><span>{{item[5]}}</span></td> --><!-- trạng thái -->
@@ -200,7 +200,7 @@ select:active {
 											<thead class="text-center">
 												<tr>
 													<th>Mã HD</th>
-													<th>Ngày đặt</th>
+													<th>Ngày xuất phát</th>
 													<th>Tên</th>
 													<th class="text-center">Số ĐT</th>
 													<th>Số ghế</th>
@@ -255,8 +255,8 @@ select:active {
 									<div class="modal-content">
 										<div class="modal-header" style="background: #597aa7;">
 											
-											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé<i class="fas fa-trash"></i> </button>
-											<button ng-click="" class="custom-button">Cập nhật vé<i class="fas fa-sync"></i> </button>
+											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé <i class="fas fa-trash"></i> </button>
+											<button ng-click="" class="custom-button">Cập nhật vé <i class="fas fa-envelope"></i> </button>
 											<button type="button" ng-click="checkAndClose()" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
 
 										</div>
@@ -265,20 +265,23 @@ select:active {
 												<table class="table">
 													<thead class="text-center">
 														<tr>
-															<th>ID đặt ghế</th>
+															<!-- <th>ID đặt ghế</th> -->
 															<th>Tên ghế</th>
-															<th class="text-center">Khoang</th>
-															<th  class="text-center">Hủy</th>
+															<th class="text-center">Khoan</th>
+															<th  class="text-center">Xóa</th>
 														</tr>
 													</thead>
 													<tbody ng-repeat="item in datghe">
 														<tr>
-															<td class="text-center">{{item[0]}}</td>
+															<!-- <td class="text-center">{{item[0]}}</td> -->
 															<td class="text-center">{{item[1]}}</td>
-															<td class="text-center">{{item[2]}}</td>
-															<td  class="text-center"><button ng-click="deleteDatGhe(item[0])"  class="custom-button"><i class="fas fa-trash"></i> </button></td>
+															<td class="text-center">{{item[2] === 1 ? 'Khoan dưới' : 'Khoan trên'}}</td>
+															<td class="text-center">
+																<button ng-click="deleteDatGhe(item[0])" class="custom-button"><i class="fas fa-trash"></i></button>
+															</td>
 														</tr>
 													</tbody>
+													
 												</table>
 											</div>
 											<div class="table-stats order-table ov-h">
@@ -288,7 +291,7 @@ select:active {
 															<th>Tên</th>
 															<th>CCCD</th>
 															<th class="text-center">SDT</th>
-															<th  class="text-center">Hủy</th>
+															<th  class="text-center">Xóa</th>
 														</tr>
 													</thead>
 													<tbody ng-repeat="item in nguoidicung">
