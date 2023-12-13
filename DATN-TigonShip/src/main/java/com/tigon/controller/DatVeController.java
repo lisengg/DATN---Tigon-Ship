@@ -173,9 +173,12 @@ public class DatVeController {
 		// set tên tuyến + giờ đi, giờ về
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date ngayDi = dateFormat.parse(servletRequest.getParameter("NgayDi"));
+		
 		SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy");
 		String ngayDiFormatted = dateFormatOutput.format(ngayDi);
 		session.setAttribute("NgayDi", ngayDiFormatted);
+		
+		
 
 		session.setAttribute("songuoi", songuoi);
 		String TenTuyen = servletRequest.getParameter("TENTUYEN");
@@ -198,8 +201,10 @@ public class DatVeController {
 			loaive = 2;
 			session.setAttribute("loaive", loaive);
 			session.setAttribute("NgayVe", NgayVe);
+			Date ngayKhuHoi = dateFormat.parse(servletRequest.getParameter("NgayVe"));
 			Tuyen timIdTuyenKhuhoi = tuyenService.findByTuyen(TenTuyenKhuHoi);
 			session.setAttribute("idtuyenkhuhoi", timIdTuyenKhuhoi.getIDTUYEN());
+			session.setAttribute("ngayKhuHoi", ngayKhuHoi);
 		}
 
 		// set giá vé
@@ -229,6 +234,7 @@ public class DatVeController {
 
 			int soLuongGheDaDat = datGheService.countDatGheTimTuyen(ngayDi, lichtau.get(i).getTAU().getIDTAU(),
 					lichtau.get(i).getTUYEN().getIDTUYEN());
+			System.out.println("SL ghe" + soLuongGheDaDat);
 			listSoLuongGheDaDat.add(i, soLuongGheDaDat);
 
 			int soLuongGheConLai = soLuongGhe - soLuongGheDaDat;
@@ -246,6 +252,7 @@ public class DatVeController {
 		model.addAttribute("soLuongGhe", listSoLuongGheConLai);
 		model.addAttribute("ngayDi", ngayDiFormatted);
 		model.addAttribute("lichTau", lichtau);
+		model.addAttribute("TenTuyen", TenTuyen);
 
 		return "/user/Ve";
 	}
@@ -299,9 +306,14 @@ public class DatVeController {
 		String ngayDiString = session.getAttribute("NgayDi").toString();
 		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date ngayDi = inputFormat.parse(ngayDiString);
+		
+		System.out.println("ngaydi: "+ngayDi);
 
+		int idtuyen = Integer.parseInt(session.getAttribute("idtuyen").toString());
+		
+		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
-		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
+		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi, idtuyen, idtau); 
 
 		// Gửi danh sách IDGHE đã được đặt đến view
 		model.addAttribute("bookedSeats", bookedSeats);
@@ -376,9 +388,11 @@ public class DatVeController {
 		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date ngayDi = inputFormat.parse(ngayDiString);
 
+		int idtuyen = Integer.parseInt(session.getAttribute("idtuyen").toString());
+		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
-		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
-
+		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi, idtuyen, idtau); 
+		
 		// Gửi danh sách IDGHE đã được đặt đến view
 		model.addAttribute("bookedSeats", bookedSeats);
 
@@ -459,6 +473,7 @@ public class DatVeController {
 		if (!session.getAttribute("NgayVe").equals("ko") && session.getAttribute("daChonNgayVe").equals("false")) {
 			return "redirect:/datve/tauve";
 		}
+		
 		if (session.getAttribute("user").toString().equals("hanhkhachmoi")) {
 			List<HanhKhachTam> listHK = hktamdao.findAll();
 			model.addAttribute("hoten", listHK.get(0).getHOVATEN());
@@ -526,6 +541,7 @@ public class DatVeController {
 		DecimalFormat df = new DecimalFormat("###,###.##");
 		String tongtien = df.format(tongtienDouble) + "đ";
 		model.addAttribute("tuyen", session.getAttribute("TENTUYEN"));
+		model.addAttribute("tuyen_ve", session.getAttribute("Tuyen_ve"));
 		model.addAttribute("tongtien", tongtien);
 		return "/user/datve/thanhtoan";
 	}
@@ -625,12 +641,15 @@ public class DatVeController {
 				GheNgoi gh = gheService.findByid(intValue);
 
 				DatVe datve = dvservice.FINDIDMAX();
+				
+				Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
 
 				dg.setIDTUYEN(session.getAttribute("idtuyen").toString());
 				dg.setDATVE(datve);
 				dg.setGHENGOI(gh);
 				dg.setTHOIGIAN(datedi);
-				dg.setIDTAU(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
+				dg.setTAU(tau);
+
 				dgdao.save(dg);
 
 				System.out.println("ghe thanh cong:");
@@ -678,39 +697,67 @@ public class DatVeController {
 			session.setAttribute("mahoadon", hdmax.getMAHD());
 
 			// Lưu đặt vé về
+			int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
+			
+			Tuyen tuyen = dao.findById(idtuyen).get();
+			String tuyen_ve = tuyen.getTENTUYEN();
+			session.setAttribute("Tuyen_ve", tuyen_ve);
+			
 			if (session.getAttribute("daChonNgayVe").equals("true")) {
 				LichTauChay lt_ve = ltservice
 						.findByid(Integer.parseInt(session.getAttribute("idlichtau_ve"+session.getAttribute("index_ve").toString()).toString()));
 				DatVe dv_ve = new DatVe();
 				dv_ve.setHANHKHACH(idkh);
 				dv_ve.setLICHTAUCHAY(lt_ve);
-				dv_ve.setNGAYDI(datedi);
+				
 				if (ngayve.equalsIgnoreCase("ko")) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngayVeDate = sdf.parse(ngayve);
 					dv_ve.setNGAYVE(null);
+					dv_ve.setNGAYDI(ngayVeDate);
 				} else {
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					Date ngayVeDate = sdf.parse(ngayve);
-					dv.setNGAYVE(ngayVeDate);
+					dv_ve.setNGAYVE(null);
+					dv_ve.setNGAYDI(ngayVeDate);
 				}
 				dv_ve.setNGAYDAT(ngaydat);
 				dv_ve.setLOAIVE(idlv);
 				dv_ve.setSOGHE(songuoi);
 
 				dvdao.save(dv_ve);
+				
+				DatVe datve_ve = dvservice.FINDIDMAX();
+				
+				// Lưu hóa đơn
+				HoaDon hd_ve = new HoaDon();
+				hd_ve.setDATVE(datve_ve);
+				hd_ve.setTONGTIEN(nuaGiaTri);
+				hd_ve.setNGAYLAP(ngaydat);
+				hd_ve.setTRANGTHAI("Đã thanh toán");
+				hd_ve.setLOAITHANHTOAN("VN PAY");
+				hddao.save(hd_ve);
+				
+				
 
 				// Lưu đặt ghế
-				DatVe datve_ve = dvservice.FINDIDMAX();
+				
 				for (int i = 1; i <= songuoi; i++) {
 					DatGhe dg = new DatGhe();
 
 					int intValue = Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString());
 					GheNgoi gh = gheService.findByid(intValue);
+					
+					Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index")).toString()));
+
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngayVeDate = sdf.parse(ngayve);
+					
 					dg.setIDTUYEN(session.getAttribute("idtuyenkhuhoi").toString());
 					dg.setDATVE(datve_ve);
 					dg.setGHENGOI(gh);
-					dg.setTHOIGIAN(datedi);
-					dg.setIDTAU(Integer
-							.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index")).toString()));
+					dg.setTHOIGIAN(ngayVeDate);
+					dg.setTAU(tau);
 					dgdao.save(dg);
 
 					System.out.println("ghe ve thanh cong:");
@@ -735,15 +782,6 @@ public class DatVeController {
 					
 				}
 
-				// Lưu hóa đơn
-				HoaDon hd_ve = new HoaDon();
-				hd_ve.setDATVE(datve_ve);
-				hd_ve.setTONGTIEN(nuaGiaTri);
-				hd_ve.setNGAYLAP(ngaydat);
-				hd_ve.setTRANGTHAI("Đã thanh toán");
-				hd_ve.setLOAITHANHTOAN("VN PAY");
-				hddao.save(hd);
-				
 				
 			}
 			hktdao.deleteAll();
@@ -797,12 +835,14 @@ public class DatVeController {
 				GheNgoi gh = gheService.findByid(intValue);
 
 				DatVe datve = dvservice.FINDIDMAX();
+				
+				Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
 
 				dg.setIDTUYEN(session.getAttribute("idtuyen").toString());
 				dg.setDATVE(datve);
 				dg.setGHENGOI(gh);
 				dg.setTHOIGIAN(datedi);
-				// dg.setTHOIGIAN(now.toString());)
+				dg.setTAU(tau);
 				dgdao.save(dg);
 
 				System.out.println("ghe thanh cong:");
@@ -843,6 +883,13 @@ public class DatVeController {
 
 			hddao.save(hd);
 			// Lưu đặt vé về
+			int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
+			
+			
+			Tuyen tuyen = dao.findById(idtuyen).get();
+			String tuyen_ve = tuyen.getTENTUYEN();
+			session.setAttribute("Tuyen_ve", tuyen_ve);
+			
 						if (session.getAttribute("daChonNgayVe").equals("true")) {
 							LichTauChay lt_ve = ltservice
 									.findByid(Integer.parseInt(session.getAttribute("idlichtau_ve"+session.getAttribute("index_ve").toString()).toString()));
@@ -851,11 +898,15 @@ public class DatVeController {
 							dv_ve.setLICHTAUCHAY(lt_ve);
 							dv_ve.setNGAYDI(datedi);
 							if (ngayve.equalsIgnoreCase("ko")) {
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								Date ngayVeDate = sdf.parse(ngayve);
 								dv_ve.setNGAYVE(null);
+								dv_ve.setNGAYDI(ngayVeDate);
 							} else {
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 								Date ngayVeDate = sdf.parse(ngayve);
-								dv.setNGAYVE(ngayVeDate);
+								dv_ve.setNGAYVE(null);
+								dv_ve.setNGAYDI(ngayVeDate);
 							}
 							dv_ve.setNGAYDAT(ngaydat);
 							dv_ve.setLOAIVE(idlv);
@@ -870,12 +921,18 @@ public class DatVeController {
 
 								int intValue = Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString());
 								GheNgoi gh = gheService.findByid(intValue);
+								
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								Date ngayVeDate = sdf.parse(ngayve);
+								
+								Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
+
 								dg.setIDTUYEN(session.getAttribute("idtuyenkhuhoi").toString());
 								dg.setDATVE(datve_ve);
 								dg.setGHENGOI(gh);
-								dg.setTHOIGIAN(datedi);
-								dg.setIDTAU(Integer
-										.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index")).toString()));
+								dg.setTHOIGIAN(ngayVeDate);
+								//dg.setTAU(tau);)
+								dg.setTAU(tau);
 								dgdao.save(dg);
 
 								System.out.println("ghe ve thanh cong:");
@@ -899,7 +956,7 @@ public class DatVeController {
 								gdcdao.save(ngdicung);
 								
 							}
-
+							hktdao.deleteAll();
 							// Lưu hóa đơn
 							HoaDon hd_ve = new HoaDon();
 							hd_ve.setDATVE(datve_ve);
@@ -907,7 +964,7 @@ public class DatVeController {
 							hd_ve.setNGAYLAP(ngaydat);
 							hd_ve.setTRANGTHAI("Đã thanh toán");
 							hd_ve.setLOAITHANHTOAN("VN PAY");
-							hddao.save(hd);
+							hddao.save(hd_ve);
 							
 							
 						}
@@ -922,10 +979,17 @@ public class DatVeController {
 	public String tauve(Model model) throws ParseException {
 		int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
 		List<LichTauChay> lichtau = lichTauService.findByLichTau(idtuyen);
+		
+		Tuyen tuyen = dao.findById(idtuyen).get();
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date ngayVe = dateFormat.parse(session.getAttribute("NgayDi").toString());
-		String ngayVeFormatted = dateFormat.format(ngayVe);
+		String ngayVeString = session.getAttribute("ngayKhuHoi").toString();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+		Date ngayKhuHoi = dateFormat.parse(ngayVeString);
+		System.out.println(ngayKhuHoi);
+		SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy");
+		String ngayDiFormatted = dateFormatOutput.format(ngayKhuHoi);
+
+		System.out.println("Nay ve: " +ngayKhuHoi);
 
 		// set giá vé
 		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(idtuyen, 1);
@@ -952,7 +1016,7 @@ public class DatVeController {
 
 			listSoLuongGhe.add(i, soLuongGhe);
 
-			int soLuongGheDaDat = datGheService.countDatGheTimTuyen(ngayVe, lichtau.get(i).getTAU().getIDTAU(),
+			int soLuongGheDaDat = datGheService.countDatGheTimTuyen(ngayKhuHoi, lichtau.get(i).getTAU().getIDTAU(),
 					lichtau.get(i).getTUYEN().getIDTUYEN());
 			listSoLuongGheDaDat.add(i, soLuongGheDaDat);
 
@@ -970,8 +1034,9 @@ public class DatVeController {
 		session.setAttribute("daChonNgayVe", "true");
 		
 		model.addAttribute("soLuongGhe", listSoLuongGheConLai);
-		model.addAttribute("ngayDi", ngayVeFormatted);
+		model.addAttribute("ngayDi", ngayDiFormatted);
 		model.addAttribute("lichTau", lichtau);
+		model.addAttribute("TenTuyen", tuyen.getTENTUYEN());
 		return "/user/Ve";
 	}
 
@@ -988,12 +1053,15 @@ public class DatVeController {
 		List<GheNgoi> listtren = ghndao.findByghekhoangtren(idtau);
 		model.addAttribute("items2", listtren);
 
-		String ngayDiString = session.getAttribute("NgayDi").toString();
-		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date ngayDi = inputFormat.parse(ngayDiString);
+		String ngayDiString = session.getAttribute("NgayVe").toString();
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date ngayVeDate = sdf.parse(ngayDiString);
+			
+		int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());	
+		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
-		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi); // Đổi tên phương thức và lớp DAO của bạn
+		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayVeDate, idtuyen, idtau); 
 
 		// Gửi danh sách IDGHE đã được đặt đến view
 		model.addAttribute("bookedSeats", bookedSeats);

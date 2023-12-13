@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ROYAL HOTEL | Responsive Travel & Tourism Template</title>
+    <title>Chọn Tàu</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -63,9 +63,9 @@
 	</header>
 	
 	<form action=""  style="margin-top: 100px; text-align: center">
-	<h1 th:text=${TenTuyen}></h1>
+	<h1 th:text=${TenTuyen} style="margin-left: 30px"></h1>
     <div th:each="lichtau, iterStat : ${lichTau}" id="rooms">
-        <div class="container">
+        <div class="container" style="margin-top: -20px">
             <div class="row">
                 <div class="col-md-12" style="border: solid 0.5px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                     <div class="row">
@@ -85,8 +85,8 @@
                         <div class="col-md-6">
                             <div class="room-des">
                                 <h3><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"></a></h3>
-                                 <h2 th:text=${lichtau.TAU.TENTAU}></h2>
-                                <p>Ngày Khởi Hành: <label th:text="${ngayDi}"></label></p>
+                                <h2 th:text=${lichtau.TAU.TENTAU}></h2>
+                                <p style="color: black; margin-top: 10px; margin-bottom: 10px">Ngày Khởi Hành: <label th:text="${ngayDi}" style="color: black;"></label></p>
                                 <ul class="room-size">
                                     <li><label>Vé người lớn: </label> <label th:text="${gia}"></label></li>
                                     <li></li>
