@@ -8,6 +8,7 @@ public interface TuyenTauService {
 
 	List<Tuyen> findAll();
 
-	Tuyen findByTuyen(String fullname);
+	List<Tuyen> findListByTuyen(String fullname);
 
+	Tuyen findByTuyen(String fullname);
 }

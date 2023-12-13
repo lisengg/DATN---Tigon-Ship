@@ -13,28 +13,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/payment/vnpay")
-public class TestAPIController {
+public class VNPayController {
+	@Autowired
+	HttpSession session;
 
 	@GetMapping("/createpayment")
-	public String createpayment() throws UnsupportedEncodingException {
-
+	public String createpayment(HttpServletRequest req) throws UnsupportedEncodingException {
+		String tongtienString = session.getAttribute("tongtien").toString();
+		session.setAttribute("vnpay", "had_value");	
+		// Xóa tất cả các dấu chấm và số 0 phía sau
+		String tongtienFormatted = tongtienString.replaceAll("\\.0*$", "");
 		String orderType = "other";
-//		long amount = Integer.parseInt(req.getParameter("amount")) * 100;
-		long amount = 10000;
-		String bankCode = "NCB";
+		long amount = Integer.parseInt(tongtienFormatted) * 100;
+		String bankCode = req.getParameter("bankCode");
 
 		String vnp_TxnRef = Config.getRandomNumber(8);
-		String vnp_IpAddr = "127.0.0.1";
 
 		String vnp_TmnCode = Config.vnp_TmnCode;
+//		 String vnp_IpAddr = Config.getIpAddress(req);
+		String vnp_IpAddr = "127.0.0.1";
 
 		Map<String, String> vnp_Params = new HashMap<>();
 		vnp_Params.put("vnp_Version", Config.vnp_Version);
@@ -87,18 +99,14 @@ public class TestAPIController {
 		String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
 		queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 		String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
-//	        com.google.gson.JsonObject job = new JsonObject();
-//	        job.addProperty("code", "00");
-//	        job.addProperty("message", "success");
-//	        job.addProperty("data", paymentUrl);
-//	        Gson gson = new Gson();
-//	        resp.getWriter().write(gson.toJson(job));
+		
+		return "redirect:" + paymentUrl;
+	}
 
-		paymentDTO dto = new paymentDTO();
-		dto.setStatus("OK");
-		dto.setMessages("Successfully");
-		dto.setURL(paymentUrl);
-		ResponseEntity.status(HttpStatus.OK).body(dto);
-		return paymentUrl;
+	@GetMapping("/paymentinfo")
+	public String transaction(@RequestParam(value = "vnp_Amount") String amount,
+			@RequestParam(value = "vnp_BankCode") String bankCode, @RequestParam(value = "vnp_OrderInfo") String order,
+			@RequestParam(value = "vnp_ResponseCode") String response) {
+		return "/user/index";
 	}
 }

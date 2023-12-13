@@ -25,4 +25,10 @@ public class TuyenTauServiceImpl implements TuyenTauService{
 		// TODO Auto-generated method stub
 		return tdao.findByTuyen(fullname);
 	}
+
+	@Override
+	public List<Tuyen> findListByTuyen(String fullname) {
+		// TODO Auto-generated method stub
+		return tdao.findListByTuyen(fullname);
+	}
 }

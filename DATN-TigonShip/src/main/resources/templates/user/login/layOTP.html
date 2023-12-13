@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Đăng nhập</title>
+<title>Nhập mã OTP</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,7 +39,7 @@ background:#eee;
                             <a class="close" href="#" onclick="closeAlert()">×</a> 
                             <p th:text="${message}"></p>
                         </div>
-                        <form>
+                        <form method="post">
                             <div class="form-group">
                             <input class="form-control input-lg" placeholder="Nhập mã OTP" name="otp" type="text" required="required">
                             </div>

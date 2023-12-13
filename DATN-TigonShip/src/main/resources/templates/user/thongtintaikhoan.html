@@ -16,6 +16,9 @@
 	crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/983a8f0a4d.js"
 	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 body {
 	margin-top: 20px;
@@ -23,131 +26,52 @@ body {
 	color: #69707a;
 	overflow: hidden;
 }
-
-.alert {
-	background: #ffffff;
-	padding: 20px 40px;
-	min-width: 420px;
-	position: absolute;
-	right: 0;
-	top: 10px;
-	border-radius: 4px;
-	border-left: 8px solid #1a2cd1;
-	overflow: hidden;
-	opacity: 0;
-	pointer-events: none;
-}
-
-.alert.showAlert {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.alert.show {
-	animation: show_slide 1s ease forwards;
-}
-
-
-        @keyframes show_slide {
-            0% {
-                transform: translateX(100%);
-            }
-
-            40% {
-                transform: translateX(-10%);
-            }
-
-            80% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-10px);
-            }
+/* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        .alert.hide {
-            animation: hide_slide 1s ease forwards;
+        .modal-content {
+            background: #fff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+            border-radius: 8px;
         }
 
-        @keyframes hide_slide {
-            0% {
-                transform: translateX(-10px);
-            }
-
-            40% {
-                transform: translateX(0%);
-            }
-
-            80% {
-                transform: translateX(-10%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
         }
-		.alert .fa-exclamation-circle {
-			position: absolute;
-			left: 20px;
-			top: 50%;
-			transform: translateY(-50%);
-			color: #0078ce;
-			font-size: 30px;
-		}
 
-.alert .msg {
-	padding: 0 20px;
-	font-size: 18px;
-	color: #0078ce;
-}
+        /* Icon Styles */
+        .icon {
+            display: inline-block;
+            margin-right: 5px;
+        }
 
-.alert .close-btn {
-	position: absolute;
-	right: 0px;
-	top: 50%;
-	transform: translateY(-50%);
-	background: #ffffff;
-	padding: 20px 18px;
-	cursor: pointer;
-}
+        /* Ticket Info Styles */
+        .ticket-info {
+            margin-bottom: 20px;
+        }
 
-.alert .close-btn:hover {
-	background: #ffffff;
-}
-
-.alert .close-btn .fas {
-	color: #0078ce;
-	font-size: 22px;
-	line-height: 40px;
-}
-
-.img-account-profile {
-	height: 10rem;
-}
-
-.rounded-circle {
-	border-radius: 50% !important;
-}
-
-.card {
-	box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50/ 15%);
-}
-
-.card .card-header {
-	font-weight: 500;
-}
-
-.card-header:first-child {
-	border-radius: 0.35rem 0.35rem 0 0;
-}
-
-.card-header {
-	padding: 1rem 1.35rem;
-	margin-bottom: 0;
-	background-color: rgba(33, 40, 50, 0.03);
-	border-bottom: 1px solid rgba(33, 40, 50, 0.125);
-}
+        /* Passenger Info Styles */
+        .passenger-info {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
 
 .form-control, .dataTable-input {
 	display: block;
@@ -235,15 +159,15 @@ body {
 	</div>
 	<div class="container-xl px-4 mt-4">
 		<!-- Account page navigation-->
+		 <div style="text-align: left;">
+            <a th:href="@{/}" style="text-decoration: none;font-weight: 700">Quay về trang chủ</a>
+        </div>
 		<nav class="nav nav-borders">
 			<a class="nav-link active ms-0" th:href="@{/thongtintaikhoan}"
 				target="__blank">Hồ sơ</a> <a class="nav-link "
 				th:href="@{/user/chinhsuataikhoan/form}">Thông tin chi tiết</a> <a
 				class="nav-link"
-				href="https://www.bootdey.com/snippets/view/bs5-profile-security-page"
-				target="__blank">Bảo mật</a> <a class="nav-link"
-				href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
-				target="__blank">Thông báo</a>
+				th:href="@{/baomat}">Bảo mật</a> 
 		</nav>
 		<hr class="mt-0 mb-4">
 		<div class="row">
@@ -269,8 +193,10 @@ body {
 							đặt
 						</div>
 						<div class="h1">
-							<p th:if="chuacove" >0
-							<p th:unless="chuacove" th:text=" ${user.SOHDDADAT}">
+							<p th:unless="${chuacove}" th:text="${sohd}">
+						</div>
+						<div class="h1">
+							<p th:if="${chuacove}">0
 						</div>
 					</div>
 				</div>
@@ -279,9 +205,15 @@ body {
 				<!-- Billing card 3-->
 				<div class="card h-100 border-start-lg border-start-success">
 					<div class="card-body">
-						<div class="medium text-muted">
+						<div th:unless="${chuacove}" class="medium text-muted">
+							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
+								style="color: #009e1a; padding-right: 5px;"></i> <span>Chuyến đi đã đặt gần đây</span>
+							
+						</div>
+						<div th:if="${chuacove}" class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
 								style="color: #009e1a; padding-right: 5px;"></i> <span>Chưa có chuyến đi</span>
+							
 						</div>
 						<div th:if="${chuadatve}" class="medium text-muted">
 							<i class="fa-regular fa-calendar-days fa-flip fa-sm"
@@ -289,7 +221,7 @@ body {
 								<span th:if="${ngaydat.after(#dates.createNow())}">Chuyến sắp đi...</span>	
 						</div>
 						<div th:unless="${chuacove}" style="margin-top: 5px;" class="h2">
-							<p th:text="${chuyengannhat}">
+						<p th:text="${chuyengannhat}">
 						</div>
 					</div>
 				</div>
@@ -308,11 +240,13 @@ body {
 								<th class="border-gray-200" scope="col">Mã đặt vé</th>
 								<th class="border-gray-200" scope="col">Ngày đặt</th>
 								<th class="border-gray-200" scope="col">Tuyến</th>
+								<th class="border-gray-200" scope="col">Xem chi tiết</th>
 								<th class="border-gray-200" scope="col">Trạng thái</th>
 							</tr>
 						</thead>
 						<tbody th:if="${chuacove}">
 							 <tr class="text-center">
+								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -326,10 +260,25 @@ body {
 								<td th:text="${ls.MADATVE}"></td>
 								<td th:text="${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}"></td>
 								<td th:text="${ls.LICHTAUCHAY.TUYEN.TENTUYEN}"></td>
-								<td>
-								<span th:if="${ls.NGAYDAT.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
-								<span th:if="${ls.NGAYDAT.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
-								</td>
+								<td><a href="#" style="color: blue; text-decoration: none;" th:attr="data-maDatVe=${ls.MADATVE}, data-ngayDat=${#dates.format(ls.NGAYDAT, 'dd/MM/yyyy')}, 
+								data-tuyen=${ls.LICHTAUCHAY.TUYEN.TENTUYEN}, data-ngayDi=${#dates.format(ls.NGAYDI, 'dd/MM/yyyy')}, data-ngayVe=${#dates.format(ls.NGAYVE, 'dd/MM/yyyy')},
+								data-nguoiDat=${ls.TAIKHOAN.HOVATEN},data-loaiVe=${ls.LOAIVE.LOAIVE}" onclick="openModal(this)">
+    							Xem chi tiết
+								</a>
+ 								</td>
+ 								
+								<td th:if="${ls.NGAYVE == null}">
+    <!-- Nếu NGAYVE bằng null -->
+    <span th:if="${ls.NGAYVE == null and ls.NGAYDI.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+    <span th:if="${ls.NGAYVE == null and ls.NGAYDI.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+</td>
+<td th:unless="${ls.NGAYVE == null}">
+    <!-- Nếu NGAYVE không bằng null -->
+    <span th:if="${ls.NGAYDI != null and ls.NGAYDI.after(#dates.createNow())}" class="bg-light text-success">Chưa sử dụng</span>
+    <span th:if="${ls.NGAYDI != null and ls.NGAYDI.before(#dates.createNow())}" class="bg-light text-danger">Hết hạn</span>
+</td>
+
+
 							</tr>
 						</tbody>
 					</table>
@@ -337,22 +286,134 @@ body {
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-    window.addEventListener("load", (event) => {
-        $('.alert').addClass("show");
-        $('.alert').removeClass("hide");
-        $('.alert').addClass("showAlert");
-        setTimeout(function () {
-            $('.alert').removeClass("show");
-            $('.alert').addClass("hide");
-        }, 5000);
-    });
+    <!-- The Modal -->
+    <div  id="chiTietModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
 
-    $('.close-btn').click(function () {
-        $('.alert').removeClass("show");
-        $('.alert').addClass("hide");
+            <!-- Ticket Information -->
+            <div class="ticket-info">
+                <h2>Thông tin vé</h2>
+                <hr>
+                <div class="row">
+                <div class="col col-lg-6">
+                 <p><span class="icon">🎫</span> Mã đặt vé: <strong id="maDatVeChiTiet"></strong></p>               
+                <p><span class="icon">🚢</span> Tuyến đi: <strong id="tuyenChiTiet"></strong></p>
+                <p><span class="icon">👥</span> Số ghế: <strong id="soGhe"></strong></p>   
+ 				<p><span class="icon">🚢</span> Loại vé: <strong id="loaiVe"></strong></p>                              
+                </div>
+                <div class="col col-lg-6">   
+                 <p><span class="icon">📅</span> Ngày đặt: <strong id="ngayDatChiTiet"></strong></p>   
+                  <p><span class="icon">📅</span> Ngày đi: <strong id="ngayDi"></strong></p>          
+                <p><span class="icon">📅</span> Ngày về: <strong id="ngayVe"></strong></p>
+ 				<p><span class="icon">💲</span> Tổng tiền vé: <strong id="tongTienVe"></strong></p>   
+                </div>
+                </div>
+               
+            </div>
+
+            <!-- Passenger Information -->
+            <div class="passenger-info">
+                <h2>Thông tin hành khách</h2>
+                <p><span class="icon">👤</span> Người đặt vé: <strong id="nguoiDat"></strong></p>
+                <p><span class="icon">👥</span> Người đi cùng: <strong id="nguoiDiCung"></strong></p>
+            </div>
+
+            <!-- Add more sections/icons as needed -->
+
+        </div>
+    </div>
+	<script th:inline="javascript">
+	function openModal(element) {
+	    var maDatVe = element.getAttribute('data-maDatVe');
+	    var ngayDat = element.getAttribute('data-ngayDat');
+	    var tuyen = element.getAttribute('data-tuyen');
+	    var ngayDi = element.getAttribute('data-ngayDi');
+	    var ngayVe = element.getAttribute('data-ngayVe');
+	    var nguoiDat = element.getAttribute('data-nguoiDat');
+	    var loaiVe = element.getAttribute('data-loaiVe');
+	    hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, loaiVe);
+	}
+
+</script>
+	
+<script type="text/javascript">
+
+function formatCurrency(number) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+}
+
+function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, loaiVe) {
+	
+	var thongTinGhe = '';
+    // Đổ dữ liệu vào modal
+    $('#maDatVeChiTiet').text(maDatVe);
+    $('#ngayDatChiTiet').text(ngayDat);
+    $('#tuyenChiTiet').text(tuyen);
+    $('#ngayDi').text(ngayDi);
+    $('#ngayVe').text(ngayVe);
+    $('#nguoiDat').text(nguoiDat);
+    $('#loaiVe').text(loaiVe);
+    $.get('/layDanhSachGheTheoMaDatVe/' + maDatVe, function(danhSachGhe) {
+        
+        var thongTinGhe = "";
+
+        if (danhSachGhe.length > 0) {
+            // Hiển thị danh sách ghế trong modal
+            for (var i = 0; i < danhSachGhe.length; i++) {
+                if (i == danhSachGhe.length - 1) {
+                    thongTinGhe += danhSachGhe[i].ghengoi.tenghe + '';
+                } else {
+                    thongTinGhe += danhSachGhe[i].ghengoi.tenghe + ', ';
+                }
+            }
+        } else {
+            console.log('Danh sách ghế rỗng.');
+        }
+        $('#soGhe').text(thongTinGhe);
     });
-    </script>
+    
+ $.get('/layDanhSachNDCTheoMaDatVe/' + maDatVe, function(listNguoiDiCung) {
+        var thongTinNguoiDiCung = "";
+
+        if (listNguoiDiCung.length > 0) {
+
+            for (var i = 0; i < listNguoiDiCung.length; i++) {
+                if (i == listNguoiDiCung.length - 1) {
+                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + '';
+                } else {
+                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + ', ';
+                }
+            }
+        } else {
+            console.log('Danh sách ndc rỗng.');
+        }
+        $('#nguoiDiCung').text(thongTinNguoiDiCung);
+    });
+ 
+ $.get('/layTongTienVe/' + maDatVe, function(tongTien) {
+
+	 $('#tongTienVe').text(formatCurrency(tongTien.tongtien));
+ });
+   
+
+    $('#chiTietModal').css('display', 'block');
+}
+
+
+    
+    function closeModal() {
+        document.getElementById('chiTietModal').style.display = 'none';
+    }
+
+    // Close the modal if the overlay (outside modal) is clicked
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('chiTietModal')) {
+            closeModal();
+        }
+    }
+</script>
+
 </body>
 
 </html>

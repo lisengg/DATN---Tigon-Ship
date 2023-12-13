@@ -22,7 +22,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 	
 
 	/* TÀI KHOẢN */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE "
 	        + "FROM HOADON hd "
 	        + "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 	        + "INNER JOIN TAIKHOAN hk ON hk.IDTAIKHOAN = dv.IDTAIKHOAN "
@@ -31,7 +31,6 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 	        + "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
 	        + "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay AND hd.TRANGTHAI LIKE N'%Đã thanh toán%'", nativeQuery = true)
 	List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
-	
 
 	
 	/* HÀNH KHÁCH */
@@ -52,6 +51,14 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer>{
 	//Thông tin người đi cùng
     @Query(value = "SELECT * FROM NGUOIDICUNG WHERE MADATVE = ?1", nativeQuery = true)
     List<Object> thongTinNguoiDiCung(Integer iddatve);
+
+	//Tính lại tổng tiền hóa đơn sau khi xóa 1 khách 
+	@Query(value = "SELECT g.GIA FROM LOAIHK hk " +
+	"INNER JOIN NGUOIDICUNG n ON hk.IDLOAIHK = n.IDLOAIHK " +
+	"INNER JOIN GIAVE g ON g.IDLOAIHK = n.IDLOAIHK " +
+	"INNER JOIN LOAIVE l ON l.IDLOAIVE = g.IDLOAIVE " +
+	"WHERE n.IDNGUOIDICUNG = :id AND g.IDTUYEN = :idTuyen AND g.IDLOAIVE = :idLoaiVe", nativeQuery = true)
+	List<Object> tongTien(@Param("id") Integer iddatve, @Param("idTuyen") Integer idTuyen, @Param("idLoaiVe") Integer idLoaiVe);
 
 	 
 }

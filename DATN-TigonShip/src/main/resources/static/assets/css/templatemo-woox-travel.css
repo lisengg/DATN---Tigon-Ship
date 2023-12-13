@@ -167,14 +167,14 @@ body {
 
 .border-button a:hover {
   background-color: rgb(0, 128, 128);
-  color: rgb(0, 128, 128);
+  color: rgb(255, 255, 255);
 }
 
 .main-button a {
 font-size: 14px;
   color: rgb(0, 0, 0);
   background-color: rgb(0, 128, 128);
-  border: 1px solid rgb(255, 255, 255);
+  border: 1px solid rgb(0, 255, 255);
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
