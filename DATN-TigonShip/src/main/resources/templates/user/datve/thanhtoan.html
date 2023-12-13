@@ -405,6 +405,8 @@ input[type="radio"] {
                     <div>
                         <p class="dis fw-bold mb-2">Số ghế :</p>
                         <label style="border: none;" th:text="${soghe}"></label>
+                        <p class="dis fw-bold mb-2">Số ghế về :</p>
+                        <label style="border: none;" th:text="${soghe_ve}"></label>
                          <p class="dis fw-bold mb-2" style="margin-top: 10px;">Loại vé :</p>
                         <label style="border: none;" th:text="${loaive}"></label>
                         <div class="row">
@@ -413,9 +415,18 @@ input[type="radio"] {
         <label style="border: none;" th:text="${gioxuatphat}"></label>
     </div>
     <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ xuất phát về:</p>
+        <label style="border: none;" th:text="${gioxuatphat_ve}"></label>
+    </div>
+    <div class="col-lg-6">
         <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi:</p>
         <label style="border: none;" th:text="${giodennoi}"></label>
-    </div> <p class="dis fw-bold mb-2" style="margin-top: 10px;">Ngày đặt vé:</p>
+    </div> 
+    <div class="col-lg-6">
+        <p class="dis fw-bold mb-2" style="margin-top: 10px;">Giờ đến nơi về:</p>
+        <label style="border: none;" th:text="${giodennoi_ve}"></label>
+    </div>
+    <p class="dis fw-bold mb-2" style="margin-top: 10px;">Ngày đặt vé:</p>
         <input style="border: none;background-color: #f8f9fa" name="ngaydat" th:value="${#dates.format(#dates.createNow(), 'HH:mm:ss dd-MM-yyyy')}"></input>
 </div>
               
