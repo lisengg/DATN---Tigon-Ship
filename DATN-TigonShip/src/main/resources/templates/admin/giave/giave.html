@@ -4,15 +4,13 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Quản lý giá vé</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -59,13 +57,12 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th class="text-center">ID</th>
 											<th class="text-center">TÊN LOẠI VÉ</th>
 											<th class="text-center">TÊN TUYẾN</th>
 											<th class="text-center">GIÁ</th>
 											<th class="text-center">LOẠI HK</th>
-											<th class="text-center">NGÀY BẮT ĐẦU</th>
-											<th class="text-center">NGÀY KẾT THÚC</th>
+											<!-- <th class="text-center">NGÀY BẮT ĐẦU</th>
+											<th class="text-center">NGÀY KẾT THÚC</th> -->
 											<th class="text-center">TRẠNG THÁI</th>
 											<th class="text-center">THAO TÁC</th>
 										</tr>
@@ -106,12 +103,10 @@
 									</div>
 									<div class="row mb-3">
 										<div class="col-md-4">
-											<label class="form-label">Ngày bắt đầu</label> 
-											<input ng-model="form.ngaybatdau" type="date" class="form-control">
-										</div>
-										<div class="col-md-4">
-											<label class="form-label">Ngày kết thúc</label> 
-											<input ng-model="form.ngayketthuc" type="date" class="form-control">
+											<label class="form-label">Loại hành khách:</label> 
+									        <select ng-model="form.loaihk.idloaihk" class="form-control" ng-options="loaihk.idloaihk as loaihk.loaihk for loaihk in items.loaihk | filter: { loaihk: 'Người lớn' }">
+									            <option value=""></option>
+									        </select>
 										</div>
 										<div class="col-md-4">
 											<label class="form-label">Trạng Thái</label> 
@@ -124,8 +119,7 @@
 								</div>
 								<div class="modal-footer text-center">
 									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button>
-									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>									
+									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>																
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >
@@ -232,12 +226,24 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Dữ liệu không được chỉnh sửa!</header>
+										  <header>Dữ liệu chưa được chỉnh sửa!</header>
 										  <div class="btns10">
 										      <label for="check10" >OK</label>
 									      </div>
 								      </div>	
-								      						    
+								      	
+								      	 <input type="checkbox" id="check11" >
+								      <div class="background"></div>
+								      <div class="alert_box11">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-circle"></i>
+										  </div>
+										  <header>Vui lòng chọn loại hành khách!</header>
+										  <div class="btns11">
+										      <label for="check11" >OK</label>
+									      </div>
+								      </div>
+								      					    
 									</div>
 									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									

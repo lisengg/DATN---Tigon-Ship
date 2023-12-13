@@ -18,7 +18,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.tau, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idtau' },
 				{ data: 'tentau' },
 				{ data: 'hangtau.tenhangtau' },
 				{ data: 'soghe' },

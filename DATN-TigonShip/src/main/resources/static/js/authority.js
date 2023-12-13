@@ -1,5 +1,5 @@
-const app = angular.module('authority1-app', []);
-app.controller('authority1-ctrl', function($scope, $http) {
+const app1 = angular.module('authority1-app', []);
+app1.controller('authority1-ctrl', function($scope, $http) {
 	$scope.form = {};
 	$scope.initialize = function() {
 		$http.get("/rest/authority1").then(response => {
@@ -14,7 +14,21 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			columns: [
 				{ data: 'hovaten' },
 				{ data: 'email' },
-				{ data: 'vaitro' },
+				{
+					data: 'vaitro',
+					render: function(data, type, row) {
+						// Chuyển giá trị 'staff' thành 'Nhân Viên'
+						if (data === 'STAFF') {
+							return 'NHÂN VIÊN';
+						} else if (data === 'ADMIN') {
+							return 'QUẢN LÝ';
+						} else if (data === 'KHACHHANG') {
+							return 'KHÁCH HÀNG';
+						} else {
+							return data;
+						}
+					}
+				},
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -35,9 +49,7 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	}
 
 	$scope.initialize();
-	$scope.index_of = function(id) {
-		return $scope.items.findIndex(q => q.idtaikhoan == id);
-	}
+
 	//Hiển thị lên form
 	$scope.edit = function(id) {
 		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
@@ -53,6 +65,16 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
 			document.getElementById('check10').checked = true;
 			return;
+		}
+		// Kiểm tra giá trị mới của vai trò và cập nhật thành giá trị phù hợp
+		if (item.vaitro === 'KHÁCH HÀNG') {
+			// Nếu là Nhân Viên, thay đổi giá trị thành 'staff'
+			item.vaitro = 'KHACHHANG';
+		}
+		// Kiểm tra giá trị mới của vai trò và cập nhật thành giá trị phù hợp
+		if (item.vaitro === 'NHÂN VIÊN') {
+			// Nếu là Nhân Viên, thay đổi giá trị thành 'staff'
+			item.vaitro = 'STAFF';
 		}
 		if ($scope.originalData.vaitro === 'ADMIN') {
 			// Nếu là ADMIN, kiểm tra xem có thay đổi vai trò không
@@ -76,56 +98,3 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	}
 
 })
-
-/*$(document).ready(function() {
-		// Khởi tạo DataTables
-		var table = $('#table2').DataTable({
-			data: $scope.items, // Sử dụng dữ liệu từ biến items
-			columns: [
-				{ data: 'idtaikhoan' },
-				{ data: 'hovaten' },
-				{ data: 'email' },
-				{ data: 'vaitro' },
-				{ data: 'cccd' },
-				{ data: 'sdt' },
-				{ data: 'diachi' },
-				{ data: 'quoctich' },
-				{
-					data: 'ngaysinh',
-					render: function(data, type, full, meta) {
-						if (type === 'display') {
-							// Định dạng ngày theo dd/MM/yyyy
-							return moment(data).format('DD/MM/YYYY'); // Sử dụng thư viện Moment.js hoặc thư viện khác tương tự nếu cần
-						}
-						return data; // Trả về dữ liệu gốc cho các loại khác
-					}
-				},
-				{ data: 'matkhau' },
-				{ data: 'loaihk.loaihk' },
-				// Cột mới chứa nút bấm
-				{
-					data: null,
-					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
-				}
-			],
-			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
-			"pageLength": 5 // Đặt giá trị mặc định là 5 mục hiển thị trên mỗi trang
-		});
-		// Thêm sự kiện click vào nút "Cập nhật"
-		$('#table2 tbody').on('click', 'button', function() {
-			var data = table.row($(this).parents('tr')).data();
-			$scope.$apply(function() {
-				console.log(data)
-				$scope.edit(data);
-			});
-		});
-	});
-	$scope.initialize = function() {
-		$http.get("/rest/authority1").then(response => {
-			$scope.items = response.data;
-			$scope.put = false
-			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
-			var table = $('#table2').DataTable();
-			table.clear().rows.add($scope.items).draw();
-		})
-	}*/

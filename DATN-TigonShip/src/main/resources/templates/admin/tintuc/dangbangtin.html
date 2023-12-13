@@ -3,15 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Quản lý bảng tin</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -43,11 +41,11 @@
 							<form>
 		 <h3><b>Đăng bảng tin</b></h3>
 		 
-	<textarea class="form-control" name="tieu_de" th:text="${tieude}" placeholder="Tiêu Đề" style="margin-top: 20px;width: 950px; height: 20px;" required ></textarea>
-		<textarea class="form-control" name="noi_dung" th:text="${noidung}" placeholder="Nội Dung" style="margin-top: 20px;width: 950px; height: 100px;" ></textarea>
+	<textarea class="form-control" name="tieu_de" th:text="${TIEUDE}" placeholder="Tiêu Đề" style="margin-top: 20px;width: 950px; height: 20px;" required ></textarea>
+		<textarea class="form-control" name="noi_dung" th:text="${NOIDUNG}" placeholder="Nội Dung" style="margin-top: 20px;width: 950px; height: 100px;" ></textarea>
 		
-		<input class="form-control" name="hinh_anh" th:value="${hinhanh}" type="file" /> 
-			<input class="form-control" name="id" th:value="${id}" type="hidden" /> 
+		<input class="form-control" name="hinh_anh" th:value="${HINHANH}" type="file" /> 
+			<input class="form-control" name="id" th:value="${IDBANGTIN}" type="hidden" /> 
 <br>
 		<button class="btn btn-outline-primary" formaction="/add">Đăng bài</button>
 		<button class="btn btn-outline-primary" formaction="/delete">Xóa bài</button>
@@ -62,12 +60,12 @@
 		</tr>-->
 		<tbody>
 			<tr th:each="p:${items}">				
-				<td th:text=${p.ngay_dang}></td>
-				<td th:text=${p.tieu_de}></td>
-				<td><img th:src="@{'/assets/images/' + ${p.hinh_anh}}" width="1000px" height="140px" />
+				<td th:text=${p.NGAYDANG}></td>
+				<td th:text=${p.TIEUDE}></td>
+				<td><img th:src="@{'/assets/images/' + ${p.HINHANH}}" width="1000px" height="140px" />
 </td>
-				<td th:text=${p.noi_dung}></td>
-				<td><a th:href="@{|/baidang/update/${p.id}|}">Cập nhật</a></td>
+				<td th:text=${p.NOIDUNG}></td>
+				<td><a th:href="@{|/baidang/update/${p.IDBANGTIN}|}">Cập nhật</a></td>
 			</tr>
 		</tbody>
 	</table>

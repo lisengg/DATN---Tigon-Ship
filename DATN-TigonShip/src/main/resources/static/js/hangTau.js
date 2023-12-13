@@ -14,7 +14,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.hangtau, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idhangtau' },
 				{ data: 'tenhangtau' },
 				{ data: 'sdt' },
 				{ data: 'email' },
@@ -151,16 +150,16 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			console.log("Error", error)
 		})
 	}
-	 $scope.formatThaoTac = function(thaoTac) {
-        if (thaoTac.includes('#')) {
-            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
-            var separatedLines = thaoTac.split('#').map(line => line.trim());
-            return $sce.trustAsHtml(separatedLines.join('<br>'));
-        } else {
-            // Ngược lại, trả về nguyên bản
-            return thaoTac;
-        }
-    };
+	$scope.formatThaoTac = function(thaoTac) {
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
 	//CẬP NHẬT HÃNG TÀU
 	$scope.update = function() {
 
@@ -168,11 +167,15 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		$scope.form.city = $("#city option:selected").text();
 		$scope.form.district = $("#district option:selected").text();
 		$scope.form.ward = $("#ward option:selected").text();
-		var itemold = $scope.originalData
-		console.log(itemold.trangthai)
+		var itemold = $scope.originalData;
 		var item = angular.copy($scope.form);
 		var url = `/rest/hangtau/${item.idhangtau}`;
-
+		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
+		if (angular.equals(item, $scope.originalData)) {
+			// Hiển thị thông báo lỗi vì không có sự thay đổi
+			document.getElementById('check10').checked = true;
+			return;
+		}
 		// Thêm dữ liệu Tỉnh/Thành phố, Quận/Huyện, và Phường/Xã vào địa chỉ
 		item.diachi = $scope.form.diaChi + ', ' + $scope.form.ward + ', ' + $scope.form.district + ', ' + $scope.form.city;
 

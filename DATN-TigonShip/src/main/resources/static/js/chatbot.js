@@ -6,15 +6,15 @@
     	"popupWidget":true,
     	//"automaticChatOpenOnNavigation":true,
     	//"openConversationOnNewMessage":false,
-    	 "voiceOutput":true,
-         "voiceName":"Google Deutsch", // Replace Google Deutsch with the voiceName or an array of voiceNames from Voice Names and Language.
+    	// "voiceOutput":true,
+        
          "voiceRate":1,
           "voiceInput":true,
            "voiceInputTimeout": 5, //in sec 
          "language": "vi-VN",
          "emojilibrary": true,
         // "attachment": true,
-    	"quickReplies":["Speak with an Agent","Book a Demo","Sample Bots"]};
+    	"quickReplies":["Bao nhiêu tiền một vé?","Quy trình đặt vé","Thanh toán"]};
 
 	
     var s = document.createElement("script"); 

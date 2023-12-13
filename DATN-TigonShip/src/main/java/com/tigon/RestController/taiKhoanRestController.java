@@ -3,8 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,10 +39,6 @@ public class taiKhoanRestController {
     public List<DatVe> getAll(@PathVariable("id") Integer id) {
         return datVeDAO.ListDatVeByIdTaiKhoan(id);
     }
-    @GetMapping("/rest/taikhoan/all")
-    public ResponseEntity<Integer> getAllTK() {
-        Integer totalKhachHang = taiKhoanDAO.AllTK();
-        return new ResponseEntity<>(totalKhachHang, HttpStatus.OK);
-    }
+
 
 }
