@@ -5,6 +5,22 @@ body {
     background: #ffffff;
 }
 
+
+@keyframes slide-in {
+  0% {
+    top: -50px;
+  }
+  40% {
+    top: 20px;
+  }
+  70% {
+    top: 10px;
+  }
+  100% {
+    top: 15px;
+  }
+}
+
 a {
     color: #222222;
     transition: 0.5s;
@@ -77,6 +93,9 @@ h6 {
 
 
 /* ================================================= */
+.topnav a:hover {
+    border-bottom: 3px solid red;
+}
 
 
 /* ----------------- Amenities Style --------------- */
@@ -109,7 +128,7 @@ h6 {
     top: 0;
 }
 
-#amenities .container {
+#amenities .containerr {
     position: relative;
     z-index: 1;
 }
@@ -544,7 +563,7 @@ input::-ms-input-placeholder {
     padding: 45px 0 60px 0;
 }
 
-#booking .container {
+#booking .containerr {
     max-width: 990px;
 }
 
@@ -609,18 +628,18 @@ input::-ms-input-placeholder {
 
 /* ================================================= */
 
-#call-us {
+#call-uss {
     position: relative;
     text-align: center;
     padding: 45px 0 60px 0;
     background: #f2f2f2;
 }
 
-#call-us .section-header::after {
+#call-uss .section-header::after {
     background: #f2f2f2;
 }
 
-#call-us a {
+#call-uss a {
     display: inline-block;
     padding: 15px 30px;
     background: #222222;
@@ -630,13 +649,13 @@ input::-ms-input-placeholder {
     letter-spacing: 2px;
 }
 
-#call-us a:hover {
+#call-uss a:hover {
     color: #222222;
     background: #FFD700;
 }
 
 @media (max-width: 575.98px) {
-    #call-us a {
+    #call-uss a {
         padding: 10px 30px;
         font-size: 22px;
         font-weight: 600;
@@ -673,3 +692,9 @@ input::-ms-input-placeholder {
     padding: 0;
     list-style-type: none;
 }
+
+
+
+
+
+

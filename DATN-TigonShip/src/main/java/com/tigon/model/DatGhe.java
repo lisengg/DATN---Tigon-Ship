@@ -33,7 +33,10 @@ public class DatGhe {
     @ManyToOne
 	@JoinColumn(name = "IDGHE")
 	GheNgoi GHENGOI;
-    Integer IDTAU;
+
+    @ManyToOne
+	@JoinColumn(name = "IDTAU")
+	Tau TAU;
 
     @ManyToOne
 	@JoinColumn(name = "IDDATVE")
