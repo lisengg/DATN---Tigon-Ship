@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quét mã QR khách hàng</title>
+    <!-- Sử dụng CDN cho thư viện ZXing -->
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
+    <!-- Style tùy chọn -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #qr-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        #qr-video {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        #qr-result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #qr-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #qr-instruction {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="qr-container">
+        <div id="qr-icon">📷</div>
+        <div id="qr-title">Quét mã QR Hóa Đơn</div>
+        <div id="qr-instruction">Vui lòng đưa mã QR vào ô quét</div>
+        <!-- Video stream từ camera -->
+        <video id="qr-video" playsinline></video>
+        <div id="qr-result"></div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const video = document.getElementById('qr-video');
+        const resultDiv = document.getElementById('qr-result');
+        const scanner = new ZXing.BrowserQRCodeReader();
+
+        scanner.getVideoInputDevices()
+            .then(devices => {
+                const selectedDeviceId = devices[0].deviceId;
+                scanner.decodeOnceFromVideoDevice(selectedDeviceId, 'qr-video')
+                    .then(result => {
+                        // Hiển thị giá trị QR trên console log
+                        console.log(result.text);
+                        
+                        // Chuyển đến trang khác và truyền giá trị QR qua tham số
+                        window.location.href = '/thongtinhoadonqr?qrData=' + encodeURIComponent(result.text);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+    </script>
+</body>
+</html>

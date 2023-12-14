@@ -1,4 +1,4 @@
-,,<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,6 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px auto;
-            padding: 20px;
             background-color: #e6f7ff;
             max-width: 600px;
         }
@@ -56,20 +55,30 @@
             color: #004080;
             font-weight: bold;
         }
+        
+        #back-to-scan {
+            margin-top: 20px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-
+<div id="back-to-scan" onclick="redirectToScan()" style="text-decoration: none;margin-bottom: 10px;">Quay lại quét QR</div>
     <div id="invoice">
         <div id="header">
             <h2>Hóa Đơn Điện Tử Đặt Vé Tàu Tigon Ship</h2>
         </div>
-        <p style="font-size: 13px;">Chào quý khách, cảm ơn Quý khách đã mua vé tàu Tigon Ship</p>
         <p style="font-size: 13px;">Ngày đặt: <span th:text="${ngaydat}"></span></p>
-
+        
+		<div id="customer-info" style="display: flex; align-items: center;">
+            Mã Hóa Đơn:<strong style="margin-right: 5px;" th:text="${mahoadon}"></strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${madatve}"></p>
+        </div>
 
         <div id="customer-info" style="display: flex; align-items: center;">
-            <strong style="margin-right: 5px;">Khách Hàng:</strong>
+            <strong style="margin-right: 5px;">Khách Hàng Đặt Vé:</strong>
             <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${hoten}"></p>
         </div>
 
@@ -92,7 +101,14 @@
             <strong style="margin-right: 5px;">Tổng tiền:</strong>
             <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${tongtien}"></p>
         </div>
-
+<div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Loại thanh toán:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${loaithanhtoan}"></p>
+        </div>
+        <div id="customer-info">
+            <p class="note">Thông Tin Chuyến Đi</p>
+        </div>
+        
         <table id="table">
             <thead>
                 <tr>
@@ -137,18 +153,17 @@
     <td th:unless="${danhSachTenGhe}"> </td>
     <td th:text="${ndc.LOAIHK.LOAIHK}"></td>
 </tr>
+
+
             </tbody>
         </table>
 
-        <div id="footer">
-            <p class="note">LƯU Ý:</p>
-            <p>Thư được tạo tự động từ hệ thống máy tính. Vui lòng không trả lời thư này.</p>
-            <p id="contact-info">Quý khách cần hỗ trợ, vui lòng liên hệ:</p>
-            <p id="contact-info">Tigon Ship - Địa chỉ: </p>
-            <p id="contact-info">Số điện thoại: 1800 1000 - Email: tigonshipfpt@gmail.com</p>
-        </div>
-
     </div>
-
+<script>
+    // Hàm chuyển hướng về trang quét QR
+    function redirectToScan() {
+        window.location.href = '/quetqr';
+    }
+    </script>
 </body>
 </html>

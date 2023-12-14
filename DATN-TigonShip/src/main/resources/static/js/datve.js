@@ -228,7 +228,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
         }
     };
     
-  
+
     
     // Kiểm tra xem ngày được chọn có vượt quá ngày hiện tại không
        /*  if (selectedDate > currentDate) {

@@ -42,6 +42,23 @@ public class EmailService {
 
 		javaMailSender.send(message);
 	}
+	public void sendEmailWithHtmlTemplate(String to, String subject, String templateName, Context context) {
+	    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+	    try {
+	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+	        helper.setTo(to);
+	        helper.setSubject(subject);
+
+	        // Process and set HTML content from Thymeleaf template
+	        String htmlContent = templateEngine.process(templateName, context);
+	        helper.setText(htmlContent, true);
+
+	        javaMailSender.send(mimeMessage);
+	    } catch (MessagingException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 	 public void sendEmailWithHtmlTemplateAndAttachment(String to, String subject, String templateName, Context context, String imagePath) {
 		 MimeMessage mimeMessage = javaMailSender.createMimeMessage();

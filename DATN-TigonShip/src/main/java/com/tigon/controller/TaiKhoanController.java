@@ -345,14 +345,14 @@ public class TaiKhoanController implements CommandLineRunner {
 			Context context = new Context();
 			context.setVariable("message", randomNumber);
 
-			emailService.sendEmailWithHtmlTemplateAndAttachment(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
-					"/user/login/emailtemplates", context, "");
+			emailService.sendEmailWithHtmlTemplate(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
+					"/user/login/emailtemplates", context);
 
 			// Lưu otp
 			TaiKhoan taikhoanemail = taiKhoanService.findIdByEmailOrPhone(taikhoan.getEMAIL());
 			OTP otp = new OTP();
 			otp.setMAOTP(String.valueOf(randomNumber));
-			otp.setTAIKHOAN(taikhoan);
+			otp.setTAIKHOAN(taikhoanemail);
 			otpDAO.save(otp);
 			System.out.println("Created OTP");
 			ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
@@ -384,7 +384,7 @@ public class TaiKhoanController implements CommandLineRunner {
 		TaiKhoan taikhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
 		if (taikhoan.getEMAIL().equals(email)) {
 			model.addAttribute("erroremail", "Email mới không được trùng với email cũ");
-			return "/user/baomat";
+			return "/user/baomat"; 
 		}
 		Random random = new Random();
 
@@ -397,14 +397,14 @@ public class TaiKhoanController implements CommandLineRunner {
 		Context context = new Context();
 		context.setVariable("message", randomNumber);
 
-		emailService.sendEmailWithHtmlTemplateAndAttachment(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
-				"/user/login/emailtemplates", context, "");
+		emailService.sendEmailWithHtmlTemplate(taikhoan.getEMAIL(), "Yêu Cầu Cấp Lại Mật Khẩu",
+				"/user/login/emailtemplates", context);
 
 		// Lưu otp
 		TaiKhoan taikhoanemail = taiKhoanService.findIdByEmailOrPhone(taikhoan.getEMAIL());
 		OTP otp = new OTP();
 		otp.setMAOTP(String.valueOf(randomNumber));
-		otp.setTAIKHOAN(taikhoan);
+		otp.setTAIKHOAN(taikhoanemail);
 		otpDAO.save(otp);
 		System.out.println("Created OTP");
 		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
@@ -425,6 +425,7 @@ public class TaiKhoanController implements CommandLineRunner {
 		executorService.shutdown();
 		session.setAttribute("createdpass", "true");
 		session.setAttribute("email", email);
+		model.addAttribute("hoten", taikhoan.getHOVATEN());
 		return "/user/login/layOTP";
 	}
 

@@ -744,6 +744,8 @@ public class DatVeController {
 				hd_ve.setLOAITHANHTOAN("VN PAY");
 				hddao.save(hd);
 				
+				HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
+				session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
 				
 			}
 			hktdao.deleteAll();
@@ -802,6 +804,7 @@ public class DatVeController {
 				dg.setDATVE(datve);
 				dg.setGHENGOI(gh);
 				dg.setTHOIGIAN(datedi);
+				dg.setIDTAU(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
 				// dg.setTHOIGIAN(now.toString());)
 				dgdao.save(dg);
 
@@ -842,6 +845,8 @@ public class DatVeController {
 			hd.setLOAITHANHTOAN("Xác thực");
 
 			hddao.save(hd);
+			HoaDon hdmax = hoaDonService.findMaxDatVe();
+			session.setAttribute("mahoadon", hdmax.getMAHD());
 			// Lưu đặt vé về
 						if (session.getAttribute("daChonNgayVe").equals("true")) {
 							LichTauChay lt_ve = ltservice
@@ -906,13 +911,13 @@ public class DatVeController {
 							hd_ve.setTONGTIEN(nuaGiaTri);
 							hd_ve.setNGAYLAP(ngaydat);
 							hd_ve.setTRANGTHAI("Đã thanh toán");
-							hd_ve.setLOAITHANHTOAN("VN PAY");
-							hddao.save(hd);
+							hd_ve.setLOAITHANHTOAN("Xác thực");
+							hddao.save(hd_ve);
 							
-							
+							HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
+							session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
 						}
-			HoaDon hdmax = hoaDonService.findMaxDatVe();
-			session.setAttribute("mahoadon", hdmax.getMAHD());
+						
 		}
 
 		return "/user/datve/chuyenvetrangchu";

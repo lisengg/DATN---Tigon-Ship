@@ -120,14 +120,17 @@ public class LayMatKhauController  implements CommandLineRunner {
 		if(session.getAttribute("createdpass")==null) {
 			return "/user/login/matkhaumoi";
 		}
+
 		if(session.getAttribute("email")!=null) {
 			TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
 			taiKhoan.setEMAIL(session.getAttribute("email").toString());
 			taiKhoanDAO.save(taiKhoan);
+		}else {
+			TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
+			taiKhoan.setMATKHAU(session.getAttribute("pass").toString());
+			taiKhoanDAO.save(taiKhoan);
 		}
-		TaiKhoan taiKhoan = taiKhoanService.findById(Integer.parseInt(session.getAttribute("user").toString()));
-		taiKhoan.setMATKHAU(session.getAttribute("pass").toString());
-		taiKhoanDAO.save(taiKhoan);
+
 		return "/user/login/doimatkhauthanhcong";
 	}
 	
@@ -145,6 +148,7 @@ public class LayMatKhauController  implements CommandLineRunner {
 	
 @RequestMapping("/doimatkhauthanhcong")
 	public String doimatkhauthanhcong() {
+	otpDAO.deleteAll();
 	return "/user/login/doimatkhauthanhcong";
 }
 	
