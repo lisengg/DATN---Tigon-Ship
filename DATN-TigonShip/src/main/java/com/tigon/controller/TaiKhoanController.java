@@ -314,8 +314,17 @@ public class TaiKhoanController implements CommandLineRunner {
 
 	@RequestMapping("/baomat")
 	public String baomat(Model model) {
+		TaiKhoan taikhoan = taiKhoanService.findByGoogleId(session.getAttribute("user").toString());
+		if(taikhoan!=null) {
+			model.addAttribute("lkmail","comail");
+		}
 		return "/user/baomat";
 	}
+	
+//	@RequestMapping("/setEmail")
+//	public String setEmail() {
+//		
+//	}
 
 	@PostMapping("/xacthucmatkhau")
 	public String xacthucbaomat(Model model, @RequestParam String matkhauhientai, @RequestParam String matkhaumoi,

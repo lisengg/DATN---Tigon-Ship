@@ -695,6 +695,7 @@ public class DatVeController {
 			hddao.save(hd);
 			HoaDon hdmax = hoaDonService.findMaxDatVe();
 			session.setAttribute("mahoadon", hdmax.getMAHD());
+			System.out.println("Hoa don vua luu : "+session.getAttribute("mahoadon").toString());
 
 			// Lưu đặt vé về
 			int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
@@ -737,8 +738,9 @@ public class DatVeController {
 				hd_ve.setTRANGTHAI("Đã thanh toán");
 				hd_ve.setLOAITHANHTOAN("VN PAY");
 				hddao.save(hd_ve);
-				
-				
+				HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
+				session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
+				System.out.println("Luu hoa don ve: "+session.getAttribute("mahoadon_ve"));
 
 				// Lưu đặt ghế
 				
@@ -969,7 +971,8 @@ public class DatVeController {
 							
 						}
 			HoaDon hdmax = hoaDonService.findMaxDatVe();
-			session.setAttribute("mahoadon", hdmax.getMAHD());
+			session.setAttribute("mahoadon_ve", hdmax.getMAHD());
+			System.out.println("Luu hoa don ve: "+session.getAttribute("mahoadon_ve"));
 		}
 
 		return "/user/datve/chuyenvetrangchu";

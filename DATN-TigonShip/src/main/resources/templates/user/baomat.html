@@ -143,21 +143,18 @@ color:#69707a;
                     </div>
                 </div>
                 <!-- Delete account card-->
-                <!-- <div class="card mb-4">
-                    <div class="card-header">Nhận thông báo ưu đãi</div>
+<!--                 <div class="card mb-4">
+                    <div class="card-header">Liên kết gmail</div>
                     <div class="card-body">
-                        <p>Nhận thông báo qua email của bạn khi có khuyến mãi, ưu đãi mới từ website dành riêng cho bạn!</p>
-                       <div class="form-check">
-                                <input class="form-check-input" id="twoFactorOn" type="radio" name="twoFactor" checked="">
-                                <label class="form-check-label" for="twoFactorOn">On</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" id="twoFactorOff" type="radio" name="twoFactor">
-                                <label class="form-check-label" for="twoFactorOff">Off</label>
-                            </div>
-                            <button class="btn btn-primary" type="button">Lưu thay đổi</button>
+                    <div th:unless="${lkmail}">
+                    <p>Tài khoản của bạn chưa liên kết gmail, hãy liên kết với tài khoản gmail của bạn để đăng nhập bằng gmail nhanh hơn</p>
+                            <a href="https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=openid%20email%20profile" type="button">Liên kết gmail</a>
                     </div>
-                </div> -->
+                    <div th:if="${lkmail}">
+                    	<p>Tài khoản của bạn đã liên kết gmail</p>
+                    </div>
+                    </div>
+                </div>  -->
             </div>
         </div>
     </div>

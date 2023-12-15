@@ -58,7 +58,7 @@ public class GuiHoaDonController {
 		String mahoadon = session.getAttribute("mahoadon").toString();
 		HoaDon hoaDon = hoaDonService.findById(Integer.parseInt(mahoadon));
 		String link = mahoadon;
-
+		System.out.println("Ma hoa don : " + mahoadon);
 		// set dữ liệu vào templates
 		if (session.getAttribute("user").toString().equals("hanhkhachmoi")) {
 			Context context = new Context();
@@ -99,15 +99,14 @@ public class GuiHoaDonController {
 
 			List<String> danhSachTenGhe = new ArrayList<>();
 			if (datghe.size() >= 2) {
-			    for (int i = 1; i < datghe.size(); i++) {
-			        String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
-			        danhSachTenGhe.add(tenGhe);
-			    }
+				for (int i = 1; i < datghe.size(); i++) {
+					String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+					danhSachTenGhe.add(tenGhe);
+				}
 			} else {
-			    System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+				System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
 			}
 
-			
 			if (datghe.size() > 1) {
 				context.setVariable("danhSachTenGhe", danhSachTenGhe);
 			}
@@ -120,7 +119,6 @@ public class GuiHoaDonController {
 					"Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
 					"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
 			System.out.println("da gui ma hoa don");
-			
 
 			// có tài khoản
 		} else {
@@ -160,15 +158,14 @@ public class GuiHoaDonController {
 
 			List<String> danhSachTenGhe = new ArrayList<>();
 			if (datghe.size() >= 2) {
-			    for (int i = 1; i < datghe.size(); i++) {
-			        String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
-			        danhSachTenGhe.add(tenGhe);
-			    }
+				for (int i = 1; i < datghe.size(); i++) {
+					String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+					danhSachTenGhe.add(tenGhe);
+				}
 			} else {
-			    System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+				System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
 			}
 
-			
 			if (datghe.size() > 1) {
 				context.setVariable("danhSachTenGhe", danhSachTenGhe);
 			}
@@ -178,14 +175,14 @@ public class GuiHoaDonController {
 			List<NguoiDiCung> listNDC = NDCService.ListNguoiDiCungByiddatve(hoaDon.getDATVE().getMADATVE());
 			context.setVariable("nguoidicung", listNDC);
 			qrService.generateQRCode(link, mahoadon);
-			
+
 			emailService.sendEmailWithHtmlTemplateAndAttachment(hoaDon.getDATVE().getTAIKHOAN().getEMAIL(),
 					"Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
 					"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
 			System.out.println("da gui ma hoa don");
 		}
-		
-		if(session.getAttribute("mahoadon_ve")!=null) {
+
+		if (session.getAttribute("mahoadon_ve") != null) {
 			return "redirect:/guihoadonve";
 		}
 		return "/user/index";
@@ -196,7 +193,7 @@ public class GuiHoaDonController {
 		String mahoadon = session.getAttribute("mahoadon_ve").toString();
 		HoaDon hoaDon = hoaDonService.findById(Integer.parseInt(mahoadon));
 		String link = mahoadon;
-
+		System.out.println("Ma hoa don : " + mahoadon);
 		// set dữ liệu vào templates
 		if (session.getAttribute("user").toString().equals("hanhkhachmoi")) {
 			Context context = new Context();
@@ -237,15 +234,14 @@ public class GuiHoaDonController {
 
 			List<String> danhSachTenGhe = new ArrayList<>();
 			if (datghe.size() >= 2) {
-			    for (int i = 1; i < datghe.size(); i++) {
-			        String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
-			        danhSachTenGhe.add(tenGhe);
-			    }
+				for (int i = 1; i < datghe.size(); i++) {
+					String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+					danhSachTenGhe.add(tenGhe);
+				}
 			} else {
-			    System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+				System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
 			}
 
-			
 			if (datghe.size() > 1) {
 				context.setVariable("danhSachTenGhe", danhSachTenGhe);
 			}
@@ -258,7 +254,6 @@ public class GuiHoaDonController {
 					"Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
 					"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
 			System.out.println("da gui ma hoa don");
-			
 
 			// có tài khoản
 		} else {
@@ -298,15 +293,14 @@ public class GuiHoaDonController {
 
 			List<String> danhSachTenGhe = new ArrayList<>();
 			if (datghe.size() >= 2) {
-			    for (int i = 1; i < datghe.size(); i++) {
-			        String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
-			        danhSachTenGhe.add(tenGhe);
-			    }
+				for (int i = 1; i < datghe.size(); i++) {
+					String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+					danhSachTenGhe.add(tenGhe);
+				}
 			} else {
-			    System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+				System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
 			}
 
-			
 			if (datghe.size() > 1) {
 				context.setVariable("danhSachTenGhe", danhSachTenGhe);
 			}
@@ -316,7 +310,7 @@ public class GuiHoaDonController {
 			List<NguoiDiCung> listNDC = NDCService.ListNguoiDiCungByiddatve(hoaDon.getDATVE().getMADATVE());
 			context.setVariable("nguoidicung", listNDC);
 			qrService.generateQRCode(link, mahoadon);
-			
+
 			emailService.sendEmailWithHtmlTemplateAndAttachment(hoaDon.getDATVE().getTAIKHOAN().getEMAIL(),
 					"Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
 					"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
