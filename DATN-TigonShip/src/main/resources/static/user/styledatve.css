@@ -76,7 +76,9 @@
 .seat-row .seat:nth-last-child(10n+3) {
     margin-left: 30px;
 }
-
+.seat.clicked {
+    background-color: brown; /* Màu khi click */
+}
 
 /* Thêm margin 20px cho ghế thứ 3 từ bên phải đếm qua */
 

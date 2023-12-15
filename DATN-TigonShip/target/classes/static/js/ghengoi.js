@@ -1,86 +1,75 @@
 const app = angular.module('ghengoi-app', []);
 app.controller('ghengoi-ctrl', function($scope, $http) {
 
-	$scope.reset = function() {
-		$scope.form.tenghe = ''
-		$scope.form.khoang = ''
-		$scope.post = true
-		$scope.put = false
-		$scope.dele = false
-	}
+	$scope.index= 1
+	$scope.items1= [];
+	$scope.items2= [];
+	$scope.mong = [];
+	$scope.capnhat= false
+	$scope.trangthai = false;
+	$scope.idghedachon= "";
+
 	$scope.initialize = function() {
-		$http.get("/rest/ghengoi").then(response => {
-			$scope.items = response.data;
+		$http.get(`/rest/ghengoi/tau`).then(response => {
+			$scope.tau = response.data;
+			if ($scope.tau.length > 0 && $scope.tau[0].idtau !== null) {
+				$scope.selectedTau = $scope.tau[0].idtau;
+			}
+		});
+		$http.get(`/rest/ghengoi1/1`).then(response => {
+			$scope.items1 = response.data;
+		
+		});
+		$http.get(`/rest/ghengoi2/1`).then(response => {
+				$scope.items2 = response.data;
+				
 		});
 	}
+	$scope.initialize();
 
-	$scope.initialize()
-
-	$scope.edit = function(item) {
-		$scope.form = angular.copy(item);
-		$scope.post = false;
-		$scope.put = true;
-		$scope.dele = true;
+	$scope.onSelectChange = function(selectedTau) { // Lấy danh sách ghế ngồi thong qua id tàu + khoan 1/2
+		$scope.index = selectedTau; // Vì bạn đã chọn item.idtau làm giá trị của selectedTau
+		console.log($scope.index);
+			console.log($scope.index);
+			$http.get(`/rest/ghengoi1/${$scope.index} `).then(response => {
+				$scope.items1 = response.data;
+			});
+			$http.get(`/rest/ghengoi2/${$scope.index} `).then(response => {
+				$scope.items2 = response.data;
+			});
 	}
-	//Hiển thị ghế ngồi lên modal
-	$scope.showGhengoi = function() {
-		var idtau = $scope.form.tau.idtau;
-		console.log(idtau); // lấy id tàu để show ra ghế ngồi
-		var url = `/rest/ghengoi/${idtau}`;
-		$http.get(url).then(response => {
-			$scope.items.ghengoi = response.data;
-			console.log($scope.ghe)
-		}).catch(err => {
-			console.log("Error", err)
-		})
-	}
-	/* $scope.save = function () {
-		 var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.tau.idtau)
-		 var item = {
-			 "tenghe": $scope.form.tenghe,
-			 "khoang": $scope.form.khoang,
-			 "tau": $scope.items.tau[index]
-		 }
-		 console.log(item)
-		 var url = `/rest/ghengoi/save`;
-		 $http.post(url,item).then(response => {
-			 $scope.items.ghengoi.push(response.data);
-			 alert("Thêm ghế ngồi mới thành công")
-			 $scope.reset();
-		 }).catch(error => {
-			 alert("Thêm ghế ngồi mới thất bại");
-			 console.log("Error",error)
-		 })
-	 }*/
-
-	$scope.update = function() {
-		var index = $scope.items.tau.findIndex(a => a.idtau === $scope.form.tau.idtau)
-		var item = {
-			"tenghe": $scope.form.tenghe,
-			"khoang": $scope.form.khoang,
-			"tau": $scope.items.tau[index]
-		}
-		console.log(item)
-		var url = `/rest/ghengoi/${$scope.form.idghe}`;
-		$http.put(url, item).then(response => {
-			var index = $scope.items.ghengoi.findIndex(a => a.idghe === $scope.form.idghe);
-			$scope.items.ghengoi[index] = response.data;
-			alert("Cập nhật ghế ngồi thành công")
-			$scope.reset();
-		}).catch(err => {
-			alert("Lỗi cập nhật ghế ngồi");
-			console.log("Error", error);
+	$scope.searchGheByIDghe = function(idghe){
+		$scope.idghedachon= idghe;
+		$scope.trangthai= true
+		$scope.capnhat=true
+		$http.get(`/rest/ghengoi/ghengoi/${idghe}`).then(response => {
+			$scope.mong = response.data;
 		});
-	}
-	/*    $scope.delete = function (id){
-			$http.delete(`/rest/ghengoi/${id}`).then(response => {
-				var index = $scope.items.ghengoi.findIndex(a => a.idghe === $scope.form.idghe);
-				$scope.items.ghengoi.splice(index,1);
-				alert("Xóa thành công");
-				$scope.reset()
-			}).catch(error =>{
-				alert("Xóa thành công");
-				console.log("Error",error)
-			})
-		}*/
+	};
+	$scope.onChangeTrangThai = function() {
+		console.log($scope.mong.trangthai);
+	};
+	$scope.update = function(){
+		$http({
+			method: 'PUT',
+			url: `/rest/ghengoi/update/${$scope.idghedachon}`,
+			data: $scope.mong.trangthai,  // Truyền giá trị trangthai trực tiếp
+			headers: {'Content-Type': 'text/plain'}  // Đặt kiểu dữ liệu là text/plain
+		
+		}).then(
+			function successCallback(response) {
+				$scope.onSelectChange($scope.index);
+				console.log($scope.index)
+					//CẬP NHẬT THÀNH CÔNG GHI Ở ĐÂY.
+			/* 	document.getElementById('check3').checked = true; */
+				alert("Cập nhật ghế thành công")
+			},
+			function errorCallback(error) {
+				console.log("Lỗi cập nhật: ", error);
+			}
+		);
+		
+	};
+	
+
 })

@@ -39,9 +39,6 @@ public class taiKhoanRestController {
     public List<DatVe> getAll(@PathVariable("id") Integer id) {
         return datVeDAO.ListDatVeByIdTaiKhoan(id);
     }
-    @GetMapping("/rest/taikhoan/all")// lấy ra tổng có bao nhiêu USER
-    public Integer getAllTK(){
-        return taiKhoanDAO.AllTK();
-    }
+
 
 }

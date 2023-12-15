@@ -40,5 +40,10 @@ public interface HoaDonDAO extends JpaRepository<HoaDon, Integer> {
             "WHERE CONVERT(DATE, h.ngaylap) = ?1 " + // Sử dụng CONVERT để chuyển đổi sang kiểu DATE
             "GROUP BY t.TENTUYEN, l.IDTUYEN", nativeQuery = true)
     List<Object> doanhThuTheoNgay(Date ngay);
-
+    
+    @Query(value = "SELECT count(*) FROM HOADON ", nativeQuery = true)
+	long countAllHoaDon();
+    
+    @Query(value = "SELECT SUM(TongTien) FROM HOADON ", nativeQuery = true)
+    Double sumTongTienOfAllHoaDon();
 }

@@ -129,7 +129,7 @@ select:active {
 						<div class="card">
 							<!-- nút tìm kiếm theo ngày - tuyến - mã hóa đơn -->
 							<div class="card-header" style="text-align: center;">
-								<strong class="card-title">Thông tin hóa đơn đặt vé ngày:  </strong>
+								<strong class="card-title">Thông tin đặt vé khởi hành ngày:  </strong>
 								<input type="date" id="datepicker" ng-model="selectedDate">
 								<select class="text-center" ng-model="selectedTuyen" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen">
 								</select>
@@ -139,7 +139,6 @@ select:active {
 								<button ng-click="reset()" class="custom-button">
 									<i class="fas fa-sync"></i>
 								</button>
-							
 								<div style="margin: 10px 0;">
 									<input class="custom-button" type="text" ng-model="searchMaHD" placeholder="Nhập mã Hóa đơn" ng-show="maHD">
 									<button class="custom-button" ng-click="searchByMaHD(searchMaHD)" ng-show="search">
@@ -167,10 +166,10 @@ select:active {
 											<thead class="text-center">
 												<tr>
 													<th>Mã HD</th>
-													<th>Ngày xuất phát</th>
+													<th>Ngày đặt</th>
 													<th>Tên</th>
 													<th class="text-center">Số ĐT</th>
-													<th>Số ghế</th>
+												<!-- 	<th>Số ghế</th> -->
 													<th>Tàu</th>
 													<th class="text-center">Chi tiết</th>
 												</tr>
@@ -178,17 +177,17 @@ select:active {
 											<tbody ng-repeat="item in datvetheongay">
 												<tr>
 													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
-													<!-- <td class="text-center"><span>{{item[1]}}</span></td> --> <!--  ngày đặt -->
-												 	<td class="text-center"><span>{{item[2]}}</span></td><!-- NGÀY ĐI -->
+													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
+												 <!-- 	<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
 													<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- Mã đặt vé -->
 													<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ngày về -->
 													<!--<td class="text-center"><span>{{item[5]}}</span></td> --><!-- trạng thái -->
 													<td class="text-center"><span>{{item[6]}}</span></td><!-- HỌ VÀ TÊN -->
 													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
-													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
+													<!-- <td class="text-center"><span>{{item[8]}} </span></td> SỐ GHẾ --> 
 													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
 													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
-														<i class="fas fa-pen"></i> </button></td>					
+													<i class="fas fa-pen"></i> </button></td>					
 												</tr>
 											</tbody>
 										</table>
@@ -253,15 +252,38 @@ select:active {
 							<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 									<div class="modal-content">
+									
 										<div class="modal-header" style="background: #597aa7;">
-											
-											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé <i class="fas fa-trash"></i> </button>
-											<button ng-click="" class="custom-button">Cập nhật vé <i class="fas fa-envelope"></i> </button>
+											<strong class="card-title">Thông tin đặt vé khởi hành ngày:  </strong>
+											<!-- <button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé <i class="fas fa-trash"></i> </button>
+											<button ng-click="" class="custom-button">Cập nhật vé <i class="fas fa-envelope"></i> </button> -->
 											<button type="button" ng-click="checkAndClose()" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
-
+								
 										</div>
 										<div class="modal-body">
-											<div class="table-stats order-table ov-h">
+											<div style="border: 2px solid #7597b8; padding: 10px; width: 750px; margin: 5px; display: flex; flex-wrap: wrap; align-items: left;">
+											
+											
+												
+												<div style="width: 48%;">
+													<p><strong>Tổng tiền: </strong> {{tongTien | currency: '':0}} VND</p>
+													<p><strong>Tên tuyến:</strong> {{tuyen}}</p>
+												</div>
+												<div style="width: 48%;">
+													<p><strong>Ngày đặt: </strong> {{ngayDat | date:'dd/MM/yyyy'}}</p>
+													<p><strong>Ngày đi: </strong> {{ngaydi | date:'dd/MM/yyyy'}}</p>
+												</div>
+													
+											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé <i class="fas fa-trash"></i> </button>
+											<button ng-click="" class="custom-button">Cập nhật vé <i class="fas fa-envelope"></i> </button>
+											</div>
+											
+											
+											
+											
+											
+											
+											<div class="table-stats order-table ov-h" >
 												<table class="table">
 													<thead class="text-center">
 														<tr>

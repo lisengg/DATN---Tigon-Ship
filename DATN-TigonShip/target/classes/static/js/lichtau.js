@@ -1,22 +1,21 @@
 const app = angular.module('lichtau-app', []);
-app.controller('lichtau-ctrl', function($scope, $http,$sce) {
+app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 	$scope.form = {},
-	
-	$scope.initialize = function() {
-		$http.get("/rest/lichtau").then(response => {
-			$scope.items = response.data;
-			$scope.post = true;
-			$scope.put = false;
-			$scope.delete = false;
-			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
-			initDataTable($scope.items);
-		});
-	}
+
+		$scope.initialize = function() {
+			$http.get("/rest/lichtau").then(response => {
+				$scope.items = response.data;
+				$scope.post = true;
+				$scope.put = false;
+				$scope.delete = false;
+				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
+				initDataTable($scope.items);
+			});
+		}
 	function initDataTable(data) {
 		var table = $('#table2').DataTable({
 			data: data.lichtau, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idlichtau' },
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'tau.tentau' },
 				{ data: 'gioxuatphat' },
@@ -60,10 +59,37 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 		$scope.put = false;
 		$scope.delete = false;
 	}
+	function freeTime(endTime, startTime) {
+		// Chuyển đổi thời gian thành đối tượng Date
+		const startDate = new Date(`01/01/2023 ${startTime}`);
+		const endDate = new Date(`01/01/2023 ${endTime}`);
+
+		endDate.setMinutes(endDate.getMinutes() + 15);
+
+		// So sánh thời gian
+		if (endDate >= startDate) {
+			return false; // Lỗi: Giờ xuất phát phải sau giờ đến nơi ít nhất 30 phút
+		}
+		return true; // Không có lỗi
+	}
+	function compareTime(startTime, endTime) {
+		// Chuyển đổi thời gian thành đối tượng Date
+		const startDate = new Date(`01/01/2023 ${startTime}`);
+		const endDate = new Date(`01/01/2023 ${endTime}`);
+
+		startDate.setMinutes(startDate.getMinutes() + 30);
+
+		// So sánh thời gian
+		if (startDate >= endDate) {
+			return false; // Lỗi: Giờ đến nơi phải sau giờ xuất phát
+		}
+		return true; // Không có lỗi
+	}
 	function compareTimes(startTime, endTime) {
 		// Chuyển đổi thời gian thành đối tượng Date
 		const startDate = new Date(`01/01/2023 ${startTime}`);
 		const endDate = new Date(`01/01/2023 ${endTime}`);
+
 		// So sánh thời gian
 		if (startDate >= endDate) {
 			return false; // Lỗi: Giờ đến nơi phải sau giờ xuất phát
@@ -77,7 +103,7 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
-		
+
 		// Kiểm tra xem tàu đã được chọn
 		if (!$scope.form.tau || !$scope.form.tau.idtau) {
 			document.getElementById('check5').checked = true;
@@ -105,10 +131,32 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 			return;
 		}
 
-		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
-		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
+		// Kiểm tra giờ đến nơi phải sau giờ xuất phát ít nhất 60 phút
+		if (!compareTime(item.gioxuatphat, item.giodennoi)) {
 			document.getElementById('check9').checked = true;
 			return; // Không thực hiện thêm lịch tàu khi có lỗi
+		}
+		// Kiểm tra số lượng lịch tàu của tàu đó trong danh sách chưa được thêm mới
+		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
+			return existingItem.tau.idtau === item.tau.idtau;
+		});
+
+		// Kiểm tra nếu số lượng lịch tàu của tàu đó đã đạt đến giới hạn 4
+		if (lichTauOfTheTrain.length >= 4) {
+			document.getElementById('check11').checked = true; // Đặt một checkbox để hiển thị thông báo lỗi
+			return;
+		}
+		// Kiểm tra xem có lịch tàu nào trùng thời gian xuất phát và thời gian đến nơi không
+		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
+			return (
+				compareTimes(existingItem.gioxuatphat, item.giodennoi) &&
+				compareTimes(item.gioxuatphat, existingItem.giodennoi)
+			);
+		});
+
+		if (isOverlapping) {
+			document.getElementById('check8').checked = true; // Đặt một checkbox để hiển thị thông báo lỗi
+			return;
 		}
 		// Kiểm tra trùng lịch tàu
 		var isDuplicate = $scope.items.lichtau.some(function(existingItem) {
@@ -130,10 +178,10 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 				document.getElementById('check3').checked = true;
 				var itemlichsu = {
 					"lichtau": response.data,
-					"thaotac" : "Đã thêm mới lịch tàu có ID : " + response.data.idlichtau ,
+					"thaotac": "Đã thêm mới lịch tàu có ID : " + response.data.idlichtau,
 				}
 				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
-					.then(function(response) {   
+					.then(function(response) {
 						$scope.items.lichsu.push(response.data)
 					})
 					.catch(function(error) {
@@ -147,17 +195,56 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 		}
 	}
 	$scope.formatThaoTac = function(thaoTac) {
-        if (thaoTac.includes('#')) {
-            // Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
-            var separatedLines = thaoTac.split('#').map(line => line.trim());
-            return $sce.trustAsHtml(separatedLines.join('<br>'));
-        } else {
-            // Ngược lại, trả về nguyên bản
-            return thaoTac;
-        }
-    };
+		if (thaoTac.includes('#')) {
+			// Nếu chuỗi thao tác chứa dấu phẩy, cắt chuỗi và thêm thẻ xuống dòng
+			var separatedLines = thaoTac.split('#').map(line => line.trim());
+			return $sce.trustAsHtml(separatedLines.join('<br>'));
+		} else {
+			// Ngược lại, trả về nguyên bản
+			return thaoTac;
+		}
+	};
+
+	// Hàm kiểm tra số lượng lịch tàu của tàu
+
+	// Hàm kiểm tra sự chồng chép thời gian giữa lịch tàu mới và các lịch tàu đã có
+	function checkForTimeOverlap(item) {
+		var oldItem = angular.copy(item);
+
+		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
+			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
+		});
+
+		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
+			return (
+				compareTimes(existingItem.gioxuatphat, item.giodennoi) &&
+				compareTimes(item.gioxuatphat, existingItem.giodennoi)
+
+			);
+		});
+
+		return isOverlapping;
+	}
+	
+	function checkForFreeTimeOverlap(item) {
+		var oldItem = angular.copy(item);
+	// Hàm kiểm tra số lượng lịch tàu của tàu
+		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
+			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
+		});
+
+		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
+			return (
+				!freeTime(item.giodennoi, existingItem.gioxuatphat) &&
+				!freeTime(existingItem.giodennoi, item.gioxuatphat)
+
+			);
+		});
+
+		return isOverlapping;
+	}
 	//Cập nhật lịch tàu
-	$scope.update = function() {
+	$scope.update = function(item) {
 		var item = angular.copy($scope.form);
 		var itemold = $scope.originalData;
 		var url = `/rest/lichtau/${item.idlichtau}`;
@@ -165,10 +252,42 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 			document.getElementById('check10').checked = true;
 			return;
 		}
-		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
-		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
+		// Kiểm tra giờ đến nơi phải sau giờ xuất phát ít nhất 60 phút
+		if (!compareTime(item.gioxuatphat, item.giodennoi)) {
 			document.getElementById('check9').checked = true;
 			return; // Không thực hiện thêm lịch tàu khi có lỗi
+		}
+		//Kiểm	tra thời gian nghỉ giữa các chuyến tàu phải ít nhất 30 phút
+
+		// Tạo một bản sao của dữ liệu cũ trước khi cập nhật
+		var oldItem = angular.copy(item);
+
+		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
+			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
+		});
+		
+		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
+			return (
+				compareTimes(existingItem.gioxuatphat, item.giodennoi) &&
+				compareTimes(item.gioxuatphat, existingItem.giodennoi)
+
+			);
+		});
+		
+		// Kiểm tra số lượng lịch tàu của tàu đó đã đạt đến giới hạn 4
+		if (lichTauOfTheTrain.length >= 4) {
+			document.getElementById('check11').checked = true;
+			return;
+		}
+
+		// Kiểm tra xem có lịch tàu nào trùng thời gian xuất phát và thời gian đến nơi không
+		if (checkForTimeOverlap(item)) {
+			document.getElementById('check8').checked = true;
+			return;
+		}
+		if (checkForFreeTimeOverlap(item)) {
+			document.getElementById('check13').checked = true;
+			return;
 		}
 		// Kiểm tra trùng lịch tàu
 		var isDuplicate = $scope.items.lichtau.some(function(existingItem) {
@@ -185,9 +304,9 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 		item.tau = $scope.items.tau[indexTau];
 		var indexTuyen = $scope.items.tuyen.findIndex(a => a.idtuyen === $scope.form.tuyen.idtuyen);
 		item.tuyen = $scope.items.tuyen[indexTuyen];
-		
 
-		
+
+
 		var ttupdate = "Cập nhật lịch tàu  có ID: " + itemold.idlichtau;
 
 		if (itemold.tuyen.tentuyen !== item.tuyen.tentuyen) {
@@ -222,12 +341,12 @@ app.controller('lichtau-ctrl', function($scope, $http,$sce) {
 				row.data(item).draw();
 				document.getElementById('check3').checked = true;
 				$http.post('/rest/lichtau/lichsu/save', itemlichsu)
-                .then(function(response) {   
-					$scope.items.lichsu.push(response.data)
-                })
-				.catch(function(error) {
-					console.log("Error creating LichSuLichTau", error);
-				});
+					.then(function(response) {
+						$scope.items.lichsu.push(response.data)
+					})
+					.catch(function(error) {
+						console.log("Error creating LichSuLichTau", error);
+					});
 			}).catch(error => {
 				console.log("Error", error)
 				document.getElementById('check2').checked = true;

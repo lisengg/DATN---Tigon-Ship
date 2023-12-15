@@ -1,15 +1,34 @@
-const app = angular.module('authority1-app', []);
-app.controller('authority1-ctrl', function($scope, $http) {
+const app1 = angular.module('authority1-app', []);
+app1.controller('authority1-ctrl', function($scope, $http) {
 	$scope.form = {};
-	$(document).ready(function() {
-		// Khởi tạo DataTables
+	$scope.initialize = function() {
+		$http.get("/rest/authority1").then(response => {
+			$scope.items = response.data;
+			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
+			initDataTable($scope.items);
+		})
+	}
+	function initDataTable(data) {
 		var table = $('#table2').DataTable({
-			data: $scope.items, // Sử dụng dữ liệu từ biến items
+			data: data.taikhoan, // Sử dụng dữ liệu từ biến items
 			columns: [
-				{ data: 'idtaikhoan' },
 				{ data: 'hovaten' },
 				{ data: 'email' },
-				{ data: 'vaitro' },
+				{
+					data: 'vaitro',
+					render: function(data, type, row) {
+						// Chuyển giá trị 'staff' thành 'Nhân Viên'
+						if (data === 'STAFF') {
+							return 'NHÂN VIÊN';
+						} else if (data === 'ADMIN') {
+							return 'QUẢN LÝ';
+						} else if (data === 'KHACHHANG') {
+							return 'KHÁCH HÀNG';
+						} else {
+							return data;
+						}
+					}
+				},
 				// Cột mới chứa nút bấm
 				{
 					data: null,
@@ -26,38 +45,17 @@ app.controller('authority1-ctrl', function($scope, $http) {
 				console.log(data)
 				$scope.edit(data);
 			});
-			// data chứa thông tin của hàng được chọn, bạn có thể sử dụng nó ở đây
-			// Ví dụ: alert(data.idHANHKHACH);
-			// Hoặc gọi hàm edit(data) để hiển thị dữ liệu trong modal
-			// edit(data);
 		});
-	});
-	$scope.initialize = function() {
-		$http.get("/rest/authority1").then(response => {
-			$scope.items = response.data;
-			$scope.put = false
-			// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
-			var table = $('#table2').DataTable();
-			table.clear().rows.add($scope.items).draw();
-		})
 	}
-	//Khởi đầu
+
 	$scope.initialize();
-	$scope.index_of = function(id) {
-		return $scope.items.findIndex(q => q.idtaikhoan == id);
-	}
+
 	//Hiển thị lên form
 	$scope.edit = function(id) {
 		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
 		$scope.form = angular.copy(id);
-		$scope.put = true;
 	}
-	//Xóa form
-	$scope.reset = function() {
-		$scope.form = null;
-		$scope.searchKeyword = null;
-		$scope.put = false;
-	}
+
 	//Phân quyền
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
@@ -68,15 +66,27 @@ app.controller('authority1-ctrl', function($scope, $http) {
 			document.getElementById('check10').checked = true;
 			return;
 		}
-		//Kiểm tra xem người dùng có đang cố thay đổi từ QUẢN TRỊ thành NGƯỜI DÙNG hoặc NHÂN VIÊN không
-		if ($scope.items[$scope.index_of(item.idtaikhoan)].vaitro === 'ADMIN' &&
-			(item.vaitro === 'KHACHHANG' || item.vaitro === 'STAFF')) {
-			document.getElementById('check4').checked = true;
-			return;
+		// Kiểm tra giá trị mới của vai trò và cập nhật thành giá trị phù hợp
+		if (item.vaitro === 'KHÁCH HÀNG') {
+			// Nếu là Nhân Viên, thay đổi giá trị thành 'staff'
+			item.vaitro = 'KHACHHANG';
+		}
+		// Kiểm tra giá trị mới của vai trò và cập nhật thành giá trị phù hợp
+		if (item.vaitro === 'NHÂN VIÊN') {
+			// Nếu là Nhân Viên, thay đổi giá trị thành 'staff'
+			item.vaitro = 'STAFF';
+		}
+		if ($scope.originalData.vaitro === 'ADMIN') {
+			// Nếu là ADMIN, kiểm tra xem có thay đổi vai trò không
+			if (item.vaitro !== 'ADMIN') {
+				// Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu
+				document.getElementById('check4').checked = true;
+				return;
+			}
 		}
 		$http.put(url, item).then(response => {
-			var index = $scope.items.findIndex(q => q.idtaikhoan === item.idtaikhoan);
-			$scope.items[index] = item;
+			var index = $scope.items.taikhoan.findIndex(q => q.idtaikhoan === item.idtaikhoan);
+			$scope.items.taikhoan[index] = item;
 			var table = $('#table2').DataTable();
 			var row = table.row(index);
 			row.data(item).draw();
@@ -88,4 +98,3 @@ app.controller('authority1-ctrl', function($scope, $http) {
 	}
 
 })
-

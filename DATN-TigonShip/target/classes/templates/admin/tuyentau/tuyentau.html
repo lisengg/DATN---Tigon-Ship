@@ -4,15 +4,13 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Quản lý tuyến</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
@@ -47,7 +45,7 @@
 								<h3>
 									<strong class="card-title">Danh sách tuyến tàu</strong>
 									<button data-bs-toggle="modal" type="button" ng-click="reset()"
-										data-bs-target="#modal" class="btn btn-primary" th:if="${#request.isUserInRole('ADMIN')}">Thêm tuyến</button>
+										data-bs-target="#modal" class="btn btn-primary">Thêm tuyến</button>
 										<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 											Lịch sử cập nhật
 										</button>
@@ -58,7 +56,6 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th class="text-center">ID</th>
 											<th class="text-center">TÊN TUYẾN</th>
 											<th class="text-center">TRẠNG THÁI</th>
 											<th class="text-center">THAO TÁC</th>
@@ -106,9 +103,7 @@
 							<button type="button" ng-show="post" ng-click="create()"
 								class="btn btn-primary">Tạo</button>
 							<button type="button" ng-show="put" ng-click="update()"
-								class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
-							<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa
-								form</button>					
+								class="btn btn-success">Chỉnh sửa</button>				
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">								     
 								      <input type="checkbox" id="check3" >

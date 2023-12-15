@@ -14,6 +14,10 @@ app.controller('datve-ctrl', function ($scope, $http) {
     $scope.xoaNguoi=true;
     $scope.xoaGhe=true;
     $scope.maHdUpdate="";
+    $scope.ngaydi ="";
+    $scope.tuyen ="";
+    $scope.tiencon
+    $scope.tienHK= "";
 
     $scope.initialize = function() {
         $http.get("/rest/tuyen").then(response => {
@@ -113,42 +117,48 @@ app.controller('datve-ctrl', function ($scope, $http) {
             console.log("Error", err);
         });
         $scope.filterDataByIdDatVe(iddatve);
-    
        /*  // In kết quả
         console.log("$scope.tongTien:", $scope.tongTien);
         console.log("$scope.loaiVe:", $scope.loaiVe); */
 
     }
     $scope.deleteByIDDatVe = function(){ // xóa hết vé đặt qua id đặt vé
+        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
+        console.log($scope.ngaydi)
+        var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
         // Kiểm tra xem ngày được chọn có hợp lệ không (lớn hơn ngày hiện tại ít nhất 3 ngày)
         var minValidDate = new Date();
         minValidDate.setDate(currentDate.getDate() + 3);
-        if (selectedDate < minValidDate) {
-            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";
-          /*   $('#errorMessageModal').modal('show'); */
+        if (selectedDate < minValidDate || ngaydi < minValidDate) {
+            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";74
           alert( $scope.errorMsg );
             return;
         }
         var id = $scope.madatve;
         $http.delete(`/rest/datve/theongay/${id}`).then(resp => {
             alert("Xóa dữ liệu đặt vé thành công!");
+            var index = $scope.datvetheongay.findIndex(innerArray => innerArray[0] == id);
+            $scope.datvetheongay.splice(index, 1);
         })
         .catch(error => {
             alert("Lỗi xóa dữ liệu!");
             console.log("Error", error);
         });
+        $('#modal').modal('hide');
     };
     $scope.deleteDatGhe = function(id) { // xóa ghế đặt qua id đặt ghế
+        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
+        console.log($scope.ngaydi)
+        var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
         // Kiểm tra xem ngày được chọn có hợp lệ không (lớn hơn ngày hiện tại ít nhất 3 ngày)
         var minValidDate = new Date();
         minValidDate.setDate(currentDate.getDate() + 3);
-        if (selectedDate < minValidDate) {
-            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";
-          /*   $('#errorMessageModal').modal('show'); */
+        if (selectedDate < minValidDate || ngaydi < minValidDate) {
+            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";74
           alert( $scope.errorMsg );
             return;
         }
@@ -162,58 +172,67 @@ app.controller('datve-ctrl', function ($scope, $http) {
         });
     };
     $scope.deleteNguoiDiCung = function(id){ // xóa người đi cùng qua id người đi cùng
+        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
+        console.log("ngày đi :" + $scope.ngaydi)
+        var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
         // Kiểm tra xem ngày được chọn có hợp lệ không (lớn hơn ngày hiện tại ít nhất 3 ngày)
         var minValidDate = new Date();
         minValidDate.setDate(currentDate.getDate() + 3);
-        if (selectedDate < minValidDate) {
-            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";
-            alert( $scope.errorMsg );
+        if (selectedDate < minValidDate || ngaydi < minValidDate) {
+            $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";74
+          alert( $scope.errorMsg );
             return;
-        } 
+        }
         console.log($scope.loaiVe)
         var loaive = parseInt( $scope.loaiVe)
+        console.log(id)
         var index = $scope.items.tuyen.findIndex(a => a.idtuyen === $scope.selectedTuyen);
         $http.get(`/rest/datve/nguoidicung/${id}/${index + 1}/${loaive}`).then(resp => {
-                $scope.tienHK = resp.data;
-               /*  $scope.tongTien = parseFloat($scope.tongTien) */;
-                if (!isNaN($scope.tongTien)) {
-                    $scope.tongTien = $scope.tongTien - $scope.tienHK;
-                    console.log("Tiền hành khách đó  " + $scope.tienHK);
-                } else {
-                    console.error("Lỗi chuyển đổi giá trị tổng tiền thành số");
-                }
+            $scope.tienHK = resp.data;
+            console.log("Tổng tiền hành khách đó  " + $scope.tongTien);
+            // Kiểm tra có phải là số hay không ngay khi lấy dữ liệu
+            if (!isNaN($scope.tongTien)) {
+                $scope.tiencon = $scope.tongTien - $scope.tienHK;
+                console.log("Tổng tiền còn lại là :" + $scope.tiencon);
+        
+                // Trừ tiền hành khách từ tổng tiền và cập nhật
+                $scope.tongTien -= $scope.tienHK;
+                updateHoaDon($scope.tongTien);
+            } else {
+                console.error("Lỗi chuyển đổi giá trị tổng tiền thành số");
+            }
         }).catch(error => {
             console.error("Lỗi khi lấy thông tin tiền hành khách!");
         });
-        $http({
-            method: 'PUT',
-            url: `/rest/datve/hoadon/update/${$scope.maHdUpdate}`,
-            data: { tongtien: $scope.tongTien },
-            headers: {'Content-Type': 'application/json'}
-        }).then(
-            function successCallback(response) {
-                console.log("Thành công:" + $scope.tongTien);
-            },
-            function errorCallback(error) {
-                console.log("Lỗi cập nhật: ", error);
-            }
-        );
-        $http.delete(`/rest/datve/nguoidicung/${id}`).then(resp => {
+        
+       /*  $http.delete(`/rest/datve/nguoidicung/${id}`).then(resp => {
             alert("Xóa dữ liệu người đi cùng thành công!");
             var index = $scope.nguoidicung.findIndex(innerArray => innerArray[0] == id);
             $scope.nguoidicung.splice(index, 1);
         })
         .catch(error => {
             console.log("Lỗi tính tiền: ", error);
-        });
-       /*  var tongtien = $scope.tongTien;
-        console.log("tongtien Cập nhật:" + tongtien) */
-       
-        
-        
+        });     */
     };
+    function updateHoaDon(newTongTien) {
+        $http({
+            method: 'PUT',
+            url: `/rest/datve/hoadon/update/${$scope.maHdUpdate}`,
+            data: newTongTien,
+            headers: {'Content-Type': 'application/json'}
+        }).then(
+            function successCallback(response) {
+                console.log("Thành công:" + $scope.tiencon);
+            },
+            function errorCallback(error) {
+                console.log("Lỗi cập nhật: ", error);
+            }
+        ).catch(error => {
+            console.error("Lỗi Cập Nhật!");
+        });
+    }
     $scope.check = function() { // kiểm tra số ghế vs người đặt ghế
         if ($scope.nguoidicung.length + 1 === $scope.datghe.length) {
             return true;
@@ -234,54 +253,26 @@ app.controller('datve-ctrl', function ($scope, $http) {
             $('#modal').modal('show');
         }
     };
-    $scope.filterDataByIdDatVe = function (iddatve) { // hàm tìm tổng tiền - idloaive
+    $scope.filterDataByIdDatVe = function (iddatve) { // hàm tìm tổng tiền - idloaive - ngày đi - mã hóa đơn thông qua iddatve
         if ($scope.datvetheongay.length > 0) {
-            // Lọc kết quả theo iddatve
             var result = $scope.datvetheongay.filter(function(item) {
                 return item[3] === iddatve; // Giả sử số thứ tư trong mảng con là iddatve
-            });
-    
-            // Kiểm tra xem có kết quả nào không
+            });  
             if (result.length > 0) {
-                // Gán giá trị số 10 và 11 từ kết quả đầu tiên
                 $scope.tongTien = result[0][10];
                 $scope.loaiVe = result[0][11];
                 $scope.maHdUpdate = result[0][0];
+                $scope.ngaydi = result[0][2];
+                $scope.tuyen = result[0][12];
+                $scope.ngayDat = result[0][1]
+               
             } else {
-                // Xử lý nếu không có kết quả nào thỏa mãn
-                // Ví dụ: Gán giá trị mặc định hoặc làm gì đó khác theo yêu cầu của bạn
                 $scope.tongTien = null;
                 $scope.loaiVe = null;
                 $scope.loaiVe = null;
+                $scope.ngaydi = null;
             }
         }
     };
     
-    
-    // Kiểm tra xem ngày được chọn có vượt quá ngày hiện tại không
-       /*  if (selectedDate > currentDate) {
-            $scope.errorMsg = "Ngày được chọn không được vượt quá ngày hiện tại.";
-            // Hiển thị modal
-            $('#errorMessageModal').modal('show');
-            return; // Ngừng thực hiện hàm nếu có lỗi
-        } */
-    
-        /* $http.put(url, item).then(response => {
-			var index = $scion(response) {
-					$scope.items.lichsu.push(response.data)
-				})
-				.catch(function(error) {
-					consoleope.items.hangtau.findIndex(a => a.idhangtau === item.idhangtau);
-			$scope.items.hangtau[index] = item;
-			var table = $('#table2').DataTable();
-			var row = table.row(index);
-			row.data(item).draw();
-			document.getElementById('check3').checked = true;
-			$http.post('/rest/hangtau/lichsu/save', itemlichsu)
-				.then(funct.log("Error creating LichSuHangTau", error);
-				});
-		}).catch(error => {
-			console.log("Error", error)
-			document.getElementById('check15').checked = true;
-		}); */
 })

@@ -1,7 +1,6 @@
 const app = angular.module('tau-app', ['ngSanitize']);
 app.controller('tau-ctrl', function($scope, $http, $sce) {
 	$scope.form = { ngaynhap: new Date(), },
-	$scope.form.ghengoi
 		$scope.initialize = function() {
 			$http.get("/rest/tau").then(response => {
 				$scope.items = response.data;
@@ -19,7 +18,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.tau, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idtau' },
 				{ data: 'tentau' },
 				{ data: 'hangtau.tenhangtau' },
 				{ data: 'soghe' },
@@ -59,7 +57,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.form = {
 			ngaynhap: new Date(),// Gán ngày mặc định (hoặc giá trị khác) vào biến ngaynhap
 			trangthai: 'Đang hoạt động',
-			soghe: '160',
 		}
 		$scope.post = true
 		$scope.put = false
@@ -75,7 +72,7 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		$scope.delete = true;
 	}
 	//THÊM TÀU
-	$scope.create = function() {
+$scope.create = function() {
 
 		// Kiểm tra tên tàu đã được chọn
 		if (!$scope.form.tentau) {
@@ -85,6 +82,11 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		// Kiểm tra tên hãng tàu không được để trống
 		if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
 			document.getElementById('check5').checked = true;
+			return;
+		}
+		// Kiểm tra tên tàu đã được chọn
+		if (!$scope.form.soghe) {
+			document.getElementById('check6').checked = true;
 			return;
 		}
 		var index = $scope.items.hangtau.findIndex(a => a.idhangtau === $scope.form.hangtau.idhangtau)

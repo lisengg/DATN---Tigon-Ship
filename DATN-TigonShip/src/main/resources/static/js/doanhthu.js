@@ -28,6 +28,7 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 		$http.get(url).then(response => {
 			$scope.avg = response.data;
 			console.log($scope.avg);
+		
 			// Lấy dữ liệu từ $scope.items và chuyển định dạng nếu cần
 			var labels = $scope.avg.map(function(item) {
 				return item[0]; // Tên mục

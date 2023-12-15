@@ -16,7 +16,6 @@ app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.tuyen, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idtuyen' },
 				{ data: 'tentuyen' },
 				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm

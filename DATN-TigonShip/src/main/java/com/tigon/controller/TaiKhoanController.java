@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +14,7 @@ import com.tigon.dao.TaiKhoanDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.model.DatVe;
 import com.tigon.model.TaiKhoan;
-import com.tigon.model.LoaiHanhKhach;
+
 import com.tigon.service.DatVeService;
 import com.tigon.service.TaiKhoanService;
 
@@ -37,7 +38,7 @@ public class TaiKhoanController {
 
 	@Autowired
 	LoaiHanhKhachDAO loaiHKDao;
-
+    
 	@RequestMapping("/thongtintaikhoan")
 	public String thongtintaikhoan(Model model) {
 		Integer user = Integer.parseInt(session.getAttribute("user").toString());

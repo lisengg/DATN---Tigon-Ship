@@ -3,15 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Quản lý lịch tàu</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -57,7 +55,6 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #17bac5;">
-											<th class="text-center">ID</th>
 											<th class="text-center">TÊN TUYẾN</th>
 											<th class="text-center">TÊN TÀU</th>
 											<th class="text-center">GIỜ XUẤT PHÁT</th>
@@ -116,15 +113,12 @@
 												<option>12:00</option><option>12:15</option><option>12:30</option><option>12:45</option>
 												<option>13:00</option><option>13:15</option><option>13:30</option><option>13:45</option>
 												<option>14:00</option><option>14:15</option><option>14:30</option><option>14:45</option>
-												<option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option>
-												<option>16:00</option><option>16:15</option><option>16:30</option><option>16:45</option>
-												<option>17:00</option>
+												<option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option><option>16:00</option>
 											</select>
 										</div>
 										<div class="col-md-4">
 											<label class="form-label">Giờ đến nơi</label> 
 											<select ng-model="form.giodennoi" class="form-control">
-												<option>06:00</option><option>06:15</option><option>06:30</option><option>06:45</option>
 												<option>07:00</option><option>07:15</option><option>07:30</option><option>07:45</option>
 												<option>08:00</option><option>08:15</option><option>08:30</option><option>08:45</option>
 												<option>09:00</option><option>09:15</option><option>09:30</option><option>09:45</option>
@@ -143,7 +137,6 @@
 								<div class="modal-footer text-center">
 									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
 									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >
@@ -237,7 +230,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Giờ đến nơi phải sau giờ xuất phát!</header>
+										  <header>Giờ đến nơi phải sau giờ xuất phát ít nhất 60 phút!</header>
 										  <div class="btns9">
 										      <label for="check9" >OK</label>
 									      </div>
@@ -249,11 +242,48 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Dữ liệu không được chỉnh sửa!</header>
+										  <header>Dữ liệu chưa được chỉnh sửa!</header>
 										  <div class="btns10">
 										      <label for="check10" >OK</label>
 									      </div>
-								      </div>							    
+								      </div>	
+								      
+								      <input type="checkbox" id="check11" >
+								      <div class="background"></div>
+								      <div class="alert_box11">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Mỗi tàu chỉ chạy tối đa 4 tuyến 1 ngày!</header>
+										  <div class="btns11">
+										      <label for="check11" >OK</label>
+									      </div>
+								      </div>
+								      
+								         <input type="checkbox" id="check12" >
+								      <div class="background"></div>
+								      <div class="alert_box12">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian xuất phát tiếp theo là 30 phút kể từ lúc đến nơi trước đó!</header>
+										  <div class="btns12">
+										      <label for="check12" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check13" >
+								      <div class="background"></div>
+								      <div class="alert_box13">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian nghỉ của tàu phải ít nhất 30 phút!</header>
+										  <div class="btns13">
+										      <label for="check13" >OK</label>
+									      </div>
+								      </div>
+								      						    
 									</div>
 									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 								</div>

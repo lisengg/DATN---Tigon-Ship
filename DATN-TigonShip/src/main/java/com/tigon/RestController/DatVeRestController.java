@@ -33,9 +33,9 @@ public class DatVeRestController {
     HoaDonDAO hoadonDAO;
     @Autowired
     DatGheDAO datgheDAO;
-    @Autowired 
+    @Autowired
     NguoiDiCungDAO nguoidicungDAO;
-    
+
     /*
      * @GetMapping("/rest/datve")
      * public Map<String, Object> getAll() {
@@ -44,34 +44,33 @@ public class DatVeRestController {
      * return map;}
      */
 
-    @GetMapping("rest/datve/taikhoan")// lấy hết thông tin đặt vé của tài khoản 
-    public List<Object> thongTinTK(){
+    @GetMapping("rest/datve/taikhoan") // lấy hết thông tin đặt vé của tài khoản
+    public List<Object> thongTinTK() {
         return datVeDAO.thongTinTK();
     }
 
     @GetMapping("rest/datve/hanhkhach") // lấy hết thông tin đặt vé của hành khách
-    public List<Object> thongTinHK(){
+    public List<Object> thongTinHK() {
         return datVeDAO.thongTinHK();
     }
-  
+
     @GetMapping("/rest/datve")
-    public List<Tuyen> getAllTuyen() { //select tất cả tuyến
+    public List<Tuyen> getAllTuyen() { // select tất cả tuyến
         List<Tuyen> list = tuyenDAO.findAll();
         return list;
     }
 
     @PutMapping("/rest/datve/hoadon/update/{id}")
-    public void capNhatTongTienHoaDon(@PathVariable Integer id, @RequestBody Map<String, BigDecimal> request) {
-        BigDecimal tongtien = request.get("tongtien");
+    public void capNhatTongTienHoaDon(@PathVariable Integer id, @RequestBody BigDecimal tongtien) {
         datVeDAO.tongTienHoaDon(id, tongtien);
     }
-    
 
-    @GetMapping("/rest/datve/theongay/{id}/{ngay}")//select đặt vé theo ngày Tài Khoản
+    @GetMapping("/rest/datve/theongay/{id}/{ngay}") // select đặt vé theo ngày Tài Khoản
     public List<Object> thongtin(@PathVariable Integer id, @PathVariable Date ngay) {
         return datVeDAO.thongTinDatVe(id, ngay);
     }
-    @GetMapping("/rest/datve/theongayhk/{id}/{ngay}")//select đặt vé theo ngày Hành Khách
+
+    @GetMapping("/rest/datve/theongayhk/{id}/{ngay}") // select đặt vé theo ngày Hành Khách
     public List<Object> thongtinHK(@PathVariable Integer id, @PathVariable Date ngay) {
         return datVeDAO.thongTinDatVeHK(id, ngay);
     }
@@ -84,18 +83,21 @@ public class DatVeRestController {
     @GetMapping("/rest/datve/nguoidicung/{iddatve}") // select người đi cùng
     public List<Object> getNguoiDiCungById(@PathVariable Integer iddatve) {
         return datVeDAO.thongTinNguoiDiCung(iddatve);
-    } 
-
-    @GetMapping("/rest/datve/nguoidicung/{id}/{idtuyen}/{idloaive}") // Tính lại tiền hóa đơn sau khi xóa hành khách(nhưng chưa cập nhật)
-    public List<Object> tinhTienKhiXoaHK(@PathVariable Integer id ,@PathVariable Integer idtuyen,@PathVariable Integer idloaive) {
-        return datVeDAO.tongTien(id,idtuyen,idloaive);
     }
 
-    @DeleteMapping("/rest/datve/theongay/{id}")// xóa hóa đơn + đặt vé
+    @GetMapping("/rest/datve/nguoidicung/{id}/{idtuyen}/{idloaive}") // Tính lại tiền hóa đơn sau khi xóa hành
+                                                                     // khách(nhưng chưa cập nhật)
+    public List<Object> tinhTienKhiXoaHK(@PathVariable Integer id, @PathVariable Integer idtuyen,
+            @PathVariable Integer idloaive) {
+        return datVeDAO.tongTien(id, idtuyen, idloaive);
+    }
+
+    @DeleteMapping("/rest/datve/theongay/{id}") // xóa hóa đơn + đặt vé
     public void deleteByIDDatVe(@PathVariable("id") Integer id) {
         hoadonDAO.deleteById(id);
         datVeDAO.deleteById(id);
     }
+
     @DeleteMapping("/rest/datve/datghe/{id}") // xóa đặt ghế
     public void deleteDatghe(@PathVariable("id") Integer id) {
         datgheDAO.deleteById(id);
@@ -105,7 +107,5 @@ public class DatVeRestController {
     public void deleteNguoiDiCung(@PathVariable("id") Integer id) {
         nguoidicungDAO.deleteById(id);
     }
-
-
 
 }

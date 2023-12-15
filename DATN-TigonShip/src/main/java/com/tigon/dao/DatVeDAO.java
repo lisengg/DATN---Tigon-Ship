@@ -36,7 +36,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin tài khoản */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN TAIKHOAN hk ON hk.IDTAIKHOAN = dv.IDTAIKHOAN "
@@ -47,7 +47,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinTK();
 
 	/* HÀNH KHÁCH */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU ,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP"
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN HANHKHACH  hk ON hk.IDHANHKHACH = dv.IDHANHKHACH "
@@ -58,7 +58,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinDatVeHK(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin hành khách */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN HANHKHACH  hk ON hk.IDHANHKHACH = dv.IDHANHKHACH "
@@ -81,13 +81,12 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 			"INNER JOIN GIAVE g ON g.IDLOAIHK = n.IDLOAIHK " +
 			"INNER JOIN LOAIVE l ON l.IDLOAIVE = g.IDLOAIVE " +
 			"WHERE n.IDNGUOIDICUNG = :id AND g.IDTUYEN = :idTuyen AND g.IDLOAIVE = :idLoaiVe", nativeQuery = true)
-	List<Object> tongTien(@Param("id") Integer id, @Param("idTuyen") Integer idTuyen,
-			@Param("idLoaiVe") Integer idLoaiVe);
+	List<Object> tongTien(@Param("id") Integer id, @Param("idTuyen") Integer idTuyen,@Param("idLoaiVe") Integer idLoaiVe);
 
-			@Transactional
-			@Modifying
-			@Query(value = "UPDATE HOADON SET TONGTIEN = :tongtien WHERE MAHD = :id", nativeQuery = true)
-			void tongTienHoaDon(@Param("id") Integer mahd, @Param("tongtien") BigDecimal tongtien);
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE HOADON SET TONGTIEN = :tongtien WHERE MAHD = :id", nativeQuery = true)
+	void tongTienHoaDon(@Param("id") Integer id, @Param("tongtien") BigDecimal tongtien);
 			
 	
 

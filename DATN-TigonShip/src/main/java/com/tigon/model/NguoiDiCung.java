@@ -38,5 +38,5 @@ public class NguoiDiCung {
 
     @ManyToOne
 	@JoinColumn(name = "IDLOAIHK")
-	LoaiHanhKhach LOAIHANHKHACH;
+	LoaiHanhKhach LOAIHK;
 }

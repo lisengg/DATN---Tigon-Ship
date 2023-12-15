@@ -24,7 +24,6 @@ public class GheNgoi {
     String TENGHE;
     Integer KHOANG;
     String TRANGTHAI;
-
     @ManyToOne
 	@JoinColumn(name = "IDTAU")
 	Tau TAU;
