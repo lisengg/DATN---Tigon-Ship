@@ -261,13 +261,10 @@ select:active {
 								
 										</div>
 										<div class="modal-body">
-											<div style="border: 2px solid #7597b8; padding: 10px; width: 750px; margin: 5px; display: flex; flex-wrap: wrap; align-items: left;">
-											
-											
-												
+											<div style="border: 2px solid #7597b8; padding: 10px; width: 750px; margin: 5px; display: flex; flex-wrap: wrap; align-items: left;">	
 												<div style="width: 48%;">
 													<p><strong>Tổng tiền: </strong> {{tongTien | currency: '':0}} VND</p>
-													<p><strong>Tên tuyến:</strong> {{tuyen}}</p>
+													<p><strong>Tên tuyến:</strong> {{tentuyen}}</p>
 												</div>
 												<div style="width: 48%;">
 													<p><strong>Ngày đặt: </strong> {{ngayDat | date:'dd/MM/yyyy'}}</p>
@@ -277,12 +274,6 @@ select:active {
 											<button ng-click="deleteByIDDatVe()" class="custom-button">Xóa đặt vé <i class="fas fa-trash"></i> </button>
 											<button ng-click="" class="custom-button">Cập nhật vé <i class="fas fa-envelope"></i> </button>
 											</div>
-											
-											
-											
-											
-											
-											
 											<div class="table-stats order-table ov-h" >
 												<table class="table">
 													<thead class="text-center">

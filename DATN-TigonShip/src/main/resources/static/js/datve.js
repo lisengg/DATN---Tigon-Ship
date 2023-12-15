@@ -29,9 +29,11 @@ app.controller('datve-ctrl', function ($scope, $http) {
 
         $http.get("/rest/datve/hanhkhach").then(response => { /*Tất cả thông tin đặt vé của hành khách */
             $scope.datvetheongayHK = response.data;
+           
         });
         $http.get("/rest/datve/taikhoan").then(response => { /*Tất cả thông tin đặt vé của tài khoản */
             $scope.datvetheongay = response.data;
+            console.log($scope.datvetheongay)
         });
     }
     $scope.initialize()
@@ -41,6 +43,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
         $scope.selectedDate = null;
         $scope.datvetheongay = null
         $scope.initialize();
+      
     }
 
     $scope.searchByDate = function () { // tìm kiếm theo tuyến + ngày khởi hành
@@ -105,7 +108,6 @@ app.controller('datve-ctrl', function ($scope, $http) {
         var url1 = `/rest/datve/datghe/${iddatve}`;
         $http.get(url1).then(function (response) {
             $scope.datghe = response.data;
-           
         }).catch(function (err) {
             console.log("Error", err);
         });
@@ -117,10 +119,6 @@ app.controller('datve-ctrl', function ($scope, $http) {
             console.log("Error", err);
         });
         $scope.filterDataByIdDatVe(iddatve);
-       /*  // In kết quả
-        console.log("$scope.tongTien:", $scope.tongTien);
-        console.log("$scope.loaiVe:", $scope.loaiVe); */
-
     }
     $scope.deleteByIDDatVe = function(){ // xóa hết vé đặt qua id đặt vé
         $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
@@ -136,17 +134,26 @@ app.controller('datve-ctrl', function ($scope, $http) {
           alert( $scope.errorMsg );
             return;
         }
+
+        $http.delete(`/rest/datve/theongay/hoadon/${$scope.maHdUpdate}`).then(resp => {             
+        })
         var id = $scope.madatve;
         $http.delete(`/rest/datve/theongay/${id}`).then(resp => {
             alert("Xóa dữ liệu đặt vé thành công!");
-            var index = $scope.datvetheongay.findIndex(innerArray => innerArray[0] == id);
+            var index = $scope.datvetheongay.findIndex(innerArray => innerArray[0] == $scope.maHdUpdate);
             $scope.datvetheongay.splice(index, 1);
+            $('#modal').attr('aria-hidden', 'true');
+            // Đặt thuộc tính 'style' của modal thành 'display: none' để ẩn modal
+            $('#modal').css('display', 'none');
+            location.reload();
         })
         .catch(error => {
             alert("Lỗi xóa dữ liệu!");
             console.log("Error", error);
         });
-        $('#modal').modal('hide');
+      // Đặt thuộc tính 'aria-hidden' của modal thành 'true' để ẩn modal
+       
+      
     };
     $scope.deleteDatGhe = function(id) { // xóa ghế đặt qua id đặt ghế
         $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
@@ -172,7 +179,6 @@ app.controller('datve-ctrl', function ($scope, $http) {
         });
     };
     $scope.deleteNguoiDiCung = function(id){ // xóa người đi cùng qua id người đi cùng
-        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
         console.log("ngày đi :" + $scope.ngaydi)
         var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
@@ -192,14 +198,12 @@ app.controller('datve-ctrl', function ($scope, $http) {
         $http.get(`/rest/datve/nguoidicung/${id}/${index + 1}/${loaive}`).then(resp => {
             $scope.tienHK = resp.data;
             console.log("Tổng tiền hành khách đó  " + $scope.tongTien);
-            // Kiểm tra có phải là số hay không ngay khi lấy dữ liệu
             if (!isNaN($scope.tongTien)) {
                 $scope.tiencon = $scope.tongTien - $scope.tienHK;
                 console.log("Tổng tiền còn lại là :" + $scope.tiencon);
-        
                 // Trừ tiền hành khách từ tổng tiền và cập nhật
                 $scope.tongTien -= $scope.tienHK;
-                updateHoaDon($scope.tongTien);
+                updateHoaDon( $scope.tiencon);
             } else {
                 console.error("Lỗi chuyển đổi giá trị tổng tiền thành số");
             }
@@ -207,14 +211,15 @@ app.controller('datve-ctrl', function ($scope, $http) {
             console.error("Lỗi khi lấy thông tin tiền hành khách!");
         });
         
-       /*  $http.delete(`/rest/datve/nguoidicung/${id}`).then(resp => {
+        $http.delete(`/rest/datve/nguoidicung/${id}`).then(resp => {
             alert("Xóa dữ liệu người đi cùng thành công!");
             var index = $scope.nguoidicung.findIndex(innerArray => innerArray[0] == id);
             $scope.nguoidicung.splice(index, 1);
+            $scope.checkAndClose();
         })
         .catch(error => {
             console.log("Lỗi tính tiền: ", error);
-        });     */
+        });    
     };
     function updateHoaDon(newTongTien) {
         $http({
@@ -263,8 +268,10 @@ app.controller('datve-ctrl', function ($scope, $http) {
                 $scope.loaiVe = result[0][11];
                 $scope.maHdUpdate = result[0][0];
                 $scope.ngaydi = result[0][2];
-                $scope.tuyen = result[0][12];
-                $scope.ngayDat = result[0][1]
+                $scope.tentuyen = result[0][13];
+                $scope.ngayDat = result[0][12]
+                
+             
                
             } else {
                 $scope.tongTien = null;

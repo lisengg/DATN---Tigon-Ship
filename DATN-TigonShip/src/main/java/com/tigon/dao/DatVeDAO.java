@@ -25,7 +25,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<DatVe> ListDatVeByIdTaiKhoan(Integer idtaikhoan); // lấy tất cả thông tin đặt vé của 1 hành khách
 
 	/* TÀI KHOẢN */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP,tuyen.TENTUYEN "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN TAIKHOAN hk ON hk.IDTAIKHOAN = dv.IDTAIKHOAN "
@@ -36,7 +36,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin tài khoản */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP,tuyen.TENTUYEN "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN TAIKHOAN hk ON hk.IDTAIKHOAN = dv.IDTAIKHOAN "
@@ -47,7 +47,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinTK();
 
 	/* HÀNH KHÁCH */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU ,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP"
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU ,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP,tuyen.TENTUYEN "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN HANHKHACH  hk ON hk.IDHANHKHACH = dv.IDHANHKHACH "
@@ -58,7 +58,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	List<Object> thongTinDatVeHK(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin hành khách */
-	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP "
+	@Query(value = "SELECT hd.MAHD, dv.NGAYDAT, NGAYDI, dv.MADATVE, NGAYVE, hd.TRANGTHAI, hk.HOVATEN, hk.sdt, dv.SOGHE,t.TENTAU,hd.TONGTIEN,dv.LOAIVE,hd.NGAYLAP,tuyen.TENTUYEN "
 			+ "FROM HOADON hd "
 			+ "INNER JOIN DATVE dv ON dv.MADATVE = hd.MADATVE "
 			+ "INNER JOIN HANHKHACH  hk ON hk.IDHANHKHACH = dv.IDHANHKHACH "

@@ -94,8 +94,12 @@ public class DatVeRestController {
 
     @DeleteMapping("/rest/datve/theongay/{id}") // xóa hóa đơn + đặt vé
     public void deleteByIDDatVe(@PathVariable("id") Integer id) {
-        hoadonDAO.deleteById(id);
         datVeDAO.deleteById(id);
+    }
+    @DeleteMapping("/rest/datve/theongay/hoadon/{id}") // xóa hóa đơn + đặt vé
+    public void deleteByIDHD(@PathVariable("id") Integer id) {
+        hoadonDAO.deleteById(id);
+       
     }
 
     @DeleteMapping("/rest/datve/datghe/{id}") // xóa đặt ghế
