@@ -50,8 +50,8 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">DANH SÁCH LỊCH TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm lịch tàu</button>
-									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="custom-button" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm lịch tàu</button>
+									<button class="custom-button" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
 									</button>
 							</h3>
@@ -60,13 +60,13 @@
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th class="text-center">TÊN TUYẾN</th>
 											<th class="text-center">TÊN TÀU</th>
 											<th class="text-center">GIỜ XUẤT PHÁT</th>
 											<th class="text-center">GIỜ ĐẾN NƠI</th>
 											<th class="text-center">TRẠNG THÁI</th>
-											<th class="text-center">THAO TÁC</th>
+											<th class="text-center">CẬP NHẬT</th>
 										</tr>
 									</thead>
 									<tbody class="text-center"></tbody>
@@ -79,7 +79,7 @@
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
 							<div class="modal-content">
-								<div class="modal-header" style="background: #17bac5;">
+								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">LỊCH TÀU</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
@@ -141,8 +141,8 @@
 									</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
-									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
+									<button type="button" ng-show="post" ng-click="create()" class="custom-button">Tạo</button> 
+									<button type="button" ng-show="put" ng-click="update()"	class="custom-button" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >

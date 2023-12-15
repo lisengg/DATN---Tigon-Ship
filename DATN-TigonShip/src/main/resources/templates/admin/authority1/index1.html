@@ -46,14 +46,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <style>
 .custom-modal-width {
-	max-width: 40%;
-	width: 33%; 
-}
-
-.btn-primary {
-    position: absolute;
-    top: 95px;
-    left: 650px;
+	max-width: 30%;
+	width: 30%; 
 }
 </style>
 </head>
@@ -84,11 +78,11 @@
 								<table id="table2" class="table table-bordered border-primary"
 									style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th class="text-center">TÊN</th>
 											<th class="text-center">EMAIL</th>
 											<th class="text-center">VAI TRÒ</th>
-											<th class="text-center">THAO TÁC</th>
+											<th class="text-center">CẬP NHẬT</th>
 										</tr>
 									</thead>
 									<tbody class="text-center"></tbody>
@@ -105,7 +99,7 @@
 							class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width"
 							role="document">
 							<div class="modal-content">
-								<div class="modal-header" style="background: #17bac5;">
+								<div class="modal-header" style="background: #7597b8;">
 									<h4 class="modal-title" id="modalTitleId">Cấp quyền</h4>
 									<button type="button" class="btn-close" data-bs-dismiss="modal"
 										aria-label="Close"></button>
@@ -132,7 +126,7 @@
 								</div>
 								<div class="modal-footer text-center">
 									<button type="button" ng-click="update()"
-										class="btn btn-success">Chỉnh sửa</button>
+										class="custom-button">Chỉnh sửa</button>
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 										<input type="checkbox" id="check3">

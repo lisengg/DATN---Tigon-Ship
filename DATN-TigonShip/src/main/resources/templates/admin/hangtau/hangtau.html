@@ -40,20 +40,19 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-header">
-								<h3>
+
 									<strong class="card-title">Danh sách hãng tàu</strong>
 								<button data-bs-toggle="modal" type="button" ng-click="reset()"
-									data-bs-target="#modal" class="btn btn-primary">Thêm hãng tàu</button>
-									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+									data-bs-target="#modal" class="custom-button">Thêm hãng tàu</button>
+									<button class="custom-button" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
-									</button>
-							</h3>
+									</button>	
 							<div th:replace="~{admin/fragments_admin :: history}"></div>
 							</div>
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th class="text-center">TÊN HÃNG</th>
 											<th class="text-center">SDT</th>
 											<th class="text-center">EMAIL</th>
@@ -73,7 +72,7 @@
 			<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
-						<div class="modal-header" style="background: #17bac5;">
+						<div class="modal-header" style="background: #7597b8;">
 							<h4 class="modal-title" id="modalTitleId">HÃNG TÀU</h4>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
@@ -81,15 +80,15 @@
 							<div class="row mb-3">
 								<div class="col-md-4">
 									<label class="form-label">Tên hãng tàu:</label>	
-									<input type="text" ng-model="form.tenhangtau" class="form-control">
+									<input type="text" ng-model="form.tenhangtau" placeholder="Nhập tên hãng tàu" class="form-control">
 								</div>
 								<div class="col-md-4">
 									<label class="form-label">SDT:</label> 
-									<input ng-model="form.sdt" class="form-control">
+									<input ng-model="form.sdt" placeholder="Nhập số điện thoại" class="form-control">
 								</div>
 								<div class="col-md-4">
 									<label class="form-label">Email:</label> 
-									<input ng-model="form.email" class="form-control">
+									<input ng-model="form.email" placeholder="Nhập email" class="form-control">
 								</div>
 							</div>
 							<div class="row mb-3" >
@@ -133,8 +132,8 @@
 							
 						</div>
 						<div class="modal-footer text-center">
-							<button type="button" ng-show="post" ng-click="save()" class="btn btn-primary">Tạo</button>
-							<button type="button" ng-show="put" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
+							<button type="button" ng-show="post" ng-click="save()" class="custom-button">Tạo</button>
+							<button type="button" ng-show="put" ng-click="update()" class="custom-button">Chỉnh sửa</button>
 							<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 							<div class="container">						      
 									      <input type="checkbox" id="check3" >

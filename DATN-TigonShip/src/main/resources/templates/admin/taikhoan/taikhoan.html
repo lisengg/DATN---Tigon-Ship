@@ -45,7 +45,7 @@
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th>TÊN</th>
 											<th>ĐỊA CHỈ</th>
 											<th>EMAIL</th>
@@ -63,14 +63,14 @@
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">Lịch sử đặt</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<table class="table">
 										<thead>
-											<tr style="background: #17bac5;">
+											<tr style="background: #7597b8;">
 												<th>Mã đặt vé</th>
 												<th>Số ghế</th>
 												<th>Tên tuyến</th>
@@ -85,9 +85,9 @@
 												<td>{{dv.madatve}}</td>
 												<td>{{dv.soghe}}</td>
 												<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>
-												<td>{{dv.ngaydi}}</td>
-												<td>{{dv.ngayve}}</td>
-												<td>{{dv.ngaydat}}</td>
+												<td>{{dv.ngaydi | date:'dd/MM/yyyy'}}</td>
+												<td>{{dv.ngayve | date:'dd/MM/yyyy'}}</td>
+												<td>{{dv.ngaydat | date:'dd/MM/yyyy'}}</td>
 												<td>{{dv.loaive.loaive}}</td>
 
 											</tr>

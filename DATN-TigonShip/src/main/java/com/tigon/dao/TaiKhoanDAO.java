@@ -23,4 +23,6 @@ public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, Integer> {
 	
 	@Query(value = "SELECT count(*) FROM TAIKHOAN WHERE VAITRO = 'KHACHHANG'", nativeQuery = true)
 	long countByVaiTro(@Param("vaiTro") String vaiTro);
+	@Query(value = "SELECT * FROM TAIKHOAN WHERE GOOGLEID=?1",nativeQuery = true)
+	TaiKhoan findByGoogleId(String googleid);
 }

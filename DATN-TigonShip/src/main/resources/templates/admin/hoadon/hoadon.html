@@ -21,6 +21,7 @@
 <link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
 <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <link rel="stylesheet" th:href="@{/css/style1.css}">	
@@ -52,7 +53,7 @@
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th>TÊN KHÁCH HÀNG</th>
 											<th>NGÀY LẬP</th>
 											<th>TỔNG TIỀN</th>
@@ -71,14 +72,14 @@
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">Hóa đơn chi tiết mã đặt vé {{selectedItem.datve.madatve}}</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<table class="table">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th>Tên</th>
 											<th>Số ghế</th>
 											<th>Tên tuyến</th>

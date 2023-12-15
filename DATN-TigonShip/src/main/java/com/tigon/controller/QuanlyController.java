@@ -52,7 +52,7 @@ public class QuanlyController {
 
 	@GetMapping("/admin/ghengoi")
 	public String ghengoi(Model model) {
-		return "admin/ghengoi/ghengoi";
+		return "admin/ghengoi/ghe";
 	}
 
 	@GetMapping("/admin/tuyentau")

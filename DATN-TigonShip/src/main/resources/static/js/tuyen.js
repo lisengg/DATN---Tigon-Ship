@@ -21,7 +21,7 @@ app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 				// Cột mới chứa nút bấm
 				{
 					data: null,
-					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="custom-button"><i class="fas fa-pen"></i></button>'
 				}
 			],
 			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],

@@ -38,7 +38,7 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 				// Cột mới chứa nút bấm
 				{
 					data: null,
-					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Chi tiết</button>'
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="custom-button"><i class="fas fa-eye"></i></button>'
 				}
 			],
 			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
