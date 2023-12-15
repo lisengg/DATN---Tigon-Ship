@@ -1,16 +1,13 @@
 const app = angular.module('giave-app', []);
 app.controller('giave-ctrl', function($scope, $http, $sce) {
-	$scope.form = {
-		ngaybatdau: new Date(),
-		ngayketthuc: new Date(),
-	},
+	$scope.form = {},
 		$scope.initialize = function() {
 			$http.get("/rest/giave").then(response => {
 				$scope.items = response.data;
-				$scope.items.giave.forEach(item => {
+/*				$scope.items.giave.forEach(item => {
 					item.ngaybatdau = new Date(item.ngaybatdau);
 					item.ngayketthuc = new Date(item.ngayketthuc);
-				});
+				});*/
 				$scope.post = true;
 				$scope.put = false;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
@@ -21,12 +18,15 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.giave, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idgiave' },
 				{ data: 'loaive.loaive' },
 				{ data: 'tuyen.tentuyen' },
-				{ data: 'gia' },
+				{ data: 'gia',
+					render: function(data, type, row) {
+						return formatCurrency(data);
+					}
+				 },
 				{ data: 'loaihk.loaihk' },
-				{
+/*				{
 					data: 'ngaybatdau',
 					render: function(data, type, full, meta) {
 						if (type === 'display') {
@@ -45,12 +45,12 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 						}
 						return data; // Trả về dữ liệu gốc cho các loại khác
 					}
-				},
+				},*/
 				{ data: 'trangthai' },
 				// Cột mới chứa nút bấm
 				{
 					data: null,
-					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="custom-button"><i class="fas fa-pen"></i></button>'
 				}
 			],
 			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
@@ -64,6 +64,11 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 			});
 		});
 	}
+	
+	function formatCurrency(amount) {
+		 return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+	}
+	
 	$scope.initialize()
 	$scope.index_of = function(id) {
 		return $scope.items.findIndex(p => p.idgiave == id);
@@ -74,13 +79,12 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 		$scope.form = angular.copy(id);
 		$scope.post = false;
 		$scope.put = true;
-		$scope.delete = true;
 	}
 	//Xóa form
 	$scope.reset = function() {
 		$scope.form = {
-			ngaybatdau: new Date(),
-			ngayketthuc: new Date(),
+			/*ngaybatdau: null,
+			ngayketthuc: null,*/
 			trangthai: 'Đang hoạt động',
 		};
 		$scope.post = true;
@@ -98,15 +102,22 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
+		// Kiểm tra tên hãng tàu không được để trống
+		if (!$scope.form.loaihk || !$scope.form.loaihk.idloaihk) {
+			document.getElementById('check11').checked = true;
+			return;
+		}
 		var index = $scope.items.loaive.findIndex(a => a.idloaive == $scope.form.loaive.idloaive)
 		var index1 = $scope.items.tuyen.findIndex(a => a.idtuyen == $scope.form.tuyen.idtuyen)
+		var index2 = $scope.items.loaihk.findIndex(a => a.idloaihk == $scope.form.loaihk.idloaihk)
 		var item = {
 			"loaive": $scope.items.loaive[index],
 			"tuyen": $scope.items.tuyen[index1],
+			"loaihk": $scope.items.loaihk[index2],
 			"gia": $scope.form.gia,
-			"ngaybatdau": $scope.form.ngaybatdau = new Date(),
-			"ngayketthuc": $scope.form.ngayketthuc = new Date(),
-			"trangthai": $scope.form.trangthai,
+			/*"ngaybatdau": $scope.form.ngaybatdau = new Date(),
+			"ngayketthuc": $scope.form.ngayketthuc = new Date(),*/
+			"trangthai": $scope.form.trangthai
 		}
 		var url = `/rest/giave/save`;
 		// Kiểm tra giá vé không được để trống
@@ -120,15 +131,16 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 			return;
 		}
 		// Kiểm tra ngày bắt đầu và ngày kết thúc
-		if (item.ngaybatdau > item.ngayketthuc) {
+		/*if (item.ngaybatdau > item.ngayketthuc) {
 			document.getElementById('check9').checked = true;
 			return;
-		}
+		}*/
 		// Kiểm tra xem tên loại vé và tên tuyến đã được chọn có trùng với giá vé khác không
 		var isDuplicate = $scope.items.giave.some(function(giave) {
 			return giave.idgiave !== item.idgiave &&
 				giave.loaive.idloaive === item.loaive.idloaive &&
-				giave.tuyen.idtuyen === item.tuyen.idtuyen;
+				giave.tuyen.idtuyen === item.tuyen.idtuyen &&
+				giave.loaihk.idloaihk === item.loaihk.idloaihk; 
 		});
 		if (isDuplicate) {
 			document.getElementById('check8').checked = true;
@@ -140,14 +152,14 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				document.getElementById('check3').checked = true; // Hiển thị form thành công
 				var itemlichsu = {
 					"giave": response.data,
-					"thaotac": "Vừa thêm mới giá vé có ID : " + response.data.idgiave,
+					"thaotac": "Đã thêm mới giá vé có ID : " + response.data.idgiave,
 				}
-				$http.post('/rest/tau/giave/save', itemlichsu)
+				$http.post('/rest/giave/lichsu/save', itemlichsu)
 					.then(function(response) {
 						$scope.items.lichsu.push(response.data)
 					})
 					.catch(function(error) {
-						console.log("Error creating LichuHangTau", error);
+						console.log("Error creating LichSuGiaVe", error);
 					});
 				$scope.reset();
 			}).catch(error => {
@@ -189,15 +201,16 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 			return;
 		}
 		// Kiểm tra ngày bắt đầu và ngày kết thúc
-		if (item.ngaybatdau > item.ngayketthuc) {
+		/*if (item.ngaybatdau > item.ngayketthuc) {
 			document.getElementById('check9').checked = true;
 			return;
-		}
+		}*/
 		// Kiểm tra xem tên loại vé và tên tuyến đã được chọn có trùng với giá vé khác không
 		var isDuplicate = $scope.items.giave.some(function(giave) {
 			return giave.idgiave !== item.idgiave &&
 				giave.loaive.idloaive === item.loaive.idloaive &&
-				giave.tuyen.idtuyen === item.tuyen.idtuyen;
+				giave.tuyen.idtuyen === item.tuyen.idtuyen &&
+				giave.loaihk.idloaihk === item.loaihk.idloaihk;;
 		});
 
 		if (isDuplicate) {
@@ -210,7 +223,7 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 			if (itemold.giave !== item.giave) {
 				ttupdate += "#Giá vé: " + itemold.giave + " thành " + item.trangthai;
 			}
-			if (!angular.equals(itemold.ngaybatdau, item.ngaybatdau)) {
+			/*if (!angular.equals(itemold.ngaybatdau, item.ngaybatdau)) {
 				var batdau = moment(item.ngaybatdau).format('DD/MM/YYYY');
 				var batdaumoi = moment(itemold.ngaybatdau).format('DD/MM/YYYY');
 				ttupdate += "#Ngày bắt đầu: " + batdaumoi + " thành " + batdau;
@@ -219,7 +232,7 @@ app.controller('giave-ctrl', function($scope, $http, $sce) {
 				var ketthuc = moment(item.ngayketthuc).format('DD/MM/YYYY');
 				var ketthucmoi = moment(itemold.ngayketthuc).format('DD/MM/YYYY');
 				ttupdate += "#Ngày kết thúc: " + ketthucmoi + " thành " + ketthuc;
-			}
+			}*/
 			console.log(ttupdate);
 			var itemlichsu = {
 				"giave": item,

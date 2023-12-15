@@ -3,39 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Phân quyền</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-<script  th:src="@{/js/jquery.dataTables.min.js}"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+	crossorigin="anonymous">
 <!--AngularJS  -->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
 <link rel="stylesheet" th:href="@{/admin/css/cs-skin-elastic.css}">
 <link rel="stylesheet" th:href="@{/admin/css/style.css}">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
+	rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>	
-<script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script
+	src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <style>
-	.custom-modal-width {
-    max-width: 40%; /* Điều chỉnh giá trị theo mong muốn của bạn */
-    width: 33%; /* Điều chỉnh giá trị theo mong muốn của bạn */
+.custom-modal-width {
+	max-width: 30%;
+	width: 30%; 
 }
 </style>
 </head>
-<body ng-app="authority1-app" ng-controller="authority1-ctrl">
+<body>
 	<!-- Left Panel (menu)-->
 	<div th:replace="~{admin/fragments_admin :: aside}"></div>
 	<!-- /Left-panel -->
@@ -44,7 +60,8 @@
 		<div th:replace="~{admin/fragments_admin :: header}"></div>
 	</div>
 	<!---------------->
-	<div id="right-panel" class="right-panel">
+	<div id="right-panel" class="right-panel" ng-app="authority1-app"
+		ng-controller="authority1-ctrl">
 		<div class="content">
 			<div class="animated fadeIn">
 				<div class="row">
@@ -53,17 +70,19 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">QUẢN LÝ PHÂN QUYỀN</strong>
+
 								</h3>
-								
+
 							</div>
 							<div class="card-body">
-								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
+								<table id="table2" class="table table-bordered border-primary"
+									style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
+										<tr style="background: #7597b8;">
 											<th class="text-center">TÊN</th>
 											<th class="text-center">EMAIL</th>
 											<th class="text-center">VAI TRÒ</th>
-											<th class="text-center">THAO TÁC</th>
+											<th class="text-center">CẬP NHẬT</th>
 										</tr>
 									</thead>
 									<tbody class="text-center"></tbody>
@@ -73,85 +92,92 @@
 					</div>
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
+					<div class="modal fade" id="modal" tabindex="-1"
+						data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+						aria-labelledby="modalTitleId" aria-hidden="true">
+						<div
+							class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width"
+							role="document">
 							<div class="modal-content">
-								<div class="modal-header" style="background: #17bac5;">
+								<div class="modal-header" style="background: #7597b8;">
 									<h4 class="modal-title" id="modalTitleId">Cấp quyền</h4>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<div class="row mb-3">
 										<div class="col-md-12">
-											<label class="form-label">Họ và tên:</label> 
-											<input ng-model="form.hovaten" class="form-control" readonly>
+											<label class="form-label">Họ và tên:</label> <input
+												ng-model="form.hovaten" class="form-control" readonly>
 										</div>
 										<div class="col-md-12">
-											<label class="form-label">Email:</label> 
-											<input ng-model="form.email" class="form-control" readonly>
+											<label class="form-label">Email:</label> <input
+												ng-model="form.email" class="form-control" readonly>
 										</div>
-									 	<div class="col-md-12">
-											<label class="form-label">vai trò:</label> 
-											<select  ng-model="form.vaitro" class="form-control">
-											<option>KHACHHANG</option>
-											<option>STAFF</option>
-											<option ng-if="form.vaitro === 'ADMIN'">ADMIN</option> 
-										</select>
-										</div> 
-									</div>		
+										<div class="col-md-12">
+											<label class="form-label">Vai trò:</label> <select
+												ng-model="form.vaitro" class="form-control">
+												<option>KHÁCH HÀNG</option>
+												<option>NHÂN VIÊN</option>
+												<option ng-if="form.vaitro === 'ADMIN'">QUẢN LÝ</option>
+											</select>
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer text-center">
-							<button type="button" ng-click="update()" class="btn btn-success">Chỉnh sửa</button>
-										<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
-									<div class="container">      
-								      <input type="checkbox" id="check3" >
-								      <div class="background"></div>
-								      <div class="alert_box3">
-									      <div class="icon">
-									          <i class="fas fa-check-circle"></i>
-										  </div>
-										  <header>Thành công</header>
-										  <div class="btns3">
-										      <label for="check3" data-bs-dismiss="modal">Đóng</label>
-									      </div>
-								      </div>
-								      
-								      <input type="checkbox" id="check2" >
-								      <div class="background"></div>
-								      <div class="alert_box2">
-									      <div class="icon">
-									          <i class="fas fa-exclamation-triangle"></i>
-										  </div>
-										  <header>Thất bại!</header>
-										  <div class="btns2">
-										      <label for="check2" >Đóng</label>
-									      </div>
-								      </div>
-								      
-								      <input type="checkbox" id="check4" >
-								      <div class="background"></div>
-								      <div class="alert_box4">
-									      <div class="icon">
-									          <i class="fas fa-exclamation-triangle"></i>
-										  </div>
-										  <header>ADMIN không thể thay đổi vai trò của chính bạn!</header>
-										  <div class="btns4">
-										      <label for="check4" >Đóng</label>
-									      </div>
-								      </div>
-									      		
-								      <input type="checkbox" id="check10" >
-								      <div class="background"></div>
-								      <div class="alert_box10">
-									      <div class="icon">
-									          <i class="fas fa-exclamation-triangle"></i>
-										  </div>
-										  <header>Dữ liệu không được chỉnh sửa!</header>
-										  <div class="btns10">
-										      <label for="check10" >OK</label>
-									      </div>
-								      </div>	
-								    
+									<button type="button" ng-click="update()"
+										class="custom-button">Chỉnh sửa</button>
+									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
+									<div class="container">
+										<input type="checkbox" id="check3">
+										<div class="background"></div>
+										<div class="alert_box3">
+											<div class="icon">
+												<i class="fas fa-check-circle"></i>
+											</div>
+											<header>Thành công</header>
+											<div class="btns3">
+												<label for="check3" data-bs-dismiss="modal">Đóng</label>
+											</div>
+										</div>
+
+										<input type="checkbox" id="check2">
+										<div class="background"></div>
+										<div class="alert_box2">
+											<div class="icon">
+												<i class="fas fa-exclamation-triangle"></i>
+											</div>
+											<header>Thất bại!</header>
+											<div class="btns2">
+												<label for="check2">Đóng</label>
+											</div>
+										</div>
+
+										<input type="checkbox" id="check4">
+										<div class="background"></div>
+										<div class="alert_box4">
+											<div class="icon">
+												<i class="fas fa-exclamation-triangle"></i>
+											</div>
+											<header>ADMIN không thể thay đổi vai trò của chính
+												bạn!</header>
+											<div class="btns4">
+												<label for="check4">Đóng</label>
+											</div>
+										</div>
+
+										<input type="checkbox" id="check10">
+										<div class="background"></div>
+										<div class="alert_box10">
+											<div class="icon">
+												<i class="fas fa-exclamation-triangle"></i>
+											</div>
+											<header>Dữ liệu chưa được chỉnh sửa!</header>
+											<div class="btns10">
+												<label for="check10">OK</label>
+											</div>
+										</div>
+
 									</div>
 									<!--END. FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 								</div>
@@ -164,10 +190,12 @@
 		<!-- .animated -->
 		<!-- Footer-->
 		<div th:replace="~{admin/fragments_admin :: footer}"></div>
+		
 		<!-- Footer -->
 	</div>
+	
 	<!-- Scripts -->
-		<script>
+	<script>
         const host = "https://provinces.open-api.vn/api/";
         var callAPI = (api) => {
             return axios.get(api)
@@ -221,14 +249,25 @@
         }
     </script>
 	<!-- Scripts -->
-	 <script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script> 
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+		integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
+	<script th:src="@{/js/dangkynv.js}"></script>
 	<script th:src="@{/js/authority.js}"></script>
 </body>
 </html>

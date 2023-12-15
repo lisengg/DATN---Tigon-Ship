@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tigon.dao.HangTauDAO;
+import com.tigon.dao.HoaDonDAO;
+import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TaiKhoanDAO;
 
 @Controller
@@ -17,10 +19,24 @@ public class QuanlyController {
 
 	@Autowired
 	TaiKhoanDAO taiKhoanDAO;
-
+	
+	@Autowired
+	LichTauChayDAO lichTauChayDAO;
+	@Autowired
+	
+	HoaDonDAO hoaDonDAO;
+	
 	@GetMapping("/admin")
 	public String quanly(Model model) {
 		System.out.println(hangTauDAO.findAll().get(0).getDIACHI());
+		 long tongTaiKhoan = taiKhoanDAO.countByVaiTro("KHACHHANG");
+	     model.addAttribute("tongTaiKhoan", tongTaiKhoan);
+	     long tongLichTau = lichTauChayDAO.countAllLichTau();
+	     model.addAttribute("tongLichTau", tongLichTau);
+	     long tongHoaDon = hoaDonDAO.countAllHoaDon();
+	     model.addAttribute("tongHoaDon", tongHoaDon);
+	     Double tongTienHoaDon = hoaDonDAO.sumTongTienOfAllHoaDon();
+	     model.addAttribute("tongTienHoaDon", tongTienHoaDon);
 		return "admin/index";
 	}
 
@@ -36,7 +52,7 @@ public class QuanlyController {
 
 	@GetMapping("/admin/ghengoi")
 	public String ghengoi(Model model) {
-		return "admin/ghengoi/ghengoi";
+		return "admin/ghengoi/ghe";
 	}
 
 	@GetMapping("/admin/tuyentau")
@@ -103,6 +119,15 @@ public class QuanlyController {
 	public String dangkynv(Model model) {
 		return "admin/authority1/dangkynv";
 	}
-
+	
+	@GetMapping("/admin/tintuc")
+	public String bangtin(Model model) {
+		return "admin/tintuc/dangbangtin";
+	}
+	// @GetMapping("/admin/profile")
+	// public String Profile(Model model) {
+	//
+	// return "admin/profile/profile";
+	// }
 
 }

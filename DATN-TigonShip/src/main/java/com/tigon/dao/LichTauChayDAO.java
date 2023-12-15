@@ -14,6 +14,8 @@ public interface LichTauChayDAO extends JpaRepository<LichTauChay, Integer>{
 	@Query(value = "SELECT * FROM LICHTAUCHAY WHERE IDTUYEN = ?1", nativeQuery = true)
 	List<LichTauChay> findByLichTau(Integer IDTUYEN);
 	
+	@Query(value = "SELECT count(*) FROM LICHTAUCHAY ", nativeQuery = true)
+	long countAllLichTau();
 	
 	
 }

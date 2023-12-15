@@ -3,15 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>TigonShip</title>
+<title>Quản lý lịch tàu</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -27,6 +25,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
   <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<style>
+.custom-modal-width {
+	max-width: 100%;
+	width: 50%; 
+}
+</style>
 </head>
 <body ng-app="lichtau-app" ng-controller="lichtau-ctrl">
 	<!-- Left Panel (menu)-->
@@ -46,8 +50,8 @@
 							<div class="card-header">
 								<h3>
 									<strong class="card-title">DANH SÁCH LỊCH TÀU</strong>
-									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="btn btn-primary" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm lịch tàu</button>
-									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+									<button data-bs-toggle="modal" type="button" data-bs-target="#modal" class="custom-button" ng-click="reset()" th:if="${#request.isUserInRole('ADMIN')}">Thêm lịch tàu</button>
+									<button class="custom-button" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
 										Lịch sử cập nhật
 									</button>
 							</h3>
@@ -56,14 +60,13 @@
 							<div class="card-body">
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
-										<tr style="background: #17bac5;">
-											<th class="text-center">ID</th>
+										<tr style="background: #7597b8;">
 											<th class="text-center">TÊN TUYẾN</th>
 											<th class="text-center">TÊN TÀU</th>
 											<th class="text-center">GIỜ XUẤT PHÁT</th>
 											<th class="text-center">GIỜ ĐẾN NƠI</th>
 											<th class="text-center">TRẠNG THÁI</th>
-											<th class="text-center">THAO TÁC</th>
+											<th class="text-center">CẬP NHẬT</th>
 										</tr>
 									</thead>
 									<tbody class="text-center"></tbody>
@@ -74,9 +77,9 @@
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
 							<div class="modal-content">
-								<div class="modal-header" style="background: #17bac5;">
+								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">LỊCH TÀU</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
@@ -116,7 +119,7 @@
 												<option>12:00</option><option>12:15</option><option>12:30</option><option>12:45</option>
 												<option>13:00</option><option>13:15</option><option>13:30</option><option>13:45</option>
 												<option>14:00</option><option>14:15</option><option>14:30</option><option>14:45</option>
-												<option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option>
+												<option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option><option>16:00</option>
 											</select>
 										</div>
 										<div class="col-md-4">
@@ -138,9 +141,8 @@
 									</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button> 
-									<button type="button" ng-show="put" ng-click="update()"	class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
-									<button type="button" ng-show="put" ng-click="reset()" class="btn btn-info" th:if="${#request.isUserInRole('ADMIN')}">Xóa form</button>
+									<button type="button" ng-show="post" ng-click="create()" class="custom-button">Tạo</button> 
+									<button type="button" ng-show="put" ng-click="update()"	class="custom-button" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >
@@ -234,7 +236,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Giờ đến nơi phải sau giờ xuất phát!</header>
+										  <header>Giờ đến nơi phải sau giờ xuất phát ít nhất 45 phút!</header>
 										  <div class="btns9">
 										      <label for="check9" >OK</label>
 									      </div>
@@ -258,7 +260,7 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Mỗi tàu chỉ chạy tối đa 4 tuyến 1 ngày!</header>
+										  <header>Mỗi tàu chỉ chạy tối đa 4 tuyến!</header>
 										  <div class="btns11">
 										      <label for="check11" >OK</label>
 									      </div>
@@ -270,9 +272,57 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-triangle"></i>
 										  </div>
-										  <header>Thời gian xuất phát tiếp theo là 30 phút kể từ lúc đến nơi trước đó!</header>
+										  <header>Thời gian chạy của tuyến này là 1giờ!</header>
 										  <div class="btns12">
 										      <label for="check12" >OK</label>
+									      </div>
+								      </div>
+								      
+								      <input type="checkbox" id="check13" >
+								      <div class="background"></div>
+								      <div class="alert_box13">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian nghỉ của tàu phải ít nhất 30 phút!</header>
+										  <div class="btns13">
+										      <label for="check13" >OK</label>
+									      </div>
+								      </div>
+								      
+								       <input type="checkbox" id="check14" >
+								      <div class="background"></div>
+								      <div class="alert_box14">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian chạy của tuyến này là 1giờ 30phút!</header>
+										  <div class="btns14">
+										      <label for="check14" >OK</label>
+									      </div>
+								      </div>
+								      
+								       <input type="checkbox" id="check15" >
+								      <div class="background"></div>
+								      <div class="alert_box15">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian chạy của tuyến này là 2giờ 30phút!</header>
+										  <div class="btns15">
+										      <label for="check15" >OK</label>
+									      </div>
+								      </div>
+								      
+								       <input type="checkbox" id="check16" >
+								      <div class="background"></div>
+								      <div class="alert_box16">
+									      <div class="icon">
+									          <i class="fas fa-exclamation-triangle"></i>
+										  </div>
+										  <header>Thời gian chạy của tuyến này là 45phút!!</header>
+										  <div class="btns16">
+										      <label for="check16" >OK</label>
 									      </div>
 								      </div>
 								      						    

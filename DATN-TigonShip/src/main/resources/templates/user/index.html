@@ -3,46 +3,39 @@
 
 <head>
 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>TigonShip</title>
 
-	<title></title>
-
-	<!-- Bootstrap core CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-	<!-- <link rel="stylesheet" href="admin/css/style.css"> -->
-
-	<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/assets/css/animate.css" rel="stylesheet">
-	<link href="/assets/css/flex-slider.css " rel="stylesheet">
-	<link href="/assets/css/fontawesome.css" rel="stylesheet">
-	<link href="/assets/css/owl.css" rel="stylesheet">
-	<link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script  src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> 
+        <!-- <link rel="stylesheet" href="admin/css/style.css"> -->
+        
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="/assets/css/animate.css" rel="stylesheet">
+<link href="/assets/css/flex-slider.css " rel="stylesheet">
+<link href="/assets/css/fontawesome.css" rel="stylesheet">
+<link href="/assets/css/owl.css" rel="stylesheet">
+<link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-	<style>
-		.opacity:hover {
-			opacity: 0.6
-		}
-
-		/* 0.6 là điều chỉnh thông số thông suốt  */
-		.black:hover {
-			filter: grayscale(100%);
-		}
-
-		/*  100% là độ chuyển màu sang đen của ảnh  */
-		.blur:hover {
-			filter: blur(5px);
-		}
-
-		/* 5px là độ blur của hình ảnh */
-	</style>
+<style>
+.opacity:hover {
+	opacity: 0.6
+} /* 0.6 là điều chỉnh thông số thông suốt  */
+.black:hover {
+	filter: grayscale(100%);
+} /*  100% là độ chuyển màu sang đen của ảnh  */
+.blur:hover {
+	filter: blur(5px);
+} /* 5px là độ blur của hình ảnh */
+</style>
 </head>
 
 <body>
@@ -66,29 +59,50 @@
 					<nav class="main-nav">
 
 						<div>
-							<a href="/" class="logo"> <img src="/assets/images/logoweb.png" alt=""
-									style="width: 135px; height: 70px; margin-top: 0px">
+							<a href="/" class="logo"> <img
+								src="/assets/images/logoweb.png" alt=""
+								style="width: 135px; height: 70px; margin-top: 0px">
 							</a>
 						</div>
-						<ul class="nav" style="left: 90px;">
+
+
+						<ul class="nav" style="left: 0px;">
 							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
-								<li><a href="/datve/timtuyen">Đặt vé</a></li>
+							<li><a href="/datve/timtuyen">Đặt vé</a></li>
+							<li><a href="/gopy">Góp Ý</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
 							<th:block th:unless="${#httpServletRequest.remoteUser}">
 								<li><a href="/dangnhap">Đăng nhập</a></li>
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
-								<th:block th:if="${#httpServletRequest.remoteUser}">
+						<!-- 	<th:block th:if="${#httpServletRequest.remoteUser}">
 								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
-								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
 								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+								<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a th:href="@{/admin}">Quản lý</a></li>
 								
-							</th:block>
-							
+							</th:block> -->
+						
+							<div class="dropdown">
+								<li th:if="${#request.remoteUser}"
+									class="nav-item dropdown-toggle" type="button"
+									data-bs-toggle="dropdown" aria-expanded="false">Xin chào
+									[[${#request.remoteUser}]]</li>
+								<ul class="dropdown-menu" style="background: #fff;">
+									<li th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('STAFF')}"><a class="dropdown-item" th:href="@{/admin}"
+										style="color: black;"><i class="menu-icon fa fa-laptop"></i>
+											Quản lý</a></li>
+									<li><a class="dropdown-item"
+										th:href="@{/thongtintaikhoan}" style="color: black;"><i
+											class=" menu-icon fa fa-user"></i> Hồ sơ</a></li>
+									<li><a class="dropdown-item" th:href="@{/security/logoff}"
+										style="color: black;"><i class="menu-icon ti-new-window"></i>
+											Đăng xuất</a></li>
+								</ul>
+							</div>
 						</ul>
 						<!-- <li class="nav-item" th:if="${#httpServletRequest.remoteUser}"><a th:href="@{/thongtintaikhoan}">Xin chào [[${#request.remoteUser}]]</a></li> -->
-
+						
 						<a class='menu-trigger'> <span>Menu</span>
 						</a>
 						<!-- ***** Menu End ***** -->
@@ -98,12 +112,15 @@
 		</div>
 	</header>
 	<!-- ***** Header Area End ***** -->
+
 	<!-- ***** Main Banner Area Start ***** -->
 	<section id="section-1">
 		<div class="content-slider">
-			<input type="radio" id="banner1" class="sec-1-input" name="banner" checked> <input type="radio" id="banner2"
-				class="sec-1-input" name="banner"> <input type="radio" id="banner3" class="sec-1-input" name="banner">
-			<input type="radio" id="banner4" class="sec-1-input" name="banner">
+			<input type="radio" id="banner1" class="sec-1-input" name="banner"
+				checked> <input type="radio" id="banner2"
+				class="sec-1-input" name="banner"> <input type="radio"
+				id="banner3" class="sec-1-input" name="banner"> <input
+				type="radio" id="banner4" class="sec-1-input" name="banner">
 			<div class="slider">
 				<div id="top-banner-1" class="banner">
 					<div class="banner-inner-wrapper header-text">
@@ -111,7 +128,7 @@
 							<h2>Nhìn thoáng vào phong cảnh xinh đẹp của:</h2>
 							<h1>Nam Du</h1>
 							<div class="border-button">
-								<a href="index.html">Đặt vé</a>
+								<a href="/user/timtuyen">Go There</a>
 							</div>
 						</div>
 						<div class="container"></div>
@@ -123,7 +140,7 @@
 							<h2>Nhìn thoáng vào phong cảnh xinh đẹp của:</h2>
 							<h1>Phú Quốc</h1>
 							<div class="border-button">
-								<a href="index.html">Đặt vé</a>
+								<a href="index.html">Go There</a>
 							</div>
 						</div>
 						<div class="container"></div>
@@ -135,7 +152,7 @@
 							<h2>Nhìn thoáng vào phong cảnh xinh đẹp của:</h2>
 							<h1>Hòn Sơn</h1>
 							<div class="border-button">
-								<a href="index.html">Đặt vé</a>
+								<a href="index.html">Go There</a>
 							</div>
 						</div>
 						<div class="container"></div>
@@ -147,7 +164,7 @@
 							<h2>Nhìn thoáng vào phong cảnh xinh đẹp của:</h2>
 							<h1>Kiên Giang</h1>
 							<div class="border-button">
-								<a href="index.html">Đặt vé</a>
+								<a href="index.html">Go There</a>
 							</div>
 						</div>
 						<div class="container">
@@ -160,12 +177,14 @@
 			</div>
 			<nav>
 				<div class="controls">
-					<label for="banner1"><span class="progressbar"><span class="progressbar-fill"></span></span><span
-							class="text">1</span></label> <label for="banner2"><span class="progressbar"><span
-								class="progressbar-fill"></span></span><span class="text">2</span></label> <label
-						for="banner3"><span class="progressbar"><span class="progressbar-fill"></span></span><span
-							class="text">3</span></label> <label for="banner4"><span class="progressbar"><span
-								class="progressbar-fill"></span></span><span class="text">4</span></label>
+					<label for="banner1"><span class="progressbar"><span
+							class="progressbar-fill"></span></span><span class="text">1</span></label> <label
+						for="banner2"><span class="progressbar"><span
+							class="progressbar-fill"></span></span><span class="text">2</span></label> <label
+						for="banner3"><span class="progressbar"><span
+							class="progressbar-fill"></span></span><span class="text">3</span></label> <label
+						for="banner4"><span class="progressbar"><span
+							class="progressbar-fill"></span></span><span class="text">4</span></label>
 				</div>
 			</nav>
 		</div>
@@ -187,35 +206,124 @@
 						<div class="items">
 							<div class="row">
 								<div class="col-lg-12">
-									<div class="item" th:each="p:${items}">
+									<div class="item">
 										<div class="row">
 											<div class="col-lg-4 col-sm-5">
 												<div class="image">
-													<img th:src="@{'/assets/images/' + ${p.HINHANH}} " width="190px;"
-														height="270px">
+													<img src="/assets/images/dao-nam-du.jpg" alt="">
 												</div>
 											</div>
 											<div class="col-lg-8 col-sm-7">
 												<div class="right-content">
-													<h7> </h7>
-													<br>
-												<span  th:text=${p.TIEUDE}></span>
-											
+													<h4>NAMDU</h4>
+													<span>Nam Du</span>
 													<div class="main-button">
 														<a href="index.html">Đặt vé ngay</a>
 													</div>
-													<p style="text-align: justify;" th:text=${p.NOIDUNG}></p>
+													<p>Đảo Nam Du - Kỳ quan thiên nhiên tuyệt đẹp giữa lòng
+														biển cả, nơi cuộc sống chậm lại để thưởng ngoạn những cánh
+														đồng xanh ngát và những bãi biển cát trắng mịn. Với vẻ đẹp
+														hoang sơ, Nam Du hấp dẫn du khách bởi những ngọn núi hùng
+														vĩ, những con suối nhỏ chảy róc rách qua đá, và hàng dừa
+														uốn lượn nơi bờ biển.</p>
 													<ul class="info">
-														<lable style="color: aliceblue; ">Ngày đăng:<li
-																th:text=${p.NGAYDANG}> </li>
-														</lable>
-
+														<li><i class="fa fa-user"></i> 8.049 People</li>
+														<li><i class="fa fa-globe"></i> 9,12 km2</li>
+														<li><i class="fa fa-home"></i> 2120</li>
 													</ul>
+													<div class="text-button">
+														<a href="abindexout.html">Need Directions ? <i
+															class="fa fa-arrow-right"></i></a>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+								<div class="col-lg-12">
+									<div class="item">
+										<div class="row">
+											<div class="col-lg-4 col-sm-5">
+												<div class="image">
+													<img src="/assets/images/phuquoc.jpg" alt="">
+												</div>
+											</div>
+											<div class="col-lg-8 col-sm-7">
+												<div class="right-content">
+													<h4>PHUQUOC</h4>
+													<span>Phú Quốc</span>
+													<div class="main-button">
+														<a href="index.html">Đặt vé ngay</a>
+													</div>
+													<p>Phú Quốc - Hòn đảo Ngọc quyến rũ với biển xanh bao
+														la và những bãi cát trắng mịn, nơi hội tụ tinh hoa thiên
+														nhiên tươi đẹp và văn hóa độc đáo của dân tộc. Đắm mình
+														trong không gian thiên nhiên hoang sơ, du khách sẽ được
+														thưởng thức những bữa tiệc màu sắc hương vị hải sản tươi
+														ngon, khám phá những khu vườn trái cây phong phú và tham
+														gia các hoạt động vui chơi thú vị trên biển. Phú Quốc còn
+														là điểm đến lý tưởng để thư giãn, thả lỏng tâm hồn và cảm
+														nhận hòa mình vào hành trình khám phá một trong những
+														thiên đường du lịch tuyệt nhất Việt Nam.</p>
+													<ul class="info">
+														<li><i class="fa fa-user"></i> 177.540 People</li>
+														<li><i class="fa fa-globe"></i> 575,29 km2</li>
+														<li><i class="fa fa-home"></i> 65000</li>
+													</ul>
+													<div class="text-button">
+														<a href="index.html">Need Directions ? <i
+															class="fa fa-arrow-right"></i></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="item last-item">
+										<div class="row">
+											<div class="col-lg-4 col-sm-5">
+												<div class="image">
+													<img src="/assets/images/honson.jpg" alt="">
+												</div>
+											</div>
+											<div class="col-lg-8 col-sm-7">
+												<div class="right-content">
+													<h4>HONSON</h4>
+													<span>Hòn Sơn</span>
+													<div class="main-button">
+														<a href="index.html">Đặt vé ngay</a>
+													</div>
+													<p>Đảo Hòn Sơn - Thiên đường biển xanh thơ mộng trong
+														lòng Vịnh Bắc Bộ, nơi hội tụ tinh hoa thiên nhiên tuyệt
+														vời và bao bọc bởi vẻ đẹp hoang sơ tinh khôi. Với những
+														cánh đồng xanh ngát, những bãi biển trải dài cát mịn và
+														những rặng san hô đầy màu sắc, Hòn Sơn là một hòn đảo
+														tuyệt vời để thỏa mãn niềm đam mê khám phá và tận hưởng
+														không gian tự nhiên hùng vĩ.</p>
+													<ul class="info">
+														<li><i class="fa fa-user"></i> 8200 People</li>
+														<li><i class="fa fa-globe"></i> 11,6 km2</li>
+														<li><i class="fa fa-home"></i> 2400</li>
+													</ul>
+													<div class="text-button">
+														<a href="index.html">Need Directions ? <i
+															class="fa fa-arrow-right"></i></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- 	<div class="col-lg-12">
+									<ul class="page-numbers">
+										<li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
+										<li><a href="#">1</a></li>
+										<li class="active"><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
+									</ul>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -228,12 +336,12 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8">
-						<h2>Bạn đang tìm điểm du lịch?</h2>
-						<h4>Đặt vé nhanh chỉ bằng 1 cú CLICK</h4>
+						<h2>Are You Looking To Travel ?</h2>
+						<h4>Make A Reservation By Clicking The Button</h4>
 					</div>
 					<div class="col-lg-4">
 						<div class="border-button">
-							<a href="reservation.html">Đặt vé</a>
+							<a href="reservation.html">Book Yours Now</a>
 						</div>
 					</div>
 				</div>
@@ -243,93 +351,57 @@
 		<footer>
 			<div class="container">
 				<div class="row">
-
-					<div class="col-lg-4">
-
-
-						<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Điều lệ vận
-								chuyển</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều khoản và điều
-								kiện sử dụng</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Chính sách bảo mật
-								thông tin</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều kiện đặt vé trực
-								tuyến</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Quy định đổi vé</a>
-						</li>
-
-						<br>
-						<br>
-						<br>
-						<h6> Follow US</h6>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Facebook</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Zalo</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Instagram</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline: 18001000</a>
-						</li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Website:
-								tigonship.com</a></li>
-
+					<div class="col-lg-12">
+						<p>
+							Copyright © 2023 <a href="/index.html">TIGON SHIP</a> Company.
+							All rights reserved. <br>Design: <a>TIGON TEAM</a>
+						</p>
 					</div>
-
 					<div class="col-lg-4">
-						<h5 style="color: rgb(27, 27, 27) ; text-align: center; margin-right: 30px;">Hệ Thống phòng vé
-						</h5>
-						<div style="text-align: left; margin-left: 20px;">
-							<table>
-								<tr>
-									<td style="text-align: center;">Trụ sỡ chính tại Kiên Giang</td>
-								</tr>
-								<tr>
-									<td>Số 173 Đường Phan Huy Ích, Khu phố 5,Tp Rạch Giá,tỉnh Kiên Giang <br>
-										SĐT: (0297)2368 173<br>
-										Email: tigonship173@gmail.com<br>
-										Đường dây nóng hỗ trợ booking online: 18001000<br>
-										Giờ làm viêc:(6h30 - 20h30)
-									</td>
+						<h5 style="color: White">Các Tuyến nổi bật</h5>
 
-								</tr>
-							</table>
-						</div>
-						<div style="text-align: left;  margin-left: 20px;">
-							<button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng vé Hòn
-								Sơn --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Nam Du
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Sóc
-								Trăng --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Tp HCM
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phú
-								Quốc --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Hòn Tre
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Cần Thơ
-								--></button>
-
-						</div>
+						<li><a href="/user/index" style="color: White">KiênGiang-Hòn
+								Sơn</a></li>
+						<li><a href="/user/index" style="color: White">Kiên
+								Giang-Nam Du</a></li>
+						<li><a href="/user/index" style="color: White">Kiên
+								Giang-Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">Hòn
+								Sơn-Nam Du</a></li>
+						<li><a href="/user/index" style="color: White">Hòn
+								Sơn-Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">Nam Du-Phú
+								Quốc</a></li>
 
 					</div>
 					<div class="col-lg-4">
-						<h5 style="color:rgb(27, 27, 27) ;">Về TIGONSHIP</h5>
-						<li><a href="/user/index" style="color:rgb(27, 27, 27) ;">Các tuyến
+						<h5 style="color: White">Các điểm, du lịch</h5>
+						<li><a href="/user/index" style="color: White">Bãi Bàng.</a>
+						</li>
+						<li><a href="/user/index" style="color: White">Bãi Đá
+								Chài.</a></li>
+						<li><a href="/user/index" style="color: White">Ma Thiên
+								Lãnh.</a></li>
+						<li><a href="/user/index" style="color: White">Bãi cây
+								Mến.</a></li>
+						<li><a href="/user/index" style="color: White">Vinpearl
+								Safari Phú Quốc</a></li>
+						<li><a href="/user/index" style="color: White">VinWonders
+								Phú Quốc.</a></li>
+						<li><a href="/user/index" style="color: White">Grand
+								World Phú Quốc.</a></li>
+						<li><a href="/user/index" style="color: White">Con đường
+								quanh đảo, cây cô độc và đồi cỏ lau.</a></li>
+
+					</div>
+					<div class="col-lg-4">
+						<h5 style="color: White">Về TIGONSHIP</h5>
+						<li><a href="/user/index" style="color: White">Các tuyến
 								vận hành ở TIGONSHIP</a></li>
-						<li><a href="/dangki" style="color:rgb(27, 27, 27) ;">Đăng kí nhanh</a></li>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-
-						<div class="col-lg-12">
-							<p style="color: rgb(27, 27, 27) ;">
-								Copyright © 2023 <a href="/index.html" style="color: rgb(27, 27, 27) ;">TIGON SHIP</a>
-								Company.
-								All rights reserved. <br>Design: <a>TIGON TEAM</a>
-							</p>
-						</div>
+						<li><a href="/dangki" style="color: White">Đăng kí nhanh</a></li>
+						<li><a href="/user/index" style="color: White">Facebook</a></li>
+						<li><a href="/user/index" style="color: White">Hotline:
+								18001000</a></li>
 					</div>
 				</div>
 			</div>
@@ -347,16 +419,18 @@
 		<script src="/assets/js/tabs.js"></script>
 		<script src="/assets/js/popup.js"></script>
 		<script src="/assets/js/custom.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-			integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-			crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-			integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-			crossorigin="anonymous"></script>
+		 <script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+		integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+		crossorigin="anonymous"></script>
 		<script>
 			function bannerSwitcher() {
 				next = $('.sec-1-input').filter(':checked')
-					.next('.sec-1-input');
+						.next('.sec-1-input');
 				if (next.length)
 					next.prop('checked', true);
 				else
@@ -365,12 +439,13 @@
 
 			var bannerTimer = setInterval(bannerSwitcher, 5000);
 
-			$('nav .controls label').click(function () {
+			$('nav .controls label').click(function() {
 				clearInterval(bannerTimer);
 				bannerTimer = setInterval(bannerSwitcher, 5000)
 			});
 		</script>
-		<script th:src="@{/js/chatbot.js}"></script>
+ <script th:src="@{/js/chatbot.js}"></script> 
+
 </body>
 
 </html>

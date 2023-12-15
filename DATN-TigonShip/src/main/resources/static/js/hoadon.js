@@ -16,13 +16,30 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 			data: data.hoadon, // Sử dụng mảng giave từ dữ liệu
 			columns: [
 				{ data: 'datve.taikhoan.hovaten' },
-				{ data: 'ngaylap' },
-				{ data: 'tongtien' },
+				{
+					data: 'ngaylap',
+					render: function(data, type, full, meta) {
+						if (type === 'display') {
+							// Định dạng ngày theo dd/MM/yyyy
+							return moment(data).format('DD/MM/YYYY'); // Sử dụng thư viện Moment.js hoặc thư viện khác tương tự nếu cần
+						}
+						return data; // Trả về dữ liệu gốc cho các loại khác
+					}
+				},
+				{
+					data: 'tongtien',
+					render: function(data, type, row) {
+						// Format the total amount as currency
+						return formatCurrency(data);
+					}
+				},
 				{ data: 'trangthai' },
 				{ data: 'loaithanhtoan' },
 				// Cột mới chứa nút bấm
-				{ data: null,
-				  defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Chi tiết</button>'}
+				{
+					data: null,
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="custom-button"><i class="fas fa-eye"></i></button>'
+				}
 			],
 			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
 			"pageLength": 5
@@ -35,6 +52,11 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 			});
 		});
 	}
+
+	function formatCurrency(amount) {
+		 return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+	}
+
 	$scope.initialize()
 	$scope.edit = function(id) {
 		$scope.selectedItem = id;

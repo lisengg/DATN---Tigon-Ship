@@ -10,8 +10,6 @@
  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <script  th:src="@{/js/jquery.dataTables.min.js}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 <!--AngularJS  -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -29,9 +27,9 @@
 <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
-<body ng-app="authority1-app" ng-controller="authority1-ctrl">
+<body ng-app="tk-app" ng-controller="tk-ctrl">
 	<!-- Left Panel (menu)-->
-	<div th:replace="~{admin/fragments_admin :: aside}"></div>
+	<div th:replace="~{admin/fragments_admin :: aside}"></div>		
 	<!-- /Left-panel -->
 	<!--  Header   --->
 	<div id="right-panel" class="right-panel">
@@ -45,21 +43,19 @@
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<h3>
 									<strong class="card-title">THÊM TÀI KHOẢN NHÂN VIÊN</strong>
 									<button data-bs-toggle="modal" type="button" ng-click="reset()"
-									data-bs-target="#modal" class="btn btn-primary">Thêm nhân viên</button>
-								</h3>
+									data-bs-target="#modal1" class="custom-button">Thêm nhân viên</button>
 								
 							</div>
 						</div>
 					</div>
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+					<div class="modal fade" id="modal1" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
 							<div class="modal-content">
-								<div class="modal-header" style="background: #17bac5;">
+								<div class="modal-header" style="background: #7597b8;">
 									<h4 class="modal-title" id="modalTitleId">Tạo tài khoản nhân viên</h4>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
@@ -70,23 +66,15 @@
 											<input ng-model="form.hovaten" class="form-control">
 										</div>
 										<div class="col-md-4">
-											<label class="form-label">Email:</label> 
-											<input ng-model="form.email" class="form-control">
+										<label class="form-label">Ngày sinh</label> 
+											<input ng-model="form.ngaysinh" type="date" class="form-control">							
 										</div>
-										<div class="col-md-4" ng-show="post">
+										<div class="col-md-4">
 											<label class="form-label">SDT:</label> 
 											<input ng-model="form.sdt" class="form-control">
 										</div>
-									 	<div class="col-md-4" ng-show="put">
-											<label class="form-label">vai trò:</label> 
-											<select  ng-model="form.vaitro" class="form-control">
-											<option>KHACHHANG</option>
-											<option>STAFF</option>
-											<option ng-if="form.vaitro === 'ADMIN'">ADMIN</option> 
-										</select>
-										</div> 
 									</div>
-									<div class="row mb-3" ng-show="post">
+									<div class="row mb-3">
 										<label class="form-label" style="font-weight: 700;">Thông tin địa chỉ: </label>
 										<div class="col-md-4">
 											<label class="form-label">Tỉnh/Thành phố:</label> 
@@ -107,15 +95,15 @@
 										    </select>
 										</div>
 									</div>
-							<div class="row mb-3" ng-show="post">
+							<div class="row mb-3">
 								<div class="col-md-4">
 									<label class="form-label">Địa chỉ cụ thể:</label> 
 									<input id="diaChi" ng-model="form.diaChi" type="text" placeholder="Nhập số nhà, hẻm, ấp,..." class="form-control">
 								</div>
 								
 										<div class="col-md-4">
-											<label class="form-label">Ngày sinh</label> 
-											<input ng-model="form.ngaysinh" type="date" class="form-control">
+											<label class="form-label">Email:</label> 
+											<input ng-model="form.email" class="form-control">
 										</div>
 										<div class="col-md-4">
 											<label class="form-label">CCCD:</label> 
@@ -124,7 +112,7 @@
 							</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="post" ng-click="save()" class="btn btn-primary">Tạo</button>
+									<button type="button" ng-click="save()" class="custom-button">Tạo</button>
 										<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">      
 								      <input type="checkbox" id="check3" >
@@ -269,7 +257,8 @@
 									      <div class="icon">
 									          <i class="fas fa-exclamation-circle"></i>
 										  </div>
-										  <header>Vui lòng nhập mật khẩu!</header>
+										   <header>Số điện thoại không hợp lệ!</header>
+											   <p>Phải có 10 số và là định dạng số điện thoại ở Việt Nam.</p>
 										  <div class="btns15">
 										      <label for="check15" >OK</label>
 									      </div>

@@ -16,7 +16,6 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 		var table = $('#table2').DataTable({
 			data: data.lichtau, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'idlichtau' },
 				{ data: 'tuyen.tentuyen' },
 				{ data: 'tau.tentau' },
 				{ data: 'gioxuatphat' },
@@ -25,7 +24,7 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 				// Cột mới chứa nút bấm
 				{
 					data: null,
-					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-warning">Cập nhật</button>'
+					defaultContent: '<button data-bs-toggle="modal" data-bs-target="#modal" class="custom-button"><i class="fas fa-pen"></i></button>'
 				}
 			],
 			columnDefs: [{ "targets": -1, "orderable": false, "searchable": false }],
@@ -60,10 +59,37 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 		$scope.put = false;
 		$scope.delete = false;
 	}
+	function freeTime(endTime, startTime) {
+		// Chuyển đổi thời gian thành đối tượng Date
+		const startDate = new Date(`01/01/2023 ${startTime}`);
+		const endDate = new Date(`01/01/2023 ${endTime}`);
+
+		endDate.setMinutes(endDate.getMinutes() + 15);
+
+		// So sánh thời gian
+		if (endDate >= startDate) {
+			return false; // Lỗi: Giờ xuất phát phải sau giờ đến nơi ít nhất 30 phút
+		}
+		return true; // Không có lỗi
+	}
+	function compareTime(startTime, endTime) {
+		// Chuyển đổi thời gian thành đối tượng Date
+		const startDate = new Date(`01/01/2023 ${startTime}`);
+		const endDate = new Date(`01/01/2023 ${endTime}`);
+
+		startDate.setMinutes(startDate.getMinutes() + 30);
+
+		// So sánh thời gian
+		if (startDate >= endDate) {
+			return false; // Lỗi: Giờ đến nơi phải sau giờ xuất phát
+		}
+		return true; // Không có lỗi
+	}
 	function compareTimes(startTime, endTime) {
 		// Chuyển đổi thời gian thành đối tượng Date
 		const startDate = new Date(`01/01/2023 ${startTime}`);
 		const endDate = new Date(`01/01/2023 ${endTime}`);
+
 		// So sánh thời gian
 		if (startDate >= endDate) {
 			return false; // Lỗi: Giờ đến nơi phải sau giờ xuất phát
@@ -77,7 +103,6 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
-
 		// Kiểm tra xem tàu đã được chọn
 		if (!$scope.form.tau || !$scope.form.tau.idtau) {
 			document.getElementById('check5').checked = true;
@@ -98,17 +123,63 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check4').checked = true;
 			return;
 		}
-
 		// Kiểm tra giờ đến nơi không được để trống
 		if (!item.giodennoi) {
 			document.getElementById('check7').checked = true;
 			return;
 		}
-
-		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
-		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
+		// Kiểm tra giờ đến nơi phải sau giờ xuất phát ít nhất 45 phút
+		if (!compareTime(item.gioxuatphat, item.giodennoi)) {
 			document.getElementById('check9').checked = true;
 			return; // Không thực hiện thêm lịch tàu khi có lỗi
+		}
+		// Kiểm tra điều kiện cụ thể cho các tuyến
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Hòn Sơn") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Kiên Giang") ||
+			(item.tuyen && item.tuyen.tentuyen === "Nam Du - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Nam Du")) {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setHours(startTime.getHours() + 1);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				// Lỗi: Giờ đến nơi phải sau giờ xuất phát ít nhất 1 tiếng
+				document.getElementById('check12').checked = true;
+				return;
+			}
+		}
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Nam Du") ||
+			(item.tuyen && item.tuyen.tentuyen === "Nam Du - Kiên Giang") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Hòn Sơn")) {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 90);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check14').checked = true;
+				return;
+			}
+		}
+		if (item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 150);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check15').checked = true;
+				return;
+			}
+		}
+		if (item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 45);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check16').checked = true;
+				return;
+			}
 		}
 		// Kiểm tra số lượng lịch tàu của tàu đó trong danh sách chưa được thêm mới
 		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
@@ -130,6 +201,11 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 
 		if (isOverlapping) {
 			document.getElementById('check8').checked = true; // Đặt một checkbox để hiển thị thông báo lỗi
+			return;
+		}
+		//Kiểm	tra thời gian nghỉ giữa các chuyến tàu phải ít nhất 30 phút
+		if (checkForFreeTimeOverlap(item)) {
+			document.getElementById('check13').checked = true;
 			return;
 		}
 		// Kiểm tra trùng lịch tàu
@@ -178,27 +254,38 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 			return thaoTac;
 		}
 	};
-
-	// Hàm kiểm tra số lượng lịch tàu của tàu
-
 	// Hàm kiểm tra sự chồng chép thời gian giữa lịch tàu mới và các lịch tàu đã có
 	function checkForTimeOverlap(item) {
 		var oldItem = angular.copy(item);
-		
+		// Hàm kiểm tra số lượng lịch tàu của tàu
 		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
 			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
 		});
-		
+
 		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
 			return (
 				compareTimes(existingItem.gioxuatphat, item.giodennoi) &&
 				compareTimes(item.gioxuatphat, existingItem.giodennoi)
 			);
 		});
-
 		return isOverlapping;
 	}
+	//Kiểm tra thời gian nghỉ của tàu
+	function checkForFreeTimeOverlap(item) {
+		var oldItem = angular.copy(item);
+		// Hàm kiểm tra số lượng lịch tàu của tàu
+		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
+			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
+		});
 
+		var isOverlapping = lichTauOfTheTrain.some(function(existingItem) {
+			return (
+				!freeTime(item.giodennoi, existingItem.gioxuatphat) &&
+				!freeTime(existingItem.giodennoi, item.gioxuatphat)
+			);
+		});
+		return isOverlapping;
+	}
 	//Cập nhật lịch tàu
 	$scope.update = function(item) {
 		var item = angular.copy($scope.form);
@@ -208,27 +295,76 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check10').checked = true;
 			return;
 		}
-		// Kiểm tra giờ đến nơi phải sau giờ xuất phát
-		if (!compareTimes(item.gioxuatphat, item.giodennoi)) {
+		// Kiểm tra giờ đến nơi phải sau giờ xuất phát ít nhất 60 phút
+		if (!compareTime(item.gioxuatphat, item.giodennoi)) {
 			document.getElementById('check9').checked = true;
 			return; // Không thực hiện thêm lịch tàu khi có lỗi
 		}
 		// Tạo một bản sao của dữ liệu cũ trước khi cập nhật
 		var oldItem = angular.copy(item);
-
 		var lichTauOfTheTrain = $scope.items.lichtau.filter(function(existingItem) {
 			return existingItem.tau.idtau === oldItem.tau.idtau && existingItem.idlichtau !== oldItem.idlichtau;
 		});
-
 		// Kiểm tra số lượng lịch tàu của tàu đó đã đạt đến giới hạn 4
 		if (lichTauOfTheTrain.length >= 4) {
-			document.getElementById('check11').checked = true; // Đặt một checkbox để hiển thị thông báo lỗi
+			document.getElementById('check11').checked = true;
 			return;
 		}
-
 		// Kiểm tra xem có lịch tàu nào trùng thời gian xuất phát và thời gian đến nơi không
 		if (checkForTimeOverlap(item)) {
-			document.getElementById('check8').checked = true; // Đặt một checkbox để hiển thị thông báo lỗi
+			document.getElementById('check8').checked = true;
+			return;
+		}
+		// Kiểm tra điều kiện cụ thể cho các tuyến
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Hòn Sơn") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Kiên Giang") ||
+			(item.tuyen && item.tuyen.tentuyen === "Nam Du - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Nam Du")		) {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 60);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check12').checked = true;
+				return;
+			}
+		}
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Nam Du") ||
+			(item.tuyen && item.tuyen.tentuyen === "Nam Du - Kiên Giang") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Hòn Sơn")) {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 90);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check14').checked = true;
+				return;
+			}
+		}		
+		if (item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 150);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check15').checked = true;
+				return;
+			}
+		}
+		if (item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") {
+			// Chuyển đổi thời gian thành đối tượng Date
+			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
+			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
+			startTime.setMinutes(startTime.getMinutes() + 45);
+			if ((startTime > endTime) || (startTime < endTime)) {
+				document.getElementById('check16').checked = true;
+				return;
+			}
+		}
+		//Kiểm	tra thời gian nghỉ giữa các chuyến tàu phải ít nhất 30 phút
+		if (checkForFreeTimeOverlap(item)) {
+			document.getElementById('check13').checked = true;
 			return;
 		}
 		// Kiểm tra trùng lịch tàu
@@ -246,9 +382,6 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 		item.tau = $scope.items.tau[indexTau];
 		var indexTuyen = $scope.items.tuyen.findIndex(a => a.idtuyen === $scope.form.tuyen.idtuyen);
 		item.tuyen = $scope.items.tuyen[indexTuyen];
-
-
-
 		var ttupdate = "Cập nhật lịch tàu  có ID: " + itemold.idlichtau;
 
 		if (itemold.tuyen.tentuyen !== item.tuyen.tentuyen) {
@@ -266,8 +399,6 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 		if (itemold.trangthai !== item.trangthai) {
 			ttupdate += "# trạng thái thành " + item.trangthai;
 		}
-
-		console.log(ttupdate);
 		var itemlichsu = {
 			"lichtau": item,
 			"thaotac": ttupdate,

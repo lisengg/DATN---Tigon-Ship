@@ -9,14 +9,14 @@
 					<li class="menu-title">Quản lí</li>
 					<!-- /.menu-title -->
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
-						th:href="@{/admin/hangtau}"> <i class="menu-icon fa fa-tasks"></i>Hãng
+						th:href="@{/admin/hangtau}"> <i class="menu-icon fa fa-anchor"></i>Hãng
 							tàu
 					</a></li>
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
-						th:href="@{/admin/tau}"> <i class="menu-icon fa fa-anchor"></i>Tàu
+						th:href="@{/admin/tau}"> <i class="menu-icon fa fa-ship"></i>Tàu
 					</a></li>
 					<li><a th:href="@{/admin/ghengoi}"> <i
-							class="menu-icon ti-wheelchair"></i>Ghế ngồi
+							class="menu-icon fa fa-chair"></i>Ghế ngồi
 					</a></li>
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
 						th:href="@{/admin/tuyentau}"> <i
@@ -28,12 +28,15 @@
 					<li><a th:href="@{/admin/giave}"> <i
 							class="menu-icon fa fa-money"></i>Giá vé
 					</a></li>
+					<li><a th:href="@{/admin/datve}"><i
+							class="menu-icon ti-menu"></i>Đặt vé </a></li>
 					<li><a th:href="@{/admin/taikhoan}"> <i
 							class="menu-icon ti-user"></i>Người dùng
 					</a></li>
-					<li class="menu-title">Thống kê</li>
-					<li><a th:href="@{/admin/datve}"><i
-							class="menu-icon ti-menu"></i>Đặt vé </a></li>
+					<li><a th:href="@{/admin/tintuc}"> <i
+							class="menu-icon ti-list"></i>Bảng tin
+					</a></li>
+					<li class="menu-title" th:if="${#request.isUserInRole('ADMIN')}">Thống kê</li>
 					<li><a th:href="@{/admin/hoadon}"
 						th:if="${#request.isUserInRole('ADMIN')}"><i
 							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
@@ -41,7 +44,7 @@
 						th:if="${#request.isUserInRole('ADMIN')}"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"> <i
-							class="menu-icon ti-money"></i>Doanh thu
+							class="menu-icon fa fa-bar-chart"></i>Doanh thu
 					</a>
 						<ul class="sub-menu children dropdown-menu">
 							<li><i class="fa fa-table"></i><a
@@ -70,7 +73,9 @@
 						th:href="@{/admin/authority1}"><i class="menu-icon ti-stamp"></i>Nhân
 							viên </a></li>
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
-						th:href="@{/admin/dangkynv}"><i class="menu-icon ti-stamp"></i>Đăng ký tài khoản</a></li>
+						th:href="@{/admin/dangkynv}"><i class="menu-icon ti-stamp"></i>Đăng
+							ký tài khoản</a>
+					</li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -91,7 +96,7 @@
 								<li class="timeline-item rounded ml-8 p-4 shadow">
 									<div class="timeline-arrow"></div>
 									<h2 class="h6 mb-0 text-black">Tên đăng nhập: {{ls.ten}}</h2>Thời
-									gian: {{ls.thoigian | date:'dd-MM-yyyy HH:mm:ss'}}
+									gian: {{ls.thoigian | date:'dd/MM/yyyy HH:mm:ss'}}
 									<p class="text-small mt-2 font-weight-light"
 										ng-bind-html="formatThaoTac(ls.thaotac)"></p>
 								</li>
@@ -115,7 +120,7 @@
 		<div class="top-right">
 			<div class="header-menu">
 				<div class="header-left">
-					
+
 					<div class="dropdown">
 						<button th:if="${#request.remoteUser}"
 							class="btn btn-secondary dropdown-toggle" type="button"

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import com.tigon.model.TaiKhoan;
 
 public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, Integer> {
@@ -20,8 +22,7 @@ public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, Integer> {
 	TaiKhoan updateTaiKhoan(String hovaten, String sdt, String cccd, String diachi, Integer id);
 	
 	@Query(value = "SELECT count(*) FROM TAIKHOAN WHERE VAITRO = 'KHACHHANG'", nativeQuery = true)
-	Integer AllTK();
-	
+	long countByVaiTro(@Param("vaiTro") String vaiTro);
 	@Query(value = "SELECT * FROM TAIKHOAN WHERE GOOGLEID=?1",nativeQuery = true)
 	TaiKhoan findByGoogleId(String googleid);
 }
