@@ -227,21 +227,7 @@ width: 82%;
 						</div>
 					</div>
 				</div>
-				<!-- /Widgets -->
-
-				<!-- To Do and Live Chat -->
-					<video id="qr-video"></video>
-					<input type="text" id="qr-result" placeholder="QR Code result"
-						readonly>
-					<button id="qr-form" type="button" onclick="toggleScanner()"
-						class="custom-button">Quét mã</button>
-
-					<div id="qr-result-link" style="display: none;">
-						<h3>Mã QR được quét:</h3>
-						<a id="qr-link" target="_blank"></a>
-						<button id="qr-back-btn" type="button" class="custom-button"
-							onclick="resetScanner()">Quay lại</button>
-					</div>
+					
 				<div class="row">
 					
 				 <div id="carouselExampleDark" class="carousel carousel-dark slide"
@@ -289,88 +275,6 @@ width: 82%;
 		<div th:replace="~{admin/fragments_admin :: footer}"></div>
 
 	</div>
-	<script>
-        let scanner;
-        let isScanning = false;
-
-        function toggleScanner() {
-            const video = document.getElementById('qr-video');
-            const form = document.getElementById('qr-form');
-            const resultField = document.getElementById('qr-result');
-            const resultLinkDiv = document.getElementById('qr-result-link');
-            const resultLink = document.getElementById('qr-link');
-
-            if (!scanner) {
-                scanner = new Instascan.Scanner({ video: video });
-
-                scanner.addListener('scan', function (content) {
-                    resultField.value = content;
-                    stopScanner();
-                    resultLink.href = content;
-                    resultLink.textContent = content;
-                    resultLinkDiv.style.display = 'block';
-                });
-
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                        isScanning = true;
-                    } else {
-                        console.error('No cameras found.');
-                    }
-                }).catch(function (e) {
-                    console.error(e);
-                });
-            } else {
-                if (isScanning) {
-                    stopScanner();
-                    resultLinkDiv.style.display = 'none';
-                } else {
-                    startScanner();
-                }
-            }
-        }
-
-        function startScanner() {
-            const video = document.getElementById('qr-video');
-            const form = document.getElementById('qr-form');
-
-            form.style.display = 'block';
-            video.style.display = 'block';
-
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                    isScanning = true;
-                } else {
-                    console.error('No cameras found.');
-                }
-            }).catch(function (e) {
-                console.error(e);
-            });
-        }
-
-        function stopScanner() {
-            const form = document.getElementById('qr-form');
-            const video = document.getElementById('qr-video');
-
-            form.style.display = 'none';
-            video.style.display = 'none';
-
-            scanner.stop();
-            isScanning = false;
-        }
-        
-        function resetScanner() {
-        	const form = document.getElementById('qr-form');
-            const resultField = document.getElementById('qr-result');
-            const resultLinkDiv = document.getElementById('qr-result-link');
-            form.style.display = 'block';
-            resultField.value = 'none';
-            resultLinkDiv.style.display = 'none';
-           
-        }
-    </script>
 	<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>

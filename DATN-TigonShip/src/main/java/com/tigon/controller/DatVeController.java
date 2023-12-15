@@ -630,7 +630,6 @@ public class DatVeController {
 			dv.setNGAYDAT(ngaydat);
 			dv.setLOAIVE(idlv);
 			dv.setSOGHE(songuoi);
-
 			dvdao.save(dv);
 
 			// Lưu đặt ghế
