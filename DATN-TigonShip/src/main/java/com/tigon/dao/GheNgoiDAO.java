@@ -21,4 +21,7 @@ public interface GheNgoiDAO extends JpaRepository<GheNgoi, Integer>{
     @Query(value = "SELECT * FROM GHENGOI WHERE TENGHE = ?", nativeQuery = true)
 	GheNgoi findByghe(String TENGHE);
     
+    @Query(value = "SELECT IDGHE FROM GHENGOI WHERE TRANGTHAI like N'Ngưng hoạt động' and idtau = ?", nativeQuery = true)
+    List<Integer> findByTrangThaiNgungHoatDong(Integer idtau);
+    
 }
