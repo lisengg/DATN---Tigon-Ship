@@ -52,9 +52,13 @@
                     </div>
                     <div id="KhoanDuoi" class="tabcontent" onclick="selectSeat(event)">
                         <div class="seat-row" style="text-align: center;">
-        <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
+<!--         <div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, style=${bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none; color: white;' : ''}">
             <label th:text=${p.TENGHE}></label>
-        </div>
+        </div> -->
+<div class="seat" style="height: 30px;" th:each="p:${items1}" th:attr="data-seat-id=${p.IDGHE}, data-seat-name=${p.TENGHE}, 
+    style=${inactiveSeats.contains(p.IDGHE) ? 'background-color: brown; pointer-events: none; color: white;' : (bookedSeats.contains(p.IDGHE) ? 'background-color: red; pointer-events: none;' + 'additional-style-here' : '')}">
+    <label th:text=${p.TENGHE}></label>
+</div>
     </div>
                         <div class="row" style="text-align: center; margin-top: 20px; margin-left: 150px;">
                             <div class="wc" style="width: 130px; height: 100px; display: flex; align-items: center; justify-content: center;"><b>WC1</b></div>
@@ -96,6 +100,10 @@
                     <li>
                         <div class="seat" style="background-color: red;"></div>
                         <small>Ghế đã được chọn</small>
+                    </li>
+                    <li>
+                        <div class="seat" style="background-color: brown;"></div>
+                        <small>Ghế hỏng</small>
                     </li>
                 </ul>
                 <br>

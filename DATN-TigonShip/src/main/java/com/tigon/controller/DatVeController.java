@@ -178,7 +178,6 @@ public class DatVeController {
 		String ngayDiFormatted = dateFormatOutput.format(ngayDi);
 		session.setAttribute("NgayDi", ngayDiFormatted);
 		
-		
 
 		session.setAttribute("songuoi", songuoi);
 		String TenTuyen = servletRequest.getParameter("TENTUYEN");
@@ -310,6 +309,12 @@ public class DatVeController {
 		System.out.println("ngaydi: "+ngayDi);
 
 		int idtuyen = Integer.parseInt(session.getAttribute("idtuyen").toString());
+		
+		// Truy vấn danh sách IDGHE có trạng thái 'Ngưng hoạt động' từ bảng GHENGOI
+		List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
+
+		// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
+		model.addAttribute("inactiveSeats", inactiveSeats);
 		
 		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
@@ -541,7 +546,7 @@ public class DatVeController {
 		DecimalFormat df = new DecimalFormat("###,###.##");
 		String tongtien = df.format(tongtienDouble) + "đ";
 		model.addAttribute("tuyen", session.getAttribute("TENTUYEN"));
-		model.addAttribute("tuyen_ve", session.getAttribute("Tuyen_ve"));
+		model.addAttribute("tuyen_ve", session.getAttribute("TuyenKhuHoi"));
 		model.addAttribute("tongtien", tongtien);
 		return "/user/datve/thanhtoan";
 	}
@@ -630,6 +635,7 @@ public class DatVeController {
 			dv.setNGAYDAT(ngaydat);
 			dv.setLOAIVE(idlv);
 			dv.setSOGHE(songuoi);
+
 			dvdao.save(dv);
 
 			// Lưu đặt ghế
@@ -656,6 +662,7 @@ public class DatVeController {
 
 			// Lưu người đi cùng
 			DatVe datve = dvservice.FINDIDMAX();
+			
 			List<NguoiDiCungTam> ndtam = ndctsevice.findAll();
 			for (int i = 0; i < songuoi && i < ndtam.size(); i++) {
 
@@ -694,16 +701,18 @@ public class DatVeController {
 			hddao.save(hd);
 			HoaDon hdmax = hoaDonService.findMaxDatVe();
 			session.setAttribute("mahoadon", hdmax.getMAHD());
-			System.out.println("Hoa don vua luu : "+session.getAttribute("mahoadon").toString());
 
 			// Lưu đặt vé về
-			int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
 			
-			Tuyen tuyen = dao.findById(idtuyen).get();
-			String tuyen_ve = tuyen.getTENTUYEN();
-			session.setAttribute("Tuyen_ve", tuyen_ve);
 			
 			if (session.getAttribute("daChonNgayVe").equals("true")) {
+				
+				int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
+				
+				Tuyen tuyen = dao.findById(idtuyen).get();
+				String tuyen_ve = tuyen.getTENTUYEN();
+				session.setAttribute("Tuyen_ve", tuyen_ve);
+				
 				LichTauChay lt_ve = ltservice
 						.findByid(Integer.parseInt(session.getAttribute("idlichtau_ve"+session.getAttribute("index_ve").toString()).toString()));
 				DatVe dv_ve = new DatVe();
@@ -737,9 +746,8 @@ public class DatVeController {
 				hd_ve.setTRANGTHAI("Đã thanh toán");
 				hd_ve.setLOAITHANHTOAN("VN PAY");
 				hddao.save(hd_ve);
-				HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
-				session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
-				System.out.println("Luu hoa don ve: "+session.getAttribute("mahoadon_ve"));
+				
+				
 
 				// Lưu đặt ghế
 				
@@ -749,7 +757,7 @@ public class DatVeController {
 					int intValue = Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString());
 					GheNgoi gh = gheService.findByid(intValue);
 					
-					Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index")).toString()));
+					Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index_ve")).toString()));
 
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					Date ngayVeDate = sdf.parse(ngayve);
@@ -794,14 +802,12 @@ public class DatVeController {
 			String ngayve = session.getAttribute("NgayVe").toString();
 			
 			int idlichtau = Integer
-					.parseInt(session.getAttribute("idlichtau" + session.getAttribute("index").toString()).toString());
+					.parseInt(session.getAttribute("idlichtau" + session.getAttribute("index")).toString());
 
 			String ngaydi = session.getAttribute("NgayDi").toString();
-
 			// Đặt định dạng phù hợp với chuỗi ngày
 			SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date datedi = inputFormat.parse(ngaydi);
-
 
 			LichTauChay lt = ltservice.findByid(idlichtau);
 
@@ -811,8 +817,10 @@ public class DatVeController {
 
 			Integer songuoi = Integer.parseInt(session.getAttribute("songuoi").toString());
 
+			// Lưu đặt vé
 			Date ngaydat = new Date();
 			DatVe dv = new DatVe();
+
 			dv.setTAIKHOAN(tk);
 			dv.setLICHTAUCHAY(lt);
 			dv.setNGAYDI(datedi);
@@ -829,6 +837,7 @@ public class DatVeController {
 
 			dvdao.save(dv);
 
+			// Lưu đặt ghế
 			for (int i = 1; i <= songuoi; i++) {
 				DatGhe dg = new DatGhe();
 
@@ -844,11 +853,15 @@ public class DatVeController {
 				dg.setGHENGOI(gh);
 				dg.setTHOIGIAN(datedi);
 				dg.setTAU(tau);
+
 				dgdao.save(dg);
 
 				System.out.println("ghe thanh cong:");
 			}
+
+			// Lưu người đi cùng
 			DatVe datve = dvservice.FINDIDMAX();
+			
 			List<NguoiDiCungTam> ndtam = ndctsevice.findAll();
 			for (int i = 0; i < songuoi && i < ndtam.size(); i++) {
 
@@ -864,114 +877,123 @@ public class DatVeController {
 				ngdicung.setLOAIHK(lhk);
 				ngdicung.setQUOCTICH(ndtam.get(i).getQUOCTICH());
 				ngdicung.setNGAYSINH(ndtam.get(i).getNGAYSINH());
-				System.out.println("----------------------");
 
 				gdcdao.save(ngdicung);
-				hktdao.deleteById(ndtam.get(i).getIDTAM());
-
-				System.out.println("Thanh Cong");
 			}
+
+			// Lưu hóa đơn
 			HoaDon hd = new HoaDon();
 
 			Object tongTienObject = session.getAttribute("tongtien");
 			BigDecimal tongTienBigDecimal = new BigDecimal(tongTienObject.toString());
 			BigDecimal nuaGiaTri = tongTienBigDecimal.divide(new BigDecimal("2"));
 			hd.setDATVE(datve);
-			hd.setTONGTIEN(nuaGiaTri);
+			if (session.getAttribute("daChonNgayVe").equals("true")) {
+				hd.setTONGTIEN(nuaGiaTri);
+			} else {
+				hd.setTONGTIEN(tongTienBigDecimal);
+			}
 			hd.setNGAYLAP(ngaydat);
 			hd.setTRANGTHAI("Đã thanh toán");
-			hd.setLOAITHANHTOAN("Xác thực");
+			hd.setLOAITHANHTOAN("VN PAY");
 
 			hddao.save(hd);
-			// Lưu đặt vé về
-			int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
-			
-			
-			Tuyen tuyen = dao.findById(idtuyen).get();
-			String tuyen_ve = tuyen.getTENTUYEN();
-			session.setAttribute("Tuyen_ve", tuyen_ve);
-			
-						if (session.getAttribute("daChonNgayVe").equals("true")) {
-							LichTauChay lt_ve = ltservice
-									.findByid(Integer.parseInt(session.getAttribute("idlichtau_ve"+session.getAttribute("index_ve").toString()).toString()));
-							DatVe dv_ve = new DatVe();
-							dv_ve.setTAIKHOAN(tk);
-							dv_ve.setLICHTAUCHAY(lt_ve);
-							dv_ve.setNGAYDI(datedi);
-							if (ngayve.equalsIgnoreCase("ko")) {
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								Date ngayVeDate = sdf.parse(ngayve);
-								dv_ve.setNGAYVE(null);
-								dv_ve.setNGAYDI(ngayVeDate);
-							} else {
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								Date ngayVeDate = sdf.parse(ngayve);
-								dv_ve.setNGAYVE(null);
-								dv_ve.setNGAYDI(ngayVeDate);
-							}
-							dv_ve.setNGAYDAT(ngaydat);
-							dv_ve.setLOAIVE(idlv);
-							dv_ve.setSOGHE(songuoi);
-
-							dvdao.save(dv_ve);
-
-							// Lưu đặt ghế
-							DatVe datve_ve = dvservice.FINDIDMAX();
-							for (int i = 1; i <= songuoi; i++) {
-								DatGhe dg = new DatGhe();
-
-								int intValue = Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString());
-								GheNgoi gh = gheService.findByid(intValue);
-								
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								Date ngayVeDate = sdf.parse(ngayve);
-								
-								Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau" + session.getAttribute("index")).toString()));
-
-								dg.setIDTUYEN(session.getAttribute("idtuyenkhuhoi").toString());
-								dg.setDATVE(datve_ve);
-								dg.setGHENGOI(gh);
-								dg.setTHOIGIAN(ngayVeDate);
-								//dg.setTAU(tau);)
-								dg.setTAU(tau);
-								dgdao.save(dg);
-
-								System.out.println("ghe ve thanh cong:");
-							}
-
-							for (int i = 0; i < songuoi && i < ndtam.size(); i++) {
-
-								DatVe dvtam = dvservice.findById(datve_ve.getMADATVE());
-								LoaiHanhKhach lhk = lhksertvice.findByid(ndtam.get(i).getIDLOAIKH());
-
-								NguoiDiCung ngdicung = new NguoiDiCung();
-
-								ngdicung.setHOVATEN(ndtam.get(i).getHOVATEN());
-								ngdicung.setCCCD(ndtam.get(i).getCCCD());
-								ngdicung.setSDT(ndtam.get(i).getSDT());
-								ngdicung.setDATVE(dvtam);
-								ngdicung.setLOAIHK(lhk);
-								ngdicung.setQUOCTICH(ndtam.get(i).getQUOCTICH());
-								ngdicung.setNGAYSINH(ndtam.get(i).getNGAYSINH());
-
-								gdcdao.save(ngdicung);
-								
-							}
-							hktdao.deleteAll();
-							// Lưu hóa đơn
-							HoaDon hd_ve = new HoaDon();
-							hd_ve.setDATVE(datve_ve);
-							hd_ve.setTONGTIEN(nuaGiaTri);
-							hd_ve.setNGAYLAP(ngaydat);
-							hd_ve.setTRANGTHAI("Đã thanh toán");
-							hd_ve.setLOAITHANHTOAN("VN PAY");
-							hddao.save(hd_ve);
-							
-							
-						}
 			HoaDon hdmax = hoaDonService.findMaxDatVe();
-			session.setAttribute("mahoadon_ve", hdmax.getMAHD());
-			System.out.println("Luu hoa don ve: "+session.getAttribute("mahoadon_ve"));
+			session.setAttribute("mahoadon", hdmax.getMAHD());
+
+			// Lưu đặt vé về
+			
+			
+			if (session.getAttribute("daChonNgayVe").equals("true")) {
+				
+				int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());
+				
+				Tuyen tuyen = dao.findById(idtuyen).get();
+				String tuyen_ve = tuyen.getTENTUYEN();
+				session.setAttribute("Tuyen_ve", tuyen_ve);
+				
+				LichTauChay lt_ve = ltservice
+						.findByid(Integer.parseInt(session.getAttribute("idlichtau_ve"+session.getAttribute("index_ve").toString()).toString()));
+				DatVe dv_ve = new DatVe();
+				dv_ve.setTAIKHOAN(tk);
+				dv_ve.setLICHTAUCHAY(lt_ve);
+				
+				if (ngayve.equalsIgnoreCase("ko")) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngayVeDate = sdf.parse(ngayve);
+					dv_ve.setNGAYVE(null);
+					dv_ve.setNGAYDI(ngayVeDate);
+				} else {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngayVeDate = sdf.parse(ngayve);
+					dv_ve.setNGAYVE(null);
+					dv_ve.setNGAYDI(ngayVeDate);
+				}
+				dv_ve.setNGAYDAT(ngaydat);
+				dv_ve.setLOAIVE(idlv);
+				dv_ve.setSOGHE(songuoi);
+
+				dvdao.save(dv_ve);
+				
+				DatVe datve_ve = dvservice.FINDIDMAX();
+				
+				// Lưu hóa đơn
+				HoaDon hd_ve = new HoaDon();
+				hd_ve.setDATVE(datve_ve);
+				hd_ve.setTONGTIEN(nuaGiaTri);
+				hd_ve.setNGAYLAP(ngaydat);
+				hd_ve.setTRANGTHAI("Đã thanh toán");
+				hd_ve.setLOAITHANHTOAN("VN PAY");
+				hddao.save(hd_ve);
+				
+				
+
+				// Lưu đặt ghế
+				
+				for (int i = 1; i <= songuoi; i++) {
+					DatGhe dg = new DatGhe();
+
+					int intValue = Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString());
+					GheNgoi gh = gheService.findByid(intValue);
+					
+					Tau tau = tauservice.findById(Integer.parseInt(session.getAttribute("idtau_ve" + session.getAttribute("index_ve")).toString()));
+
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Date ngayVeDate = sdf.parse(ngayve);
+					
+					dg.setIDTUYEN(session.getAttribute("idtuyenkhuhoi").toString());
+					dg.setDATVE(datve_ve);
+					dg.setGHENGOI(gh);
+					dg.setTHOIGIAN(ngayVeDate);
+					dg.setTAU(tau);
+					dgdao.save(dg);
+
+					System.out.println("ghe ve thanh cong:");
+				}
+
+				for (int i = 0; i < songuoi && i < ndtam.size(); i++) {
+
+					DatVe dvtam = dvservice.findById(datve_ve.getMADATVE());
+					LoaiHanhKhach lhk = lhksertvice.findByid(ndtam.get(i).getIDLOAIKH());
+
+					NguoiDiCung ngdicung = new NguoiDiCung();
+
+					ngdicung.setHOVATEN(ndtam.get(i).getHOVATEN());
+					ngdicung.setCCCD(ndtam.get(i).getCCCD());
+					ngdicung.setSDT(ndtam.get(i).getSDT());
+					ngdicung.setDATVE(dvtam);
+					ngdicung.setLOAIHK(lhk);
+					ngdicung.setQUOCTICH(ndtam.get(i).getQUOCTICH());
+					ngdicung.setNGAYSINH(ndtam.get(i).getNGAYSINH());
+
+					gdcdao.save(ngdicung);
+					
+				}
+
+				
+			}
+			hktdao.deleteAll();
+			
 		}
 
 		return "/user/datve/chuyenvetrangchu";
@@ -990,8 +1012,6 @@ public class DatVeController {
 		System.out.println(ngayKhuHoi);
 		SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd/MM/yyyy");
 		String ngayDiFormatted = dateFormatOutput.format(ngayKhuHoi);
-
-		System.out.println("Nay ve: " +ngayKhuHoi);
 
 		// set giá vé
 		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(idtuyen, 1);
@@ -1039,6 +1059,8 @@ public class DatVeController {
 		model.addAttribute("ngayDi", ngayDiFormatted);
 		model.addAttribute("lichTau", lichtau);
 		model.addAttribute("TenTuyen", tuyen.getTENTUYEN());
+		
+		session.setAttribute("TuyenKhuHoi", tuyen.getTENTUYEN());
 		return "/user/Ve";
 	}
 
@@ -1061,6 +1083,12 @@ public class DatVeController {
 		Date ngayVeDate = sdf.parse(ngayDiString);
 			
 		int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());	
+		
+		// Truy vấn danh sách IDGHE có trạng thái 'Ngưng hoạt động' từ bảng GHENGOI
+				List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
+
+				// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
+				model.addAttribute("inactiveSeats", inactiveSeats);
 		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
 		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayVeDate, idtuyen, idtau); 
