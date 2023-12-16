@@ -192,7 +192,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
         var loaive = parseInt( $scope.loaiVe)
         console.log(id)
         var index = $scope.items.tuyen.findIndex(a => a.idtuyen === $scope.selectedTuyen);
-        $http.get(`/rest/datve/nguoidicung/${id}/${index + 1}/${loaive}`).then(resp => {
+        $http.get(`/rest/datve/nguoidicung/${id}/${index + 1}/${1}`).then(resp => {
             $scope.tienHK = resp.data;
             console.log("Tổng tiền hành khách đó  " + $scope.tongTien);
             if (!isNaN($scope.tongTien)) {
