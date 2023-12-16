@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Các thẻ meta để xác định việc hiển thị trên các thiết bị di động -->
+    <meta name="x-apple-disable-message-reformatting">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            background-color: #e6f7ff;
+            max-width: 600px;
+        }
+
+        #invoice {
+            border: 1px solid #99c2ff;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        #header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #table th {
+            background-color: #004080;
+            color: #fff;
+            border: 1px solid #00254d;
+            padding: 10px;
+        }
+
+        #table td {
+            border: 1px solid #cce5ff;
+            padding: 10px;
+        }
+
+        .note {
+            color: #004080;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        #contact-info {
+            font-size: 13px;
+            color: #004080;
+            font-weight: bold;
+        }
+        
+        #back-to-scan {
+            margin-top: 20px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div id="back-to-scan" onclick="redirectToScan()" style="text-decoration: none;margin-bottom: 10px;">Quay lại quét QR</div>
+    <div id="invoice">
+        <div id="header">
+            <h2>Hóa Đơn Điện Tử Đặt Vé Tàu Tigon Ship</h2>
+        </div>
+        <p style="font-size: 13px;">Ngày đặt: <span th:text="${ngaydat}"></span></p>
+        
+		<div id="customer-info" style="display: flex; align-items: center;">
+            Mã Hóa Đơn:<strong style="margin-right: 5px;" th:text="${mahoadon}"></strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${madatve}"></p>
+        </div>
+
+        <div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Khách Hàng Đặt Vé:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${hoten}"></p>
+        </div>
+
+        <div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Tuyến:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${tuyen}"></p>
+        </div>
+
+        <div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Loại vé:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${loaive}"></p>
+        </div>
+        
+        <div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Số lượng hành khách:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${soluongkhach}"></p>
+        </div>
+        
+        <div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Tổng tiền:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${tongtien}"></p>
+        </div>
+<div id="customer-info" style="display: flex; align-items: center;">
+            <strong style="margin-right: 5px;">Loại thanh toán:</strong>
+            <p style="color: rgb(241, 88, 35); font-weight: 700; margin: 0;" th:text="${loaithanhtoan}"></p>
+        </div>
+        <div id="customer-info">
+            <p class="note">Thông Tin Chuyến Đi</p>
+        </div>
+        
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Tàu</th>
+                     <th>Ngày khởi hành</th>
+                    <th>Giờ đi</th>
+                    <th>Giờ đến</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${tentau}"></td>
+                    <td th:text="${ngaydi}"></td>
+                    <td th:text="${giodi}"></td>
+                    <td th:text="${gioden}"></td>
+                </tr>
+                <!-- Thêm dòng khác nếu cần -->
+            </tbody>
+        </table>
+
+        <div id="customer-info">
+            <p class="note">Thông Tin Hành Khách</p>
+        </div>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Ghế ngồi</th>
+                    <th>Loại vé</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${hotenhkchinh}"></td>
+                    <td th:text="${ghengoihkchinh}"></td>
+                    <td th:text="${loaivehkchinh}"></td>
+                </tr>
+<tr th:each="ndc, iterStat : ${nguoidicung}">
+    <td th:text="${ndc.HOVATEN}"></td>
+    <td th:if="${danhSachTenGhe}" th:text="${danhSachTenGhe[iterStat.index]}"></td>
+    <td th:unless="${danhSachTenGhe}"> </td>
+    <td th:text="${ndc.LOAIHK.LOAIHK}"></td>
+</tr>
+
+
+            </tbody>
+        </table>
+
+    </div>
+<script>
+    // Hàm chuyển hướng về trang quét QR
+    function redirectToScan() {
+        window.location.href = '/quetqr';
+    }
+    </script>
+</body>
+</html>

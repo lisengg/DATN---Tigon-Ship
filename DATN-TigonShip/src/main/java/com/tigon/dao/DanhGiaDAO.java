@@ -28,7 +28,6 @@ public interface DanhGiaDAO extends JpaRepository<DanhGia, Integer> {
   + " ORDER BY danhgia DESC", nativeQuery = true)
 List<Object> diemGiamDan();
 
-
   // Tuyến - điểm TB tuyến bắt đầu từ HÒN SƠN
   @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIA d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Hòn%' Group by t.TENTUYEN", nativeQuery = true)
   List<Object> AVGHonSon();
@@ -48,5 +47,10 @@ List<Object> diemGiamDan();
   // Tuyến - điểm,bình luận, người đánh giá
   @Query(value = "select h.HOVATEN, d.DANHGIA, d.BINHLUAN, d.NGAYDANHGIA from DANHGIA d inner join TAIKHOAN h ON  d.IDTAIKHOAN = h.IDTAIKHOAN Where D.IDTUYEN=? ", nativeQuery = true)
   List<Object> danhGiaTuyen(Integer id);
+  
+  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (4, 5) ", nativeQuery = true)
+	long countAllDanhGiaTot();
+  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (1, 2, 3) ", nativeQuery = true)
+	long countAllDanhGiaKem();
 
 }

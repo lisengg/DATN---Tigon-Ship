@@ -23,5 +23,11 @@ public class HoaDonServiceImpl implements HoaDonService {
 		// TODO Auto-generated method stub
 		return dao.findMaxDatVe();
 	}
+
+	@Override
+	public HoaDon findById(Integer id) {
+		// TODO Auto-generated method stub
+		return dao.findById(id).get();
+	}
 	
 }

@@ -15,7 +15,18 @@ app.controller('hoadon-ctrl', function($scope, $http) {
 		var table = $('#table2').DataTable({
 			data: data.hoadon, // Sử dụng mảng giave từ dữ liệu
 			columns: [
-				{ data: 'datve.taikhoan.hovaten' },
+				/*{ data: 'datve.taikhoan.hovaten' },*/
+				 {
+                data: null,
+                render: function (data, type, full, meta) {
+                    // Kiểm tra xem 'datve.taikhoan.hovaten' có sẵn không
+                    var userName = data.datve && data.datve.taikhoan && data.datve.taikhoan.hovaten
+                        ? data.datve.taikhoan.hovaten
+                        : data.datve.hanhkhach.hovaten; // Sử dụng 'data.datve.hanhkhach.hovaten' nếu 'datve.taikhoan.hovaten' không có sẵn
+
+                    return userName;
+                }
+            },
 				{
 					data: 'ngaylap',
 					render: function(data, type, full, meta) {

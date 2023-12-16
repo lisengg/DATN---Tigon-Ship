@@ -8,5 +8,5 @@ import com.tigon.model.HoaDon;
 public interface HoaDonService {
 	public HoaDon findByMaDatVe(Integer madatve);
 	HoaDon findMaxDatVe();
-	
+	HoaDon findById(Integer id);
 }

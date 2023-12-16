@@ -1,6 +1,9 @@
 package com.tigon.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +30,8 @@ public class Bangtin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer IDBANGTIN;
 	@Temporal(TemporalType.DATE)
-    Date NGAYDANG;
+	@Column(name = "NGAYDANG")
+	Date NGAYDANG = new Date();
     String NOIDUNG;
     String TIEUDE;
     String HINHANH;

@@ -50,4 +50,5 @@ public class GiaVe {
 	@ManyToOne
 	@JoinColumn(name = "IDLOAIVE")
 	LoaiVe LOAIVE;
+
 }

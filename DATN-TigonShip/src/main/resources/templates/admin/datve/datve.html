@@ -28,6 +28,8 @@
 <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>	
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"><!--Tab -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <style>
 	/* Style for the date input */
 	input[type=date] {
@@ -186,8 +188,14 @@ select:active {
 													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
 													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->
 													<td class="text-center"><span>{{item[9]}}</span></td><!-- TÊN TÀU -->
-													<td class="text-center"><button  class="custom-button">
-														<i class="fas fa-pen"></i> </button></td>
+													
+													<td class="text-center">
+    <a href="#" ng-click="setMaDatVe(item[3])" data-madatve="{{item[3]}}" onclick="openModal(this)">Gửi mail</a>
+</td>
+
+
+
+														
 													<td class="text-center"><button data-bs-toggle="modal" data-bs-target="#modal" ng-click="searchByID(item[3])" class="custom-button">
 														<i class="fas fa-pen"></i> </button></td>					
 												</tr>
@@ -312,13 +320,44 @@ select:active {
 			</div>
 		</div>
 	</div>
+<!-- Trong AngularJS Template -->
+<script th:inline="javascript">
+    function openModal(element) {
+        function setMaDatVe(maDatVe) {
+            console.log('Giá trị maDatVe:', maDatVe);
+            return maDatVe;
+        }
 
-		<!-- Footer-->
-	<!-- 	<div th:replace="~{admin/fragments_admin :: footer}"></div> -->
-		<!-- Footer -->
+        var maDatVe = setMaDatVe(element.getAttribute('data-madatve'));
 
-	<!-- Scripts -->
-	<script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>
+        hienThiChiTietModal(maDatVe);
+    }
+</script>
+
+
+<script>
+    const myModal = new bootstrap.Modal(document.getElementById('modalId'), {}); 
+
+    function hienThiChiTietModal(maDatVe) {
+        console.log('Giá trị maDatVe:', maDatVe);
+        var url = '/quetqr/madatve/' + maDatVe;
+
+        $.get(url, function (data) {
+            console.log('Phản hồi từ server:', data);
+            // Chuyển hướng trang sau khi nhận được phản hồi
+            window.location.href = "/user/datve/hoadon";
+        }).fail(function (error) {
+            console.error(error);
+        });
+
+        console.log('Đã chạy');
+    }
+</script>
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -329,6 +368,7 @@ select:active {
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
-	<script th:src="@{/js/datve.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/datve.js}"></script>
 </body>
 </html>

@@ -23,6 +23,12 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" th:href="@{/css/style1.css}">		
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> 
+  <style>
+	.custom-modal-width {
+    max-width: 60%; 
+    width: 60%; 
+}
+</style>	
 </head>
 <body ng-app="taikhoan-app" ng-controller="taikhoan-ctrl">
 	<!-- Left Panel (menu)-->
@@ -46,11 +52,11 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #7597b8;">
-											<th>TÊN</th>
-											<th>ĐỊA CHỈ</th>
-											<th>EMAIL</th>
-											<th>SDT</th>
-											<th>XEM</th>
+											<th class="text-center">TÊN</th>
+											<th class="text-center">ĐỊA CHỈ</th>
+											<th class="text-center">EMAIL</th>
+											<th class="text-center">SDT</th>
+											<th class="text-center">XEM</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -61,7 +67,7 @@
 					<!-- Modal Body -->
 					<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 					<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered custom-modal-width" role="document">
 							<div class="modal-content">
 								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">Lịch sử đặt</h3>
@@ -71,23 +77,23 @@
 									<table class="table">
 										<thead>
 											<tr style="background: #7597b8;">
-												<th>Mã đặt vé</th>
-												<th>Số ghế</th>
-												<th>Tên tuyến</th>
-												<th>Ngày đi</th>
-												<th>Ngày về</th>
-												<th>Ngày đặt</th>
-												<th>Loại vé</th>
+												<th class="text-center">TÊN</th>
+												<th class="text-center">SỐ GHẾ</th>
+												<th class="text-center">TUYẾN</th>
+												<th class="text-center">NGÀY ĐẶT</th>
+												<th class="text-center">NGÀY ĐI</th>
+												<th class="text-center">NGÀY VỀ</th>												
+												<th class="text-center">LOẠI VÉ</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr ng-repeat="dv in items.datve">
-												<td>{{dv.madatve}}</td>
+											<tr ng-repeat="dv in items.datve" class="text-center">
+												<td>{{dv.taikhoan.hovaten}}</td>
 												<td>{{dv.soghe}}</td>
 												<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>
+												<td>{{dv.ngaydat | date:'dd/MM/yyyy'}}</td>
 												<td>{{dv.ngaydi | date:'dd/MM/yyyy'}}</td>
 												<td>{{dv.ngayve | date:'dd/MM/yyyy'}}</td>
-												<td>{{dv.ngaydat | date:'dd/MM/yyyy'}}</td>
 												<td>{{dv.loaive.loaive}}</td>
 
 											</tr>
@@ -95,7 +101,7 @@
 									</table>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" class="btn btn-secondary"
+									<button type="button" class="custom-button"
 										data-bs-dismiss="modal">Close</button>
 								</div>
 							</div>

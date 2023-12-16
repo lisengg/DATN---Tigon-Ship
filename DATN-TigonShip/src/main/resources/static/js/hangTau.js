@@ -33,12 +33,19 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			var data = table.row($(this).parents('tr')).data();
 			$scope.$apply(function() {
 				$scope.edit(data);
-			})
+			});
 		});
 	}
 	$scope.initialize()
 	$scope.index_of = function(id) {
 		return $scope.items.findIndex(a => a.idhangtau == id);
+	}
+		//hiển thị lên modal
+	$scope.edit = function(id) {
+		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
+		$scope.form = angular.copy(id);
+		$scope.post = false;
+		$scope.put = true;
 	}
 	//Xóa form
 	$scope.reset = function() {
@@ -48,13 +55,7 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		$scope.post = true;
 		$scope.put = false;
 	}
-	//hiển thị lên modal
-	$scope.edit = function(id) {
-		$scope.originalData = angular.copy(id); // Lưu trữ dữ liệu ban đầu
-		$scope.form = angular.copy(id);
-		$scope.post = false;
-		$scope.put = true;
-	}
+
 	//THÊM HÃNG TÀU
 	$scope.save = function() {
 		// Cập nhật giá trị city, district, và ward từ các trường HTML
@@ -167,9 +168,10 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		$scope.form.city = $("#city option:selected").text();
 		$scope.form.district = $("#district option:selected").text();
 		$scope.form.ward = $("#ward option:selected").text();
-		var itemold = $scope.originalData;
 		var item = angular.copy($scope.form);
 		var url = `/rest/hangtau/${item.idhangtau}`;
+		var itemold = $scope.originalData;
+		console.log(itemold)
 		// Kiểm tra xem dữ liệu có bị thay đổi so với dữ liệu ban đầu
 		if (angular.equals(item, $scope.originalData)) {
 			// Hiển thị thông báo lỗi vì không có sự thay đổi
