@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -318,6 +319,137 @@ public class GuiHoaDonController {
 		}
 
 		return "/user/index";
+	}
+	
+	@GetMapping("/gethd/{id}")
+	public ResponseEntity<String> gethd(@PathVariable String id) throws IOException{
+		String mahoadon = id;
+		HoaDon hoaDon = hoaDonService.findById(Integer.parseInt(mahoadon));
+		String link = mahoadon;
+		// set dữ liệu vào templates
+				if (hoaDon.getDATVE().getHANHKHACH()!=null) {
+					Context context = new Context();
+					context.setVariable("servletContext", servletContext);
+					context.setVariable("hoten", hoaDon.getDATVE().getHANHKHACH().getHOVATEN());
+					context.setVariable("tuyen", hoaDon.getDATVE().getLICHTAUCHAY().getTUYEN().getTENTUYEN());
+					context.setVariable("loaive", hoaDon.getDATVE().getLOAIVE().getLOAIVE());
+					context.setVariable("soluongkhach", hoaDon.getDATVE().getSOGHE());
+
+					if (hoaDon.getDATVE().getNGAYVE()!=null) {
+						BigDecimal giaTien = hoaDon.getTONGTIEN();
+						BigDecimal hai = new BigDecimal("2");
+						BigDecimal giaTienMoi = giaTien.multiply(hai);
+						// Định dạng giaTienMoi thành định dạng tiền VND
+						NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+						String giaTienMoiFormatted = vndFormat.format(giaTienMoi);
+						context.setVariable("tongtien", giaTienMoiFormatted);
+					} else {
+						NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+						String giaTienMoiFormatted = vndFormat.format(hoaDon.getTONGTIEN());
+						context.setVariable("tongtien", giaTienMoiFormatted);
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					String ngayDatFormatted = sdf.format(hoaDon.getNGAYLAP());
+
+					context.setVariable("ngaydat", ngayDatFormatted);
+					context.setVariable("tentau", hoaDon.getDATVE().getLICHTAUCHAY().getTAU().getTENTAU());
+					String ngayDiFormatted = sdf.format(hoaDon.getDATVE().getNGAYDI());
+					context.setVariable("ngaydi", ngayDiFormatted);
+					context.setVariable("giodi", hoaDon.getDATVE().getLICHTAUCHAY().getGIOXUATPHAT());
+					context.setVariable("gioden", hoaDon.getDATVE().getLICHTAUCHAY().getGIODENNOI());
+
+					// set hành khách chính
+					List<DatGhe> datghe = datGheService.layDanhSachGheTheoMaDatVe(hoaDon.getDATVE().getMADATVE());
+					context.setVariable("hotenhkchinh", hoaDon.getDATVE().getHANHKHACH().getHOVATEN());
+					context.setVariable("ghengoihkchinh", datghe.get(0).getGHENGOI().getTENGHE());
+					System.out.println("Kích thước của datghe: " + datghe.size());
+
+					List<String> danhSachTenGhe = new ArrayList<>();
+					if (datghe.size() >= 2) {
+						for (int i = 1; i < datghe.size(); i++) {
+							String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+							danhSachTenGhe.add(tenGhe);
+						}
+					} else {
+						System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+					}
+
+					if (datghe.size() > 1) {
+						context.setVariable("danhSachTenGhe", danhSachTenGhe);
+					}
+					
+
+					context.setVariable("loaivehkchinh", "Người lớn");
+					List<NguoiDiCung> listNDC = NDCService.ListNguoiDiCungByiddatve(hoaDon.getDATVE().getMADATVE());
+					context.setVariable("nguoidicung", listNDC);
+					qrService.generateQRCode(link, mahoadon);
+					emailService.sendEmailWithHtmlTemplateAndAttachment(hoaDon.getDATVE().getHANHKHACH().getEMAIL(),
+							"Cập Nhật Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
+							"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
+					System.out.println("da gui ma hoa don");
+
+					// có tài khoản
+				} else {
+					Context context = new Context();
+					context.setVariable("servletContext", servletContext);
+					context.setVariable("hoten", hoaDon.getDATVE().getTAIKHOAN().getHOVATEN());
+					context.setVariable("tuyen", hoaDon.getDATVE().getLICHTAUCHAY().getTUYEN().getTENTUYEN());
+					context.setVariable("loaive", hoaDon.getDATVE().getLOAIVE().getLOAIVE());
+					context.setVariable("soluongkhach", hoaDon.getDATVE().getSOGHE());
+					if (hoaDon.getDATVE().getNGAYVE()!=null) {
+						BigDecimal giaTien = hoaDon.getTONGTIEN();
+						BigDecimal hai = new BigDecimal("2");
+						BigDecimal giaTienMoi = giaTien.multiply(hai);
+						// Định dạng giaTienMoi thành định dạng tiền VND
+						NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+						String giaTienMoiFormatted = vndFormat.format(giaTienMoi);
+						context.setVariable("tongtien", giaTienMoiFormatted);
+
+					} else {
+						NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+						String giaTienMoiFormatted = vndFormat.format(hoaDon.getTONGTIEN());
+						context.setVariable("tongtien", giaTienMoiFormatted);
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					String ngayDatFormatted = sdf.format(hoaDon.getNGAYLAP());
+
+					context.setVariable("ngaydat", ngayDatFormatted);
+					context.setVariable("tentau", hoaDon.getDATVE().getLICHTAUCHAY().getTAU().getTENTAU());
+					String ngayDiFormatted = sdf.format(hoaDon.getDATVE().getNGAYDI());
+					context.setVariable("ngaydi", ngayDiFormatted);
+					context.setVariable("giodi", hoaDon.getDATVE().getLICHTAUCHAY().getGIOXUATPHAT());
+					context.setVariable("gioden", hoaDon.getDATVE().getLICHTAUCHAY().getGIODENNOI());
+
+					// set hành khách chính
+					List<DatGhe> datghe = datGheService.layDanhSachGheTheoMaDatVe(hoaDon.getDATVE().getMADATVE());
+					context.setVariable("hotenhkchinh", hoaDon.getDATVE().getTAIKHOAN().getHOVATEN());
+
+					List<String> danhSachTenGhe = new ArrayList<>();
+					if (datghe.size() >= 2) {
+						for (int i = 1; i < datghe.size(); i++) {
+							String tenGhe = datghe.get(i).getGHENGOI().getTENGHE();
+							danhSachTenGhe.add(tenGhe);
+						}
+					} else {
+						System.out.println("Danh sách datghe không đủ phần tử để thực hiện vòng lặp.");
+					}
+
+					if (datghe.size() > 1) {
+						context.setVariable("danhSachTenGhe", danhSachTenGhe);
+					}
+
+					context.setVariable("ghengoihkchinh", datghe.get(0).getGHENGOI().getTENGHE());
+					context.setVariable("loaivehkchinh", "Người lớn");
+					List<NguoiDiCung> listNDC = NDCService.ListNguoiDiCungByiddatve(hoaDon.getDATVE().getMADATVE());
+					context.setVariable("nguoidicung", listNDC);
+					qrService.generateQRCode(link, mahoadon);
+
+					emailService.sendEmailWithHtmlTemplateAndAttachment(hoaDon.getDATVE().getTAIKHOAN().getEMAIL(),
+							"Cập Nhật Thông Tin Đặt Vé Tàu Tigon Ship", "/user/datve/hoadon", context,
+							"src/main/resources/static/images/qr/mahoadon" + mahoadon + ".png");
+					System.out.println("da gui ma hoa don");
+				}
+		return ResponseEntity.ok(id);
 	}
 
 }

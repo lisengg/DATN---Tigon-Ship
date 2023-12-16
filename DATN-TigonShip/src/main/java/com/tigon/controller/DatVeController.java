@@ -207,9 +207,9 @@ public class DatVeController {
 		}
 
 		// set giá vé
-		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(timIdTuyen.getIDTUYEN(), loaive);
+		GiaVe giave = giaveService.findByIdTuyenIdLoaiVe(timIdTuyen.getIDTUYEN(), 1);
 
-		GiaVe giavetr = giaveService.findByIdTuyenIdLoaiVeTreEm(timIdTuyen.getIDTUYEN(), loaive);
+		GiaVe giavetr = giaveService.findByIdTuyenIdLoaiVeTreEm(timIdTuyen.getIDTUYEN(), 1);
 
 		// Định dạng lại số với DecimalFormat để bỏ hết số 0 sau dấu chấm
 		DecimalFormat df = new DecimalFormat("###,###.##");
@@ -397,7 +397,10 @@ public class DatVeController {
 		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
 		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi, idtuyen, idtau); 
-		
+		List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
+
+		// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
+		model.addAttribute("inactiveSeats", inactiveSeats);
 		// Gửi danh sách IDGHE đã được đặt đến view
 		model.addAttribute("bookedSeats", bookedSeats);
 
@@ -525,7 +528,7 @@ public class DatVeController {
 			if (Integer.parseInt(session.getAttribute("songuoi").toString()) > 1) {
 				for (int i = 2; i <= Integer.parseInt(session.getAttribute("songuoi").toString()); i++) {
 					ghe = gheService.findByid(Integer.parseInt(session.getAttribute("ghengoi_ve" + i).toString()));
-					listtenghe_ve = listtenghe_ve + "," + ghe_ve.getTENGHE();
+					listtenghe_ve = listtenghe_ve + "," + ghe.getTENGHE();
 				}
 			}
 			model.addAttribute("coNgayVe", "co");

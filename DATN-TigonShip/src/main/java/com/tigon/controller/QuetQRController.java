@@ -54,11 +54,12 @@ public class QuetQRController {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String ngayDatFormatted = sdf.format(hoadon.getNGAYLAP());
 		model.addAttribute("ngaydat", ngayDatFormatted);
-		if (hoadon.getDATVE().getHANHKHACH().getHOVATEN() != null) {
+		if (hoadon.getDATVE().getHANHKHACH() != null) {
 			model.addAttribute("hoten", hoadon.getDATVE().getHANHKHACH().getHOVATEN());
 		} else {
 			model.addAttribute("hoten", hoadon.getDATVE().getTAIKHOAN().getHOVATEN());
 		}
+		System.out.println("ok");
 		model.addAttribute("tuyen", hoadon.getDATVE().getLICHTAUCHAY().getTUYEN().getTENTUYEN());
 		model.addAttribute("loaive", hoadon.getDATVE().getLOAIVE().getLOAIVE());
 		model.addAttribute("soluongkhach", hoadon.getDATVE().getSOGHE());
@@ -76,7 +77,11 @@ public class QuetQRController {
 
 		// set hành khách chính
 		List<DatGhe> datghe = datGheService.layDanhSachGheTheoMaDatVe(hoadon.getDATVE().getMADATVE());
+		if (hoadon.getDATVE().getHANHKHACH() != null) {
 		model.addAttribute("hotenhkchinh", hoadon.getDATVE().getHANHKHACH().getHOVATEN());
+		}else {
+			model.addAttribute("hotenhkchinh", hoadon.getDATVE().getTAIKHOAN().getHOVATEN());
+		}
 		model.addAttribute("ghengoihkchinh", datghe.get(0).getGHENGOI().getTENGHE());
 		System.out.println("Kích thước của datghe: " + datghe.size());
 

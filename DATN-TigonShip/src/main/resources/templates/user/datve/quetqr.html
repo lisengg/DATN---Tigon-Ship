@@ -47,6 +47,7 @@
     </style>
 </head>
 <body>
+
     <div id="qr-container">
         <div id="qr-icon">📷</div>
         <div id="qr-title">Quét mã QR Hóa Đơn</div>
@@ -55,7 +56,7 @@
         <video id="qr-video" playsinline></video>
         <div id="qr-result"></div>
     </div>
-
+<a th:href="@{/admin}" style="text-decoration: none;">Quay về trang quản lý</a>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const video = document.getElementById('qr-video');
