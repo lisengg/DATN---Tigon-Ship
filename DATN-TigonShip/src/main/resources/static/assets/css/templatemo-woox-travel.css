@@ -119,7 +119,7 @@ Global Styles
 */
 html,
 body {
-  background: rgb(35, 35, 35);
+  background: rgb(17, 17, 17);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -965,15 +965,13 @@ Visit Country Style
   position: relative;
   margin-bottom: 30px;
   padding-bottom: 30px;
-  border-bottom: 1px solid #eee;
+
 }
 
-.visit-country .last-item {
-  border-bottom: none;
-}
+
 
 .visit-country .item .image img {
-  border-radius: 23px;
+  border-radius: 40px;
 }
 
 .visit-country .item .right-content h4 {
@@ -1048,7 +1046,7 @@ right: 0;
   display: inline-block;
   width: 46px;
   height: 46px;
-  border: 1px solid #22b3c1;
+ 
   line-height: 44px;
   color: #22b3c1;
   text-align: center;
@@ -1131,7 +1129,6 @@ footer {
   text-align: left;
   padding: 25px 0px;
 }
-
 footer p {
   color: #fff;
 }
@@ -2251,18 +2248,14 @@ body {
   .main-button a {
     text-align: center;
   }
-  #section-1 .more-info h4 {
-    font-size: 14px !important;
-  }
+  
   #section-1 .content-slider nav .controls label { 
     width: 7% !important;
   }
   .visit-country .item .right-content ul li {
     width: 30%;
   }
-  .visit-country .item .right-content h4 {
-    margin-top: 20px;
-  }
+ 
 }
 
 @media (max-width: 992px) {

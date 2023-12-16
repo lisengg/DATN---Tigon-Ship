@@ -1,16 +1,11 @@
 package com.tigon.controller;
 
-import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -69,7 +64,7 @@ public class BangtinController {
 
 		model.addAttribute("tieu_de", bt.getTIEUDE());
 		model.addAttribute("noi_dung", bt.getNOIDUNG());
-		model.addAttribute("hinh_anh", bt.getHINHANH()); 	
+		model.addAttribute("hinh_anh", bt.getHINHANH());
 		System.out.println(bt.getHINHANH());
 		List<Bangtin> list = dao.findAll();
 		model.addAttribute("items", list);
@@ -82,12 +77,12 @@ public class BangtinController {
 			@RequestParam String hinh_anh, Bangtin bt) {
 		TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
 		Bangtin bangtin = service.findBytieude(tieu_de);
-System.out.println(tieu_de);
+		System.out.println(tieu_de);
 		String HINHANH = null;
 		String hinhanh_old = bangtin.getHINHANH();
 		System.out.println(id);
-		if(hinh_anh==null) {
-			hinh_anh=hinhanh_old;
+		if (hinh_anh == null) {
+			hinh_anh = hinhanh_old;
 		}
 		bt.setIDBANGTIN(id);
 		bt.setTIEUDE(tieu_de);
@@ -101,3 +96,4 @@ System.out.println(tieu_de);
 	}
 
 }
+	

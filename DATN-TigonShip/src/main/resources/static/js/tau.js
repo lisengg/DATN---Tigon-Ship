@@ -9,7 +9,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 				});
 				$scope.post = true;
 				$scope.put = false;
-				$scope.delete = false;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
 				initDataTable($scope.items);
 			});
@@ -60,7 +59,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		}
 		$scope.post = true
 		$scope.put = false
-		$scope.delete = false
 	}
 	//Hiển thị lên form
 	$scope.edit = function(id) {
@@ -69,7 +67,6 @@ app.controller('tau-ctrl', function($scope, $http, $sce) {
 		console.log($scope.form)
 		$scope.post = false;
 		$scope.put = true;
-		$scope.delete = true;
 	}
 	//THÊM TÀU
 $scope.create = function() {

@@ -14,4 +14,7 @@ public interface TuyenDAO extends JpaRepository<Tuyen, Integer>{
 	
 	@Query(value = "SELECT * FROM TUYEN WHERE TENTUYEN = ?1", nativeQuery = true)
     List<Tuyen> findListByTuyen(String TENTUYEN);
+	
+	@Query(value = "SELECT count(*) FROM TUYEN ", nativeQuery = true)
+	long countAllTuyen();
 }

@@ -6,10 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.tigon.dao.BangtinDAO;
+import com.tigon.dao.DanhGiaDAO;
+import com.tigon.dao.GheNgoiDAO;
 import com.tigon.dao.HangTauDAO;
 import com.tigon.dao.HoaDonDAO;
 import com.tigon.dao.LichTauChayDAO;
 import com.tigon.dao.TaiKhoanDAO;
+import com.tigon.dao.TauDAO;
+import com.tigon.dao.TuyenDAO;
 
 @Controller
 public class QuanlyController {
@@ -22,21 +27,63 @@ public class QuanlyController {
 	
 	@Autowired
 	LichTauChayDAO lichTauChayDAO;
-	@Autowired
 	
+	@Autowired
 	HoaDonDAO hoaDonDAO;
+	
+	@Autowired
+	TauDAO tauDAO;
+	
+	@Autowired
+	TuyenDAO tuyenDAO;
+	
+	@Autowired
+	DanhGiaDAO danhGiaDAO;
+	
+	@Autowired
+	BangtinDAO bangtinDAO;
+	
+	@Autowired
+	GheNgoiDAO gheNgoiDAO;
 	
 	@GetMapping("/admin")
 	public String quanly(Model model) {
 		System.out.println(hangTauDAO.findAll().get(0).getDIACHI());
 		 long tongTaiKhoan = taiKhoanDAO.countByVaiTro("KHACHHANG");
 	     model.addAttribute("tongTaiKhoan", tongTaiKhoan);
+	     
+	     long tongTaiKhoannv = taiKhoanDAO.countByVaiTro1("STAFF");
+	     model.addAttribute("tongTaiKhoannv", tongTaiKhoannv);
+	     
 	     long tongLichTau = lichTauChayDAO.countAllLichTau();
 	     model.addAttribute("tongLichTau", tongLichTau);
+	     
+	     long tongTau = tauDAO.countAllTau();
+	     model.addAttribute("tongTau", tongTau);
+	     
+	     long tongHangTau = hangTauDAO.countAllHangTau();
+	     model.addAttribute("tongHangTau", tongHangTau);
+	     
 	     long tongHoaDon = hoaDonDAO.countAllHoaDon();
 	     model.addAttribute("tongHoaDon", tongHoaDon);
+	     
 	     Double tongTienHoaDon = hoaDonDAO.sumTongTienOfAllHoaDon();
 	     model.addAttribute("tongTienHoaDon", tongTienHoaDon);
+	     
+	     long tongTuyen = tuyenDAO.countAllTuyen();
+	     model.addAttribute("tongTuyen", tongTuyen);
+	     
+	     long tongDanhGia = danhGiaDAO.countAllDanhGiaTot();
+	     model.addAttribute("tongDanhGia", tongDanhGia);
+	     
+	     long tongDanhGiaK = danhGiaDAO.countAllDanhGiaKem();
+	     model.addAttribute("tongDanhGiaK", tongDanhGiaK);
+	     
+	     long tongBangTin = bangtinDAO.countAllBangTin();
+	     model.addAttribute("tongBangTin", tongBangTin);
+	     
+	     long tongGheNgoi = gheNgoiDAO.countByTrangThai("Đang hoạt động");
+	     model.addAttribute("tongGheNgoi", tongGheNgoi);
 		return "admin/index";
 	}
 

@@ -19,6 +19,9 @@ public interface BangtinDAO extends JpaRepository<Bangtin, Integer> {
 			 public Bangtin findBytieude(String TIEUDE);
 	 
 	 @Query(value = "SELECT TOP 5 * FROM BANGTIN ORDER BY NGAYDANG DESC;", nativeQuery =true) 
-	List<Bangtin>  top5();
+	List<Bangtin>  top5();	
+	 
+	 @Query(value = "SELECT count(*) FROM BANGTIN ", nativeQuery = true)
+		long countAllBangTin();
 	
 }

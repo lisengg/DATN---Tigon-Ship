@@ -78,15 +78,15 @@
 								<div class="modal-header" style="background: #7597b8;">
 									<h3 class="modal-title" id="modalTitleId">THÔNG TIN GIÁ VÉ</h3>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									<select ng-model="form.loaive.idloaive" class="form-control">
-											<option ng-repeat="loaive in items.loaive" ng-value="loaive.idloaive">{{loaive.loaive}}</option>
-											</select>
 									</div>
 								<div class="modal-body" >
 									<div class="row mb-3">
 										<div class="col-md-4">
 											<label class="form-label">Tên loại vé</label> 
-											</div>
+											<select ng-model="form.loaive.idloaive" class="form-control">
+												<option ng-repeat="loaive in items.loaive" ng-value="loaive.idloaive">{{loaive.loaive}}</option>
+											</select>
+										</div>
 										<div class="col-md-4">
 											<label class="form-label">Tên tuyến</label> 
 											<select ng-model="form.tuyen.idtuyen" class="form-control" ng-options="tuyen.idtuyen as tuyen.tentuyen for tuyen in items.tuyen | filter: { trangthai: 'Đang hoạt động' }">
@@ -116,8 +116,8 @@
 									</div>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" ng-show="post" ng-click="create()" class="btn btn-primary">Tạo</button>
-									<button type="button" ng-show="put" ng-click="update()" class="btn btn-success" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>																
+									<button type="button" ng-show="post" ng-click="create()" class="custom-button">Tạo</button>
+									<button type="button" ng-show="put" ng-click="update()" class="custom-button" th:if="${#request.isUserInRole('ADMIN')}">Chỉnh sửa</button>																
 									<!-- FORM HIỂN THỊ CÁC THÔNG BÁO CHO NGƯỜI DÙNG -->
 									<div class="container">
 								      <input type="checkbox" id="check3" >
@@ -252,7 +252,7 @@
 					<!--END. Modal Body -->
 				</div>
 			</div>
-		</div>
+		
 		<!-- .animated -->
 		<!-- Footer-->
 		<div th:replace="~{admin/fragments_admin :: footer}"></div>

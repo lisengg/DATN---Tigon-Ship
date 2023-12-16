@@ -1,12 +1,10 @@
 const app = angular.module('taikhoan-app', []);
 app.controller('taikhoan-ctrl', function ($scope, $http) {
 	$scope.form = {};
-	 $scope.totalAccounts = 0;
 	$scope.initialize = function() {
 			$http.get("/rest/taikhoan").then(response => {
 				$scope.items = response.data;
 				// Khởi tạo DataTables hoặc cập nhật dữ liệu trong DataTables
-				  $scope.totalAccounts = $scope.items.taikhoan.length;
 				initDataTable($scope.items);
 			});
 	}
@@ -34,6 +32,7 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
 		});
 	}
     $scope.initialize()
+    
  	//hiển thị lên modal
      $scope.showDatVe = function(id) {
         console.log(id); 
@@ -44,10 +43,6 @@ app.controller('taikhoan-ctrl', function ($scope, $http) {
             console.log("Error", err)
         })
     } 
-    
-	$scope.getTotalAccounts = function () {
-        return $scope.totalAccounts;
-    }
     
     
     

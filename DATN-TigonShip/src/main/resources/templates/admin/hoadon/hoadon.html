@@ -54,12 +54,12 @@
 								<table id="table2" class="table table-bordered border-primary" style="min-width: 845px">
 									<thead>
 										<tr style="background: #7597b8;">
-											<th>TÊN KHÁCH HÀNG</th>
-											<th>NGÀY LẬP</th>
-											<th>TỔNG TIỀN</th>
-											<th>TRẠNG THÁI</th>
-											<th>LOẠI THANH TOÁN</th>
-											<th>XEM</th>
+											<th class="text-center">TÊN KHÁCH HÀNG</th>
+											<th class="text-center">NGÀY LẬP</th>
+											<th class="text-center">TỔNG TIỀN</th>
+											<th class="text-center">TRẠNG THÁI</th>
+											<th class="text-center">LOẠI THANH TOÁN</th>
+											<th class="text-center">XEM</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -80,24 +80,23 @@
 									<table class="table">
 									<thead>
 										<tr style="background: #7597b8;">
-											<th>Tên</th>
-											<th>Số ghế</th>
-											<th>Tên tuyến</th>
-											<th>Ngày đi</th>
-											<th>Ngày về</th>
-											<th>Ngày đặt</th>
-											<th>Loại vé</th>
-											<th></th>
+											<th class="text-center">TÊN</th>
+											<th class="text-center">SỐ GHẾ</th>
+											<th class="text-center">TUYẾN</th>
+											<th class="text-center">NGÀY ĐẶT</th>
+											<th class="text-center">NGÀY ĐI</th>
+											<th class="text-center">NGÀY VỀ</th>
+											<th class="text-center">LOẠI VÉ</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="dv in selectedItem">
-											<td>{{dv.taikhoan.hovaten}}</td>
+										<tr ng-repeat="dv in selectedItem" class="text-center">
+											<td>{{dv.taikhoan.hovaten || dv.hanhkhach.hovaten}}</td>
 											<td>{{dv.soghe}}</td>
 											<td>{{dv.lichtauchay.tuyen.tentuyen}}</td>
-											<td>{{dv.ngaydi}}</td>
-											<td>{{dv.ngayve}}</td>
-											<td>{{dv.ngaydat}}</td>
+											<td>{{dv.ngaydat | date:'dd/MM/yyyy'}}</td>
+											<td>{{dv.ngaydi | date:'dd/MM/yyyy'}}</td>
+											<td>{{dv.ngayve | date:'dd/MM/yyyy'}}</td>											
 											<td>{{dv.loaive.loaive}}</td>
 											<td></td>
 										</tr>
@@ -105,7 +104,7 @@
 								</table>
 								</div>
 								<div class="modal-footer text-center">
-									<button type="button" class="btn btn-secondary"
+									<button type="button" class="custom-button"
 										data-bs-dismiss="modal">Close</button>
 								</div>
 							</div>
