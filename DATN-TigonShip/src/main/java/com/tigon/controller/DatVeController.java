@@ -749,6 +749,8 @@ public class DatVeController {
 				hd_ve.setTRANGTHAI("Đã thanh toán");
 				hd_ve.setLOAITHANHTOAN("VN PAY");
 				hddao.save(hd_ve);
+				HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
+				session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
 				
 				
 
@@ -948,7 +950,8 @@ public class DatVeController {
 				hd_ve.setTRANGTHAI("Đã thanh toán");
 				hd_ve.setLOAITHANHTOAN("VN PAY");
 				hddao.save(hd_ve);
-				
+				HoaDon hdmax_ve = hoaDonService.findMaxDatVe();
+				session.setAttribute("mahoadon_ve", hdmax_ve.getMAHD());
 				
 
 				// Lưu đặt ghế

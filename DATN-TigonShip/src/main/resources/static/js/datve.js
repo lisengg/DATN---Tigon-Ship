@@ -30,11 +30,12 @@ app.controller('datve-ctrl', function ($scope, $http) {
 
         $http.get("/rest/datve/hanhkhach").then(response => { /*Tất cả thông tin đặt vé của hành khách */
             $scope.datvetheongayHK = response.data;
+       
            
         });
         $http.get("/rest/datve/taikhoan").then(response => { /*Tất cả thông tin đặt vé của tài khoản */
             $scope.datvetheongay = response.data;
-            console.log($scope.datvetheongay)
+            
         });
     }
     $scope.initialize()
@@ -74,6 +75,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
             var url2 = `/rest/datve/theongayhk/${index+ 1}/${formattedDate}`;/* HÀNH KHÁCH */
             $http.get(url2).then(function (response) {
                 $scope.datvetheongayHK = response.data;
+                 
                 $scope.originalDataHK = angular.copy($scope.datvetheongayHK);
             }).catch(function (err) {
                 console.log("Error", err);
@@ -99,7 +101,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
                 return item[0] === parseInt(searchMaHD); // Giả sử số đầu tiên trong mảng con là mã hóa đơn
             });
             console.log(result2);
-            $scope.datvetheongay = result2;
+            $scope.datvetheongayHK = result2;
         } else {
             alert("Không có kết quả đặt vé của hành hành khách theo mã hóa đơn");
         }
@@ -115,15 +117,14 @@ app.controller('datve-ctrl', function ($scope, $http) {
         var url2 = `/rest/datve/nguoidicung/${iddatve}`;
         $http.get(url2).then(function (response) {
             $scope.nguoidicung = response.data;
-            console.log("$scope.nguoidicung:", $scope.datghe);
         }).catch(function (err) {
             console.log("Error", err);
         });
         $scope.filterDataByIdDatVe(iddatve);
     }
     $scope.deleteByIDDatVe = function(){ // xóa hết vé đặt qua id đặt vé
-        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
-        console.log($scope.ngaydi)
+      //  $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
+       
         var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
@@ -143,8 +144,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
             alert("Xóa dữ liệu đặt vé thành công!");
             var index = $scope.datvetheongay.findIndex(innerArray => innerArray[0] == $scope.maHdUpdate);
             $scope.datvetheongay.splice(index, 1);
-            $('#modal').attr('aria-hidden', 'true');
-            // Đặt thuộc tính 'style' của modal thành 'display: none' để ẩn modal
+         
             $('#modal').css('display', 'none');
             location.reload();
         })
@@ -152,13 +152,9 @@ app.controller('datve-ctrl', function ($scope, $http) {
             alert("Lỗi xóa dữ liệu!");
             console.log("Error", error);
         });
-      // Đặt thuộc tính 'aria-hidden' của modal thành 'true' để ẩn modal
-       
-      
     };
     $scope.deleteDatGhe = function(id) { // xóa ghế đặt qua id đặt ghế
-        $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
-        console.log($scope.ngaydi)
+      
         var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
@@ -180,7 +176,7 @@ app.controller('datve-ctrl', function ($scope, $http) {
         });
     };
     $scope.deleteNguoiDiCung = function(id){ // xóa người đi cùng qua id người đi cùng
-        console.log("ngày đi :" + $scope.ngaydi)
+        //console.log("ngày đi :" + $scope.ngaydi)
         var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
@@ -216,7 +212,6 @@ app.controller('datve-ctrl', function ($scope, $http) {
             alert("Xóa dữ liệu người đi cùng thành công!");
             var index = $scope.nguoidicung.findIndex(innerArray => innerArray[0] == id);
             $scope.nguoidicung.splice(index, 1);
-            $scope.checkAndClose();
         })
         .catch(error => {
             console.log("Lỗi tính tiền: ", error);
@@ -259,30 +254,49 @@ app.controller('datve-ctrl', function ($scope, $http) {
             $('#modal').modal('show');
         }
     };
-    $scope.filterDataByIdDatVe = function (iddatve) { // hàm tìm tổng tiền - idloaive - ngày đi - mã hóa đơn thông qua iddatve
-        if ($scope.datvetheongay.length > 0) {
-            var result = $scope.datvetheongay.filter(function(item) {
+  $scope.filterDataByIdDatVe = function (iddatve) {
+	  
+    if ($scope.datvetheongay.length > 0) {
+        var result = $scope.datvetheongay.filter(function(item) {
+			 
+            return item[3] === iddatve; // Giả sử số thứ tư trong mảng con là iddatve
+        });  
+        if (result.length > 0) {
+            $scope.tongTien = result[0][10];
+            $scope.loaiVe = result[0][11];
+            $scope.maHdUpdate = result[0][0];
+            $scope.ngaydi = result[0][2];
+            $scope.tentuyen = result[0][13];
+            $scope.ngayDat = result[0][12];
+            $scope.email = result[0][14];
+        } else {
+            // Nếu không tìm thấy trong $scope.datvetheongay, thì tìm trong $scope.davetheongayHK
+            var resultHK = $scope.datvetheongayHK.filter(function(item) {
                 return item[3] === iddatve; // Giả sử số thứ tư trong mảng con là iddatve
-            });  
-            if (result.length > 0) {
-                $scope.tongTien = result[0][10];
-                $scope.loaiVe = result[0][11];
-                $scope.maHdUpdate = result[0][0];
-                $scope.ngaydi = result[0][2];
-                $scope.tentuyen = result[0][13];
-                $scope.ngayDat = result[0][12];
-                $scope.email=result[0][14]
-             
+            });
+
+            if (resultHK.length > 0) {
+                $scope.tongTien = resultHK[0][10];
+                $scope.loaiVe = resultHK[0][11];
+                $scope.maHdUpdate = resultHK[0][0];
+                $scope.ngaydi = resultHK[0][2];
+                $scope.tentuyen = resultHK[0][13];
+                $scope.ngayDat = resultHK[0][12];
+                $scope.email = resultHK[0][14];
                
             } else {
+                // Nếu không tìm thấy trong cả hai mảng, gán giá trị mặc định
                 $scope.tongTien = null;
                 $scope.loaiVe = null;
-                $scope.loaiVe = null;
+                $scope.maHdUpdate = null;
                 $scope.ngaydi = null;
+                $scope.tentuyen = null;
+                $scope.ngayDat = null;
+                $scope.email = null;
             }
-            
         }
-    };
+    }
+};
     
 $scope.capNhatVe = function() {
     console.log("Ma hoa don update: " + $scope.maHdUpdate);
