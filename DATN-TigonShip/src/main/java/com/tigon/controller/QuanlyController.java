@@ -1,5 +1,7 @@
 package com.tigon.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -67,7 +69,7 @@ public class QuanlyController {
 	     long tongHoaDon = hoaDonDAO.countAllHoaDon();
 	     model.addAttribute("tongHoaDon", tongHoaDon);
 	     
-	     Double tongTienHoaDon = hoaDonDAO.sumTongTienOfAllHoaDon();
+	     BigDecimal tongTienHoaDon = hoaDonDAO.sumTongTienOfAllHoaDon();
 	     model.addAttribute("tongTienHoaDon", tongTienHoaDon);
 	     
 	     long tongTuyen = tuyenDAO.countAllTuyen();

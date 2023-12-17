@@ -46,17 +46,32 @@ app.controller('tk-ctrl', function($scope, $http) {
 			loaihk: $scope.items.loaihk.find(item => item.loaihk === 'Người lớn'),
 		};
 	}
-	// Hàm kiểm tra ngày sinh
-	function isDateOfBirthValid(dateString) {
-		// Chuyển đổi chuỗi ngày tháng nhập vào thành đối tượng Date
-		var inputDate = new Date(dateString);
+// Hàm kiểm tra ngày sinh
+function isDateOfBirthValid(dateString) {
+    // Chuyển đổi chuỗi ngày tháng nhập vào thành đối tượng Date
+    var inputDate = new Date(dateString);
 
-		// Kiểm tra xem ngày sinh có hợp lệ hay không
-		var currentDate = new Date();
-		var minDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+    // Kiểm tra xem ngày sinh có hợp lệ hay không
+    var currentDate = new Date();
+    
+    // Thiết lập giới hạn tuổi từ 18 đến 45
+    var minAge = 18;
+    var maxAge = 60;
 
-		return inputDate <= minDate;
-	}
+    // Tính toán năm tối thiểu và tối đa dựa trên giới hạn tuổi
+    var minYear = currentDate.getFullYear() - maxAge;
+    var maxYear = currentDate.getFullYear() - minAge;
+
+    // Tạo đối tượng Date cho ngày tối thiểu
+    var minDate = new Date(minYear, currentDate.getMonth(), currentDate.getDate());
+
+    // Tạo đối tượng Date cho ngày tối đa
+    var maxDate = new Date(maxYear, currentDate.getMonth(), currentDate.getDate());
+
+    // Kiểm tra xem ngày sinh có nằm trong khoảng từ 18 đến 45 tuổi hay không
+    return inputDate >= minDate && inputDate <= maxDate;
+}
+
 	//Thêm nhân viên mới
 	$scope.save = function() {
 		// Cập nhật giá trị city, district, và ward từ các trường HTML
