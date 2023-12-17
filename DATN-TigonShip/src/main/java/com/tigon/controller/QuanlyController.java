@@ -171,6 +171,8 @@ public class QuanlyController {
 	public String bangtin(Model model) {
 		return "admin/tintuc/dangbangtin";
 	}
+	
+	
 	// @GetMapping("/admin/profile")
 	// public String Profile(Model model) {
 	//

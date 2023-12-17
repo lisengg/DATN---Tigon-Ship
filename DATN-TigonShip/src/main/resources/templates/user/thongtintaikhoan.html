@@ -296,6 +296,12 @@ body {
                 <hr>
                 <div class="row">
                 <div class="col col-lg-6">
+<div style="display: flex; align-items: center;">
+    <i id="flagIcon" class="fas fa-flag" style="margin-bottom: 13px; font-size: 20px;"></i>
+    <p id="tuyen" style="margin-left: 5px; display: inline-block; vertical-align: middle;"></p>
+</div>
+
+
                  <p><span class="icon">🎫</span> Mã đặt vé: <strong id="maDatVeChiTiet"></strong></p>               
                 <p><span class="icon">🚢</span> Tuyến đi: <strong id="tuyenChiTiet"></strong></p>
                 <p><span class="icon">👥</span> Số ghế: <strong id="soGhe"></strong></p>   
@@ -343,8 +349,8 @@ function formatCurrency(number) {
 }
 
 function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, loaiVe) {
-	
-	var thongTinGhe = '';
+    var thongTinGhe = '';
+
     // Đổ dữ liệu vào modal
     $('#maDatVeChiTiet').text(maDatVe);
     $('#ngayDatChiTiet').text(ngayDat);
@@ -353,8 +359,21 @@ function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, 
     $('#ngayVe').text(ngayVe);
     $('#nguoiDat').text(nguoiDat);
     $('#loaiVe').text(loaiVe);
+
+    // Kiểm tra và hiển thị tuyến đi hoặc tuyến về
+    if (ngayVe) {
+        $('#tuyen').text("Tuyến về");
+        // Lấy biểu tượng cờ và thay đổi màu
+        var flagIcon = document.getElementById('flagIcon');
+        flagIcon.style.color = '#ff0000'; // Màu đỏ
+    } else {
+        $('#tuyen').text('Tuyến đi');
+        // Lấy biểu tượng cờ và thay đổi màu
+        var flagIcon = document.getElementById('flagIcon');
+        flagIcon.style.color = '#00db2c'; // Màu xanh
+    }
+
     $.get('/layDanhSachGheTheoMaDatVe/' + maDatVe, function(danhSachGhe) {
-        
         var thongTinGhe = "";
 
         if (danhSachGhe.length > 0) {
@@ -371,17 +390,16 @@ function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, 
         }
         $('#soGhe').text(thongTinGhe);
     });
-    
- $.get('/layDanhSachNDCTheoMaDatVe/' + maDatVe, function(listNguoiDiCung) {
+
+    $.get('/layDanhSachNDCTheoMaDatVe/' + maDatVe, function(listNguoiDiCung) {
         var thongTinNguoiDiCung = "";
 
         if (listNguoiDiCung.length > 0) {
-
             for (var i = 0; i < listNguoiDiCung.length; i++) {
                 if (i == listNguoiDiCung.length - 1) {
-                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + '';
+                    thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + '';
                 } else {
-                	thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + ', ';
+                    thongTinNguoiDiCung += listNguoiDiCung[i].hovaten + ', ';
                 }
             }
         } else {
@@ -389,29 +407,27 @@ function hienThiChiTietModal(maDatVe, ngayDat, tuyen, ngayDi, ngayVe, nguoiDat, 
         }
         $('#nguoiDiCung').text(thongTinNguoiDiCung);
     });
- 
- $.get('/layTongTienVe/' + maDatVe, function(tongTien) {
 
-	 $('#tongTienVe').text(formatCurrency(tongTien.tongtien));
- });
-   
+    $.get('/layTongTienVe/' + maDatVe, function(tongTien) {
+        $('#tongTienVe').text(formatCurrency(tongTien.tongtien));
+    });
 
     $('#chiTietModal').css('display', 'block');
 }
 
+function closeModal() {
+    document.getElementById('chiTietModal').style.display = 'none';
+}
 
-    
-    function closeModal() {
-        document.getElementById('chiTietModal').style.display = 'none';
+// Close the modal if the overlay (outside modal) is clicked
+window.onclick = function (event) {
+    if (event.target == document.getElementById('chiTietModal')) {
+        closeModal();
     }
+}
 
-    // Close the modal if the overlay (outside modal) is clicked
-    window.onclick = function (event) {
-        if (event.target == document.getElementById('chiTietModal')) {
-            closeModal();
-        }
-    }
 </script>
+
 
 </body>
 

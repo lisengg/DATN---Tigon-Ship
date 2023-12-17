@@ -127,6 +127,14 @@ width: 82%;
 
  z-index: 999;
 }
+ .welcome-message {
+        font-size: 35px; /* Kích thước chữ lớn */
+        font-weight: bold; /* Chữ đậm */
+        color: #3498db; /* Màu chữ */
+        text-align: center; /* Căn giữa văn bản */
+        margin-bottom: 20px; /* Khoảng cách dưới */
+        text-transform: uppercase; /* Chuyển tất cả chữ thành in hoa */
+    }
 </style>
 </head>
 
@@ -147,6 +155,15 @@ width: 82%;
 			<div class="animated fadeIn">
 				<!-- Widgets  -->
 				<div class="row">
+	  <div class="col-md-12">
+        <div class="welcome-message">
+            Chào mừng bạn đến với Trang Quản lý!
+            <br>
+            Hãy trải nghiệm sự thuận tiện của hệ thống.
+        </div>
+    </div>
+</div>
+				<div class="row">
 					<div class="col-lg-3 col-md-6">
 						<div class="card">
 							<div class="card-body">
@@ -157,8 +174,7 @@ width: 82%;
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div class="stat-text">
-												<span class="count" th:text="${tongTienHoaDon}"></span> VND
-											</div>
+												<span class="" th:text="${#numbers.formatDecimal(tongTienHoaDon, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>											</div>
 											<div class="stat-heading">Doanh thu</div>
 										</div>
 									</div>
@@ -227,54 +243,273 @@ width: 82%;
 						</div>
 					</div>
 				</div>
-					
-				<div class="row">
-					
-				 <div id="carouselExampleDark" class="carousel carousel-dark slide"
-						data-bs-ride="carousel">
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#carouselExampleDark"
-								data-bs-slide-to="0" class="active" aria-current="true"
-								aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#carouselExampleDark"
-								data-bs-slide-to="1" aria-label="Slide 2"></button>
-							<button type="button" data-bs-target="#carouselExampleDark"
-								data-bs-slide-to="2" aria-label="Slide 3"></button>
-						</div>
-						<div class="carousel-inner">
-							<div class="carousel-item active" data-bs-interval="5000">
-								<img src="/assets/images/kiengiang.jpg" class="d-block w-100" style="height: 470px"
-									alt="">
-							</div>
-							<div class="carousel-item" data-bs-interval="5000">
-								<img src="/assets/images/canggt.jpg" class="d-block w-100" style="height: 470px"
-									alt="">
+				<!-- /Widgets -->
+				<!-- To Do and Live Chat -->
+				<!-- Việc cần làm và Trò chuyện trực tiếp -->
+<div class="row">
+    <!-- Thẻ Card Bổ sung -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-5">
+                        <i class="pe-7s-note2"></i> <!-- Biểu tượng cho thẻ -->
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongBangTin}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Bảng tin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc thẻ Card Bổ sung -->
 
-							</div>
-							<div class="carousel-item">
-								<img src="/assets/images/phuquoc2.jpg" class="d-block w-100" style="height: 470px"
-									alt="">
+    <!-- Các Thẻ Card Hiện tại -->
+     <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-6">
+                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+                        <i class="fas fa-ship"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongTau}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Tàu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#carouselExampleDark" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div> 
-				</div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-7">
+                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+                        <i class="fa fa-anchor"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongHangTau}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Hãng tàu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-1">
+                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongTaiKhoannv}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Nhân viên</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Thẻ Card Bổ sung -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-2">
+                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+                        <i class="fa fa-retweet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongTuyen}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Tuyến tàu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc thẻ Card Bổ sung -->
+      <!-- Thẻ Card Bổ sung -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-3">
+                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongDanhGia}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Đánh giá tốt</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc thẻ Card Bổ sung -->
+      <!-- Thẻ Card Bổ sung -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-4">
+                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongDanhGiaK}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Đánh giá chưa tốt</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc thẻ Card Bổ sung -->
+      <!-- Thẻ Card Bổ sung -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-8">
+                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count" th:text="${tongGheNgoi}"></span> <!-- Một số nội dung động -->
+                            </div>
+                            <div class="stat-heading">Ghế ngồi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc thẻ Card Bổ sung -->
+</div>
+
 			</div>
 		</div>
 
 		<div th:replace="~{admin/fragments_admin :: footer}"></div>
 
 	</div>
+	<script>
+        let scanner;
+        let isScanning = false;
+
+        function toggleScanner() {
+            const video = document.getElementById('qr-video');
+            const form = document.getElementById('qr-form');
+            const resultField = document.getElementById('qr-result');
+            const resultLinkDiv = document.getElementById('qr-result-link');
+            const resultLink = document.getElementById('qr-link');
+
+            if (!scanner) {
+                scanner = new Instascan.Scanner({ video: video });
+
+                scanner.addListener('scan', function (content) {
+                    resultField.value = content;
+                    stopScanner();
+                    resultLink.href = content;
+                    resultLink.textContent = content;
+                    resultLinkDiv.style.display = 'block';
+                });
+
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[0]);
+                        isScanning = true;
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (e) {
+                    console.error(e);
+                });
+            } else {
+                if (isScanning) {
+                    stopScanner();
+                    resultLinkDiv.style.display = 'none';
+                } else {
+                    startScanner();
+                }
+            }
+        }
+
+        function startScanner() {
+            const video = document.getElementById('qr-video');
+            const form = document.getElementById('qr-form');
+
+            form.style.display = 'block';
+            video.style.display = 'block';
+
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                    isScanning = true;
+                } else {
+                    console.error('No cameras found.');
+                }
+            }).catch(function (e) {
+                console.error(e);
+            });
+        }
+
+        function stopScanner() {
+            const form = document.getElementById('qr-form');
+            const video = document.getElementById('qr-video');
+
+            form.style.display = 'none';
+            video.style.display = 'none';
+
+            scanner.stop();
+            isScanning = false;
+        }
+        
+        function resetScanner() {
+        	const form = document.getElementById('qr-form');
+            const resultField = document.getElementById('qr-result');
+            const resultLinkDiv = document.getElementById('qr-result-link');
+            form.style.display = 'block';
+            resultField.value = 'none';
+            resultLinkDiv.style.display = 'none';
+           
+        }
+    </script>
 	<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>

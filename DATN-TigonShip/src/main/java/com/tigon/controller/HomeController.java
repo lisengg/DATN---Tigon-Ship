@@ -126,9 +126,9 @@ public class HomeController {
 		return "user/GioiThieu";
 	}
 
-	@RequestMapping("/gopy")
-	public String gopy() {
-		return "user/GopY";
+	@RequestMapping("/danhgia")
+	public String danhgia() {
+		return "user/danhgia";
 	}
 
 	@RequestMapping("/dangnhap")

@@ -40,5 +40,7 @@ public interface GheNgoiDAO extends JpaRepository<GheNgoi, Integer>{
 	@Modifying
 	@Query(value = "UPDATE GHENGOI SET TRANGTHAI = :trangthai WHERE IDGHE = :idghe", nativeQuery = true)
 	void updateGheNgoi(@Param("trangthai") String trangthai, @Param("idghe") Integer idghe);
-    
+    @Query(value = "SELECT count(*) FROM GHENGOI WHERE TRANGTHAI = N'Đang hoạt động'", nativeQuery = true)
+	long countByTrangThai(@Param("trangThai") String trangThai);
+
 }

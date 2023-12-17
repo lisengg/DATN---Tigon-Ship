@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đánh Giá Khách Hàng</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<style>
+		body {
+			background-color: #f4f4f4;
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			margin-top: 20px;
+		}
+
+		.review-container {
+			background-color: #fff;
+			border-radius: 8px;
+			padding: 20px;
+			margin-bottom: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.review {
+			border-bottom: 1px solid #ddd;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+		}
+
+		.rating {
+			color: #f8c11e;
+			font-size: 24px;
+		}
+
+		.review-date {
+			color: #6c757d;
+			font-size: 0.9rem;
+		}
+
+		.customer-reviews {
+			/* Phần danh sách đánh giá từ khách hàng */
+			margin-top: 20px;
+		}
+
+		.customer-review {
+			border-bottom: 1px solid #ddd;
+			padding: 10px;
+			margin-bottom: 10px;
+		}
+
+		.customer-rating {
+			color: #f8c11e;
+			font-size: 18px;
+		}
+
+		.customer-info {
+			color: #333;
+		}
+
+		.footer {
+			background-color: #f8f9fa;
+			box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.btn-primary {
+			background-color: #f8c11e;
+			border-color: #f8c11e;
+		}
+
+		.btn-primary:hover {
+			background-color: #d39e00;
+			border-color: #d39e00;
+		}
+
+		form {
+			max-width: 400px;
+			margin: auto;
+		}
+
+		label {
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		.rateyo {
+			margin-bottom: 15px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="modal" id="reviewModal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Đánh Giá và Bình Luận</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/add/danhgia}" method="post">
+						<div class="form-group">
+							<span class="form-label"><i class="bi bi-geo-alt-fill"></i>Tuyến Tàu</span>
+							<select class="form-control" name="TENTUYEN">
+								<option name="TENTUYEN" th:each="p:${items}" th:value="${p.TENTUYEN}"
+									th:text=${p.TENTUYEN}></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="rating">Đánh Giá:</label>
+							<div id="rating" class="rateyo"></div>
+							<input type="hidden" name="DANHGIA" id="DANHGIA" value="0">
+						</div>
+						<div class="form-group">
+							<label for="comment">Bình Luận:</label>
+							<textarea class="form-control" id="BINHLUAN" name="BINHLUAN" rows="4" required></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary" id="submitReviewBtn"
+							formaction="/danhgia/add">Gửi</button>
+
+					</form>
+					<div th:if="${message}" class="alert alert-success" role="alert">
+						<p th:text="${message}"></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div style="text-align: left; margin-top: 20px;">
+			<a th:href="@{/}" style="text-decoration: none;font-weight: 700"> Quay về trang chủ</a>
+		</div>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+			Viết Đánh Giá
+		</button>
+		
+		<div class="modal" id="reviewModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Đánh Giá và Bình Luận</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form action="/add/danhgia" method="post">
+							<div class="form-group">
+								<span class="form-label"><i class="bi bi-geo-alt-fill"></i>Tuyến Tàu</span>
+								<select class="form-control" name="TENTUYEN">
+
+									<!-- Thêm các tuyến khác nếu cần -->
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="rating">Đánh Giá:</label>
+								<div class="rateyo" name="DANHGIA"></div>
+								<!-- Không cần input hidden vì không sử dụng JavaScript -->
+							</div>
+							<div class="form-group">
+								<label for="comment">Bình Luận:</label>
+								<textarea class="form-control" id="BINHLUAN" name="BINHLUAN" rows="4"
+									required></textarea>
+							</div>
+
+						</form>
+						<div class="alert alert-success" role="alert">
+							<!-- Thông báo thành công sẽ được hiển thị ở đây -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Phần hiển thị danh sách đánh giá từ khách hàng -->
+		<div class="review-container" style="margin-top: 10px;">
+			<h3>Đánh Giá từ Khách Hàng</h3>
+			<div class=" ocean-body customer-reviews">
+				<div style="border-bottom: solid 1px;" th:each="dg, saoIndex : ${danhGiaList}">
+
+					<strong th:text="${dg.TAIKHOAN.HOVATEN}"></strong>
+					<p class="customer-info" th:text="${dg.TUYEN.TENTUYEN}"></p>
+					<p class="customer-rating" th:utext="${saoDanhGia[saoIndex.index]}"></p>
+
+					<p th:text="${dg.BINHLUAN}"></p>
+					Đánh giá vào lúc: <p class="review-date"
+						th:text="${#temporals.format(dg.NGAYDANHGIA, 'HH:mm dd/MM/yyyy')}"></p>
+					
+				</div>
+
+				<hr style="height: 2px;"> <!-- Thêm đánh giá từ khách hàng khác nếu cần -->
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<p>&copy; 2023 TIGON SHIP Company. All rights reserved. Design: TIGON TEAM</p>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#rating").rateYo({
+				starWidth: "40px",
+				rating: 0,
+				halfStar: true,
+				onChange: function (rating, rateYoInstance) {
+					$("#DANHGIA").val(rating);
+				}
+			});
+
+			$("#submitReviewBtn").click(function () {
+				submitReview();
+			});
+		});
+
+		function submitReview() {
+			var rating = $("#DANHGIA").val();
+			var comment = $("#BINHLUAN").val();
+			var currentDate = new Date();
+			var formattedDate = formatDate(currentDate);
+
+			// Gửi dữ liệu đánh giá lên server
+			$.ajax({
+				url: '/api/danhgia',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({DANHGIA: rating, BINHLUAN: comment}),
+				success: function (response) {
+					console.log('Đánh giá đã được gửi thành công');
+					// Thực hiện các hành động cần thiết sau khi gửi đánh giá
+				},
+				error: function (error) {
+					console.error('Đã có lỗi xảy ra khi gửi đánh giá:', error);
+				}
+			});
+
+			var newReview = '<div class="review"><p class="rating">' + getStarsHTML(rating) +
+				'</p><p>' + comment + '</p><p class="review-date">Submitted on: ' + formattedDate + '</p></div>';
+			$(".ocean-body").append(newReview);
+
+			$('#reviewModal').modal('hide');
+		}
+
+		function getStarsHTML(rating) {
+			var stars = '';
+			var fullStars = Math.floor(rating);
+			var halfStar = rating % 1 !== 0;
+
+			for (var i = 0; i < fullStars; i++) {
+				stars += '<i class="fas fa-star checked"></i>';
+			}
+
+			if (halfStar) {
+				stars += '<i class="fas fa-star-half-alt checked"></i>';
+			}
+
+			return stars;
+		}
+
+		function formatDate(date) {
+			var options = {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true};
+			return new Intl.DateTimeFormat('en-US', options).format(date);
+		}
+	</script>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.tigon.model.Bangtin;
 import com.tigon.model.DanhGia;
 
 public interface DanhGiaDAO extends JpaRepository<DanhGia, Integer> {
@@ -27,6 +28,13 @@ public interface DanhGiaDAO extends JpaRepository<DanhGia, Integer> {
   + " GROUP BY TENTUYEN "
   + " ORDER BY danhgia DESC", nativeQuery = true)
 List<Object> diemGiamDan();
+  
+  
+  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (4, 5) ", nativeQuery = true)
+	long countAllDanhGiaTot();
+  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (1, 2, 3) ", nativeQuery = true)
+	long countAllDanhGiaKem();
+
 
   // Tuyến - điểm TB tuyến bắt đầu từ HÒN SƠN
   @Query(value = "SELECT t.TENTUYEN, AVG(DANHGIA) FROM DANHGIA d  inner join tuyen t  on d.IDTUYEN = t.IDTUYEN where TENTUYEN  like 'Hòn%' Group by t.TENTUYEN", nativeQuery = true)
@@ -47,10 +55,15 @@ List<Object> diemGiamDan();
   // Tuyến - điểm,bình luận, người đánh giá
   @Query(value = "select h.HOVATEN, d.DANHGIA, d.BINHLUAN, d.NGAYDANHGIA from DANHGIA d inner join TAIKHOAN h ON  d.IDTAIKHOAN = h.IDTAIKHOAN Where D.IDTUYEN=? ", nativeQuery = true)
   List<Object> danhGiaTuyen(Integer id);
-  
-  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (4, 5) ", nativeQuery = true)
-	long countAllDanhGiaTot();
-  @Query(value = "SELECT count(*) FROM DANHGIA WHERE DANHGIA IN (1, 2, 3) ", nativeQuery = true)
-	long countAllDanhGiaKem();
 
+	/*
+	 * @Query(value = "SELECT * FROM danhgia + ORDER BY NGAYDANHGIA DESC;",
+	 * nativeQuery =true) List<Bangtin> top5();
+	 */
+
+	 @Query(value = "SELECT * FROM DANHGIA where IDTAIKHOAN = ?1", nativeQuery =true) 
+	List<DanhGia>  finddanhgiatk(Integer IDTAIKHOAN);
+	 
+	 @Query(value = "SELECT * FROM DANHGIA WHERE IDDANHGIA = ?1",nativeQuery = true)
+	 List<DanhGia> findListById(Integer id);
 }

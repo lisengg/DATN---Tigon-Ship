@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,17 +24,16 @@ import lombok.NoArgsConstructor;
 public class DanhGia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer IDDANHGIA;
+    Integer  IDDANHGIA;
     Integer DANHGIA;
     String BINHLUAN;
     @Column(name = "NGAYDANHGIA")
 	LocalDateTime NGAYDANHGIA = LocalDateTime.now();
-    @ManyToOne
-    @JoinColumn(name="IDTUYEN")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "IDTUYEN")
     Tuyen TUYEN;
-
-    @ManyToOne
-    @JoinColumn(name="IDTAIKHOAN")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "IDTAIKHOAN")
     TaiKhoan TAIKHOAN;
-    
+
 }

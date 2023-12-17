@@ -177,7 +177,7 @@ select:active {
 											<tbody ng-repeat="item in datvetheongay">
 												<tr>
 													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
-													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
+													<td class="text-center"><span>{{item[1]| date:'dd/MM/yyyy'}}</span></td> <!--  ngày đặt -->
 												 <!-- 	<td class="text-center"><span>{{item[2]}}</span></td> --><!-- NGÀY ĐI -->
 													<!--<td class="text-center"><span>{{item[3]}}</span></td> --><!-- Mã đặt vé -->
 													<!--<td class="text-center"><span>{{item[4]}} </span></td> --><!-- ngày về -->
@@ -210,7 +210,7 @@ select:active {
 											<tbody ng-repeat="item in datvetheongayHK">
 												<tr>
 													<td class="text-center"><span>{{item[0]}} </span></td><!-- MÃ HÓA ĐƠN -->
-													<td class="text-center"><span>{{item[1]}}</span></td> <!--  ngày đặt -->
+													<td class="text-center"><span>{{item[1] | date:'dd/MM/yyyy' }}</span></td> <!--  ngày đặt -->
 													<td class="text-center"><span>{{item[6]}}</span></td><!-- HỌ VÀ TÊN -->
 													<td class="text-center"><span>{{item[7]}}</span></td><!-- SDT -->
 													<td class="text-center"><span>{{item[8]}} </span></td><!-- SỐ GHẾ -->

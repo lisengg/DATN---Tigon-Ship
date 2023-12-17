@@ -3,25 +3,22 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 
-<title>Tigon Ship</title>
+	<title>Giới thiệu</title>
 
-<!-- Bootstrap core CSS -->
-<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="/assets/css/animate.css" rel="stylesheet">
-<link href="/assets/css/flex-slider.css " rel="stylesheet">
-<link href="/assets/css/fontawesome.css" rel="stylesheet">
-<link href="/assets/css/owl.css" rel="stylesheet">
-<link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
-<!--
+	<!-- Bootstrap core CSS -->
+	<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/css/animate.css" rel="stylesheet">
+	<link href="/assets/css/flex-slider.css " rel="stylesheet">
+	<link href="/assets/css/fontawesome.css" rel="stylesheet">
+	<link href="/assets/css/owl.css" rel="stylesheet">
+	<link href="/assets/css/templatemo-woox-travel.css" rel="stylesheet">
+	<!--
 
 TemplateMo 580 Woox Travel
 
@@ -29,6 +26,55 @@ https://templatemo.com/tm-580-woox-travel
 
 -->
 </head>
+<style>
+	body {
+  font-family: Arial, sans-serif;
+}
+	.container1{
+	 background-color: #f9f9f9;
+  padding: 20px;	
+	}
+	.tab {
+		 overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+		background-color: rgb(0, 138, 138);
+		
+	
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+		
+	  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+		background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+		background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	.tabcontent {
+
+		 display: none;
+  padding: 20px;
+		
+	}
+</style>
 
 <body>
 
@@ -49,25 +95,24 @@ https://templatemo.com/tm-580-woox-travel
 			<div class="row">
 				<div class="col-lg-12">
 					<nav class="main-nav">
-					
+
 						<div>
-							<a href="/" class="logo"> <img
-								src="/assets/images/logoweb.png" alt=""
-								style="width: 135px; height: 70px; margin-top: 0px" >
+							<a href="/" class="logo"> <img src="/assets/images/logoweb.png" alt=""
+									style="width: 135px; height: 70px; margin-top: 0px">
 							</a>
 						</div>
 						<ul class="nav" style="left: 90px;">
 							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
-								<li><a href="/datve/timtuyen">Đặt vé</a></li>
+							<li><a href="/datve/timtuyen">Đặt vé</a></li>
 							<li><a href="/gioithieu">Giới thiệu</a></li>
 							<th:block th:unless="${#httpServletRequest.remoteUser}">
 								<li><a href="/dangnhap">Đăng nhập</a></li>
 								<li><a href="/dangki">Đăng Ký</a></li>
 							</th:block>
 							<th:block th:if="${#httpServletRequest.remoteUser}">
-							<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
-							<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
+								<li><a th:href="@{/thongtintaikhoan}">Tài khoản</a></li>
+								<li><a th:href="@{/security/logoff}">Đăng xuất</a></li>
 							</th:block>
 						</ul>
 						<a class='menu-trigger'> <span>Menu</span>
@@ -80,176 +125,595 @@ https://templatemo.com/tm-580-woox-travel
 	</header>
 	<!-- ***** Header Area End ***** -->
 
-	<form action="" style="border: solid;">
-    <div th:each="lichtau, iterStat : ${lichTau}" id="rooms">
-        <div class="container">
-            <div  class="section-header">
-            
-                <h2 th:text=${lichtau.TAU.TENTAU}></h2>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="room-img">
-                                <div class="box12">
-                                    <img src="/assets/images/Tau.jpg">
-                                    <div class="box-content">
-                                        <h3>Đặt vé</h3>
-                                        <ul class="icon">
-                                            <li><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"><i class="fa fa-ship"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="room-des">
-                                <h3><a th:href="@{/datve/hanhkhach}" data-toggle="modal" data-target="#modal-id"></a></h3>
-                                <p>Ngày Khởi Hành: <label th:text="${ngayDi}"></label></p>
-                                <ul class="room-size">
-                                    <li><label>Vé người lớn: </label> <label th:text="${gia}"></label></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li><label>Vé trẻ em: </label> <label th:text="${giatreem}"></label></li>
-                                </ul>
-                                <ul class="room-size">
-                                   <i class="bi bi-clock"> Giờ xuất phát: </i> <label style="color: black;" th:text="${lichtau.GIOXUATPHAT}"></label>
-                                    <li></li>
-                                    <li></li>
-                                    <i class="bi bi-clock-fill"> Giờ đến nơi: </i> <label style="color: black;" th:text="${lichtau.GIODENNOI}"></label>
-                                </ul>
-                                <ul class="room-size">
-
-                                    <label>Vé còn lại: </label> <label th:text="${soLuongGhe[iterStat.index]}"></label>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="room-rate">
-
-                                <a th:href="@{/datve/hanhkhach/{index}(index=${iterStat.index})}" data-toggle="modal" data-target="#modal-id">Đặt vé</a>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </div>
-    </form>
-
-	<footer>
-			<div class="container">
-				<div class="row">
-
-					<div class="col-lg-4">
-
-
-						<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Điều lệ vận
-								chuyển</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều khoản và điều
-								kiện sử dụng</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Chính sách bảo mật
-								thông tin</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều kiện đặt vé trực
-								tuyến</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Quy định đổi vé</a>
-						</li>
-
-						<br>
-						<br>
-						<br>
-						<h6> Follow US</h6>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Facebook</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Zalo</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Instagram</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline: 18001000</a>
-						</li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Website:
-								tigonship.com</a></li>
-
-					</div>
-
-					<div class="col-lg-4">
-						<h5 style="color: rgb(27, 27, 27) ; text-align: center; margin-right: 30px;">Hệ Thống phòng vé
-						</h5>
-						<div style="text-align: left; margin-left: 20px;">
-							<table>
-								<tr>
-									<td style="text-align: center;">Trụ sỡ chính tại Kiên Giang</td>
-								</tr>
-								<tr>
-									<td>Số 173 Đường Phan Huy Ích, Khu phố 5,Tp Rạch Giá,tỉnh Kiên Giang <br>
-										SĐT: (0297)2368 173<br>
-										Email: tigonship173@gmail.com<br>
-										Đường dây nóng hỗ trợ booking online: 18001000<br>
-										Giờ làm viêc:(6h30 - 20h30)
-									</td>
-
-								</tr>
-							</table>
-						</div>
-						<div style="text-align: left;  margin-left: 20px;">
-							<button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng vé Hòn
-								Sơn --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Nam Du
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Sóc
-								Trăng --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Tp HCM
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Phú
-								Quốc --></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Hòn Tre
-								--></button>
-							<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé Cần Thơ
-								--></button>
-
-						</div>
-
-					</div>
-					<div class="col-lg-4">
-						<h5 style="color:rgb(27, 27, 27) ;">Về TIGONSHIP</h5>
-						<li><a href="/user/index" style="color:rgb(27, 27, 27) ;">Các tuyến
-								vận hành ở TIGONSHIP</a></li>
-						<li><a href="/dangki" style="color:rgb(27, 27, 27) ;">Đăng kí nhanh</a></li>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						
-						<div class="col-lg-12">
-							<p style="color: rgb(27, 27, 27) ;">
-								Copyright © 2023 <a href="/index.html" style="color: rgb(27, 27, 27) ;" >TIGON SHIP</a> Company.
-								All rights reserved. <br>Design: <a>TIGON TEAM</a>
-							</p>
-						</div>
+	<div class="page-heading">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+				<h2 style="color: white;">Giới Thiệu Về TIGONSHIP</h2>
+					<p>Trước hết, Công ty Cổ Phần tàu cao tốc TIGONSHIP xin gửi đến Quý hành khách lời chào
+						trân trọng cùng lời chúc sức khỏe và thành công.<br>
+						Công ty TIGONSHIP đã xây dựng xong phần mềm đặt vé trực tuyến tại website của công ty:
+						TIGONSHIP.com. Đây là một trong những sự nỗ lực của công ty nhằm đáp ứng nhu cầu đặt vé tiện lợi
+						và nhanh chóng. Đến nay, Công ty đã có 8 tàu cao tốc chuyên chở hành khách, phương tiện vận tải,
+						hàng hóa từ đất liền tới Phú Quốc, Nam Du, Hòn Sơn. Các dịch vụ đi kèm như xe trung chuyển, dịch
+						vụ ăn uống nhanh cũng được triển khai để tối ưu hóa tiện ích cho khách hàng.</p>
+				
+					<div class="border-button">
+						<a href="#"  id="explore-more-link">Khám phá nhiều hơn</a>
 					</div>
 				</div>
 			</div>
-		</footer>
+		</div>
+</div>
+	<div class="amazing-deals">
+		<div class="container1" style="background-color: white;">
+		<!--	<div class="row; col-lg-12">
 
-	
-	<script src="/assets/vendor/jquery/jquery.min.js"></script>
-	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+				<div class="section-heading text-center">
+					</div>
+</div>
+-->				<div class="tab">
+					<button class="tablinks" onclick="openCity(event, 'Honson')">Hòn Sơn</button>
+					<button class="tablinks" onclick="openCity(event, 'Namdu')">Nam Du</button>
+					<button class="tablinks" onclick="openCity(event, 'Phuquoc')">Phú Quốc</button>
+				</div>
+				<div id="Honson" class="tabcontent">
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/ganuong.jpg" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Gà núi </h4>
+										<p style="color: black">Nhắc đến top đặc sản Hòn Sơn nức tiếng gần xa chắc chắn
+											không thể bỏ lỡ món gà núi nơi đây và đặc biệt là gà trên ngọn núi Ma Thiên
+											Lãnh. Khác với giống gà nuôi công nghiệp, gà núi Hòn Sơn được người dân địa
+											phương thả rông để tự kiếm ăn nên thịt không bị bở, ít mỡ, có mùi thơm nhẹ
+											và cực kỳ bổ dưỡng. Khách thập phương đến với Hòn Sơn rất yêu thích món gà
+											núi
+											hấp rượu chấm muối tiêu chanh. Nhất là khi đi du lịch cùng bạn bè, gọi món
+											gà
+											núi hấp rượu kèm thêm vài món đặc sản Kiên Giang khác và nhâm nhi cùng ly
+											bia
+											lạnh thì còn gì bằng.</p>
 
-	<script src="/assets/js/isotope.min.js"></script>
-	<script src="/assets/js/owl-carousel.js"></script>
+										<ul class="info">
+											<li>Địa điểm: Đỉnh núi Ma Thiên Lãnh</li>
+											<li>Giá: 250.000đ/con</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/mucnangnuong.jpg" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Mực nang nướng ớt</h4>
+										<p style="color: black">Nếu bạn đang tìm kiếm những món đặc sản Hòn Sơn thơm
+											ngon hảo hạng thì đừng bỏ qua mực nang nướng ớt. Khác với loại mực thông
+											thường,
+											mực nang có kích thước khá to, phần thịt dày, chắc và giòn hơn nên khi nướng
+											lên
+											ăn rất hợp khẩu vị. Nhiều hàng quán ở Hòn Sơn còn để cho thực khách tự nướng
+											mực nang giúp bữa ăn thêm ngon miệng và hấp dẫn. Trong không khí vui tươi,
+											nhộn
+											nhịp tiếng nói cười bên bếp than đỏ ửng, được thưởng thức món mực nang nướng
+											ớt
+											thơm lừng cùng bạn bè thì quả là tuyệt vời. </p>
 
-	<script src="/assets/js/tabs.js"></script>
-	<script src="/assets/js/popup.js"></script>
-	<script src="/assets/js/custom.js"></script>
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Hòn Sơn</li>
+											<li>Giá: 250.000đ/con</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/nhumnuong.jpeg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Nhum biển nướng mỡ hành </h4>
+										<p style="color: black">Nhum biển nướng mỡ hành là một trong những đặc sản Hòn
+											Sơn mà bạn nên nếm thử nếu có dịp tới đây du lịch. Tuy nhum biển có hình
+											dáng
+											không mấy bắt mắt, lại có nhiều gai nhọn nhưng vị ngon của nó lại khiến
+											người ta
+											không thể chối từ. Theo kinh nghiệm của người dân bản địa, nếu đến Hòn Sơn
+											vào
+											khoảng tháng 3 đến tháng 6 âm lịch hằng năm (mùa nhum sinh sản mạnh) thì bạn
+											sẽ có
+											cơ hội thưởng thức món thịt nhum biển đầu mùa tươi ngon nhất. </p>
 
-	<script>
-		$(".option").click(function() {
-			$(".option").removeClass("active");
-			$(this).addClass("active");
-		});
-	</script>
+
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Hòn Sơn</li>
+											<li>Giá: 45.000/con</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/camusong.jpeg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Cá mú sống chấm mù tạt </h4>
+										<p style="color: black">Cá mú sống chấm mù tạt là một trong những đặc sản Hòn
+											Sơn thu hút rất nhiều thực khách tìm đến thưởng thức. Cá mú sẽ được sơ chế
+											sạch,
+											rút bỏ hết da và xương rồi cắt thành từng miếng nhỏ vừa ăn. Khi thưởng thức,
+											vị
+											cay nồng nức mũi của tinh dầu cải cùng mù tạt đã đánh tan vị tanh của cá mú,
+											chỉ
+											đọng lại độ ngọt nhẹ, tươi mới của thịt cá nên có cảm giác vô cùng sảng
+											khoái.
+										</p>
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Hòn Sơn</li>
+											<li>Giá: 190.000đ/phần</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/catrich.jpg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Gỏi cá trích </h4>
+										<p style="color: black">Gỏi cá trích là món ăn khá phổ biến tại các tỉnh thành
+											ven biển. Tuy nhiên, có dịp thưởng thức gỏi Hòn Sơn thì bạn sẽ cảm nhận
+											hương vị rất khác biệt. Vùng biển của nơi đây đã nuôi dưỡng nên loại cá
+											chích ngọt thịt, hương vị đậm đà. Rồi qua bàn tay khéo léo của con người
+											Hòn Sơn, món Gỏi cá trích càng trở nên đậm đà, hấp dẫn.</p>
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Hòn Sơn</li>
+											<li>Giá: 190.000đ/phần</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="Namdu" class="tabcontent">
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/caxanh.jpg" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Cá Xương Xanh nướng </h4>
+										<p style="color: black">Cá Xương Xanh hay còn có tên gọi khác là cá nhái – đây
+											là một loài cá biển, thân dài và tròn, mỏ nhọn khá giống với cá kìm kìm.
+											Thông thường, người dân nơi đây hay chế biến loại cá này thành món nướng để
+											cuốn với bánh tráng. Cá sẽ được cạo vẩy, rửa sạch nhớt rồi đem đi nướng trên
+											than đến khi da khô nứt và dậy mùi thơm.
+											Từng miếng cá nóng hổi, dai ngọt cuộn với bánh tráng và các loại rau rừng
+											quyện cùng vị chua ngọt, cay cay từ nước mắm. Tất cả tạo nên một mùi vị lôi
+											cuốn, thơm ngon đến khó cưỡng!</p>
+
+										<ul class="info">
+											<li>Địa điểm: Các quán ven biển Nam Du</li>
+											<li>Giá cả dao động: 150.000 – 200.000đ/con</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/laucabop.jpg" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Lẩu cá bớp</h4>
+										<p style="color: black">Nam Du nổi tiếng với nghề nuôi cá bớp, chính vì vậy khi
+											đến đây bạn sẽ được thưởng thức rất nhiều món ngon từ nguyên liệu này. Nào
+											là canh chua cá bớp, cá bớp kho tộ đến cá bớp nướng, lẩu cá bớp,…
+											Với tiết trời mát lạnh của vùng biển, được ngồi cạnh nồi lẩu cá bớp nóng hổi
+											thì còn gì lý tưởng hơn. Thịt cá săn chắc, mềm ngọt, mỡ cá thì béo thơm dùng
+											kèm với bún tươi, rau sống, húp thêm nước lẩu chua cay thì quả là no bụng ấm
+											lòng. </p>
+
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Nam Du</li>
+											<li>Giá cả dao động: 170.000 – 200.000đ/phần</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/muchap.jpg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Mực hấp gừng</h4>
+										<p style="color: black">Nếu ghé thăm Nam Du vào những tháng đầu năm, bạn nên
+											đăng ký một suất câu mực đêm. Ngoài có thêm trải nghiệm thú vị, bạn sẽ còn
+											có được một mẻ mực tươi rói để chế biến thành nhiều món ăn ngon như mực hấp
+											gừng. Để nếm trọn được vị tươi ngọt của mực, hấp cùng với gừng rồi chấm cùng
+											với
+											muối ớt cay cay là một ý tưởng tuyệt vời. Cách làm tuy đơn giản, nhanh
+											chóng, nhưng bạn sẽ phải bất ngờ trước độ thơm ngon của món ăn này đó nha!
+										</p>
+
+
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán ven bờ biển Nam Du</li>
+											<li>Giá cả dao động: 200.000 – 250.000đ/kg</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/octaituong.jpg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Ốc tai tượng</h4>
+										<p style="color: black">Ốc tai tượng – một loại đặc sản độc nhất chỉ có tại đảo
+											Nam Du. Vì khá hiếm nên giá thành của loại ốc này tương đối đắt đỏ, tuy
+											nhiên TigonShip vẫn khuyên bạn nên trải nghiệm thử mùi vị của “em nó”
+											một lần.Muốn thịt ốc giòn sần sật, ăn không bị dai và có vị ngọt, bạn nên
+											lựa những
+											con ốc có cân nặng khoảng 1kg trở lên. Ngoài cách chế biến nướng, nấu cháo,
+											ăn sống với mù tạt, bạn có thể tham khảo thêm món ốc xào bơ. Thịt ốc giòn
+											ngọt hòa quyện với mùi thơm béo của bơ, cay cay của ớt, ăn thử một miếng là
+											thích mê.
+										</p>
+
+
+										<ul class="info">
+											<li>Địa điểm: Tất cả các quán hải sản ở Nam Du</li>
+											<li>Giá cả dao động: 260.000 – 280.000đ/con</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div id="Phuquoc" class="tabcontent">
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/bunken.jpg" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Bún kèn </h4>
+										<p style="color: black">Bún kèn là món ăn không còn quá xa lạ với người dân Phú
+											Quốc. Một tô bún kèn sẽ được nấu từ loại cá nhao hay cá ngân dầm nhuyễn, sau
+											đó mang đi chiên giòn. Topping đầy đủ của tô bún sẽ bao gồm: nước cốt dừa,
+											nước cá luộc, đu đủ xanh, rau thơm, ớt trộn. Hương vị của bún kèn Phú Quốc
+											không giống với bất cứ đâu và chỉ khi đến đảo ngọc bạn mới có cơ hội thưởng
+											thức món ăn hấp dẫn này.</p>
+
+										<ul class="info">
+											<li>Địa chỉ gợi ý: Quán Út Lượm – số 87 đường 30/4 – phường Dương Đông – Phú
+												Quốc</li>
+											<li>Giá tham khảo: 25.000 – 35.000đ/bát</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/ghehamninh.png" alt="" height="400px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Ghẹ Hàm Ninh</h4>
+										<p style="color: black">Làng chài Hàm Ninh là nơi bạn có thể tới để mua đủ loại
+											hải sản tươi sống thơm ngon với mức giá cực kỳ phải chăng. Món ăn bạn không
+											thể bỏ qua là ghẹ Hàm Ninh – món đặc sản tươi ngon, hấp dẫn và nổi tiếng bậc
+											nhất Phú Quốc. Ghẹ Hàm Ninh sẽ được đánh bắt ngay trong ngày nên rất tươi
+											rói, thịt chắc, ngọt và cực kỳ nhiều gạch. Bạn có thể mua ghẹ Hàm Ninh về tự
+											chế biến hoặc mua về làm quà sau chuyến du lịch cho bạn bè, người thân.</p>
+
+										<ul class="info">
+											<li>Địa chỉ gợi ý: làng chài Hàm Ninh, chợ Dương Đông, chợ An Thới</li>
+											<li>Giá tham khảo: từ 180.000 – 250.000 VNĐ/kg</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/bunquay.jpg" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Bún quậy</h4>
+										<p style="color: black">Bên cạnh bún kèn, bún quậy cũng là một trong những món
+											đặc sản được nhiều du khách tìm kiếm khi đến với Phú Quốc. Một tô bún quậy
+											sẽ có đa dạng các loại hải sản như tôm, cá, mực ăn kèm chút hành, rau thơm
+											và chan thêm nước lèo. Điểm đặc biệt của tô bún quậy đó là phần nước chấm ăn
+											kèm được pha theo công thức tùy khẩu vị mỗi người. </p>
+
+
+										<ul class="info">
+											<li>Địa chỉ gợi ý: số 27 – đường Bạch Đằng – phường Dương Đông – Phú Quốc
+											</li>
+											<li>Giá tham khảo: 30.000 – 55.000 VNĐ/bát</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div class="item">
+							<div class="row">
+								<div class="col-lg-4 col-sm-5">
+									<div class="image">
+										<img src="/assets/images/banhcanhghe.png" alt="" height="350px">
+									</div>
+								</div>
+								<div class="col-lg-8 col-sm-7">
+									<div class="right-content">
+										<h4 style="margin-top: 10px;">Bánh canh ghẹ</h4>
+										<p style="color: black">Bánh canh ghẹ Phú Quốc được mệnh danh là món ăn trứ
+											danh, không chỉ nổi tiếng ở Phú Quốc mà còn cả 3 miền đất nước. Tô bánh canh
+											ghẹ Phú Quốc mang hương vị rất riêng, khó có thể tìm ở nơi khác. Chỉ với
+											khoảng 60.000 VNĐ là bạn đã có thể thưởng thức một tô bánh canh đầy đặn tôm,
+											chả cá viên, mực, thịt ghẹ chắc, tươi ăn kèm cùng nhiều loại rau sống thơm
+											ngon.
+										</p>
+
+
+										<ul class="info">
+											<li>Địa chỉ gợi ý: quán Huỳnh Như – Số 14 Trần Hưng Đạo – phường Dương Đông – Phú Quốc</li>
+											<li>Giá tham khảo: 60.000 – 120.000 VNĐ/tô</li>
+										</ul><br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				 
+		</div>
+				<footer>
+					<div class="container">
+						<div class="row">
+
+							<div class="col-lg-4">
+
+
+								<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Điều lệ vận
+										chuyển</a></li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều khoản và
+										điều
+										kiện sử dụng</a></li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Chính sách
+										bảo mật
+										thông tin</a></li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Điều kiện đặt
+										vé trực
+										tuyến</a></li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Quy định đổi
+										vé</a>
+								</li>
+
+								<br>
+								<br>
+								<br>
+								<h6> Follow US</h6>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Facebook</a>
+								</li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Zalo</a></li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Instagram</a>
+								</li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline:
+										18001000</a>
+								</li>
+								<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Website:
+										tigonship.com</a></li>
+
+							</div>
+
+							<div class="col-lg-4">
+								<h5 style="color: rgb(27, 27, 27) ; text-align: center; margin-right: 30px;">Hệ Thống
+									phòng vé
+								</h5>
+								<div style="text-align: left; margin-left: 20px;">
+									<table>
+										<tr>
+											<td style="text-align: center;">Trụ sỡ chính tại Kiên Giang</td>
+										</tr>
+										<tr>
+											<td>Số 173 Đường Phan Huy Ích, Khu phố 5,Tp Rạch Giá,tỉnh Kiên Giang <br>
+												SĐT: (0297)2368 173<br>
+												Email: tigonship173@gmail.com<br>
+												Đường dây nóng hỗ trợ booking online: 18001000<br>
+												Giờ làm viêc:(6h - 20h30)
+											</td>
+
+										</tr>
+									</table>
+								</div>
+								<div style="text-align: left;  margin-left: 20px;">
+									<button style="background-color: cadetblue; width: 220px; text-align: left;">Phòng
+										vé Hòn
+										Sơn --></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Nam Du
+										--></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Sóc
+										Trăng --></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Tp HCM
+										--></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Phú
+										Quốc --></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Hòn Tre
+										--></button>
+									<button style="background-color: cadetblue;width: 220px; text-align: left;">Phòng vé
+										Cần Thơ
+										--></button>
+
+								</div>
+
+							</div>
+							<div class="col-lg-4">
+								<h5 style="color:rgb(27, 27, 27) ;">Về TIGONSHIP</h5>
+								<li><a href="/user/index" style="color:rgb(27, 27, 27) ;">Các tuyến
+										vận hành ở TIGONSHIP</a></li>
+								<li><a href="/dangki" style="color:rgb(27, 27, 27) ;">Đăng kí nhanh</a></li>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+
+								<div class="col-lg-12">
+									<p style="color: rgb(27, 27, 27) ;">
+										Copyright © 2023 <a href="/index.html" style="color: rgb(27, 27, 27) ;">TIGON
+											SHIP</a>
+										Company.
+										All rights reserved. <br>Design: <a>TIGON TEAM</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</footer>
+
+				<script src="/assets/vendor/jquery/jquery.min.js"></script>
+				<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+				<script src="/assets/js/isotope.min.js"></script>
+				<script src="/assets/js/owl-carousel.js"></script>
+
+				<script src="/assets/js/tabs.js"></script>
+				<script src="/assets/js/popup.js"></script>
+				<script src="/assets/js/custom.js"></script>
+
+				<script>
+					function openCity(evt, cityName) {
+						var i, tabcontent, tablinks;
+						tabcontent = document.getElementsByClassName("tabcontent");
+						for (i = 0; i < tabcontent.length; i++) {
+							tabcontent[i].style.display = "none";
+						}
+						tablinks = document.getElementsByClassName("tablinks");
+						for (i = 0; i < tablinks.length; i++) {
+							tablinks[i].className = tablinks[i].className.replace(" active", "");
+						}
+						document.getElementById(cityName).style.display = "block";
+						evt.currentTarget.className += " active";
+					}
+					// Tự động hiển thị tab "KhoanDuoi" khi trang được tải
+					document.getElementById('Honson').style.display = "block";
+					document.querySelector('.tablinks.active').click();
+				</script>
+			<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Lấy đối tượng button
+    var exploreMoreButton = document.getElementById('explore-more-link');
+
+    // Lấy các đối tượng tab
+    var honsonTab = document.getElementById('Honson');
+    var namduTab = document.getElementById('Namdu');
+    var phuquocTab = document.getElementById('Phuquoc');
+
+    // Ẩn tất cả các tab trừ tab Honson
+    namduTab.style.display = 'none';
+    phuquocTab.style.display = 'none';
+
+    // Thêm sự kiện click vào button
+    exploreMoreButton.addEventListener('click', function () {
+        // Hiển thị tab Honson
+        honsonTab.style.display = 'block';
+
+        // Ẩn các tab khác
+        namduTab.style.display = 'none';
+        phuquocTab.style.display = 'none';
+    });
+});
+</script>
 
 </body>
 

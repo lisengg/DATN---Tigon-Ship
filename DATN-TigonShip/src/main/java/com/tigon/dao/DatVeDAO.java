@@ -21,7 +21,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 	@Query(value = "SELECT TOP 1 * from DatVe ORDER BY MADATVE DESC", nativeQuery = true)
 	DatVe FINDIDMAX();
 
-	@Query(value = "SELECT * FROM DatVe WHERE idtaikhoan = ?", nativeQuery = true)
+	@Query(value = "SELECT * FROM DatVe WHERE idtaikhoan = ? ORDER BY MADATVE DESC", nativeQuery = true)
 	List<DatVe> ListDatVeByIdTaiKhoan(Integer idtaikhoan); // lấy tất cả thông tin đặt vé của 1 hành khách
 
 	/* TÀI KHOẢN */
