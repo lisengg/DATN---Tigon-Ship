@@ -2,14 +2,18 @@ package com.tigon.RestController;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.DatVeDAO;
 import com.tigon.dao.HoaDonDAO;
+import com.tigon.dao.LichSuDatVeDAO;
 import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.dao.TuyenDAO;
-import com.tigon.model.HoaDon;
-import com.tigon.model.Tuyen;
+import com.tigon.model.LichSuDatVe;
+import com.tigon.model.TaiKhoan;
+import com.tigon.service.TaiKhoanService;
 
 @CrossOrigin("*")
 @RestController
@@ -35,6 +41,10 @@ public class DatVeRestController {
     DatGheDAO datgheDAO;
     @Autowired
     NguoiDiCungDAO nguoidicungDAO;
+    @Autowired
+    LichSuDatVeDAO lichsuDAO;
+    @Autowired
+    TaiKhoanService taiKhoanService;
 
     /*
      * @GetMapping("/rest/datve")
@@ -43,6 +53,22 @@ public class DatVeRestController {
      * map.put("tuyen", tuyenDAO.findAll());
      * return map;}
      */
+    
+    @GetMapping("/rest/datve")
+	public Map<String, Object> getAll() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("tuyen", tuyenDAO.findAll());
+		map.put("lichsu",lichsuDAO.findAll());
+		return map;
+	}
+
+    @PostMapping("/rest/datve/lichsu/save")
+    public LichSuDatVe saveLichSu(@RequestBody LichSuDatVe lichSu,HttpSession session) {
+      Integer user = Integer.parseInt(session.getAttribute("user").toString());
+      TaiKhoan hanhkhach = taiKhoanService.findById(user);
+      lichSu.setTEN(hanhkhach.getHOVATEN());
+        return lichsuDAO.save(lichSu);
+    }
 
     @GetMapping("rest/datve/taikhoan") // lấy hết thông tin đặt vé của tài khoản
     public List<Object> thongTinTK() {
@@ -53,13 +79,7 @@ public class DatVeRestController {
     public List<Object> thongTinHK() {
         return datVeDAO.thongTinHK();
     }
-
-    @GetMapping("/rest/datve")
-    public List<Tuyen> getAllTuyen() { // select tất cả tuyến
-        List<Tuyen> list = tuyenDAO.findAll();
-        return list;
-    }
-
+    
     @PutMapping("/rest/datve/hoadon/update/{id}")
     public void capNhatTongTienHoaDon(@PathVariable Integer id, @RequestBody BigDecimal tongtien) {
         datVeDAO.tongTienHoaDon(id, tongtien);

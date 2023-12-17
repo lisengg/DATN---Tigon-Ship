@@ -1,5 +1,6 @@
 package com.tigon.dao;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public interface HoaDonDAO extends JpaRepository<HoaDon, Integer> {
 	long countAllHoaDon();
     
     @Query(value = "SELECT SUM(TongTien) FROM HOADON ", nativeQuery = true)
-    Double sumTongTienOfAllHoaDon();
+    BigDecimal sumTongTienOfAllHoaDon();
 
 
     @Query(value = "SELECT * FROM HOADON WHERE MADATVE=?1", nativeQuery = true)

@@ -1,6 +1,6 @@
 const app = angular.module('ghengoi-app', []);
 app.controller('ghengoi-ctrl', function($scope, $http) {
-
+	 $scope.selectedGhe = null;
 	$scope.index= 1
 	$scope.items1= [];
 	$scope.items2= [];
@@ -8,7 +8,7 @@ app.controller('ghengoi-ctrl', function($scope, $http) {
 	$scope.capnhat= false
 	$scope.trangthai = false;
 	$scope.idghedachon= "";
-
+	
 	$scope.initialize = function() {
 		$http.get(`/rest/ghengoi/tau`).then(response => {
 			$scope.tau = response.data;
@@ -43,6 +43,7 @@ app.controller('ghengoi-ctrl', function($scope, $http) {
 		$scope.idghedachon= idghe;
 		$scope.trangthai= true
 		$scope.capnhat=true
+		$scope.selectedGhe = idghe;
 		$http.get(`/rest/ghengoi/ghengoi/${idghe}`).then(response => {
 			$scope.mong = response.data;
 		});
@@ -62,8 +63,8 @@ app.controller('ghengoi-ctrl', function($scope, $http) {
 				$scope.onSelectChange($scope.index);
 				console.log($scope.index)
 					//CẬP NHẬT THÀNH CÔNG GHI Ở ĐÂY.
-			/* 	document.getElementById('check3').checked = true; */
-				alert("Cập nhật ghế thành công")
+		 	document.getElementById('check3').checked = true; 
+				/*alert("Cập nhật ghế thành công")*/
 			},
 			function errorCallback(error) {
 				console.log("Lỗi cập nhật: ", error);

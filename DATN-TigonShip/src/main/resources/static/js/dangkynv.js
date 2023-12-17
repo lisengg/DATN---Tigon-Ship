@@ -46,8 +46,7 @@ app.controller('tk-ctrl', function($scope, $http) {
 			loaihk: $scope.items.loaihk.find(item => item.loaihk === 'Người lớn'),
 		};
 	}
-	// Hàm kiểm tra ngày sinh
-	// Hàm kiểm tra ngày sinh
+// Hàm kiểm tra ngày sinh
 function isDateOfBirthValid(dateString) {
     // Chuyển đổi chuỗi ngày tháng nhập vào thành đối tượng Date
     var inputDate = new Date(dateString);
@@ -72,6 +71,7 @@ function isDateOfBirthValid(dateString) {
     // Kiểm tra xem ngày sinh có nằm trong khoảng từ 18 đến 45 tuổi hay không
     return inputDate >= minDate && inputDate <= maxDate;
 }
+
 	//Thêm nhân viên mới
 	$scope.save = function() {
 		// Cập nhật giá trị city, district, và ward từ các trường HTML
