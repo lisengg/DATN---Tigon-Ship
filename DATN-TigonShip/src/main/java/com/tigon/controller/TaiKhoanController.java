@@ -32,6 +32,7 @@ import com.tigon.dao.DatGheDAO;
 import com.tigon.dao.LoaiHanhKhachDAO;
 import com.tigon.dao.NguoiDiCungDAO;
 import com.tigon.dao.OTPDAO;
+import com.tigon.model.DanhGia;
 import com.tigon.model.DatGhe;
 import com.tigon.model.DatVe;
 import com.tigon.model.GheNgoi;
@@ -40,6 +41,7 @@ import com.tigon.model.TaiKhoan;
 import com.tigon.model.LoaiHanhKhach;
 import com.tigon.model.NguoiDiCung;
 import com.tigon.model.OTP;
+import com.tigon.service.DanhGiaService2;
 import com.tigon.service.DatGheService;
 import com.tigon.service.DatVeService;
 import com.tigon.service.EmailService;
@@ -92,6 +94,9 @@ public class TaiKhoanController implements CommandLineRunner {
 	
 	@Autowired
 	NguoiDiCungService nguoiDiCungService;
+	
+	@Autowired
+	DanhGiaService2 danhGiaService;
 
 	private final JdbcTemplate jdbcTemplate;
 
@@ -101,11 +106,15 @@ public class TaiKhoanController implements CommandLineRunner {
 		List<DatVe> sohd = datveService.ListDatVeByIdTaiKhoan(user);
 		List<DatVe> lichsuve = datveService.ListDatVeByIdTaiKhoan(user);
 		DatVe datve = datveService.getNgayDatMoiNhat(user);
+		List<DanhGia> danhgia = danhGiaService.finddanhgiatk(user);
+		String soDanhGia = danhgia.size() + "/" +sohd.size() + " chuyến đi";
+		
 		if (datve != null) {
 			model.addAttribute("lichsu", lichsuve);
 			model.addAttribute("sohd", sohd.size());
 			model.addAttribute("ngaydat", datve.getNGAYDAT());
 			model.addAttribute("chuyengannhat", datve.getLICHTAUCHAY().getTUYEN().getTENTUYEN());
+			model.addAttribute("danhGia",soDanhGia);
 		} else {
 			model.addAttribute("ngaydat", "");
 			model.addAttribute("chuyengannhat", "");

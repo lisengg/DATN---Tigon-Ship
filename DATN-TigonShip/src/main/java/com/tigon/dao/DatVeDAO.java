@@ -32,7 +32,8 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 			+ "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU "
 			+ "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU "
 			+ "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
-			+ "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay ", nativeQuery = true)
+			+ "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay "
+			+ "ORDER BY hd.MAHD DESC",nativeQuery = true)
 	List<Object> thongTinDatVe(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin tài khoản */
@@ -43,7 +44,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 			+ "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU "
 			+ "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU "
 			+ "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
-			+ "ORDER BY dv.NGAYDAT DESC", nativeQuery = true)
+			+ "ORDER BY hd.MAHD DESC", nativeQuery = true)
 	List<Object> thongTinTK();
 
 	/* HÀNH KHÁCH */
@@ -54,7 +55,8 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 			+ "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU "
 			+ "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU "
 			+ "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
-			+ "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay ", nativeQuery = true)
+			+ "WHERE tuyen.IDTUYEN  = :id AND CAST(NGAYDI AS DATE) = :ngay "
+			+ "ORDER BY hd.MAHD DESC",nativeQuery = true)
 	List<Object> thongTinDatVeHK(@Param("id") Integer id, @Param("ngay") Date ngay);
 
 	/* Tất cả thông tin hành khách */
@@ -65,7 +67,7 @@ public interface DatVeDAO extends JpaRepository<DatVe, Integer> {
 			+ "INNER JOIN LICHTAUCHAY ltc ON ltc.IDLICHTAU = dv.IDLICHTAU "
 			+ "INNER JOIN TAU t ON t.IDTAU = ltc.IDTAU "
 			+ "INNER JOIN TUYEN tuyen ON tuyen.IDTUYEN = ltc.IDTUYEN "
-			+ "ORDER BY dv.NGAYDAT DESC", nativeQuery = true)
+			+ "ORDER BY hd.MAHD DESC", nativeQuery = true)
 	List<Object> thongTinHK();
 
 	// Thông tin đặt ghế (tên ghế - id ghế)

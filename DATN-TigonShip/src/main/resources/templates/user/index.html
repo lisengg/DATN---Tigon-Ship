@@ -32,10 +32,6 @@
 			opacity: 0.6
 		}
 
-		/* 0.6 là điều chỉnh thông số thông suốt  */
-		.black:hover {
-			filter: grayscale(100%);
-		}
 
 		/*  100% là độ chuyển màu sang đen của ảnh  */
 		.blur:hover {
@@ -77,7 +73,7 @@
 							<li><a href="/">Trang chủ</a></li>
 							<li><a href="/lienhe">Liên hệ</a></li>
 							<li><a href="/datve/timtuyen">Đặt vé</a></li>
-							<li><a href="/gopy">Góp Ý</a></li>
+		
 							<li th:if="${#request.isUserInRole('KHACHHANG')}"><a href="/gioithieu">Giới thiệu</a></li>
 							<th:block th:unless="${#httpServletRequest.remoteUser}">
 								<li><a href="/dangnhap">Đăng nhập</a></li>
@@ -223,7 +219,7 @@
 												<span  th:text=${p.TIEUDE}></span>
 											
 													<div class="main-button">
-														<a href="index.html">Đặt vé ngay</a>
+														<a th:href="@{/datve/timtuyen}">Đặt vé ngay</a>
 													</div>
 													<p style="text-align: justify;" th:text=${p.NOIDUNG}></p>
 													<ul class="info">
@@ -286,7 +282,7 @@
 						<li><a href="/user/index" style="color: rgb(27, 27, 27) ;text-align: left;">Facebook</a></li>
 						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Zalo</a></li>
 						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Instagram</a></li>
-						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline: 18001000</a>
+						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Hotline: 079 495 3695</a>
 						</li>
 						<li><a href="/user/index" style="color: rgb(27, 27, 27);text-align: left;">Website:
 								tigonship.com</a></li>

@@ -193,8 +193,8 @@
 					<p class="customer-rating" th:utext="${saoDanhGia[saoIndex.index]}"></p>
 
 					<p th:text="${dg.BINHLUAN}"></p>
-					Đánh giá vào lúc: <p class="review-date"
-						th:text="${#temporals.format(dg.NGAYDANHGIA, 'HH:mm dd/MM/yyyy')}"></p>
+					Ngày đánh giá: <p class="review-date"
+						th:text="${#temporals.format(dg.NGAYDANHGIA, 'dd/MM/yyyy')}"></p>
 					
 				</div>
 

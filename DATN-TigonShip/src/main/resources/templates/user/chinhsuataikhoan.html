@@ -222,11 +222,9 @@
         <nav class="nav nav-borders">
             <a class="nav-link"
                  th:href="@{/thongtintaikhoan}">Hồ sơ</a> <a class="nav-link active"
-                th:href="@{/chinhsuataikhoan}">Thông tin chi tiết</a> <a class="nav-link" 
-                th:href="@{/baomat}">Bảo mật</a> <a
-                class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page" th:if="${#request.isUserInRole('USER')}"
-                target="__blank">Thông báo</a>
-
+                th:href="@{/user/chinhsuataikhoan/form}">Thông tin chi tiết</a> <a class="nav-link" 
+                th:href="@{/baomat}">Bảo mật</a> 
+				<a class="nav-link" th:href="@{/Danhgiacuatoi}">Đánh giá của tôi</a> 
         </nav>
         <hr class="mt-0 mb-4">
         <div class="row">

@@ -5,7 +5,7 @@
 		<nav class="navbar navbar-expand-sm navbar-default">
 			<div id="main-menu" class="main-menu collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a></a></li>
+					<li ><a></a></li>
 					<li class="menu-title">Quản lí</li>
 					<!-- /.menu-title -->
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
@@ -30,48 +30,37 @@
 					</a></li>
 					<li><a th:href="@{/admin/datve}"><i
 							class="menu-icon ti-menu"></i>Đặt vé </a></li>
-					<li><a th:href="@{/admin/taikhoan}"> <i
+					 <li><a th:href="@{/admin/taikhoan}"> <i
 							class="menu-icon ti-user"></i>Người dùng
-					</a></li>
+					</a></li> 
 					<li><a th:href="@{/admin/tintuc}"> <i
 							class="menu-icon ti-list"></i>Bảng tin
 					</a></li>
 					<li class="menu-title" th:if="${#request.isUserInRole('ADMIN')}">Thống kê</li>
-					<li><a th:href="@{/admin/hoadon}"
+				<!-- <li><a th:href="@{/admin/hoadon}"
 						th:if="${#request.isUserInRole('ADMIN')}"><i
-							class="menu-icon ti-menu"></i>Hóa đơn </a></li>
-					<li class="menu-item-has-children dropdown"
-						th:if="${#request.isUserInRole('ADMIN')}"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false"> <i
-							class="menu-icon fa fa-bar-chart"></i>Doanh thu
-					</a>
+							class="menu-icon ti-menu"></i>Hóa đơn </a></li> -->
+					<li class="menu-item-has-children dropdown" th:if="${#request.isUserInRole('ADMIN')}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+							<i class="menu-icon fa fa-bar-chart"></i>Doanh thu</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="fa fa-table"></i><a
-								th:href="@{/admin/doanhthu}">Hôm nay</a></li>
-							<li><i class="fa fa-table"></i><a
-								th:href="@{/admin/doanhthu/theongay}">Theo ngày</a></li>
+							<li><i class="fa fa-table"></i><a th:href="@{/admin/doanhthu}">Hôm nay</a></li>
+							<li><i class="fa fa-table"></i><a th:href="@{/admin/doanhthu/theongay}">Theo ngày</a></li>
 						</ul></li>
-					<li class="menu-item-has-children dropdown"
-						th:if="${#request.isUserInRole('ADMIN')}"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false"> <i
-							class="menu-icon ti-heart"></i>Đánh giá
-					</a>
+					<li class="menu-item-has-children dropdown" th:if="${#request.isUserInRole('ADMIN')}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="menu-icon ti-heart"></i>Đánh giá</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="fa fa-table"></i><a
-								th:href="@{/admin/danhgia}">Tổng quan</a></li>
-							<li><i class="fa fa-table"></i><a
-								th:href="@{/admin/danhgia/chitiet}">Chi tiết</a></li>
+							<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia}">Tổng quan</a></li>
+							<li><i class="fa fa-table"></i><a th:href="@{/admin/danhgia/chitiet}">Chi tiết</a></li>
 						</ul></li>
-					<!-- <li><a th:href="@{/admin/danhgia}"> <i
-							class="menu-icon ti-heart"></i>Đánh giá
-					</a></li> -->
-					<li th:if="${#request.isUserInRole('ADMIN')}" class="menu-title">Nhân
-						viên</li>
-					<li th:if="${#request.isUserInRole('ADMIN')}"><a
-						th:href="@{/admin/authority1}"><i class="menu-icon ti-stamp"></i>Nhân
-							viên </a></li>
+						
+					<li th:if="${#request.isUserInRole('ADMIN')}" class="menu-title">Nhân viên</li>
+						
+					<li th:if="${#request.isUserInRole('ADMIN')}">
+						<a th:href="@{/admin/authority1}">
+							<i class="menu-icon ti-stamp"></i>Nhân viên </a>
+					</li>
 					<li th:if="${#request.isUserInRole('ADMIN')}"><a
 						th:href="@{/admin/dangkynv}"><i class="menu-icon ti-stamp"></i>Đăng
 							ký tài khoản</a>
@@ -113,7 +102,7 @@
 	<header id="header" class="header">
 		<div class="top-left">
 			<div class="navbar-header" style="width: 220px; height: 100px">
-				<a th:href="@{/admin}" class="navbar-brand" href="./"><img
+				<a th:href="@{/admin}" class="navbar-brand"><img
 					src="/images/logotau.png"></a>
 			</div>
 		</div>

@@ -48,11 +48,10 @@ public class DanhGiaController {
 	@GetMapping("/danhgia")
 	public String getDanhGia(Model model) {
 		// Lấy danh sách đánh giá từ cơ sở dữ liệu
-		
+		TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
 		List<Tuyen> list = ttservice.findAll();
 		model.addAttribute("items", list);
 		List<DanhGia> danhGiaList = danhGiaDAO.findAll();
-
 		List<String> saoDanhGia = new ArrayList<>();
 
 		for (int i = 0; i < danhGiaList.size(); i++) {
@@ -93,7 +92,26 @@ public class DanhGiaController {
 
 		return "redirect:/danhgia";
 	}
-
+	@RequestMapping("/Danhgiacuatoi")
+	public String Danhgiacuatoi(Model model) {
+		TaiKhoan tk = tksv.findById(Integer.parseInt(session.getAttribute("user").toString()));
+		List<Tuyen> list = ttservice.findAll();
+		model.addAttribute("items", list);
+		List<DanhGia> danhGiaList = danhGiaDAO.finddanhgiatk(tk.getIDTAIKHOAN());
+		List<String> saoDanhGia = new ArrayList<>();
+		for (int i = 0; i < danhGiaList.size(); i++) {
+			Integer sao = danhGiaList.get(i).getDANHGIA();
+			String chuoiSao = "&#9733;";
+			for (int y = 1; y < sao; y++) {
+				chuoiSao = chuoiSao + "&#9733;";
+			}
+			saoDanhGia.add(chuoiSao);
+		}
+		model.addAttribute("saoDanhGia", saoDanhGia);
+		model.addAttribute("danhGiaList", danhGiaList);
+	
+		return "/user/Danhgiacuatoi";
+	}
 	@GetMapping("/getiddanhgia/{id}")
 	public ResponseEntity<DanhGia> getDanhGia(@PathVariable String id) {
 		DanhGia danhGia = dgsv.findById(Integer.parseInt(id));
