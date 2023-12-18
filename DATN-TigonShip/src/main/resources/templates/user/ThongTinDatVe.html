@@ -52,32 +52,68 @@
                             </select>
                         </div>
                         <br>
+                        <div class="form-group" style="text-align: left; margin-left: 23px;">
+    						<input type="checkbox" name="confirmInfo" id="confirmInfo">
+    						<label for="confirmInfo" style="color: white;"> <b>Tôi xác nhận thông tin này là đúng</b> </label>
+						</div>
+                        <br>
             <div class="aitssendbuttonw3ls">
                  <button formaction="/datve/HanhKhachDiCung" class="w3-button w3-red w3-round-large" ><b>Tiếp Tục</b></button>
             </div>
 </form>
     </div>
-    <script>
+<script>
         function validateForm() {
+        	var usernameInput = document.getElementsByName('username')[0];
             var cccdInput = document.getElementsByName('cccd')[0];
             var sdtInput = document.getElementsByName('SDT')[0];
             var dateInput = document.getElementsByName('date')[0];
-
-            // Kiểm tra CCCD là số và đúng định dạng
-            if (!/^\d{12}$/.test(cccdInput.value)) {
-                alert('CCCD phải là 12 số.');
+            var emailInput = document.getElementsByName('email')[0];
+            var confirmInfoCheckbox = document.getElementById('confirmInfo');   	
+         	
+            // Biểu thức chính quy cho họ và tên (không chấp nhận kí tự đặc biệt và số)
+            var usernameRegex = /^[^\d!@#$%^&*()_+={}\[\]:;<>,.?\/\\|~`0-9]+$/;
+            // Kiểm tra họ và tên theo biểu thức chính quy
+            if (!usernameRegex.test(usernameInput.value.trim())) {
+                alert('Họ và tên không được chứa kí tự đặc biệt hoặc số.');
+                return false;
+            } 
+            // Kiểm tra CCCD theo biểu thức chính quy
+            // Biểu thức chính quy cho CCCD
+            var cccdRegex = /^((0[0-9][1-9]|1[0-9][0-6]|2[0-3][0-9]|24[0-9])[0-3][0-9]{2}[0-9]{6})$/;
+            if (!/^(((0[1-9][0-9]|99))[0-3][0-9]{2}[0-9]{6})$/.test(cccdInput.value.trim())) {
+                alert('CCCD không hợp lệ. Vui lòng nhập theo định dạng đúng.');
                 return false;
             }
-
+        
+         // Biểu thức chính quy cho định dạng email
+            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            // Kiểm tra định dạng email theo biểu thức chính quy
+            if (!emailRegex.test(emailInput.value.trim())) {
+                alert('Email không hợp lệ. Vui lòng nhập theo định dạng đúng.');
+                return false;
+            }
+            
             // Kiểm tra SDT là số và đúng định dạng
             if (!/^\d{10,11}$/.test(sdtInput.value)) {
                 alert('Số điện thoại không hợp lệ.');
                 return false;
             }
             
-         // Kiểm tra tuổi
+            if (!/^(0[1-9][0-9]{8})$/.test(sdtInput.value)) {
+                alert('Số điện thoại không hợp lệ.');
+                return false;
+            }
+            
+         	// Kiểm tra tuổi
             if (!validateAge(dateInput)) {
                 alert('Bạn phải đủ 18 tuổi để đặt vé.');
+                return false;
+            }
+         
+            // Kiểm tra xem checkbox đã được chọn hay không
+            if (!confirmInfoCheckbox.checked) {
+                alert('Bạn cần xác nhận thông tin là đúng.');
                 return false;
             }
           

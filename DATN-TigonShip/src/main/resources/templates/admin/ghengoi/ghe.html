@@ -121,7 +121,7 @@
                                 <select ng-model="mong.trangthai" ng-options="status for status in ['Đang hoạt động', 'Ngưng hoạt động']" ng-change="onChangeTrangThai()"></select>
                             </span>
                         </div>
-                        <button ng-click="update()" class="custom-button" data-bs-toggle="modal" type="button" data-bs-target="#modal">
+                        <button th:if="${#request.isUserInRole('ADMIN')}" ng-click="update()" class="custom-button" data-bs-toggle="modal" type="button" data-bs-target="#modal">
                             <i class="fas fa-sync"></i> Cập nhật
                         </button>
                     </div>

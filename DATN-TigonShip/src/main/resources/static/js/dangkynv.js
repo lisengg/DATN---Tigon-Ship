@@ -105,6 +105,12 @@ function isDateOfBirthValid(dateString) {
 			document.getElementById('check5').checked = true;
 			return;
 		}
+		// Kiểm tra tên có đúng định dạng hay không
+		var tenPattern = /^[^\d!@#$%^&*()_+={}\[\]:;<>,.?\/\\|~`0-9]+$/; 
+		if (!tenPattern.test($scope.form.hovaten)) {
+			document.getElementById('check4').checked = true;
+			return;
+		}
 		// Kiểm tra ngày sinh không được để trống
 		if (!item.ngaysinh) {
 			document.getElementById('check6').checked = true;
@@ -123,7 +129,6 @@ function isDateOfBirthValid(dateString) {
 		var phonePattern = /^(0[1-9][0-9]{8})$/; // Định dạng số điện thoại ở Việt Nam
 		if (!phonePattern.test($scope.form.sdt)) {
 			document.getElementById('check15').checked = true;
-			$scope.form.sdt = '';
 			return;
 		}
 		// Kiểm tra email không được để trống
@@ -131,15 +136,23 @@ function isDateOfBirthValid(dateString) {
 			document.getElementById('check16').checked = true;
 			return;
 		}
-		// Kiểm tra email có đúng định dạng hay không
-		var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-		if (!emailPattern.test($scope.form.email)) {
+// Kiểm tra email có đúng định dạng hay không
+		var emailPattern1 = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+		var emailPattern2 = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9]+\.)?edu\.vn$/;
+		var emailPattern3 = /^[a-zA-Z0-9._%+-]+@icloud\.com$/;
+		if ((!emailPattern1.test($scope.form.email)) && (!emailPattern2.test($scope.form.email)) && (!emailPattern3.test($scope.form.email))) {
 			document.getElementById('check11').checked = true;
 			return;
 		}
-		// Kiểm tra số điện thoại không được để trống
+		// Kiểm tra số cccd không được để trống
 		if (!$scope.form.cccd) {
 			document.getElementById('check17').checked = true;
+			return;
+		}
+		// Kiểm tra email có đúng định dạng hay không
+		var cccdPattern = /^(((0[1-9][0-9]|99))[0-3][0-9]{2}[0-9]{6})$/;
+		if (!cccdPattern.test($scope.form.cccd)) {
+			document.getElementById('check20').checked = true;
 			return;
 		}
 		// Kiểm tra tên hãng tàu không được để trống

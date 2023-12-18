@@ -50,7 +50,7 @@
 	rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-	<link rel="stylesheet" th:href="@{/css/style1.css}">
+<link rel="stylesheet" th:href="@{/css/style1.css}">
 <style>
 #weatherWidget .currentDesc {
 	color: #ffffff !important;
@@ -96,45 +96,48 @@
 #qr-result {
 	display: none;
 }
+
 #qr-form {
 	position: absolute;
 	width: 20%;
-  top: 30%;
-  left: 70%;
-  transform: translate(-50% , -50%);
+	top: 30%;
+	left: 70%;
+	transform: translate(-50%, -50%);
 }
-#qr-result-link{
+
+#qr-result-link {
 	position: absolute;
 	width: 20%;
-  top: 27%;
-  left: 20%;
-   z-index: 1000;
+	top: 27%;
+	left: 20%;
+	z-index: 1000;
 }
 
 #qr-video {
-    position: absolute;
-     top: 6.3%;
-      left: 550px;
-    width: 100%;
-    height: 100%;
-    max-width: 500px;
-    z-index: 1000; /* Set a higher z-index value */
+	position: absolute;
+	top: 6.3%;
+	left: 550px;
+	width: 100%;
+	height: 100%;
+	max-width: 500px;
+	z-index: 1000; /* Set a higher z-index value */
 }
-#carouselExampleDark {
- position: absolute;
-  top: 35%;
-width: 82%;
 
- z-index: 999;
+#carouselExampleDark {
+	position: absolute;
+	top: 35%;
+	width: 82%;
+	z-index: 999;
 }
- .welcome-message {
-        font-size: 35px; /* Kích thước chữ lớn */
-        font-weight: bold; /* Chữ đậm */
-        color: #3498db; /* Màu chữ */
-        text-align: center; /* Căn giữa văn bản */
-        margin-bottom: 20px; /* Khoảng cách dưới */
-        text-transform: uppercase; /* Chuyển tất cả chữ thành in hoa */
-    }
+
+.welcome-message {
+	font-size: 35px; /* Kích thước chữ lớn */
+	font-weight: bold; /* Chữ đậm */
+	color: #3498db; /* Màu chữ */
+	text-align: center; /* Căn giữa văn bản */
+	margin-bottom: 20px; /* Khoảng cách dưới */
+	text-transform: uppercase; /* Chuyển tất cả chữ thành in hoa */
+}
 </style>
 </head>
 
@@ -155,16 +158,15 @@ width: 82%;
 			<div class="animated fadeIn">
 				<!-- Widgets  -->
 				<div class="row">
-	  <div class="col-md-12">
-        <div class="welcome-message">
-            Chào mừng bạn đến với Trang Quản lý!
-            <br>
-            Hãy trải nghiệm sự thuận tiện của hệ thống.
-        </div>
-    </div>
-</div>
+					<div class="col-md-12">
+						<div class="welcome-message">
+							Chào mừng bạn đến với Trang Quản lý! <br> Hãy trải nghiệm sự
+							thuận tiện của hệ thống.
+						</div>
+					</div>
+				</div>
 				<div class="row">
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="card">
 							<div class="card-body">
 								<div class="stat-widget-five">
@@ -174,7 +176,9 @@ width: 82%;
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div class="stat-text">
-												<span class="" th:text="${#numbers.formatDecimal(tongTienHoaDon, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>											</div>
+												<span class=""
+													th:text="${#numbers.formatDecimal(tongTienHoaDon, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+											</div>
 											<div class="stat-heading">Doanh thu</div>
 										</div>
 									</div>
@@ -183,7 +187,7 @@ width: 82%;
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="card">
 							<div class="card-body">
 								<div class="stat-widget-five">
@@ -203,27 +207,7 @@ width: 82%;
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-6">
-						<div class="card">
-							<div class="card-body">
-								<div class="stat-widget-five">
-									<div class="stat-icon dib flat-color-3">
-										<i class="pe-7s-browser"></i>
-									</div>
-									<div class="stat-content">
-										<div class="text-left dib">
-											<div class="stat-text">
-												<span class="count" th:text="${tongLichTau}"></span>
-											</div>
-											<div class="stat-heading">Chuyến tàu</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="card">
 							<div class="card-body">
 								<div class="stat-widget-five">
@@ -246,181 +230,188 @@ width: 82%;
 				<!-- /Widgets -->
 				<!-- To Do and Live Chat -->
 				<!-- Việc cần làm và Trò chuyện trực tiếp -->
-<div class="row">
-    <!-- Thẻ Card Bổ sung -->
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-5">
-                        <i class="pe-7s-note2"></i> <!-- Biểu tượng cho thẻ -->
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongBangTin}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Bảng tin</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Kết thúc thẻ Card Bổ sung -->
+				<div class="row">
+					<!-- Thẻ Card Bổ sung -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-5">
+										<i class="pe-7s-note2"></i>
+										<!-- Biểu tượng cho thẻ -->
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongBangTin}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Bảng tin</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Kết thúc thẻ Card Bổ sung -->
 
-    <!-- Các Thẻ Card Hiện tại -->
-     <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-6">
-                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
-                        <i class="fas fa-ship"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongTau}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Tàu</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					<!-- Các Thẻ Card Hiện tại -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-6">
+										<!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+										<i class="fas fa-ship"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongTau}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Tàu</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-7">
-                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
-                        <i class="fa fa-anchor"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongHangTau}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Hãng tàu</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-1">
-                        <!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongTaiKhoannv}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Nhân viên</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-     <!-- Thẻ Card Bổ sung -->
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-2">
-                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
-                        <i class="fa fa-retweet"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongTuyen}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Tuyến tàu</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Kết thúc thẻ Card Bổ sung -->
-      <!-- Thẻ Card Bổ sung -->
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-3">
-                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongDanhGia}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Đánh giá tốt</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Kết thúc thẻ Card Bổ sung -->
-      <!-- Thẻ Card Bổ sung -->
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-4">
-                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongDanhGiaK}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Đánh giá chưa tốt</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Kết thúc thẻ Card Bổ sung -->
-      <!-- Thẻ Card Bổ sung -->
-    <div class="col-lg-3 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="stat-widget-five">
-                    <div class="stat-icon dib flat-color-8">
-                        <!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
-                        <i class="fas fa-chair"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="text-left dib">
-                            <div class="stat-text">
-                                <span class="count" th:text="${tongGheNgoi}"></span> <!-- Một số nội dung động -->
-                            </div>
-                            <div class="stat-heading">Ghế ngồi</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Kết thúc thẻ Card Bổ sung -->
-</div>
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-7">
+										<!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+										<i class="fa fa-anchor"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongHangTau}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Hãng tàu</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-1">
+										<!-- Biểu tượng thẻ tàu (ví dụ: Font Awesome) -->
+										<i class="fas fa-user"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongTaiKhoannv}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Nhân viên</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Thẻ Card Bổ sung -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-2">
+										<!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+										<i class="fa fa-retweet"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongTuyen}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Tuyến tàu</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Kết thúc thẻ Card Bổ sung -->
+					<!-- Thẻ Card Bổ sung -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-3">
+										<!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+										<i class="fas fa-star"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongDanhGia}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Đánh giá tốt</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Kết thúc thẻ Card Bổ sung -->
+					<!-- Thẻ Card Bổ sung -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-4">
+										<!-- Biểu tượng tuyến tàu (ví dụ: Font Awesome) -->
+										<i class="fas fa-star"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongDanhGiaK}"></span>
+												<!-- Một số nội dung động -->
+											</div>
+											<div class="stat-heading">Đánh giá chưa tốt</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Kết thúc thẻ Card Bổ sung -->
+					<!-- Thẻ Card Bổ sung -->
+					<div class="col-lg-3 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="stat-widget-five">
+									<div class="stat-icon dib flat-color-3">
+										<i class="pe-7s-browser"></i>
+									</div>
+									<div class="stat-content">
+										<div class="text-left dib">
+											<div class="stat-text">
+												<span class="count" th:text="${tongLichTau}"></span>
+											</div>
+											<div class="stat-heading">Chuyến tàu</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Kết thúc thẻ Card Bổ sung -->
+				</div>
 
 			</div>
 		</div>
@@ -511,12 +502,22 @@ width: 82%;
         }
     </script>
 	<!--  <script>const myModal = new bootstrap.Modal(document.getElementById('modalId'),options)</script>  -->
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
- 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> 
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+		integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 	<script th:src="@{/admin/js/main.js}"></script>
 
 </body>

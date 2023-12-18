@@ -88,6 +88,17 @@ app.controller('doanhthu-ctrl', function($scope, $http) {
 }
 	$scope.chart()
 
+	$scope.doanhthuall= function(){
+		
+		var url = `/rest/doanhthu/tatca`;
+		$http.get(url).then(function (response) {
+			$scope.doanhthutheongay = response.data;
+			console.log($scope.doanhthutheongay);
+		}).catch(function (err) {
+			console.log("Error", err);
+		});
+	}
+	$scope.doanhthuall()
 	$scope.searchByDate = function () {
 		if (!$scope.selectedDate) {
 			document.getElementById('check4').checked = true;

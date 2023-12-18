@@ -82,10 +82,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check11').checked = true;
 			return;
 		}
-		if (!$scope.form.city || !$scope.form.district || !$scope.form.ward || !$scope.form.diaChi) {
-			document.getElementById('check4').checked = true;
-			return;
-		}
 		// Kiểm tra số điện thoại không được để trống
 		if (!$scope.form.sdt) {
 			document.getElementById('check5').checked = true;
@@ -95,7 +91,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		var phonePattern = /^(0[1-9][0-9]{8})$/; // Định dạng số điện thoại ở Việt Nam
 		if (!phonePattern.test($scope.form.sdt)) {
 			document.getElementById('check7').checked = true;
-			$scope.form.sdt = '';
 			return;
 		}
 		// Kiểm tra số điện thoại không được để trống
@@ -128,6 +123,10 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		if (sdt) {
 			document.getElementById('check14').checked = true;
 			return; // Ngăn cập nhật nếu số điện thoại trùng
+		}
+		if (!$scope.form.city || !$scope.form.district || !$scope.form.ward || !$scope.form.diaChi) {
+			document.getElementById('check4').checked = true;
+			return;
 		}
 		$http.post(url, item).then(response => {
 			$scope.items.hangtau.push(response.data);
@@ -210,7 +209,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		var phonePattern = /^(0[1-9][0-9]{8})$/; // Định dạng số điện thoại ở Việt Nam
 		if (!phonePattern.test($scope.form.sdt)) {
 			document.getElementById('check7').checked = true;
-			$scope.form.sdt = '';
 			return;
 		}
 		// Kiểm tra số điện thoại không được để trống
@@ -267,8 +265,6 @@ app.controller('hangtau-ctrl', function($scope, $http, $sce) {
 		}
 
 		console.log(ttupdate); // In ra để kiểm tra giá trị của ttupdate
-
-
 		var itemlichsu = {
 			"hangtau": item,
 			"thaotac": ttupdate,

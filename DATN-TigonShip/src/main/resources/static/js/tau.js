@@ -76,6 +76,12 @@ $scope.create = function() {
 			document.getElementById('check4').checked = true;
 			return;
 		}
+			// Kiểm tra tên tàu có đúng định dạng hay không
+		var tentauPattern = /^TIGONSHIP\s(0[1-9]|[1-9][0-9])$/;
+		if (!tentauPattern.test($scope.form.tentau)) {
+			document.getElementById('check7').checked = true;
+			return;
+		}
 		// Kiểm tra tên hãng tàu không được để trống
 		if (!$scope.form.hangtau || !$scope.form.hangtau.idhangtau) {
 			document.getElementById('check5').checked = true;
@@ -175,6 +181,12 @@ $scope.create = function() {
 		}
 		if (!$scope.form.tentau) {
 			document.getElementById('check4').checked = true;
+			return;
+		}
+					// Kiểm tra tên tàu có đúng định dạng hay không
+		var tentauPattern = /^TIGONSHIP\s(0[1-9]|[1-9][0-9])$/;
+		if (!tentauPattern.test($scope.form.tentau)) {
+			document.getElementById('check7').checked = true;
 			return;
 		}
 		// Kiểm tra xem tên tàu đã được chọn có trùng với tàu khác không

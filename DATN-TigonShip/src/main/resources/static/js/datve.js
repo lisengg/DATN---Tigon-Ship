@@ -22,6 +22,9 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
     $scope.capnhat="Vừa cập nhật"
     $scope.ten = "";
     $scope.sdt = "";
+    $scope.xoanguoidicung = true
+    $scope.xoaghengoi = true
+    $scope.xoadatve = true
 
 
     $scope.initialize = function() {
@@ -108,10 +111,12 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
         }
     };
     $scope.searchByID = function (iddatve) { // tìm kiếm người đi cùng + ghế đặt thông qua mã đặt vé
+       
         $scope.madatve = iddatve;
         var url1 = `/rest/datve/datghe/${iddatve}`;
         $http.get(url1).then(function (response) {
             $scope.datghe = response.data;
+            console.log($scope.datghe)
         }).catch(function (err) {
             console.log("Error", err);
         });
@@ -122,6 +127,7 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
             console.log("Error", err);
         });
         $scope.filterDataByIdDatVe(iddatve);
+        $scope.checkTrangThai()
     }
     $scope.formatThaoTac = function(thaoTac) {
 		if (thaoTac.includes('#')) {
@@ -135,7 +141,7 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
 	};
     $scope.deleteByIDDatVe = function(){ // xóa hết vé đặt qua id đặt vé
       //  $scope.filterDataByIdDatVe($scope.madatve)// hàm lọc theo mã đặt vé
-        var ngaydi = new Date($scope.ngaydi)
+       /*  var ngaydi = new Date($scope.ngaydi)
         var selectedDate = new Date($scope.selectedDate);
         var currentDate = new Date();
         // Kiểm tra xem ngày được chọn có hợp lệ không (lớn hơn ngày hiện tại ít nhất 3 ngày)
@@ -146,6 +152,7 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
           alert( $scope.errorMsg );
             return;
         }
+        */
         $http.delete(`/rest/datve/theongay/hoadon/${$scope.maHdUpdate}`).then(resp => {}) // xóa hóa đơn
         var ttupdate = "Vừa xóa hóa đơn có mã: : " + $scope.maHdUpdate + "#  khách hàng: "+ $scope.ten +"# SDT: " + $scope.sdt; 
         itemlichsu ={
@@ -181,11 +188,32 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
         // Kiểm tra xem ngày được chọn có hợp lệ không (lớn hơn ngày hiện tại ít nhất 3 ngày)
         var minValidDate = new Date();
         minValidDate.setDate(currentDate.getDate() + 3);
-        if (selectedDate < minValidDate || ngaydi < minValidDate) {
+       /*  if (selectedDate < minValidDate || ngaydi < minValidDate) {
             $scope.errorMsg = "Vé có được quyền cập nhật phải có thời gian khởi hành từ ngày: "+ minValidDate.getDate() + "-" +(minValidDate.getMonth() + 1) + "-" + minValidDate.getFullYear() + " trở đi.";74
           alert( $scope.errorMsg );
             return;
-        }
+        } */
+        var giaTriTimDuoc = null;
+        for (var i = 0; i < $scope.datghe.length; i++) {
+            if ($scope.datghe[i][0] === id) {
+              giaTriTimDuoc = $scope.datghe[i][1]; // Phần tử thứ 3 trong mảng con
+              break; // Kết thúc vòng lặp khi tìm thấy
+            }
+          }
+        var ttupdate = "Vừa xóa ghế ngồi trong hóa đơn: " + $scope.maHdUpdate + "#  khách hàng: "+ giaTriTimDuoc; 
+        itemlichsu ={
+            "thaotac": ttupdate
+        }  
+        console.log(itemlichsu)
+       
+        $http.post('/rest/datve/lichsu/save', itemlichsu) // lưu lịch sử
+        .then(function(response) {
+            $scope.items.lichsu.push(response.data)
+        })
+        .catch(function(error) {
+            console.log("Error creating LichSuHangTau", error);
+        });
+
         $http.delete(`/rest/datve/datghe/${id}`).then(resp => {
             alert("Xóa dữ liệu đặt ghế thành công!");
             var index = $scope.datghe.findIndex(innerArray => innerArray[0] == id);
@@ -254,6 +282,28 @@ app.controller('datve-ctrl', function ($scope, $http,$sce) {
             console.error("Lỗi Cập Nhật!");
         });
     }
+    $scope.checkTrangThai = function(){
+        var ngaydi = new Date($scope.ngaydi)
+        var currentDate = new Date();
+        if($scope.datghe.length === 1 ){
+             $scope.xoaghengoi =  false
+              $scope.xoadatve = false}
+              else{
+			$scope.xoaghengoi =  true
+            $scope.xoadatve = true
+			  }
+        if ( ngaydi < currentDate) {      
+            $scope.xoanguoidicung = false
+            $scope.xoaghengoi = false
+            $scope.xoadatve = false
+           
+        }else{
+			$scope.xoanguoidicung = true
+            $scope.xoaghengoi = true
+            $scope.xoadatve = true
+		};
+            }
+    
     $scope.check = function() { // kiểm tra số ghế vs người đặt ghế
         if ($scope.nguoidicung.length + 1 === $scope.datghe.length) {
             return true;

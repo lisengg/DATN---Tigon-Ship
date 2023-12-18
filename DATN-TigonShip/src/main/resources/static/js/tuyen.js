@@ -65,13 +65,19 @@ app.controller('tuyen-ctrl', function($scope, $http, $sce) {
 			document.getElementById('check6').checked = true;
 			return;
 		}
+		// Kiểm tra tên tuyến có đúng định dạng hay không
+/*		var tuyenPattern = /^[^-\s] - (?!\1)[^-\s]$/;
+		if (!tuyenPattern.test($scope.form.tentuyen)) {
+			document.getElementById('check7').checked = true;
+			return;
+		}*/
 		var item = {
 			"tentuyen": $scope.form.tentuyen,
 			"trangthai": $scope.form.trangthai
 		}
 		var url = `/rest/tuyen/save`;
 		// Kiểm tra xem tên tuyến mới có trùng với tên tuyến đã có không
-		var isDuplicate = $scope.items.tuyen.some(t => t.idtuyen !== item.idtuyen && t.tentuyen === item.tentuyen);
+		var isDuplicate = $scope.items.tuyen.some(t => t.idtuyen !== item.idtuyen && t.tentuyen.toLowerCase() === item.tentuyen.toLowerCase());
 
 		if (isDuplicate) {
 			document.getElementById('check8').checked = true;

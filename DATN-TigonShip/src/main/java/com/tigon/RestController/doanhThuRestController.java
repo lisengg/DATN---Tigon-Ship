@@ -37,5 +37,10 @@ public class doanhThuRestController {
         return hoaDonDAO.doanhThuTheoNgay(date);
     }
     
+    @GetMapping("rest/doanhthu/tatca")
+    public List<Object> tatcadoanhthu() {
+        return hoaDonDAO.tatcadoanhthu();
+    }
+    
 
 }

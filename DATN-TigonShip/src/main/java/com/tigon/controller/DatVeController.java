@@ -154,15 +154,19 @@ public class DatVeController {
 
 	@Autowired
 	DatGheService datGheService;
+	
 
 	@RequestMapping("/datve/timtuyen")
 	public String tuyentau(Model model) {
 		if (session.getAttribute("user") == null) {
 			session.setAttribute("user", "hanhkhachmoi");
+			hktdao.deleteAll();
+			hktamdao.deleteAll();
 		}
 		List<Tuyen> list = ttservice.findAll();
 		model.addAttribute("items", list);
 		session.setAttribute("tongtien", "0");
+		hktamdao.deleteAll();
 		hktdao.deleteAll();
 		return "/user/TuyenTau";
 	}
@@ -698,9 +702,13 @@ public class DatVeController {
 				hd.setTONGTIEN(tongTienBigDecimal);
 			}
 			hd.setNGAYLAP(ngaydat);
-			hd.setTRANGTHAI("Đã thanh toán");
-			hd.setLOAITHANHTOAN("VN PAY");
-
+			if(session.getAttribute("vnpay")==null) {
+				hd.setTRANGTHAI("Chờ thanh toán");
+				hd.setLOAITHANHTOAN("Xác thực");
+			}else {
+				hd.setTRANGTHAI("Đã thanh toán");
+				hd.setLOAITHANHTOAN("VN PAY");
+			}
 			hddao.save(hd);
 			HoaDon hdmax = hoaDonService.findMaxDatVe();
 			session.setAttribute("mahoadon", hdmax.getMAHD());

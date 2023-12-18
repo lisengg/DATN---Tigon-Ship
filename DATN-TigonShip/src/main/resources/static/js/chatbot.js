@@ -14,7 +14,7 @@
          "language": "vi-VN",
          "emojilibrary": true,
         // "attachment": true,
-    	"quickReplies":["Bao nhiêu tiền một vé?","Quy trình đặt vé","Thanh toán"]};
+    	"quickReplies":["Giá vé của một tuyến là bao nhiêu?","Quy trình đặt vé?","Thanh toán", "Quy trình hủy vé?", "Quy tắc đi tàu cao tốc?"]};
 
 	
     var s = document.createElement("script"); 

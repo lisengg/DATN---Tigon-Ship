@@ -161,7 +161,8 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 				return;
 			}
 		}
-		if (item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") {
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Kiên Giang")) {
 			// Chuyển đổi thời gian thành đối tượng Date
 			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
 			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
@@ -171,7 +172,8 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 				return;
 			}
 		}
-		if (item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") {
+		if ((item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Nam Du")) {
 			// Chuyển đổi thời gian thành đối tượng Date
 			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
 			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
@@ -342,7 +344,8 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 				return;
 			}
 		}		
-		if (item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") {
+		if ((item.tuyen && item.tuyen.tentuyen === "Kiên Giang - Phú Quốc") ||
+			(item.tuyen && item.tuyen.tentuyen === "Phú Quốc - Kiên Giang")) {
 			// Chuyển đổi thời gian thành đối tượng Date
 			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
 			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
@@ -352,7 +355,8 @@ app.controller('lichtau-ctrl', function($scope, $http, $sce) {
 				return;
 			}
 		}
-		if (item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") {
+		if ((item.tuyen && item.tuyen.tentuyen === "Nam Du - Hòn Sơn") ||
+			(item.tuyen && item.tuyen.tentuyen === "Hòn Sơn - Nam Du")) {
 			// Chuyển đổi thời gian thành đối tượng Date
 			const startTime = new Date(`01/01/2023 ${item.gioxuatphat}`);
 			const endTime = new Date(`01/01/2023 ${item.giodennoi}`);
