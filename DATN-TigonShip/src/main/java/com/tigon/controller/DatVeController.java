@@ -164,6 +164,7 @@ public class DatVeController {
 		model.addAttribute("items", list);
 		session.setAttribute("tongtien", "0");
 		hktdao.deleteAll();
+		hktamdao.deleteAll();
 		return "/user/TuyenTau";
 	}
 
@@ -336,6 +337,7 @@ public class DatVeController {
 		String songuoistring = (String) session.getAttribute("songuoi");
 		int songuoi = Integer.parseInt(songuoistring);
 		model.addAttribute("songuoi", songuoi);
+
 		int mahk;
 		if (songuoistring != null) {
 			try {
@@ -355,6 +357,7 @@ public class DatVeController {
 
 					}
 					hkt.setHOVATEN(username.get(i - 2));
+					
 					hkt.setCCCD(cccd.get(i - 2));
 					hkt.setSDT(SDT.get(i - 2));
 					hkt.setIDLOAIKH(mahk);
@@ -394,6 +397,12 @@ public class DatVeController {
 		Date ngayDi = inputFormat.parse(ngayDiString);
 
 		int idtuyen = Integer.parseInt(session.getAttribute("idtuyen").toString());
+		
+		// Truy vấn danh sách IDGHE có trạng thái 'Ngưng hoạt động' từ bảng GHENGOI
+				List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
+
+				// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
+				model.addAttribute("inactiveSeats", inactiveSeats);
 		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
 		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayDi, idtuyen, idtau); 
@@ -1085,10 +1094,10 @@ public class DatVeController {
 		int idtuyen = Integer.parseInt(session.getAttribute("idtuyenkhuhoi").toString());	
 		
 		// Truy vấn danh sách IDGHE có trạng thái 'Ngưng hoạt động' từ bảng GHENGOI
-				List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
+		List<Integer> inactiveSeats = ghndao.findByTrangThaiNgungHoatDong(idtau);
 
-				// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
-				model.addAttribute("inactiveSeats", inactiveSeats);
+		// Gửi danh sách ghế có trạng thái 'Ngưng hoạt động' đến view
+		model.addAttribute("inactiveSeats", inactiveSeats);
 		
 		// Truy vấn danh sách IDGHE đã được đặt từ bảng DATGHE
 		List<Integer> bookedSeats = dgdao.findBookedSeats(ngayVeDate, idtuyen, idtau); 

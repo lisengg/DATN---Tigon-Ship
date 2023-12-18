@@ -172,9 +172,12 @@
         // Sự kiện thay đổi ngày về
         ngayVeInput.addEventListener('change', function() {
             // Nếu ngày về đã chọn và không thuộc năm 2023, đặt lại giá trị ngày về
-            if (ngayVeInput.value && ngayVeInput.value.substr(0, 4) !== '2023') {
+            /* if (ngayVeInput.value && ngayVeInput.value.substr(0, 4) !== '2023') {
                 ngayVeInput.value = ngayDiInput.value;
-            }
+            } */
+            /* if (ngayVeInput.value && ngayVeInput.value.substr(0, 4) !== new Date().getFullYear().toString()) {
+                ngayVeInput.value = ngayDiInput.value;
+            } */
         });
 
         // Nếu ngày khởi hành đã chọn, đặt lại giá trị tối thiểu cho ngày về

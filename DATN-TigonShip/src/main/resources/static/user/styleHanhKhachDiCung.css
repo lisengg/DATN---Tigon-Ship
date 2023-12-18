@@ -51,27 +51,27 @@ input[type="tickit"] {
 }
 
 input[type="text"] {
-    background: url("../images/user.png") no-repeat 487px 17px;
+    background: url("../images/user.png") no-repeat 495px 17px;
     background-size: 18px;
 }
 
 input[type="email"] {
-    background: url("../images/mail.png") no-repeat 487px 17px;
+    background: url("../images/mail.png") no-repeat 495px 17px;
     background-size: 18px;
 }
 
 input[type="tel"] {
-    background: url("../images/phone.png") no-repeat 487px 17px;
+    background: url("../images/phone.png") no-repeat 495px 17px;
     background-size: 18px;
 }
 
 input[type="cccd"] {
-    background: url("../images/card.png") no-repeat 487px 17px;
+    background: url("../images/card.png") no-repeat 495px 17px;
     background-size: 18px;
 }
 
 input[type="tickit"] {
-    background: url("../images/ticket.png") no-repeat 487px 17px;
+    background: url("../images/ticket.png") no-repeat 495px 17px;
     background-size: 18px;
 }
 
@@ -263,6 +263,7 @@ input[type="checkbox"] {
     background: #fff;
     color: #000;
 }
+
 
 
 /* pop-up-box-styling */
